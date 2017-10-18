@@ -1,15 +1,21 @@
 <!DOCTYPE html>
 <html>
-  <head>
-      <link rel="stylesheet" href="trellolike.css">
-    <meta charset="UTF-8">
-    <title>Trollo</title>
-  </head>
-  <body>
+
+<head>
+  <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="trellolike.css">
+  <meta charset="UTF-8">
+  <title>Trollo</title>
+</head>
+
+<body>
+  
     <script>
-      // You can also require other files to run in this process
-      require('./renderer.js')
-    </script>
+        require('./renderer.js')
+        window.$ = window.jQuery = require('jquery');
+    // You can also require other files to run in this process
+  </script>
+  <div id="main_board">
     <section class="list">
       <header>To Do</header>
       <article class="card">
@@ -39,5 +45,7 @@
         <div class="detail">1/2</div>
       </article>
     </section>
-  </body>
+  </div>
+</body>
+
 </html>
