@@ -1,0 +1,21 @@
+{
+  "name": "trollo",
+  "version": "1.0.0",
+  "description": "A minimal effor application",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "keywords": [
+    "Electron",
+    "Trollo"
+  ],
+  "author": "Zajebalem z gita",
+  "devDependencies": {
+    "electron": "~1.7.8"
+  },
+  "dependencies": {
+    "node-rest-client": "^3.1.0",
+    "request": "^2.83.0"
+  }
+}
