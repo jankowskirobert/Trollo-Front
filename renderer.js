@@ -3,7 +3,6 @@
 // All of the Node.js APIs are available in this process.
 require('bootstrap');
 
-
 document.addEventListener('DOMContentLoaded', function () {
 
     initListeners(); // add listers
@@ -11,6 +10,13 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function initListeners() {
-    console.log('initListeners called');
-
-}
+   
+    
+};
+$(document).ready(function() {
+    $("#test").click(function(){
+        alert('WEEEW');
+    });    
+     
+  }
+  );

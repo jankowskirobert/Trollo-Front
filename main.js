@@ -7,7 +7,6 @@ const Request = require('request');
 const path = require('path')
 const url = require('url')
 
-
 let mainWindow
 
 function sampleRequest(){
@@ -16,6 +15,7 @@ function sampleRequest(){
       throw error;
     }
     const data = JSON.parse(body);
+    
     console.log(data);
   });
 }
@@ -34,7 +34,7 @@ function createWindow() {
 
     mainWindow = null
   })
-  // mainWindow.openDevTools();
+  mainWindow.openDevTools();
 }
 
 app.on('ready', createWindow)

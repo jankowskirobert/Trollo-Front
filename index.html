@@ -4,17 +4,16 @@
 <head>
   <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="trellolike.css">
+  <script>
+    window.$ = window.jQuery = require('jquery');
+    require('./renderer.js'); // You can also require other files to run in this process
+  </script>
   <meta charset="UTF-8">
   <title>Trollo</title>
 </head>
 
 <body>
-  
-    <script>
-        require('./renderer.js')
-        window.$ = window.jQuery = require('jquery');
-    // You can also require other files to run in this process
-  </script>
+
   <div id="main_board">
     <section class="list">
       <header>To Do</header>
@@ -46,6 +45,12 @@
       </article>
     </section>
   </div>
+  <div>
+    <button id="test">TEST</button>
+  </div>
+  <script>
+
+  </script>
 </body>
 
 </html>
