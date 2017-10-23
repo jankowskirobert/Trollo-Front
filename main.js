@@ -6,7 +6,6 @@ const BrowserWindow = electron.BrowserWindow
 const Request = require('request');
 const path = require('path')
 const url = require('url')
-
 let mainWindow
 
 function sampleRequest(){
