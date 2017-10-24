@@ -2,6 +2,7 @@
 // be executed in the renderer process for that window.
 // All of the Node.js APIs are available in this process.
 require('bootstrap');
+const st = require('smalltalk');
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -20,3 +21,15 @@ $(document).ready(function() {
      
   }
   );
+
+$(document).ready(function(){
+    $(".addList").click(function(){
+        var me = this.id;
+        // do whatever with me
+        st.prompt('Add list', 'Enter list name:', 'Name')
+        .then((value) => {
+            $(`#list${me}`).append(`<article class="card">${value}</article>`);
+            $(`#list${me}`).append('<article class="detail">1/2</article>');
+        });
+    }); 
+});
