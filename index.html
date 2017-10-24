@@ -6,50 +6,29 @@
   <link rel="stylesheet" href="trellolike.css">
   <script>
     window.$ = window.jQuery = require('jquery');
-    require('./renderer.js'); // You can also require other files to run in this process
+    require('./renderer.js'); // You can also require other files to run in this proces
   </script>
   <meta charset="UTF-8">
   <title>Trollo</title>
 </head>
 
 <body>
-
   <div id="main_board">
-    <section class="list">
-      <header>To Do</header>
-      <article class="card">
-        <header>Drag and Drop CSS</header>
-        <div class="detail">1/2</div>
-      </article>
-      <article class="card">
-        <header>Maybe something else ?</header>
-        <div class="detail">1/2</div>
-      </article>
-    </section>
-    <section class="list">
-      <header>Doing</header>
-      <article class="card">
-        <header>Drag and Drop JS</header>
-        <div class="detail">1/2</div>
-      </article>
-    </section>
-    <section class="list">
-      <header>Done</header>
-      <article class="card">
-        <header>Global HTML</header>
-        <div class="detail">1/2</div>
-      </article>
-      <article class="card">
-        <header>Global CSS</header>
-        <div class="detail">1/2</div>
-      </article>
-    </section>
   </div>
-  <div>
-    <button id="test">TEST</button>
-  </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
   <script>
-
+    var arrayVariable = ['To do','Doing','Done'];
+    var arrayVariable2 = ['Inside 1','Sth sth','Ghhhhhheatasddsad loli','Buoooo','Sumadar','Build a car','Plant a kid','Conceive a tree','Find life goal'];
+    arrayLength = arrayVariable.length;
+    for (i = 0; i < arrayLength; i++) {
+      $(`<section class="list" id="list${i}"/>`).text(arrayVariable[i]).appendTo('#main_board');
+      $('<header />').text("").appendTo(`#list${i}`);
+      arrayLength2 = arrayVariable2.length;
+      for (j = 0; j < arrayLength; j++) {
+        $(`<article class="card" />`).text(arrayVariable2[i*(j+1)+j]).appendTo(`#list${i}`);
+        $(`<article class="detail" />`).text("1/2").appendTo(`#list${i}`);
+      }
+    }
   </script>
 </body>
 
