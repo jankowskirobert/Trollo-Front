@@ -28,8 +28,11 @@ $(document).ready(function(){
         // do whatever with me
         st.prompt('Add list', 'Enter list name:', 'Name')
         .then((value) => {
+            var elem = document.getElementById(`${me}`);
+            elem.parentNode.removeChild(elem);
             $(`#list${me}`).append(`<article class="card">${value}</article>`);
             $(`#list${me}`).append('<article class="detail">1/2</article>');
+            $(`#list${me}`).append(`<Button class="addList" id="${i}">Add</Button>`);
         });
     }); 
 });
