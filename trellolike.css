@@ -3,7 +3,7 @@ body {
     height: 100%;
     background-color: #23719F;
   }
-  #main_board  {
+  .main_board  {
     overflow: auto;
     padding: 5px;
     font: 14px/18px "Helvetica Neue",Arial,Helvetica,sans-serif;

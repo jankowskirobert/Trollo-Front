@@ -5757,86 +5757,6 @@ var _elm_lang$core$Platform$Task = {ctor: 'Task'};
 var _elm_lang$core$Platform$ProcessId = {ctor: 'ProcessId'};
 var _elm_lang$core$Platform$Router = {ctor: 'Router'};
 
-var _NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode = _elm_lang$core$Json_Decode$succeed;
-var _NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$resolve = _elm_lang$core$Json_Decode$andThen(_elm_lang$core$Basics$identity);
-var _NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$custom = _elm_lang$core$Json_Decode$map2(
-	F2(
-		function (x, y) {
-			return y(x);
-		}));
-var _NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$hardcoded = function (_p0) {
-	return _NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$custom(
-		_elm_lang$core$Json_Decode$succeed(_p0));
-};
-var _NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$optionalDecoder = F3(
-	function (pathDecoder, valDecoder, fallback) {
-		var nullOr = function (decoder) {
-			return _elm_lang$core$Json_Decode$oneOf(
-				{
-					ctor: '::',
-					_0: decoder,
-					_1: {
-						ctor: '::',
-						_0: _elm_lang$core$Json_Decode$null(fallback),
-						_1: {ctor: '[]'}
-					}
-				});
-		};
-		var handleResult = function (input) {
-			var _p1 = A2(_elm_lang$core$Json_Decode$decodeValue, pathDecoder, input);
-			if (_p1.ctor === 'Ok') {
-				var _p2 = A2(
-					_elm_lang$core$Json_Decode$decodeValue,
-					nullOr(valDecoder),
-					_p1._0);
-				if (_p2.ctor === 'Ok') {
-					return _elm_lang$core$Json_Decode$succeed(_p2._0);
-				} else {
-					return _elm_lang$core$Json_Decode$fail(_p2._0);
-				}
-			} else {
-				return _elm_lang$core$Json_Decode$succeed(fallback);
-			}
-		};
-		return A2(_elm_lang$core$Json_Decode$andThen, handleResult, _elm_lang$core$Json_Decode$value);
-	});
-var _NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$optionalAt = F4(
-	function (path, valDecoder, fallback, decoder) {
-		return A2(
-			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$custom,
-			A3(
-				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$optionalDecoder,
-				A2(_elm_lang$core$Json_Decode$at, path, _elm_lang$core$Json_Decode$value),
-				valDecoder,
-				fallback),
-			decoder);
-	});
-var _NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$optional = F4(
-	function (key, valDecoder, fallback, decoder) {
-		return A2(
-			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$custom,
-			A3(
-				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$optionalDecoder,
-				A2(_elm_lang$core$Json_Decode$field, key, _elm_lang$core$Json_Decode$value),
-				valDecoder,
-				fallback),
-			decoder);
-	});
-var _NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$requiredAt = F3(
-	function (path, valDecoder, decoder) {
-		return A2(
-			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$custom,
-			A2(_elm_lang$core$Json_Decode$at, path, valDecoder),
-			decoder);
-	});
-var _NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required = F3(
-	function (key, valDecoder, decoder) {
-		return A2(
-			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$custom,
-			A2(_elm_lang$core$Json_Decode$field, key, valDecoder),
-			decoder);
-	});
-
 var _elm_lang$core$Task$onError = _elm_lang$core$Native_Scheduler.onError;
 var _elm_lang$core$Task$andThen = _elm_lang$core$Native_Scheduler.andThen;
 var _elm_lang$core$Task$spawnCmd = F2(
@@ -9113,21 +9033,14 @@ var _elm_lang$http$Http$StringPart = F2(
 	});
 var _elm_lang$http$Http$stringPart = _elm_lang$http$Http$StringPart;
 
-var _user$project$Main$subscriptions = function (model) {
-	return _elm_lang$core$Platform_Sub$none;
-};
-var _user$project$Main$ExampleData = F4(
+var _user$project$BoardTask$getEmptyDataSet = {userId: 0, id: 0, title: '', body: ''};
+var _user$project$BoardTask$ExampleData = F4(
 	function (a, b, c, d) {
 		return {userId: a, id: b, title: c, body: d};
 	});
-var _user$project$Main$init = {
-	ctor: '_Tuple2',
-	_0: A4(_user$project$Main$ExampleData, 1, 1, 'Empty', 'Empty'),
-	_1: _elm_lang$core$Platform_Cmd$none
-};
-var _user$project$Main$decodeThisData = A5(
+var _user$project$BoardTask$decodeFromJson = A5(
 	_elm_lang$core$Json_Decode$map4,
-	_user$project$Main$ExampleData,
+	_user$project$BoardTask$ExampleData,
 	A2(
 		_elm_lang$core$Json_Decode$at,
 		{
@@ -9160,62 +9073,145 @@ var _user$project$Main$decodeThisData = A5(
 			_1: {ctor: '[]'}
 		},
 		_elm_lang$core$Json_Decode$string));
-var _user$project$Main$NewData = {ctor: 'NewData'};
-var _user$project$Main$view = function (model) {
+var _user$project$BoardTask$getExampleSetOfData = {
+	ctor: '::',
+	_0: A4(_user$project$BoardTask$ExampleData, 1, 1, 'Test1', 'Test1'),
+	_1: {
+		ctor: '::',
+		_0: A4(_user$project$BoardTask$ExampleData, 1, 1, 'Test2', 'Test1'),
+		_1: {
+			ctor: '::',
+			_0: A4(_user$project$BoardTask$ExampleData, 1, 1, 'Test3', 'Test1'),
+			_1: {
+				ctor: '::',
+				_0: A4(_user$project$BoardTask$ExampleData, 1, 1, 'Test4', 'Test1'),
+				_1: {ctor: '[]'}
+			}
+		}
+	}
+};
+var _user$project$BoardTask$putRandomElementToList = function (lst) {
+	return {
+		ctor: '::',
+		_0: A4(_user$project$BoardTask$ExampleData, 1, 1, 'Test1', 'Test1'),
+		_1: lst
+	};
+};
+
+var _user$project$Main$getColumnCard = function (cardName) {
 	return A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
+		_elm_lang$html$Html$article,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('card'),
+			_1: {ctor: '[]'}
+		},
 		{
 			ctor: '::',
 			_0: A2(
-				_elm_lang$html$Html$h2,
+				_elm_lang$html$Html$header,
 				{ctor: '[]'},
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html$text(model.title),
+					_0: _elm_lang$html$Html$text(cardName),
 					_1: {ctor: '[]'}
 				}),
-			_1: {
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$button,
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$NewData),
-						_1: {ctor: '[]'}
-					},
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html$text('More Please!'),
-						_1: {ctor: '[]'}
-					}),
-				_1: {ctor: '[]'}
-			}
+			_1: {ctor: '[]'}
 		});
 };
-var _user$project$Main$Refresh = function (a) {
-	return {ctor: 'Refresh', _0: a};
-};
-var _user$project$Main$getExampleData = function () {
-	var url = 'https://jsonplaceholder.typicode.com/posts/1';
-	var req = A2(_elm_lang$http$Http$get, url, _user$project$Main$decodeThisData);
-	return A2(_elm_lang$http$Http$send, _user$project$Main$Refresh, req);
-}();
 var _user$project$Main$update = F2(
 	function (msg, model) {
 		var _p0 = msg;
 		if (_p0.ctor === 'NewData') {
-			return {ctor: '_Tuple2', _0: model, _1: _user$project$Main$getExampleData};
+			return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 		} else {
-			if (_p0._0.ctor === 'Ok') {
-				return {ctor: '_Tuple2', _0: _p0._0._0, _1: _elm_lang$core$Platform_Cmd$none};
-			} else {
-				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
-			}
+			return {
+				ctor: '_Tuple2',
+				_0: _user$project$BoardTask$putRandomElementToList(model),
+				_1: _elm_lang$core$Platform_Cmd$none
+			};
 		}
 	});
+var _user$project$Main$init = {ctor: '_Tuple2', _0: _user$project$BoardTask$getExampleSetOfData, _1: _elm_lang$core$Platform_Cmd$none};
+var _user$project$Main$subscriptions = function (model) {
+	return _elm_lang$core$Platform_Sub$none;
+};
+var _user$project$Main$AddToList = {ctor: 'AddToList'};
+var _user$project$Main$getAddNewCardButton = A2(
+	_elm_lang$html$Html$button,
+	{
+		ctor: '::',
+		_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$AddToList),
+		_1: {ctor: '[]'}
+	},
+	{
+		ctor: '::',
+		_0: _elm_lang$html$Html$text('Add Card'),
+		_1: {ctor: '[]'}
+	});
+var _user$project$Main$getBoardColumn = F2(
+	function (columnName, listOfTask) {
+		var rendered = A2(
+			_elm_lang$html$Html$div,
+			{ctor: '[]'},
+			A2(
+				_elm_lang$core$List$map,
+				function (l) {
+					return _user$project$Main$getColumnCard(l.title);
+				},
+				listOfTask));
+		return A2(
+			_elm_lang$html$Html$div,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class('main_board'),
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$section,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('list'),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$div,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$header,
+									{ctor: '[]'},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html$text(columnName),
+										_1: {ctor: '[]'}
+									}),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: rendered,
+							_1: {
+								ctor: '::',
+								_0: _user$project$Main$getAddNewCardButton,
+								_1: {ctor: '[]'}
+							}
+						}
+					}),
+				_1: {ctor: '[]'}
+			});
+	});
+var _user$project$Main$view = function (model) {
+	return A2(_user$project$Main$getBoardColumn, 'UUU', model);
+};
 var _user$project$Main$main = _elm_lang$html$Html$program(
 	{view: _user$project$Main$view, update: _user$project$Main$update, subscriptions: _user$project$Main$subscriptions, init: _user$project$Main$init})();
+var _user$project$Main$NewData = {ctor: 'NewData'};
 
 var Elm = {};
 Elm['Main'] = Elm['Main'] || {};
