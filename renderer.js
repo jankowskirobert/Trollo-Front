@@ -5,7 +5,7 @@ const Request = require('request');
 window.$ = window.jQuery = require('jquery');
 window.Bootstrap = require('bootstrap');
 Elm = require("elm");
-App = Elm.Main.fullscreen()
+App = Elm.Main.fullscreen();
 
 document.addEventListener('DOMContentLoaded', function () {
 
