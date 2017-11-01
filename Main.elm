@@ -1,34 +1,48 @@
+module Main exposing (..)
+
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import BoardTask
-import Material.Dialog as Dialog 
+import Material.Dialog as Dialog
 import Material.Button as Button
+import Material.Textfield as Textfield
+import Material.Options as Options
 import Material
+
+
 -- import Json.Encode as Encode
 -- import Json.Decode
 -- import Json.Decode.Pipeline as JDP exposing (required)
 -- import Task
+
 import Http
+
 
 main : Program Never Model Msg
 main =
-  Html.program {view = view, update = update, subscriptions = subscriptions, init = init}
+    Html.program { view = view, update = update, subscriptions = subscriptions, init = init }
 
-subscriptions :  Model -> Sub Msg
+
+subscriptions : Model -> Sub Msg
 subscriptions model =
-  Sub.none
+    Sub.none
+
 
 initModel : Model
 initModel =
-  { mdl = Material.model,
-  data = BoardTask.getExampleSetOfData
-  }
+    { mdl = Material.model
+    , data = BoardTask.getExampleSetOfData
+    , addCard = BoardTask.AddCard "" ""
+    }
 
-init : ( Model, Cmd Msg)
-init = 
-    ( initModel , Cmd.none )
-    
+
+init : ( Model, Cmd Msg )
+init =
+    ( initModel, Cmd.none )
+
+
+
 -- getExampleData : Cmd Msg
 -- getExampleData =
 --   let
@@ -36,51 +50,91 @@ init =
 --     req = Http.get url BoardTask.decodeFromJson
 --   in
 --    Http.send Refresh req
---  Refresh (Result Http.Error BoardTask.ExampleData) | 
-type Msg = NewData | AddToList | Acknowledge | Mdl (Material.Msg Msg)
+--  Refresh (Result Http.Error BoardTask.ExampleData) |
+
+
+type Msg
+    = NewData
+    | AddToList
+    | SetTitle String
+    | Acknowledge
+    | Mdl (Material.Msg Msg)
+
 
 type alias Model =
-  { 
-     mdl : Material.Model,
-     data : List BoardTask.ExampleData
-  }
+    { mdl : Material.Model
+    , data : List BoardTask.CardView
+    , addCard : BoardTask.AddCard
+    }
+
 
 element : Model -> Html Msg
-element model = 
-  Dialog.view
-    [ ]
-    [ Dialog.title [] [ text "Greetings" ]
-    , Dialog.content [] 
-        [ p [] [ text "A strange game—the only winning move is not to play." ]
-        , p [] [ text "How about a nice game of chess?" ] 
+element model =
+    Dialog.view
+        []
+        [ Dialog.title [] [ text "Add new card" ]
+        , Dialog.content []
+            [ Textfield.render Mdl
+                [ 2 ]
+                model.mdl
+                [ Textfield.label "Title"
+                , Textfield.floatingLabel
+                , Textfield.text_
+                , Options.onInput SetTitle
+                ]
+                []
+            ]
+        , Dialog.actions []
+            [ Button.render Mdl
+                [ 0 ]
+                model.mdl
+                [ Button.colored
+                , Button.raised
+                , Dialog.closeOn "click"
+                , Options.onClick AddToList
+                ]
+                [ text "Submit" ]
+            , Button.render Mdl
+                [ 1 ]
+                model.mdl
+                [ Dialog.closeOn "click" ]
+                [ text "Cancel" ]
+            ]
         ]
-    , Dialog.actions [ ]
-      [ Button.render Mdl [0] model.mdl
-          [ Dialog.closeOn "click" ]
-          [ text "Chess" ]
-      , Button.render Mdl [1] model.mdl
-          [ Button.disabled ]
-          [ text "GTNW" ]
-      ]
-    ]
+
+
 
 -- UPDATE
-update : Msg -> Model -> (Model, Cmd Msg)
-update msg model =
-  case msg of
-    Acknowledge ->
-      (model , Cmd.none)
-    NewData ->
-      (model, Cmd.none)
-    AddToList ->
-      ({model | data = BoardTask.putRandomElementToList model.data}, Cmd.none)
-    Mdl action_ ->
-      Material.update Mdl action_ model
-    -- Refresh (Ok newResponse) ->
-    --   (newResponse, Cmd.none)
-    -- Refresh (Err _) ->
-    --   (model, Cmd.none)
 
+
+update : Msg -> Model -> ( Model, Cmd Msg )
+update msg model =
+    case msg of
+        Acknowledge ->
+            ( model, Cmd.none )
+
+        NewData ->
+            ( model, Cmd.none )
+
+        AddToList ->
+            ( { model | data = BoardTask.putCardElementToList model.addCard model.data }, Cmd.none )
+
+        SetTitle title_ ->
+            let
+                cardTitle =
+                    model.addCard
+            in
+                ( { model | addCard = { cardTitle | title = title_ } }, Cmd.none )
+
+        Mdl action_ ->
+            Material.update Mdl action_ model
+
+
+
+-- Refresh (Ok newResponse) ->
+--   (newResponse, Cmd.none)
+-- Refresh (Err _) ->
+--   (model, Cmd.none)
 -- view model =
 --   div []
 --     [ button [ onClick Decrement ] [ text "-" ]
@@ -91,37 +145,46 @@ update msg model =
 --         <header>Drag and Drop CSS</header>
 --         <div class="detail">1/2</div>
 --       </article>
+
+
 getBoardColumn : String -> Model -> Html Msg
 getBoardColumn columnName model =
-  let
-    rendered = 
-    model.data
-      |> List.map (\l -> getColumnCard l.title )
-      |> div []
-  in
-    div [ class "main_board" ]
-        [ section [ class "list" ] 
-          [
-                div [] [header [] [ text columnName ] ],
-                rendered,
-                element model,
-                Button.render Mdl [1] model.mdl
-      [ Dialog.openOn "click" ] 
-      [ text "Open dialog" ]
-                -- getAddNewCardButton 
-                        
-        
-          ]
-        ]
+    let
+        rendered =
+            model.data
+                |> List.map (\l -> getColumnCard l.title)
+                |> div []
+    in
+        div [ class "main_board" ]
+            [ section [ class "list" ]
+                [ div [] [ header [] [ text columnName ] ]
+                , rendered
+                , element model
+                , Button.render Mdl
+                    [ 0 ]
+                    model.mdl
+                    [ Button.raised, Dialog.openOn "click" ]
+                    [ text "Add Card" ]
+                , Button.render Mdl
+                    [ 1 ]
+                    model.mdl
+                    [ Button.raised, Dialog.openOn "click" ]
+                    [ text "Add Card 2" ]
+
+                -- getAddNewCardButton
+                ]
+            ]
+
 
 getColumnCard : String -> Html Msg
-getColumnCard cardName = 
-  article [ class "card" ] [header [] [ text cardName ] ]
+getColumnCard cardName =
+    article [ class "card" ] [ header [] [ text cardName ] ]
+
+
 
 -- getAddNewCardButton : Html Msg
--- getAddNewCardButton =  
+-- getAddNewCardButton =
 --   button [ Dialog. ] [ text "Add Card" ]
-
 -- <div class="modal fade" id="myModal" role="dialog">
 --     <div class="modal-dialog modal-sm">
 --       <div class="modal-content">
@@ -138,10 +201,14 @@ getColumnCard cardName =
 --       </div>
 --     </div>
 --   </div>
-
 -- VIEW
+
+
 view : Model -> Html Msg
 view model =
     getBoardColumn "UUU" model
-    -- div [ class "main_board" ]
-    --   [ section [ class "list" ] [text model.title], button [ onClick boardMessage ] [ text "More Please!" ]]
+
+
+
+-- div [ class "main_board" ]
+--   [ section [ class "list" ] [text model.title], button [ onClick boardMessage ] [ text "More Please!" ]]

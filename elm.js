@@ -15338,13 +15338,13 @@ var _elm_lang$http$Http$StringPart = F2(
 var _elm_lang$http$Http$stringPart = _elm_lang$http$Http$StringPart;
 
 var _user$project$BoardTask$getEmptyDataSet = {userId: 0, id: 0, title: '', body: ''};
-var _user$project$BoardTask$ExampleData = F4(
+var _user$project$BoardTask$CardView = F4(
 	function (a, b, c, d) {
 		return {userId: a, id: b, title: c, body: d};
 	});
 var _user$project$BoardTask$decodeFromJson = A5(
 	_elm_lang$core$Json_Decode$map4,
-	_user$project$BoardTask$ExampleData,
+	_user$project$BoardTask$CardView,
 	A2(
 		_elm_lang$core$Json_Decode$at,
 		{
@@ -15379,16 +15379,16 @@ var _user$project$BoardTask$decodeFromJson = A5(
 		_elm_lang$core$Json_Decode$string));
 var _user$project$BoardTask$getExampleSetOfData = {
 	ctor: '::',
-	_0: A4(_user$project$BoardTask$ExampleData, 1, 1, 'Test1', 'Test1'),
+	_0: A4(_user$project$BoardTask$CardView, 1, 1, 'Test1', 'Test1'),
 	_1: {
 		ctor: '::',
-		_0: A4(_user$project$BoardTask$ExampleData, 1, 1, 'Test2', 'Test1'),
+		_0: A4(_user$project$BoardTask$CardView, 1, 1, 'Test2', 'Test1'),
 		_1: {
 			ctor: '::',
-			_0: A4(_user$project$BoardTask$ExampleData, 1, 1, 'Test3', 'Test1'),
+			_0: A4(_user$project$BoardTask$CardView, 1, 1, 'Test3', 'Test1'),
 			_1: {
 				ctor: '::',
-				_0: A4(_user$project$BoardTask$ExampleData, 1, 1, 'Test4', 'Test1'),
+				_0: A4(_user$project$BoardTask$CardView, 1, 1, 'Test4', 'Test1'),
 				_1: {ctor: '[]'}
 			}
 		}
@@ -15397,10 +15397,30 @@ var _user$project$BoardTask$getExampleSetOfData = {
 var _user$project$BoardTask$putRandomElementToList = function (lst) {
 	return {
 		ctor: '::',
-		_0: A4(_user$project$BoardTask$ExampleData, 1, 1, 'Test1', 'Test1'),
+		_0: A4(_user$project$BoardTask$CardView, 1, 1, 'Test1', 'Test1'),
 		_1: lst
 	};
 };
+var _user$project$BoardTask$putElementToList = F2(
+	function (column, lst) {
+		return {
+			ctor: '::',
+			_0: A4(_user$project$BoardTask$CardView, 1, 1, column, 'Test1'),
+			_1: lst
+		};
+	});
+var _user$project$BoardTask$putCardElementToList = F2(
+	function (card, lst) {
+		return {
+			ctor: '::',
+			_0: A4(_user$project$BoardTask$CardView, 1, 1, card.title, card.body),
+			_1: lst
+		};
+	});
+var _user$project$BoardTask$AddCard = F2(
+	function (a, b) {
+		return {title: a, body: b};
+	});
 
 var _user$project$Main$getColumnCard = function (cardName) {
 	return A2(
@@ -15423,18 +15443,62 @@ var _user$project$Main$getColumnCard = function (cardName) {
 			_1: {ctor: '[]'}
 		});
 };
-var _user$project$Main$initModel = {mdl: _debois$elm_mdl$Material$model, data: _user$project$BoardTask$getExampleSetOfData};
+var _user$project$Main$initModel = {
+	mdl: _debois$elm_mdl$Material$model,
+	data: _user$project$BoardTask$getExampleSetOfData,
+	addCard: A2(_user$project$BoardTask$AddCard, '', '')
+};
 var _user$project$Main$init = {ctor: '_Tuple2', _0: _user$project$Main$initModel, _1: _elm_lang$core$Platform_Cmd$none};
 var _user$project$Main$subscriptions = function (model) {
 	return _elm_lang$core$Platform_Sub$none;
 };
-var _user$project$Main$Model = F2(
-	function (a, b) {
-		return {mdl: a, data: b};
+var _user$project$Main$Model = F3(
+	function (a, b, c) {
+		return {mdl: a, data: b, addCard: c};
 	});
 var _user$project$Main$Mdl = function (a) {
 	return {ctor: 'Mdl', _0: a};
 };
+var _user$project$Main$update = F2(
+	function (msg, model) {
+		var _p0 = msg;
+		switch (_p0.ctor) {
+			case 'Acknowledge':
+				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+			case 'NewData':
+				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+			case 'AddToList':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							data: A2(_user$project$BoardTask$putCardElementToList, model.addCard, model.data)
+						}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'SetTitle':
+				var cardTitle = model.addCard;
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							addCard: _elm_lang$core$Native_Utils.update(
+								cardTitle,
+								{title: _p0._0})
+						}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			default:
+				return A3(_debois$elm_mdl$Material$update, _user$project$Main$Mdl, _p0._0, model);
+		}
+	});
+var _user$project$Main$Acknowledge = {ctor: 'Acknowledge'};
+var _user$project$Main$SetTitle = function (a) {
+	return {ctor: 'SetTitle', _0: a};
+};
+var _user$project$Main$AddToList = {ctor: 'AddToList'};
 var _user$project$Main$element = function (model) {
 	return A2(
 		_debois$elm_mdl$Material_Dialog$view,
@@ -15446,7 +15510,7 @@ var _user$project$Main$element = function (model) {
 				{ctor: '[]'},
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html$text('Greetings'),
+					_0: _elm_lang$html$Html$text('Add new card'),
 					_1: {ctor: '[]'}
 				}),
 			_1: {
@@ -15456,26 +15520,34 @@ var _user$project$Main$element = function (model) {
 					{ctor: '[]'},
 					{
 						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$p,
-							{ctor: '[]'},
+						_0: A5(
+							_debois$elm_mdl$Material_Textfield$render,
+							_user$project$Main$Mdl,
 							{
 								ctor: '::',
-								_0: _elm_lang$html$Html$text('A strange game—the only winning move is not to play.'),
+								_0: 2,
 								_1: {ctor: '[]'}
-							}),
-						_1: {
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$p,
-								{ctor: '[]'},
-								{
+							},
+							model.mdl,
+							{
+								ctor: '::',
+								_0: _debois$elm_mdl$Material_Textfield$label('Title'),
+								_1: {
 									ctor: '::',
-									_0: _elm_lang$html$Html$text('How about a nice game of chess?'),
-									_1: {ctor: '[]'}
-								}),
-							_1: {ctor: '[]'}
-						}
+									_0: _debois$elm_mdl$Material_Textfield$floatingLabel,
+									_1: {
+										ctor: '::',
+										_0: _debois$elm_mdl$Material_Textfield$text_,
+										_1: {
+											ctor: '::',
+											_0: _debois$elm_mdl$Material_Options$onInput(_user$project$Main$SetTitle),
+											_1: {ctor: '[]'}
+										}
+									}
+								}
+							},
+							{ctor: '[]'}),
+						_1: {ctor: '[]'}
 					}),
 				_1: {
 					ctor: '::',
@@ -15495,12 +15567,24 @@ var _user$project$Main$element = function (model) {
 								model.mdl,
 								{
 									ctor: '::',
-									_0: _debois$elm_mdl$Material_Dialog$closeOn('click'),
-									_1: {ctor: '[]'}
+									_0: _debois$elm_mdl$Material_Button$colored,
+									_1: {
+										ctor: '::',
+										_0: _debois$elm_mdl$Material_Button$raised,
+										_1: {
+											ctor: '::',
+											_0: _debois$elm_mdl$Material_Dialog$closeOn('click'),
+											_1: {
+												ctor: '::',
+												_0: _debois$elm_mdl$Material_Options$onClick(_user$project$Main$AddToList),
+												_1: {ctor: '[]'}
+											}
+										}
+									}
 								},
 								{
 									ctor: '::',
-									_0: _elm_lang$html$Html$text('Chess'),
+									_0: _elm_lang$html$Html$text('Submit'),
 									_1: {ctor: '[]'}
 								}),
 							_1: {
@@ -15516,12 +15600,12 @@ var _user$project$Main$element = function (model) {
 									model.mdl,
 									{
 										ctor: '::',
-										_0: _debois$elm_mdl$Material_Button$disabled,
+										_0: _debois$elm_mdl$Material_Dialog$closeOn('click'),
 										_1: {ctor: '[]'}
 									},
 									{
 										ctor: '::',
-										_0: _elm_lang$html$Html$text('GTNW'),
+										_0: _elm_lang$html$Html$text('Cancel'),
 										_1: {ctor: '[]'}
 									}),
 								_1: {ctor: '[]'}
@@ -15532,28 +15616,6 @@ var _user$project$Main$element = function (model) {
 			}
 		});
 };
-var _user$project$Main$update = F2(
-	function (msg, model) {
-		var _p0 = msg;
-		switch (_p0.ctor) {
-			case 'Acknowledge':
-				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
-			case 'NewData':
-				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
-			case 'AddToList':
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{
-							data: _user$project$BoardTask$putRandomElementToList(model.data)
-						}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			default:
-				return A3(_debois$elm_mdl$Material$update, _user$project$Main$Mdl, _p0._0, model);
-		}
-	});
 var _user$project$Main$getBoardColumn = F2(
 	function (columnName, model) {
 		var rendered = A2(
@@ -15611,21 +15673,51 @@ var _user$project$Main$getBoardColumn = F2(
 										_user$project$Main$Mdl,
 										{
 											ctor: '::',
-											_0: 1,
+											_0: 0,
 											_1: {ctor: '[]'}
 										},
 										model.mdl,
 										{
 											ctor: '::',
-											_0: _debois$elm_mdl$Material_Dialog$openOn('click'),
-											_1: {ctor: '[]'}
+											_0: _debois$elm_mdl$Material_Button$raised,
+											_1: {
+												ctor: '::',
+												_0: _debois$elm_mdl$Material_Dialog$openOn('click'),
+												_1: {ctor: '[]'}
+											}
 										},
 										{
 											ctor: '::',
-											_0: _elm_lang$html$Html$text('Open dialog'),
+											_0: _elm_lang$html$Html$text('Add Card'),
 											_1: {ctor: '[]'}
 										}),
-									_1: {ctor: '[]'}
+									_1: {
+										ctor: '::',
+										_0: A5(
+											_debois$elm_mdl$Material_Button$render,
+											_user$project$Main$Mdl,
+											{
+												ctor: '::',
+												_0: 1,
+												_1: {ctor: '[]'}
+											},
+											model.mdl,
+											{
+												ctor: '::',
+												_0: _debois$elm_mdl$Material_Button$raised,
+												_1: {
+													ctor: '::',
+													_0: _debois$elm_mdl$Material_Dialog$openOn('click'),
+													_1: {ctor: '[]'}
+												}
+											},
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html$text('Add Card 2'),
+												_1: {ctor: '[]'}
+											}),
+										_1: {ctor: '[]'}
+									}
 								}
 							}
 						}
@@ -15638,8 +15730,6 @@ var _user$project$Main$view = function (model) {
 };
 var _user$project$Main$main = _elm_lang$html$Html$program(
 	{view: _user$project$Main$view, update: _user$project$Main$update, subscriptions: _user$project$Main$subscriptions, init: _user$project$Main$init})();
-var _user$project$Main$Acknowledge = {ctor: 'Acknowledge'};
-var _user$project$Main$AddToList = {ctor: 'AddToList'};
 var _user$project$Main$NewData = {ctor: 'NewData'};
 
 var Elm = {};
