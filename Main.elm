@@ -59,6 +59,8 @@ type Msg
     | AddToList
     | SetTitle String
     | SetColumn String
+    | SetCardDialog
+    | SetColumnDialog
     | Acknowledge
     | Mdl (Material.Msg Msg)
 
@@ -77,93 +79,98 @@ type alias Model =
     }
 
 
+
+-- dialogBuilder : Model -> Html Msg -> Html Msg -> Html Msg
+-- dialogBuilder model =
+--     Dialog.view
+--         [ Options.id "TEST"
+--         ]
+--         [ Dialog.title [] [ text "Add new card" ]
+--         , Dialog.content []
+--             [ content
+--             ]
+--         , Dialog.actions
+--             []
+--             [ dialogActions ]
+--         ]
+
+
 element : Model -> Html Msg
 element model =
-    let
-        action =
-            model.dialogAction
-    in
-        case action of
-            AddNewCard ->
-                (Dialog.view []
-                    [ Dialog.title [] [ text "Add new card" ]
-                    , Dialog.content []
-                        [ Textfield.render Mdl
-                            [ 2 ]
-                            model.mdl
-                            [ Textfield.label "Title"
-                            , Textfield.floatingLabel
-                            , Textfield.text_
-                            , Options.onInput SetTitle
-                            ]
-                            []
-                        ]
-                    , Dialog.actions []
-                        [ Button.render Mdl
-                            [ 0 ]
-                            model.mdl
-                            [ Button.colored
-                            , Button.raised
-                            , Dialog.closeOn "click"
-                            , Options.onClick AddToList
-                            ]
-                            [ text "Submit" ]
-                        , Button.render Mdl
-                            [ 1 ]
-                            model.mdl
-                            [ Dialog.closeOn "click" ]
-                            [ text "Cancel" ]
-                        ]
+    div []
+        [ Dialog.view []
+            [ Dialog.title [] [ text "Add new card" ]
+            , Dialog.content []
+                [ Textfield.render Mdl
+                    [ 2 ]
+                    model.mdl
+                    [ Textfield.label "Title"
+                    , Textfield.floatingLabel
+                    , Textfield.text_
+                    , Options.onInput SetTitle
                     ]
-                )
-
-            AddNewColumn ->
-                (Dialog.view
                     []
-                    [ Dialog.title [] [ text "Add new Column" ]
-                    , Dialog.content []
-                        [ Textfield.render Mdl
-                            [ 2 ]
-                            model.mdl
-                            [ Textfield.label "Title"
-                            , Textfield.floatingLabel
-                            , Textfield.text_
-                            ]
-                            []
-                        ]
-                    , Dialog.actions []
-                        [ Button.render Mdl
-                            [ 0 ]
-                            model.mdl
-                            [ Button.colored
-                            , Button.raised
-                            , Dialog.closeOn "click"
-                            ]
-                            [ text "Submit" ]
-                        , Button.render Mdl
-                            [ 1 ]
-                            model.mdl
-                            [ Dialog.closeOn "click" ]
-                            [ text "Cancel" ]
-                        ]
+                ]
+            , Dialog.actions []
+                [ Button.render Mdl
+                    [ 0 ]
+                    model.mdl
+                    [ Button.colored
+                    , Button.raised
+                    , Dialog.closeOn "click"
+                    , Options.onClick AddToList
                     ]
-                )
-
-            None ->
-                (Dialog.view
+                    [ text "Submit" ]
+                , Button.render Mdl
+                    [ 1 ]
+                    model.mdl
+                    [ Dialog.closeOn "click" ]
+                    [ text "Cancel" ]
+                ]
+            ]
+        , Dialog.view
+            []
+            [ Dialog.title [] [ text "Add new Column" ]
+            , Dialog.content []
+                [ Textfield.render Mdl
+                    [ 2 ]
+                    model.mdl
+                    [ Textfield.label "Title"
+                    , Textfield.floatingLabel
+                    , Textfield.text_
+                    ]
                     []
-                    [ Dialog.title [] [ text "ERROR!" ]
-                    , Dialog.content []
-                        []
-                    , Dialog.actions []
-                        [ Button.render Mdl
-                            [ 1 ]
-                            model.mdl
-                            [ Dialog.closeOn "click" ]
-                            [ text "Cancel" ]
-                        ]
+                ]
+            , Dialog.actions []
+                [ Button.render Mdl
+                    [ 0 ]
+                    model.mdl
+                    [ Button.colored
+                    , Button.raised
+                    , Dialog.closeOn "click"
                     ]
-                )
+                    [ text "Submit" ]
+                , Button.render Mdl
+                    [ 1 ]
+                    model.mdl
+                    [ Dialog.closeOn "click" ]
+                    [ text "Cancel" ]
+                ]
+            ]
+        , Dialog.view
+            []
+            [ Dialog.title [] [ text "ERROR!" ]
+            , Dialog.content []
+                []
+            , Dialog.actions []
+                [ Button.render Mdl
+                    [ 1 ]
+                    model.mdl
+                    [ Dialog.closeOn "click" ]
+                    [ text "Cancel" ]
+                ]
+            ]
+        ]
 
 
 
@@ -195,6 +202,12 @@ update msg model =
                     model.addCard
             in
                 ( { model | dialogAction = AddNewColumn }, Cmd.none )
+
+        SetCardDialog ->
+            ( { model | dialogAction = AddNewCard }, Cmd.none )
+
+        SetColumnDialog ->
+            ( { model | dialogAction = AddNewColumn }, Cmd.none )
 
         Mdl action_ ->
             Material.update Mdl action_ model
@@ -229,16 +242,15 @@ getBoardColumn columnName model =
             [ section [ class "list" ]
                 [ div [] [ header [] [ text columnName ] ]
                 , rendered
-                , element model
                 , Button.render Mdl
                     [ 0 ]
                     model.mdl
-                    [ Button.raised, Dialog.openOn "click" ]
+                    [ Button.raised, Dialog.openOn "click", Options.onClick SetCardDialog ]
                     [ text "Add Card" ]
                 , Button.render Mdl
                     [ 1 ]
                     model.mdl
-                    [ Button.raised, Dialog.openOn "click" ]
+                    [ Button.raised, Dialog.openOn "click", Options.onClick SetColumnDialog ]
                     [ text "Add Card 2" ]
 
                 -- getAddNewCardButton
@@ -276,7 +288,65 @@ getColumnCard cardName =
 
 view : Model -> Html Msg
 view model =
-    getBoardColumn "UUU" model
+    div []
+        [ getBoardColumn "UUU" model
+        , let
+            ( title, content, actions ) =
+                case model.dialogAction of
+                    AddNewCard ->
+                        d0 model
+
+                    AddNewColumn ->
+                        d1 model
+
+                    None ->
+                        d2 model
+          in
+            Dialog.view []
+                [ Dialog.title [] title
+                , Dialog.content [] content
+                , Dialog.actions [] actions
+                ]
+        ]
+
+
+d0 : Model -> ( List (Html Msg), List (Html Msg), List (Html Msg) )
+d0 model =
+    ( [ text "Hello!" ]
+    , [ text "D0" ]
+    , [ Button.render Mdl
+            [ 3 ]
+            model.mdl
+            [ Dialog.closeOn "click" ]
+            [ text "Close" ]
+      ]
+    )
+
+
+d1 : Model -> ( List (Html Msg), List (Html Msg), List (Html Msg) )
+d1 model =
+    ( [ text "Hello!" ]
+    , [ text "D1" ]
+    , [ Button.render Mdl
+            [ 3 ]
+            model.mdl
+            [ Dialog.closeOn "click" ]
+            [ text "Close" ]
+      ]
+    )
+
+
+d2 : Model -> ( List (Html Msg), List (Html Msg), List (Html Msg) )
+d2 model =
+    ( [ text "Hello!" ]
+    , [ text "D2" ]
+    , [ Button.render Mdl
+            [ 3 ]
+            model.mdl
+            [ Dialog.closeOn "click" ]
+            [ text "Close" ]
+      ]
+    )
 
 
 
