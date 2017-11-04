@@ -34,6 +34,7 @@ initModel =
     { mdl = Material.model
     , data = BoardTask.getExampleSetOfData
     , addCard = BoardTask.AddCard "" ""
+    , addColumn = BoardTask.AddColumn "" []
     , dialogAction = None
     }
 
@@ -59,6 +60,7 @@ type Msg
     | AddToList
     | SetTitle String
     | SetColumn String
+    | CleanAddCard
     | SetCardDialog
     | SetColumnDialog
     | Acknowledge
@@ -75,6 +77,7 @@ type alias Model =
     { mdl : Material.Model
     , data : List BoardTask.CardView
     , addCard : BoardTask.AddCard
+    , addColumn : BoardTask.AddColumn
     , dialogAction : DialogAction
     }
 
@@ -93,87 +96,6 @@ type alias Model =
 --             []
 --             [ dialogActions ]
 --         ]
-
-
-element : Model -> Html Msg
-element model =
-    div []
-        [ Dialog.view []
-            [ Dialog.title [] [ text "Add new card" ]
-            , Dialog.content []
-                [ Textfield.render Mdl
-                    [ 2 ]
-                    model.mdl
-                    [ Textfield.label "Title"
-                    , Textfield.floatingLabel
-                    , Textfield.text_
-                    , Options.onInput SetTitle
-                    ]
-                    []
-                ]
-            , Dialog.actions []
-                [ Button.render Mdl
-                    [ 0 ]
-                    model.mdl
-                    [ Button.colored
-                    , Button.raised
-                    , Dialog.closeOn "click"
-                    , Options.onClick AddToList
-                    ]
-                    [ text "Submit" ]
-                , Button.render Mdl
-                    [ 1 ]
-                    model.mdl
-                    [ Dialog.closeOn "click" ]
-                    [ text "Cancel" ]
-                ]
-            ]
-        , Dialog.view
-            []
-            [ Dialog.title [] [ text "Add new Column" ]
-            , Dialog.content []
-                [ Textfield.render Mdl
-                    [ 2 ]
-                    model.mdl
-                    [ Textfield.label "Title"
-                    , Textfield.floatingLabel
-                    , Textfield.text_
-                    ]
-                    []
-                ]
-            , Dialog.actions []
-                [ Button.render Mdl
-                    [ 0 ]
-                    model.mdl
-                    [ Button.colored
-                    , Button.raised
-                    , Dialog.closeOn "click"
-                    ]
-                    [ text "Submit" ]
-                , Button.render Mdl
-                    [ 1 ]
-                    model.mdl
-                    [ Dialog.closeOn "click" ]
-                    [ text "Cancel" ]
-                ]
-            ]
-        , Dialog.view
-            []
-            [ Dialog.title [] [ text "ERROR!" ]
-            , Dialog.content []
-                []
-            , Dialog.actions []
-                [ Button.render Mdl
-                    [ 1 ]
-                    model.mdl
-                    [ Dialog.closeOn "click" ]
-                    [ text "Cancel" ]
-                ]
-            ]
-        ]
-
-
-
 -- UPDATE
 
 
@@ -187,7 +109,14 @@ update msg model =
             ( model, Cmd.none )
 
         AddToList ->
-            ( { model | data = BoardTask.putCardElementToList model.addCard model.data }, Cmd.none )
+            let
+                addcard =
+                    model.addCard
+            in
+                if addcard.title /= "" then
+                    ( { model | data = BoardTask.putCardElementToList model.addCard model.data, addCard = BoardTask.AddCard "" "" }, Cmd.none )
+                else
+                    ( model, Cmd.none )
 
         SetTitle title_ ->
             let
@@ -211,6 +140,13 @@ update msg model =
 
         Mdl action_ ->
             Material.update Mdl action_ model
+
+        CleanAddCard ->
+            let
+                cardTitle =
+                    model.addCard
+            in
+                ( { model | addCard = { cardTitle | title = "" }, dialogAction = AddNewCard }, Cmd.none )
 
 
 
@@ -247,43 +183,18 @@ getBoardColumn columnName model =
                     model.mdl
                     [ Button.raised, Dialog.openOn "click", Options.onClick SetCardDialog ]
                     [ text "Add Card" ]
-                , Button.render Mdl
-                    [ 1 ]
-                    model.mdl
-                    [ Button.raised, Dialog.openOn "click", Options.onClick SetColumnDialog ]
-                    [ text "Add Card 2" ]
-
-                -- getAddNewCardButton
                 ]
+            , Button.render Mdl
+                [ 1 ]
+                model.mdl
+                [ Button.raised, Dialog.openOn "click", Options.onClick SetColumnDialog ]
+                [ text "Add Card 2" ]
             ]
 
 
 getColumnCard : String -> Html Msg
 getColumnCard cardName =
     article [ class "card" ] [ header [] [ text cardName ] ]
-
-
-
--- getAddNewCardButton : Html Msg
--- getAddNewCardButton =
---   button [ Dialog. ] [ text "Add Card" ]
--- <div class="modal fade" id="myModal" role="dialog">
---     <div class="modal-dialog modal-sm">
---       <div class="modal-content">
---         <div class="modal-header">
---           <button type="button" class="close" data-dismiss="modal">&times;</button>
---           <h4 class="modal-title">Modal Header</h4>
---         </div>
---         <div class="modal-body">
---           <p>This is a small modal.</p>
---         </div>
---         <div class="modal-footer">
---           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
---         </div>
---       </div>
---     </div>
---   </div>
--- VIEW
 
 
 view : Model -> Html Msg
@@ -312,15 +223,39 @@ view model =
 
 d0 : Model -> ( List (Html Msg), List (Html Msg), List (Html Msg) )
 d0 model =
-    ( [ text "Hello!" ]
-    , [ text "D0" ]
+    ( [ text "Add New Card" ]
+    , [ Textfield.render Mdl
+            [ 2 ]
+            model.mdl
+            [ Textfield.label "Title"
+            , Textfield.floatingLabel
+            , Textfield.value model.addCard.title
+            , Options.onInput SetTitle
+            ]
+            []
+      ]
     , [ Button.render Mdl
             [ 3 ]
             model.mdl
-            [ Dialog.closeOn "click" ]
+            [ Dialog.closeOn "click"
+            , Options.onClick CleanAddCard
+            ]
             [ text "Close" ]
+      , Button.render Mdl
+            [ 0 ]
+            model.mdl
+            [ Button.colored
+            , Button.raised
+            , Dialog.closeOn "click"
+            , Options.onClick AddToList
+            ]
+            [ text "Submit" ]
       ]
     )
+
+
+
+-- title, content, actions
 
 
 d1 : Model -> ( List (Html Msg), List (Html Msg), List (Html Msg) )
@@ -332,6 +267,15 @@ d1 model =
             model.mdl
             [ Dialog.closeOn "click" ]
             [ text "Close" ]
+      , Button.render Mdl
+            [ 0 ]
+            model.mdl
+            [ Button.colored
+            , Button.raised
+            , Dialog.closeOn "click"
+            , Options.onClick AddToList
+            ]
+            [ text "Submit" ]
       ]
     )
 
