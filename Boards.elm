@@ -1,4 +1,4 @@
-module Boards exposing (Model, Msg)
+module Boards exposing (Model, model, Msg)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -26,6 +26,11 @@ type alias Model =
     { mdl : Material.Model
     , boards : List BoardTask.BoardView
     }
+
+
+model : Model
+model =
+    { mdl = Material.model, boards = BoardTask.getExampleSetOfBoards }
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )

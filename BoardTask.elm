@@ -10,6 +10,7 @@ module BoardTask
         , decodeFromJson
         , getExampleSetOfData
         , putElementToList
+        , getExampleSetOfBoards
         )
 
 import Json.Decode
@@ -76,6 +77,11 @@ getExampleSetOfData =
         , CardView 1 1 "Test3" "Test1"
         , CardView 1 1 "Test4" "Test1"
         ]
+
+
+getExampleSetOfBoards : List BoardView
+getExampleSetOfBoards =
+    [ BoardView "Board 1" [ getExampleSetOfData ] ]
 
 
 putElementToList : String -> List CardView -> List CardView
