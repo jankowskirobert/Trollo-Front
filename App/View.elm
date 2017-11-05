@@ -26,14 +26,14 @@ view_ model =
                 boards =
                     model.boards
 
-                data_ =
-                    BoardDetails.model
+                model_ =
+                    model.boardDetails
 
                 board =
-                    Maybe.withDefault data_.data boards.boardDetails
+                    boards.boardDetails
             in
-                Html.map BoardDetailsMsg
-                    (BoardDetails.view { data_ | data = board })
+                Html.map BoardDetailsMsg (BoardDetails.view { model_ | data = board })
 
+        -- (BoardDetails.view { data_ | data = board })
         PageNotFound ->
             div [] [ text "404" ]

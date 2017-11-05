@@ -18118,6 +18118,21 @@ var _user$project$BoardDetails$update = F2(
 		}
 	});
 
+var _user$project$Page$pageToString = function (page) {
+	var _p0 = page;
+	switch (_p0.ctor) {
+		case 'BoardsPage':
+			return '';
+		case 'BoardDetailsPage':
+			return '#board';
+		default:
+			return '#404';
+	}
+};
+var _user$project$Page$PageNotFound = {ctor: 'PageNotFound'};
+var _user$project$Page$BoardDetailsPage = {ctor: 'BoardDetailsPage'};
+var _user$project$Page$BoardsPage = {ctor: 'BoardsPage'};
+
 var _user$project$Boards$white = _debois$elm_mdl$Material_Color$text(_debois$elm_mdl$Material_Color$white);
 var _user$project$Boards$style = function (h) {
 	return {
@@ -18187,7 +18202,14 @@ var _user$project$Boards$std = _user$project$Boards$democell(200);
 var _user$project$Boards$model = function () {
 	var boards_ = _user$project$BoardTask$getExampleSetOfBoards;
 	var board_ = _elm_lang$core$List$head(boards_);
-	return {mdl: _debois$elm_mdl$Material$model, boards: boards_, boardDetails: board_};
+	var stricBoard_ = A2(
+		_elm_lang$core$Maybe$withDefault,
+		A2(
+			_user$project$BoardTask$BoardView,
+			'',
+			{ctor: '[]'}),
+		board_);
+	return {mdl: _debois$elm_mdl$Material$model, boards: boards_, boardDetails: stricBoard_};
 }();
 var _user$project$Boards$Model = F3(
 	function (a, b, c) {
@@ -18206,14 +18228,21 @@ var _user$project$Boards$update = F2(
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			case 'UpdateCurrentBoardView':
 				var boards = model.boards;
+				var board_ = _elm_lang$core$List$head(boards);
+				var stricBoard_ = A2(
+					_elm_lang$core$Maybe$withDefault,
+					A2(
+						_user$project$BoardTask$BoardView,
+						'',
+						{ctor: '[]'}),
+					board_);
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{
-							boardDetails: _elm_lang$core$List$head(boards)
-						}),
-					_1: _elm_lang$core$Platform_Cmd$none
+						{boardDetails: stricBoard_}),
+					_1: _elm_lang$navigation$Navigation$newUrl(
+						_user$project$Page$pageToString(_user$project$Page$BoardDetailsPage))
 				};
 			default:
 				return A3(_debois$elm_mdl$Material$update, _user$project$Boards$Mdl, _p0._0, model);
@@ -18358,10 +18387,6 @@ var _user$project$Boards$view = function (model) {
 			model.boards));
 };
 
-var _user$project$Page$PageNotFound = {ctor: 'PageNotFound'};
-var _user$project$Page$BoardDetailsPage = {ctor: 'BoardDetailsPage'};
-var _user$project$Page$BoardsPage = {ctor: 'BoardsPage'};
-
 var _user$project$App_Model$delta2url = F2(
 	function (previous, current) {
 		var _p0 = current.activePage;
@@ -18468,15 +18493,15 @@ var _user$project$App_View$view_ = function (model) {
 				_user$project$App_Model$BoardsMsg,
 				_user$project$Boards$view(model.boards));
 		case 'BoardDetailsPage':
-			var data_ = _user$project$BoardDetails$model;
+			var model_ = model.boardDetails;
 			var boards = model.boards;
-			var board = A2(_elm_lang$core$Maybe$withDefault, data_.data, boards.boardDetails);
+			var board = boards.boardDetails;
 			return A2(
 				_elm_lang$html$Html$map,
 				_user$project$App_Model$BoardDetailsMsg,
 				_user$project$BoardDetails$view(
 					_elm_lang$core$Native_Utils.update(
-						data_,
+						model_,
 						{data: board})));
 		default:
 			return A2(

@@ -16,6 +16,8 @@ import BoardTask
 import Material.Typography as Typography
 import Material.Icon as Icon
 import BoardDetails
+import Page
+import Navigation
 
 
 type Msg
@@ -27,7 +29,7 @@ type Msg
 type alias Model =
     { mdl : Material.Model
     , boards : List BoardTask.BoardView
-    , boardDetails : Maybe BoardTask.BoardView
+    , boardDetails : BoardTask.BoardView
     }
 
 
@@ -39,8 +41,11 @@ model =
 
         board_ =
             List.head boards_
+
+        stricBoard_ =
+            Maybe.withDefault (BoardTask.BoardView "" []) board_
     in
-        ({ mdl = Material.model, boards = boards_, boardDetails = board_ })
+        ({ mdl = Material.model, boards = boards_, boardDetails = stricBoard_ })
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -53,8 +58,14 @@ update msg model =
             let
                 boards =
                     model.boards
+
+                board_ =
+                    List.head boards
+
+                stricBoard_ =
+                    Maybe.withDefault (BoardTask.BoardView "" []) board_
             in
-                ( { model | boardDetails = List.head boards }, Cmd.none )
+                ( { model | boardDetails = stricBoard_ }, (Navigation.newUrl <| Page.pageToString Page.BoardDetailsPage) )
 
         Mdl msg_ ->
             Material.update Mdl msg_ model
