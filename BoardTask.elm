@@ -89,10 +89,17 @@ putElementToList column lst =
     (CardView 1 1 column "Test1") :: lst
 
 
-putCardElementToList : AddCard -> ColumnView -> ColumnView
+isListExist : List ColumnView -> String -> Bool
+isListExist column listname =
+    List.member listname (List.map (\x -> x.title) column)
+
+
+putCardElementToList : AddCard -> List ColumnView -> List ColumnView
 putCardElementToList card columns =
-    let
-        cards =
-            columns.cards
-    in
-        ({ columns | cards = cards ++ [ CardView 1 1 card.title card.body ] })
+    -- let
+    --     column =
+    --         List.head (List.filter (isListExist columns)
+    --     cards =
+    --         column.cards
+    -- in
+    (columns)

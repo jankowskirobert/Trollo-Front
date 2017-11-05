@@ -1,4 +1,4 @@
-module Main exposing (..)
+module BoardDetails exposing (Model, model, view, update, Msg)
 
 import Html.Lazy
 import Html exposing (..)
@@ -12,59 +12,33 @@ import Material.Options as Options
 import Material
 
 
--- import Json.Encode as Encode
--- import Json.Decode
--- import Json.Decode.Pipeline as JDP exposing (required)
--- import Task
-
-import Http
-
-
-main : Program Never Model Msg
-main =
-    Html.program { view = view, update = update, subscriptions = subscriptions, init = init }
-
-
 subscriptions : Model -> Sub Msg
 subscriptions model =
     Sub.none
 
 
-initModel : Model
-initModel =
+model : Model
+model =
     { mdl = Material.model
-    , data = BoardTask.getExampleSetOfData
+    , data = BoardTask.BoardView "" []
     , addCard = BoardTask.AddCard "" ""
-    , addColumn = BoardTask.AddColumn "" []
+    , addColumn = BoardTask.AddColumn ""
     , dialogAction = None
     }
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( initModel, Cmd.none )
-
-
-
--- getExampleData : Cmd Msg
--- getExampleData =
---   let
---     url = "https://jsonplaceholder.typicode.com/posts/1"
---     req = Http.get url BoardTask.decodeFromJson
---   in
---    Http.send Refresh req
---  Refresh (Result Http.Error BoardTask.ExampleData) |
+    ( model, Cmd.none )
 
 
 type Msg
-    = NewData
-    | AddToList
+    = AddToList String
     | SetTitle String
     | SetColumn String
     | CleanAddCard
     | SetCardDialog
     | SetColumnDialog
-    | Acknowledge
     | Mdl (Material.Msg Msg)
 
 
@@ -76,7 +50,7 @@ type DialogAction
 
 type alias Model =
     { mdl : Material.Model
-    , data : List BoardTask.CardView
+    , data : BoardTask.BoardView
     , addCard : BoardTask.AddCard
     , addColumn : BoardTask.AddColumn
     , dialogAction : DialogAction
@@ -103,21 +77,21 @@ type alias Model =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        Acknowledge ->
-            ( model, Cmd.none )
-
-        NewData ->
-            ( model, Cmd.none )
-
-        AddToList ->
+        AddToList listname ->
             let
                 addcard =
                     model.addCard
+
+                column =
+                    model.data
+
+                column_ =
+                    column.columns
             in
-                if addcard.title /= "" then
-                    ( { model | data = BoardTask.putCardElementToList model.addCard model.data, addCard = BoardTask.AddCard "" "" }, Cmd.none )
-                else
-                    ( model, Cmd.none )
+                -- if addcard.title /= "" then
+                --     ( { model | column_ = BoardTask.putCardElementToList model.addCard column_, addCard = BoardTask.AddCard "" "" }, Cmd.none )
+                -- else
+                ( model, Cmd.none )
 
         SetTitle title_ ->
             let
@@ -172,13 +146,16 @@ getBoardColumn columnName model =
     let
         rendered =
             model.data
+
+        rendered_ =
+            rendered.columns
                 |> List.map (\l -> getColumnCard l.title)
                 |> div []
     in
         div [ class "main_board" ]
             [ section [ class "list" ]
                 [ div [] [ header [] [ text columnName ] ]
-                , rendered
+                , rendered_
                 , Button.render Mdl
                     [ 0 ]
                     model.mdl
@@ -253,7 +230,8 @@ d0 model =
             [ Button.colored
             , Button.raised
             , Dialog.closeOn "click"
-            , Options.onClick AddToList
+
+            -- , Options.onClick AddToList
             ]
             [ text "Submit" ]
       ]
@@ -279,7 +257,8 @@ d1 model =
             [ Button.colored
             , Button.raised
             , Dialog.closeOn "click"
-            , Options.onClick AddToList
+
+            -- , Options.onClick AddToList
             ]
             [ text "Submit" ]
       ]

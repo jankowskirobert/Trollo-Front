@@ -1,33 +1,4 @@
-var _user$project$Main$view_ = function (model) {
-	return A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		{ctor: '[]'});
-};
-var _user$project$Main$view = _elm_lang$html$Html_Lazy$lazy(_user$project$Main$view_);
-var _user$project$Main$initModel = {mdl: _debois$elm_mdl$Material$model, boards: _user$project$Boards$model};
-var _user$project$Main$init = {ctor: '_Tuple2', _0: _user$project$Main$initModel, _1: _elm_lang$core$Platform_Cmd$none};
-var _user$project$Main$subscriptions = function (model) {
-	return _elm_lang$core$Platform_Sub$none;
-};
-var _user$project$Main$Model = F2(
-	function (a, b) {
-		return {mdl: a, boards: b};
-	});
-var _user$project$Main$Mdl = function (a) {
-	return {ctor: 'Mdl', _0: a};
-};
-var _user$project$Main$update = F2(
-	function (msg, model) {
-		var _p0 = msg;
-		if (_p0.ctor === 'BoardsMsg') {
-			return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
-		} else {
-			return A3(_debois$elm_mdl$Material$update, _user$project$Main$Mdl, _p0._0, model);
-		}
-	});
-var _user$project$Main$main = _elm_lang$html$Html$program(
-	{view: _user$project$Main$view, update: _user$project$Main$update, subscriptions: _user$project$Main$subscriptions, init: _user$project$Main$init})();
-var _user$project$Main$BoardsMsg = function (a) {
-	return {ctor: 'BoardsMsg', _0: a};
-};
+var _user$project$Main$main = A2(
+	_elm_lang$navigation$Navigation$program,
+	_user$project$App$UrlChanged,
+	{view: _user$project$App$view, init: _user$project$App$init, update: _user$project$App$update, subscriptions: _user$project$App$subscriptions})();

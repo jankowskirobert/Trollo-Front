@@ -1,4 +1,4 @@
-module Boards exposing (Model, model, Msg)
+module Boards exposing (Model, model, Msg, view, update)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -12,31 +12,38 @@ import Material
 import Array
 import Material.Grid as Grid
 import Material.Color as Color
-import BoardTask as BoardTask
+import BoardTask
 import Material.Typography as Typography
 import Material.Icon as Icon
+import BoardDetails
 
 
 type Msg
     = Mdl (Material.Msg Msg)
     | AddBoard
+    | BoardDetailsMsg BoardDetails.Msg
 
 
 type alias Model =
     { mdl : Material.Model
     , boards : List BoardTask.BoardView
+    , boardDetails : BoardDetails.Model
     }
 
 
 model : Model
 model =
-    { mdl = Material.model, boards = BoardTask.getExampleSetOfBoards }
+    { mdl = Material.model, boards = BoardTask.getExampleSetOfBoards, boardDetails = BoardDetails.model }
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         AddBoard ->
+            ( model, Cmd.none )
+
+        BoardDetailsMsg msg ->
+            -- ( { model | boardDetails = BoardDetails.update msg model.boardDetails }, Cmd.none )
             ( model, Cmd.none )
 
         Mdl msg_ ->
@@ -79,14 +86,16 @@ white =
 
 view : Model -> Html Msg
 view model =
-    List.range 1 3
+    model.boards
         |> List.map
             (\i ->
                 std [ Grid.size Grid.All 4, color 5 ]
                     [ Card.view
-                        [ Options.css "width" "256px"
-                        , Options.css "height" "256px"
-                        , Options.css "background" "url('assets/elm.png') center / cover"
+                        [ Options.css "width" "200px"
+                        , Options.css "height" "200px"
+                        , Options.css "background" "rgba(255, 0, 255, 1)"
+
+                        -- , Options.onClick (OpenBoard i)
                         ]
                         [ Card.text [ Card.expand ] [] -- Filler
                         , Card.text
@@ -94,7 +103,7 @@ view model =
                             -- Non-gradient scrim
                             [ Options.span
                                 [ white, Typography.title, Typography.contrast 1.0 ]
-                                [ text "Elm programming" ]
+                                [ text i.title ]
                             , Button.render Mdl
                                 [ 1 ]
                                 model.mdl
