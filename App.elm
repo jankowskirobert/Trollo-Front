@@ -22,20 +22,19 @@ subscriptions model =
     Sub.none
 
 
-init : Location -> ( Model, Cmd Msg )
-init location =
-    { mdl = Material.model
-    , boards = BoardsModule.model
-    , activePage = Router.BoardsPage BoardsModule.model
-    }
-        |> urlUpdate location
+init : ( Model, Cmd Msg )
+init =
+    ( { mdl = Material.model
+      , boards = BoardsModule.model
+      , activePage = Router.BoardsPage
+      }
+    , Cmd.none
+    )
 
 
-type
-    Msg
-    -- = Mdl (Material.Msg Msg)
+type Msg
     = BoardsMsg BoardsModule.Msg
-    | UrlChanged Location
+    | SetActivePage Router.Page
 
 
 type alias Model =
@@ -48,9 +47,6 @@ type alias Model =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        UrlChanged newLocation ->
-            urlUpdate newLocation model
-
         BoardsMsg msg ->
             let
                 result =
@@ -59,6 +55,9 @@ update msg model =
                 ( { model | boards = Tuple.first result }
                 , Cmd.none
                 )
+
+        SetActivePage page ->
+            ( { model | activePage = page }, Cmd.none )
 
 
 
@@ -78,50 +77,28 @@ view =
 
 view_ : Model -> Html Msg
 view_ model =
-    let
-        boardsModel =
-            model.boards
-    in
-        case model.activePage of
-            Router.BoardsPage z ->
-                Html.map BoardsMsg (BoardsModule.view model.boards)
+    case model.activePage of
+        Router.BoardsPage ->
+            Html.map BoardsMsg (BoardsModule.view model.boards)
 
-            Router.BoardDetailsPage z ->
-                div [] []
+        Router.BoardDetailsPage ->
+            div [] [ text " details" ]
 
-
-urlUpdate : Location -> Model -> ( Model, Cmd Msg )
-urlUpdate newLocation model =
-    case Router.fromLocation newLocation of
-        Nothing ->
-            ( model
-            , Router.modifyUrl model.activePage
-            )
-
-        Just validRoute ->
-            if Router.isEqual validRoute model.activePage then
-                ( model, Cmd.none )
-            else
-                case validRoute of
-                    Router.Boards ->
-                        ( { model | activePage = Router.BoardsPage model.boards }
-                        , Cmd.none
-                        )
-
-                    Router.BoardDetails name ->
-                        ( model
-                        , Cmd.none
-                        )
+        PageNotFound ->
+            div [] [ text "404" ]
 
 
 delta2url : Model -> Model -> Maybe UrlChange
 delta2url previous current =
     case current.activePage of
-        BoardsPage z ->
-            Just <| UrlChange NewEntry "/#boards"
+        BoardsPage ->
+            Just <| UrlChange NewEntry ""
 
-        BoardDetailsPage z ->
+        BoardDetailsPage ->
             Just <| UrlChange NewEntry "/#board"
+
+        PageNotFound ->
+            Just <| UrlChange NewEntry "/#404"
 
 
 location2messages : Location -> List Msg
@@ -130,8 +107,8 @@ location2messages location =
         "" ->
             [ SetActivePage BoardsPage ]
 
-        "#boards" ->
+        "#board" ->
             [ SetActivePage BoardDetailsPage ]
 
-        "#board" ->
-            [ SetActivePage MyAccount ]
+        _ ->
+            [ SetActivePage PageNotFound ]

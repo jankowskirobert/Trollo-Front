@@ -7,10 +7,10 @@ import RouteUrl exposing (RouteUrlProgram)
 main : RouteUrlProgram Never Model Msg
 main =
     RouteUrl.program
-        { delta2url = ExampleViewer.delta2url
-        , location2messages = ExampleViewer.url2messages
-        , init = ExampleViewer.init
-        , update = ExampleViewer.update
-        , view = ExampleViewer.view
-        , subscriptions = ExampleViewer.subscriptions
+        { delta2url = App.delta2url
+        , location2messages = App.location2messages
+        , init = App.init
+        , update = update
+        , view = view
+        , subscriptions = subscriptions
         }
