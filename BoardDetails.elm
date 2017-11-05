@@ -208,6 +208,7 @@ view model =
                 , Dialog.content [] content
                 , Dialog.actions [] actions
                 ]
+        , li [] [ a [ href ("") ] [ text "jhjhkhk" ] ]
         ]
 
 
