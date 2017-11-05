@@ -48,7 +48,7 @@ model =
         ({ mdl = Material.model, boards = boards_, boardDetails = stricBoard_ })
 
 
-update : Msg -> Model -> ( Model, Cmd Msg, Maybe String )
+update : Msg -> Model -> ( Model, Cmd Msg, Maybe Page.Page )
 update msg model =
     case msg of
         AddBoard ->
@@ -65,7 +65,7 @@ update msg model =
                 stricBoard_ =
                     Maybe.withDefault (BoardTask.BoardView "" []) board_
             in
-                ( { model | boardDetails = stricBoard_ }, Cmd.none, Just (Page.pageToString Page.BoardDetailsPage) )
+                ( { model | boardDetails = stricBoard_ }, Cmd.none, Just (Page.BoardDetailsPage) )
 
         Mdl msg_ ->
             let

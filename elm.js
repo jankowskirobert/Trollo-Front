@@ -18250,7 +18250,7 @@ var _user$project$Boards$update = F2(
 		var _p0 = msg;
 		switch (_p0.ctor) {
 			case 'AddBoard':
-				return {ctor: '_Tuple3', _0: model, _1: _elm_lang$core$Platform_Cmd$none, _2: ''};
+				return {ctor: '_Tuple3', _0: model, _1: _elm_lang$core$Platform_Cmd$none, _2: _elm_lang$core$Maybe$Nothing};
 			case 'UpdateCurrentBoardView':
 				var boards = model.boards;
 				var board_ = _elm_lang$core$List$head(boards);
@@ -18267,13 +18267,13 @@ var _user$project$Boards$update = F2(
 						model,
 						{boardDetails: stricBoard_}),
 					_1: _elm_lang$core$Platform_Cmd$none,
-					_2: _user$project$Page$pageToString(_user$project$Page$BoardDetailsPage)
+					_2: _elm_lang$core$Maybe$Just(_user$project$Page$BoardDetailsPage)
 				};
 			default:
 				var _p1 = A3(_debois$elm_mdl$Material$update, _user$project$Boards$Mdl, _p0._0, model);
 				var md = _p1._0;
 				var cm = _p1._1;
-				return {ctor: '_Tuple3', _0: md, _1: cm, _2: ''};
+				return {ctor: '_Tuple3', _0: md, _1: cm, _2: _elm_lang$core$Maybe$Nothing};
 		}
 	});
 var _user$project$Boards$view = function (model) {
@@ -18486,43 +18486,62 @@ var _user$project$App_Model$BoardsMsg = function (a) {
 
 var _user$project$App_Update$update = F2(
 	function (msg, model) {
-		var _p0 = msg;
-		switch (_p0.ctor) {
-			case 'BoardsMsg':
-				var _p1 = A2(_user$project$Boards$update, _p0._0, model.boards);
-				var model_ = _p1._0;
-				var cmd = _p1._1;
-				var path = _p1._2;
-				var log = A2(
-					_elm_lang$core$Debug$log,
-					A2(_elm_lang$core$Basics_ops['++'], 'Have: ', path),
-					'Should: #board');
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{boards: model_}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			case 'SetActivePage':
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{activePage: _p0._0}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			default:
-				var result = A2(_user$project$BoardDetails$update, _p0._0, model.boardDetails);
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{
-							boardDetails: _elm_lang$core$Tuple$first(result)
-						}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
+		update:
+		while (true) {
+			var _p0 = msg;
+			switch (_p0.ctor) {
+				case 'BoardsMsg':
+					var _p1 = A2(_user$project$Boards$update, _p0._0, model.boards);
+					var model_ = _p1._0;
+					var cmd = _p1._1;
+					var page = _p1._2;
+					var log = page;
+					var _p2 = page;
+					if (_p2.ctor === 'Nothing') {
+						return {
+							ctor: '_Tuple2',
+							_0: _elm_lang$core$Native_Utils.update(
+								model,
+								{boards: model_}),
+							_1: _elm_lang$core$Platform_Cmd$none
+						};
+					} else {
+						var _p3 = _p2._0;
+						var log_ = A2(
+							_elm_lang$core$Debug$log,
+							A2(
+								_elm_lang$core$Basics_ops['++'],
+								'Have: ',
+								_user$project$Page$pageToString(_p3)),
+							'Should: #board');
+						var _v2 = _user$project$App_Model$SetActivePage(_p3),
+							_v3 = _elm_lang$core$Native_Utils.update(
+							model,
+							{boards: model_});
+						msg = _v2;
+						model = _v3;
+						continue update;
+					}
+				case 'SetActivePage':
+					return {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{activePage: _p0._0}),
+						_1: _elm_lang$core$Platform_Cmd$none
+					};
+				default:
+					var result = A2(_user$project$BoardDetails$update, _p0._0, model.boardDetails);
+					return {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{
+								boardDetails: _elm_lang$core$Tuple$first(result)
+							}),
+						_1: _elm_lang$core$Platform_Cmd$none
+					};
+			}
 		}
 	});
 

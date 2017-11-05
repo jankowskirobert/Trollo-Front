@@ -12,15 +12,22 @@ update msg model =
     case msg of
         BoardsMsg msg ->
             let
-                ( model_, cmd, path ) =
+                ( model_, cmd, page ) =
                     Boards.update msg model.boards
 
                 log =
-                    Debug.log ("Have: " ++ path) "Should: #board"
+                    page
             in
-                ( { model | boards = model_ }
-                , Cmd.none
-                )
+                case page of
+                    Nothing ->
+                        ( { model | boards = model_ }, Cmd.none )
+
+                    Just x ->
+                        let
+                            log_ =
+                                Debug.log ("Have: " ++ (Page.pageToString x)) "Should: #board"
+                        in
+                            update (SetActivePage x) { model | boards = model_ }
 
         SetActivePage page ->
             ( { model | activePage = page }, Cmd.none )
