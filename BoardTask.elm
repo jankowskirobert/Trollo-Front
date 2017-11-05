@@ -81,7 +81,7 @@ getExampleSetOfData =
 
 getExampleSetOfBoards : List BoardView
 getExampleSetOfBoards =
-    [ BoardView "Board 1" [ getExampleSetOfData ] ]
+    [ BoardView "Board 1" [ getExampleSetOfData, getExampleSetOfData ] ]
 
 
 putElementToList : String -> List CardView -> List CardView

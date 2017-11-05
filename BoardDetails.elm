@@ -147,8 +147,14 @@ getBoardColumn columnName model =
         rendered =
             model.data
 
+        maybeCols =
+            List.head rendered.columns
+
+        cols =
+            Maybe.withDefault (BoardTask.ColumnView "" []) maybeCols
+
         rendered_ =
-            rendered.columns
+            cols.cards
                 |> List.map (\l -> getColumnCard l.title)
                 |> div []
     in
@@ -175,13 +181,14 @@ getColumnCard cardName =
     article [ class "card" ] [ header [] [ text cardName ] ]
 
 
+
+-- view : Model -> Html Msg
+-- view =
+--     Html.Lazy.lazy view_
+
+
 view : Model -> Html Msg
-view =
-    Html.Lazy.lazy view_
-
-
-view_ : Model -> Html Msg
-view_ model =
+view model =
     div []
         [ getBoardColumn "UUU" model
         , let
@@ -213,7 +220,8 @@ d0 model =
             [ Textfield.label "Title"
             , Textfield.floatingLabel
             , Textfield.value model.addCard.title
-            , Options.onInput SetTitle
+
+            -- , Options.onInput SetTitle
             ]
             []
       ]

@@ -21,19 +21,26 @@ import BoardDetails
 type Msg
     = Mdl (Material.Msg Msg)
     | AddBoard
-    | BoardDetailsMsg BoardDetails.Msg
+    | UpdateCurrentBoardView
 
 
 type alias Model =
     { mdl : Material.Model
     , boards : List BoardTask.BoardView
-    , boardDetails : BoardDetails.Model
+    , boardDetails : Maybe BoardTask.BoardView
     }
 
 
 model : Model
 model =
-    { mdl = Material.model, boards = BoardTask.getExampleSetOfBoards, boardDetails = BoardDetails.model }
+    let
+        boards_ =
+            BoardTask.getExampleSetOfBoards
+
+        board_ =
+            List.head boards_
+    in
+        ({ mdl = Material.model, boards = boards_, boardDetails = board_ })
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -42,9 +49,12 @@ update msg model =
         AddBoard ->
             ( model, Cmd.none )
 
-        BoardDetailsMsg msg ->
-            -- ( { model | boardDetails = BoardDetails.update msg model.boardDetails }, Cmd.none )
-            ( model, Cmd.none )
+        UpdateCurrentBoardView ->
+            let
+                boards =
+                    model.boards
+            in
+                ( { model | boardDetails = List.head boards }, Cmd.none )
 
         Mdl msg_ ->
             Material.update Mdl msg_ model
@@ -94,8 +104,7 @@ view model =
                         [ Options.css "width" "200px"
                         , Options.css "height" "200px"
                         , Options.css "background" "rgba(255, 0, 255, 1)"
-
-                        -- , Options.onClick (OpenBoard i)
+                        , Options.onClick (UpdateCurrentBoardView)
                         ]
                         [ Card.text [ Card.expand ] [] -- Filler
                         , Card.text
@@ -109,6 +118,7 @@ view model =
                                 model.mdl
                                 [ Button.icon, Button.ripple ]
                                 [ Icon.i "phone" ]
+                            , li [] [ a [ href ("#board") ] [ text "jhjhkhk" ] ]
                             ]
                         ]
                     ]

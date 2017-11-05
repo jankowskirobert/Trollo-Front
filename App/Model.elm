@@ -1,17 +1,8 @@
 module App.Model exposing (..)
 
-import Html.Lazy
-import Html exposing (..)
-import Html.Attributes exposing (..)
-import Html.Events exposing (..)
-import BoardTask
 import Boards as BoardsModule
-import Material.Dialog as Dialog
-import Material.Button as Button
-import Material.Textfield as Textfield
-import Material.Options as Options
-import Material
 import BoardDetails
+import Material
 import Page as Router exposing (Page(..))
 import Navigation exposing (Location)
 import RouteUrl exposing (HistoryEntry(..), UrlChange)
@@ -27,6 +18,7 @@ init =
     ( { mdl = Material.model
       , boards = BoardsModule.model
       , activePage = Router.BoardsPage
+      , boardDetails = BoardDetails.model
       }
     , Cmd.none
     )
@@ -34,6 +26,7 @@ init =
 
 type Msg
     = BoardsMsg BoardsModule.Msg
+    | BoardDetailsMsg BoardDetails.Msg
     | SetActivePage Router.Page
 
 
@@ -41,6 +34,7 @@ type alias Model =
     { mdl : Material.Model
     , activePage : Router.Page
     , boards : BoardsModule.Model
+    , boardDetails : BoardDetails.Model
     }
 
 
