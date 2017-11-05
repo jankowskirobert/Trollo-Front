@@ -42,7 +42,7 @@ delta2url : Model -> Model -> Maybe UrlChange
 delta2url previous current =
     case current.activePage of
         BoardsPage ->
-            Just <| UrlChange NewEntry ""
+            Just <| UrlChange NewEntry "/#boards"
 
         BoardDetailsPage ->
             Just <| UrlChange NewEntry "/#board"
@@ -50,11 +50,17 @@ delta2url previous current =
         PageNotFound ->
             Just <| UrlChange NewEntry "/#404"
 
+        Home ->
+            Just <| UrlChange NewEntry ""
+
 
 location2messages : Location -> List Msg
 location2messages location =
     case location.hash of
         "" ->
+            [ SetActivePage BoardsPage ]
+
+        "#boards" ->
             [ SetActivePage BoardsPage ]
 
         "#board" ->

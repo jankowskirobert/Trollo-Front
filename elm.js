@@ -18024,7 +18024,29 @@ var _user$project$BoardDetails$view = function (model) {
 							}
 						});
 				}(),
-				_1: {ctor: '[]'}
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$li,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$a,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$href('#boards'),
+									_1: {ctor: '[]'}
+								},
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html$text('jhjhkhk'),
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				}
 			}
 		});
 };
@@ -18121,8 +18143,10 @@ var _user$project$BoardDetails$update = F2(
 var _user$project$Page$pageToString = function (page) {
 	var _p0 = page;
 	switch (_p0.ctor) {
-		case 'BoardsPage':
+		case 'Home':
 			return '';
+		case 'BoardsPage':
+			return '#boards';
 		case 'BoardDetailsPage':
 			return '#board';
 		default:
@@ -18132,6 +18156,7 @@ var _user$project$Page$pageToString = function (page) {
 var _user$project$Page$PageNotFound = {ctor: 'PageNotFound'};
 var _user$project$Page$BoardDetailsPage = {ctor: 'BoardDetailsPage'};
 var _user$project$Page$BoardsPage = {ctor: 'BoardsPage'};
+var _user$project$Page$Home = {ctor: 'Home'};
 
 var _user$project$Boards$white = _debois$elm_mdl$Material_Color$text(_debois$elm_mdl$Material_Color$white);
 var _user$project$Boards$style = function (h) {
@@ -18225,7 +18250,7 @@ var _user$project$Boards$update = F2(
 		var _p0 = msg;
 		switch (_p0.ctor) {
 			case 'AddBoard':
-				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+				return {ctor: '_Tuple3', _0: model, _1: _elm_lang$core$Platform_Cmd$none, _2: ''};
 			case 'UpdateCurrentBoardView':
 				var boards = model.boards;
 				var board_ = _elm_lang$core$List$head(boards);
@@ -18237,15 +18262,18 @@ var _user$project$Boards$update = F2(
 						{ctor: '[]'}),
 					board_);
 				return {
-					ctor: '_Tuple2',
+					ctor: '_Tuple3',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
 						{boardDetails: stricBoard_}),
-					_1: _elm_lang$navigation$Navigation$newUrl(
-						_user$project$Page$pageToString(_user$project$Page$BoardDetailsPage))
+					_1: _elm_lang$core$Platform_Cmd$none,
+					_2: _user$project$Page$pageToString(_user$project$Page$BoardDetailsPage)
 				};
 			default:
-				return A3(_debois$elm_mdl$Material$update, _user$project$Boards$Mdl, _p0._0, model);
+				var _p1 = A3(_debois$elm_mdl$Material$update, _user$project$Boards$Mdl, _p0._0, model);
+				var md = _p1._0;
+				var cm = _p1._1;
+				return {ctor: '_Tuple3', _0: md, _1: cm, _2: ''};
 		}
 	});
 var _user$project$Boards$view = function (model) {
@@ -18393,13 +18421,16 @@ var _user$project$App_Model$delta2url = F2(
 		switch (_p0.ctor) {
 			case 'BoardsPage':
 				return _elm_lang$core$Maybe$Just(
-					A2(_rgrempel$elm_route_url$RouteUrl$UrlChange, _rgrempel$elm_route_url$RouteUrl$NewEntry, ''));
+					A2(_rgrempel$elm_route_url$RouteUrl$UrlChange, _rgrempel$elm_route_url$RouteUrl$NewEntry, '/#boards'));
 			case 'BoardDetailsPage':
 				return _elm_lang$core$Maybe$Just(
 					A2(_rgrempel$elm_route_url$RouteUrl$UrlChange, _rgrempel$elm_route_url$RouteUrl$NewEntry, '/#board'));
-			default:
+			case 'PageNotFound':
 				return _elm_lang$core$Maybe$Just(
 					A2(_rgrempel$elm_route_url$RouteUrl$UrlChange, _rgrempel$elm_route_url$RouteUrl$NewEntry, '/#404'));
+			default:
+				return _elm_lang$core$Maybe$Just(
+					A2(_rgrempel$elm_route_url$RouteUrl$UrlChange, _rgrempel$elm_route_url$RouteUrl$NewEntry, ''));
 		}
 	});
 var _user$project$App_Model$init = {
@@ -18421,6 +18452,12 @@ var _user$project$App_Model$location2messages = function (location) {
 	var _p1 = location.hash;
 	switch (_p1) {
 		case '':
+			return {
+				ctor: '::',
+				_0: _user$project$App_Model$SetActivePage(_user$project$Page$BoardsPage),
+				_1: {ctor: '[]'}
+			};
+		case '#boards':
 			return {
 				ctor: '::',
 				_0: _user$project$App_Model$SetActivePage(_user$project$Page$BoardsPage),
@@ -18452,14 +18489,19 @@ var _user$project$App_Update$update = F2(
 		var _p0 = msg;
 		switch (_p0.ctor) {
 			case 'BoardsMsg':
-				var result = A2(_user$project$Boards$update, _p0._0, model.boards);
+				var _p1 = A2(_user$project$Boards$update, _p0._0, model.boards);
+				var model_ = _p1._0;
+				var cmd = _p1._1;
+				var path = _p1._2;
+				var log = A2(
+					_elm_lang$core$Debug$log,
+					A2(_elm_lang$core$Basics_ops['++'], 'Have: ', path),
+					'Should: #board');
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{
-							boards: _elm_lang$core$Tuple$first(result)
-						}),
+						{boards: model_}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'SetActivePage':
@@ -18503,13 +18545,33 @@ var _user$project$App_View$view_ = function (model) {
 					_elm_lang$core$Native_Utils.update(
 						model_,
 						{data: board})));
-		default:
+		case 'PageNotFound':
 			return A2(
 				_elm_lang$html$Html$div,
 				{ctor: '[]'},
 				{
 					ctor: '::',
 					_0: _elm_lang$html$Html$text('404'),
+					_1: {ctor: '[]'}
+				});
+		default:
+			return A2(
+				_elm_lang$html$Html$li,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$a,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$href('#boards'),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text('jhjhkhk'),
+							_1: {ctor: '[]'}
+						}),
 					_1: {ctor: '[]'}
 				});
 	}

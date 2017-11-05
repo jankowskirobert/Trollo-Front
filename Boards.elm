@@ -48,11 +48,11 @@ model =
         ({ mdl = Material.model, boards = boards_, boardDetails = stricBoard_ })
 
 
-update : Msg -> Model -> ( Model, Cmd Msg )
+update : Msg -> Model -> ( Model, Cmd Msg, Maybe String )
 update msg model =
     case msg of
         AddBoard ->
-            ( model, Cmd.none )
+            ( model, Cmd.none, Maybe.Nothing )
 
         UpdateCurrentBoardView ->
             let
@@ -65,10 +65,14 @@ update msg model =
                 stricBoard_ =
                     Maybe.withDefault (BoardTask.BoardView "" []) board_
             in
-                ( { model | boardDetails = stricBoard_ }, (Navigation.newUrl <| Page.pageToString Page.BoardDetailsPage) )
+                ( { model | boardDetails = stricBoard_ }, Cmd.none, Just (Page.pageToString Page.BoardDetailsPage) )
 
         Mdl msg_ ->
-            Material.update Mdl msg_ model
+            let
+                ( md, cm ) =
+                    Material.update Mdl msg_ model
+            in
+                ( md, cm, Maybe.Nothing )
 
 
 democell : Int -> List (Options.Style a) -> List (Html a) -> Grid.Cell a

@@ -37,3 +37,6 @@ view_ model =
         -- (BoardDetails.view { data_ | data = board })
         PageNotFound ->
             div [] [ text "404" ]
+
+        Home ->
+            li [] [ a [ href ("#boards") ] [ text "jhjhkhk" ] ]

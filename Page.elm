@@ -2,7 +2,8 @@ module Page exposing (Page(..), pageToString)
 
 
 type Page
-    = BoardsPage
+    = Home
+    | BoardsPage
     | BoardDetailsPage
     | PageNotFound
 
@@ -10,8 +11,11 @@ type Page
 pageToString : Page -> String
 pageToString page =
     case page of
-        BoardsPage ->
+        Home ->
             ""
+
+        BoardsPage ->
+            "#boards"
 
         BoardDetailsPage ->
             "#board"

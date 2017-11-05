@@ -4,6 +4,7 @@ import App.Model exposing (..)
 import Page
 import Boards
 import BoardDetails
+import Debug
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -11,10 +12,13 @@ update msg model =
     case msg of
         BoardsMsg msg ->
             let
-                result =
+                ( model_, cmd, path ) =
                     Boards.update msg model.boards
+
+                log =
+                    Debug.log ("Have: " ++ path) "Should: #board"
             in
-                ( { model | boards = Tuple.first result }
+                ( { model | boards = model_ }
                 , Cmd.none
                 )
 
