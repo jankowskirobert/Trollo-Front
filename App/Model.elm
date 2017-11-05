@@ -1,4 +1,4 @@
-module App exposing (..)
+module App.Model exposing (..)
 
 import Html.Lazy
 import Html exposing (..)
@@ -12,7 +12,7 @@ import Material.Textfield as Textfield
 import Material.Options as Options
 import Material
 import BoardDetails
-import Route as Router exposing (Route(..), Page(..))
+import Page as Router exposing (Page(..))
 import Navigation exposing (Location)
 import RouteUrl exposing (HistoryEntry(..), UrlChange)
 
@@ -42,50 +42,6 @@ type alias Model =
     , activePage : Router.Page
     , boards : BoardsModule.Model
     }
-
-
-update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
-    case msg of
-        BoardsMsg msg ->
-            let
-                result =
-                    BoardsModule.update msg model.boards
-            in
-                ( { model | boards = Tuple.first result }
-                , Cmd.none
-                )
-
-        SetActivePage page ->
-            ( { model | activePage = page }, Cmd.none )
-
-
-
--- Mdl action_ ->
---     Material.update Mdl action_ model
--- case msg of
---     SetActivePage page ->
---         ( { model | activePage = page }, Cmd.none )
---     Mdl action_ ->
---         Material.update Mdl action_ model
-
-
-view : Model -> Html Msg
-view =
-    Html.Lazy.lazy view_
-
-
-view_ : Model -> Html Msg
-view_ model =
-    case model.activePage of
-        Router.BoardsPage ->
-            Html.map BoardsMsg (BoardsModule.view model.boards)
-
-        Router.BoardDetailsPage ->
-            div [] [ text " details" ]
-
-        PageNotFound ->
-            div [] [ text "404" ]
 
 
 delta2url : Model -> Model -> Maybe UrlChange

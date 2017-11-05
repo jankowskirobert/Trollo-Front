@@ -16667,257 +16667,6 @@ var _elm_lang$navigation$Navigation$onEffects = F4(
 	});
 _elm_lang$core$Native_Platform.effectManagers['Navigation'] = {pkg: 'elm-lang/navigation', init: _elm_lang$navigation$Navigation$init, onEffects: _elm_lang$navigation$Navigation$onEffects, onSelfMsg: _elm_lang$navigation$Navigation$onSelfMsg, tag: 'fx', cmdMap: _elm_lang$navigation$Navigation$cmdMap, subMap: _elm_lang$navigation$Navigation$subMap};
 
-var _evancz$url_parser$UrlParser$toKeyValuePair = function (segment) {
-	var _p0 = A2(_elm_lang$core$String$split, '=', segment);
-	if (((_p0.ctor === '::') && (_p0._1.ctor === '::')) && (_p0._1._1.ctor === '[]')) {
-		return A3(
-			_elm_lang$core$Maybe$map2,
-			F2(
-				function (v0, v1) {
-					return {ctor: '_Tuple2', _0: v0, _1: v1};
-				}),
-			_elm_lang$http$Http$decodeUri(_p0._0),
-			_elm_lang$http$Http$decodeUri(_p0._1._0));
-	} else {
-		return _elm_lang$core$Maybe$Nothing;
-	}
-};
-var _evancz$url_parser$UrlParser$parseParams = function (queryString) {
-	return _elm_lang$core$Dict$fromList(
-		A2(
-			_elm_lang$core$List$filterMap,
-			_evancz$url_parser$UrlParser$toKeyValuePair,
-			A2(
-				_elm_lang$core$String$split,
-				'&',
-				A2(_elm_lang$core$String$dropLeft, 1, queryString))));
-};
-var _evancz$url_parser$UrlParser$splitUrl = function (url) {
-	var _p1 = A2(_elm_lang$core$String$split, '/', url);
-	if ((_p1.ctor === '::') && (_p1._0 === '')) {
-		return _p1._1;
-	} else {
-		return _p1;
-	}
-};
-var _evancz$url_parser$UrlParser$parseHelp = function (states) {
-	parseHelp:
-	while (true) {
-		var _p2 = states;
-		if (_p2.ctor === '[]') {
-			return _elm_lang$core$Maybe$Nothing;
-		} else {
-			var _p4 = _p2._0;
-			var _p3 = _p4.unvisited;
-			if (_p3.ctor === '[]') {
-				return _elm_lang$core$Maybe$Just(_p4.value);
-			} else {
-				if ((_p3._0 === '') && (_p3._1.ctor === '[]')) {
-					return _elm_lang$core$Maybe$Just(_p4.value);
-				} else {
-					var _v4 = _p2._1;
-					states = _v4;
-					continue parseHelp;
-				}
-			}
-		}
-	}
-};
-var _evancz$url_parser$UrlParser$parse = F3(
-	function (_p5, url, params) {
-		var _p6 = _p5;
-		return _evancz$url_parser$UrlParser$parseHelp(
-			_p6._0(
-				{
-					visited: {ctor: '[]'},
-					unvisited: _evancz$url_parser$UrlParser$splitUrl(url),
-					params: params,
-					value: _elm_lang$core$Basics$identity
-				}));
-	});
-var _evancz$url_parser$UrlParser$parseHash = F2(
-	function (parser, location) {
-		return A3(
-			_evancz$url_parser$UrlParser$parse,
-			parser,
-			A2(_elm_lang$core$String$dropLeft, 1, location.hash),
-			_evancz$url_parser$UrlParser$parseParams(location.search));
-	});
-var _evancz$url_parser$UrlParser$parsePath = F2(
-	function (parser, location) {
-		return A3(
-			_evancz$url_parser$UrlParser$parse,
-			parser,
-			location.pathname,
-			_evancz$url_parser$UrlParser$parseParams(location.search));
-	});
-var _evancz$url_parser$UrlParser$intParamHelp = function (maybeValue) {
-	var _p7 = maybeValue;
-	if (_p7.ctor === 'Nothing') {
-		return _elm_lang$core$Maybe$Nothing;
-	} else {
-		return _elm_lang$core$Result$toMaybe(
-			_elm_lang$core$String$toInt(_p7._0));
-	}
-};
-var _evancz$url_parser$UrlParser$mapHelp = F2(
-	function (func, _p8) {
-		var _p9 = _p8;
-		return {
-			visited: _p9.visited,
-			unvisited: _p9.unvisited,
-			params: _p9.params,
-			value: func(_p9.value)
-		};
-	});
-var _evancz$url_parser$UrlParser$State = F4(
-	function (a, b, c, d) {
-		return {visited: a, unvisited: b, params: c, value: d};
-	});
-var _evancz$url_parser$UrlParser$Parser = function (a) {
-	return {ctor: 'Parser', _0: a};
-};
-var _evancz$url_parser$UrlParser$s = function (str) {
-	return _evancz$url_parser$UrlParser$Parser(
-		function (_p10) {
-			var _p11 = _p10;
-			var _p12 = _p11.unvisited;
-			if (_p12.ctor === '[]') {
-				return {ctor: '[]'};
-			} else {
-				var _p13 = _p12._0;
-				return _elm_lang$core$Native_Utils.eq(_p13, str) ? {
-					ctor: '::',
-					_0: A4(
-						_evancz$url_parser$UrlParser$State,
-						{ctor: '::', _0: _p13, _1: _p11.visited},
-						_p12._1,
-						_p11.params,
-						_p11.value),
-					_1: {ctor: '[]'}
-				} : {ctor: '[]'};
-			}
-		});
-};
-var _evancz$url_parser$UrlParser$custom = F2(
-	function (tipe, stringToSomething) {
-		return _evancz$url_parser$UrlParser$Parser(
-			function (_p14) {
-				var _p15 = _p14;
-				var _p16 = _p15.unvisited;
-				if (_p16.ctor === '[]') {
-					return {ctor: '[]'};
-				} else {
-					var _p18 = _p16._0;
-					var _p17 = stringToSomething(_p18);
-					if (_p17.ctor === 'Ok') {
-						return {
-							ctor: '::',
-							_0: A4(
-								_evancz$url_parser$UrlParser$State,
-								{ctor: '::', _0: _p18, _1: _p15.visited},
-								_p16._1,
-								_p15.params,
-								_p15.value(_p17._0)),
-							_1: {ctor: '[]'}
-						};
-					} else {
-						return {ctor: '[]'};
-					}
-				}
-			});
-	});
-var _evancz$url_parser$UrlParser$string = A2(_evancz$url_parser$UrlParser$custom, 'STRING', _elm_lang$core$Result$Ok);
-var _evancz$url_parser$UrlParser$int = A2(_evancz$url_parser$UrlParser$custom, 'NUMBER', _elm_lang$core$String$toInt);
-var _evancz$url_parser$UrlParser_ops = _evancz$url_parser$UrlParser_ops || {};
-_evancz$url_parser$UrlParser_ops['</>'] = F2(
-	function (_p20, _p19) {
-		var _p21 = _p20;
-		var _p22 = _p19;
-		return _evancz$url_parser$UrlParser$Parser(
-			function (state) {
-				return A2(
-					_elm_lang$core$List$concatMap,
-					_p22._0,
-					_p21._0(state));
-			});
-	});
-var _evancz$url_parser$UrlParser$map = F2(
-	function (subValue, _p23) {
-		var _p24 = _p23;
-		return _evancz$url_parser$UrlParser$Parser(
-			function (_p25) {
-				var _p26 = _p25;
-				return A2(
-					_elm_lang$core$List$map,
-					_evancz$url_parser$UrlParser$mapHelp(_p26.value),
-					_p24._0(
-						{visited: _p26.visited, unvisited: _p26.unvisited, params: _p26.params, value: subValue}));
-			});
-	});
-var _evancz$url_parser$UrlParser$oneOf = function (parsers) {
-	return _evancz$url_parser$UrlParser$Parser(
-		function (state) {
-			return A2(
-				_elm_lang$core$List$concatMap,
-				function (_p27) {
-					var _p28 = _p27;
-					return _p28._0(state);
-				},
-				parsers);
-		});
-};
-var _evancz$url_parser$UrlParser$top = _evancz$url_parser$UrlParser$Parser(
-	function (state) {
-		return {
-			ctor: '::',
-			_0: state,
-			_1: {ctor: '[]'}
-		};
-	});
-var _evancz$url_parser$UrlParser_ops = _evancz$url_parser$UrlParser_ops || {};
-_evancz$url_parser$UrlParser_ops['<?>'] = F2(
-	function (_p30, _p29) {
-		var _p31 = _p30;
-		var _p32 = _p29;
-		return _evancz$url_parser$UrlParser$Parser(
-			function (state) {
-				return A2(
-					_elm_lang$core$List$concatMap,
-					_p32._0,
-					_p31._0(state));
-			});
-	});
-var _evancz$url_parser$UrlParser$QueryParser = function (a) {
-	return {ctor: 'QueryParser', _0: a};
-};
-var _evancz$url_parser$UrlParser$customParam = F2(
-	function (key, func) {
-		return _evancz$url_parser$UrlParser$QueryParser(
-			function (_p33) {
-				var _p34 = _p33;
-				var _p35 = _p34.params;
-				return {
-					ctor: '::',
-					_0: A4(
-						_evancz$url_parser$UrlParser$State,
-						_p34.visited,
-						_p34.unvisited,
-						_p35,
-						_p34.value(
-							func(
-								A2(_elm_lang$core$Dict$get, key, _p35)))),
-					_1: {ctor: '[]'}
-				};
-			});
-	});
-var _evancz$url_parser$UrlParser$stringParam = function (name) {
-	return A2(_evancz$url_parser$UrlParser$customParam, name, _elm_lang$core$Basics$identity);
-};
-var _evancz$url_parser$UrlParser$intParam = function (name) {
-	return A2(_evancz$url_parser$UrlParser$customParam, name, _evancz$url_parser$UrlParser$intParamHelp);
-};
-
 
 var _sporto$erl$Erl_Query$getValuesForKey = function (key) {
 	return function (_p0) {
@@ -18565,15 +18314,11 @@ var _user$project$Boards$view = function (model) {
 			model.boards));
 };
 
-var _user$project$Route$PageNotFound = {ctor: 'PageNotFound'};
-var _user$project$Route$BoardDetailsPage = {ctor: 'BoardDetailsPage'};
-var _user$project$Route$BoardsPage = {ctor: 'BoardsPage'};
-var _user$project$Route$BoardDetails = function (a) {
-	return {ctor: 'BoardDetails', _0: a};
-};
-var _user$project$Route$Boards = {ctor: 'Boards'};
+var _user$project$Page$PageNotFound = {ctor: 'PageNotFound'};
+var _user$project$Page$BoardDetailsPage = {ctor: 'BoardDetailsPage'};
+var _user$project$Page$BoardsPage = {ctor: 'BoardsPage'};
 
-var _user$project$App$delta2url = F2(
+var _user$project$App_Model$delta2url = F2(
 	function (previous, current) {
 		var _p0 = current.activePage;
 		switch (_p0.ctor) {
@@ -18588,11 +18333,53 @@ var _user$project$App$delta2url = F2(
 					A2(_rgrempel$elm_route_url$RouteUrl$UrlChange, _rgrempel$elm_route_url$RouteUrl$NewEntry, '/#404'));
 		}
 	});
-var _user$project$App$update = F2(
+var _user$project$App_Model$init = {
+	ctor: '_Tuple2',
+	_0: {mdl: _debois$elm_mdl$Material$model, boards: _user$project$Boards$model, activePage: _user$project$Page$BoardsPage},
+	_1: _elm_lang$core$Platform_Cmd$none
+};
+var _user$project$App_Model$subscriptions = function (model) {
+	return _elm_lang$core$Platform_Sub$none;
+};
+var _user$project$App_Model$Model = F3(
+	function (a, b, c) {
+		return {mdl: a, activePage: b, boards: c};
+	});
+var _user$project$App_Model$SetActivePage = function (a) {
+	return {ctor: 'SetActivePage', _0: a};
+};
+var _user$project$App_Model$location2messages = function (location) {
+	var _p1 = location.hash;
+	switch (_p1) {
+		case '':
+			return {
+				ctor: '::',
+				_0: _user$project$App_Model$SetActivePage(_user$project$Page$BoardsPage),
+				_1: {ctor: '[]'}
+			};
+		case '#board':
+			return {
+				ctor: '::',
+				_0: _user$project$App_Model$SetActivePage(_user$project$Page$BoardDetailsPage),
+				_1: {ctor: '[]'}
+			};
+		default:
+			return {
+				ctor: '::',
+				_0: _user$project$App_Model$SetActivePage(_user$project$Page$PageNotFound),
+				_1: {ctor: '[]'}
+			};
+	}
+};
+var _user$project$App_Model$BoardsMsg = function (a) {
+	return {ctor: 'BoardsMsg', _0: a};
+};
+
+var _user$project$App_Update$update = F2(
 	function (msg, model) {
-		var _p1 = msg;
-		if (_p1.ctor === 'BoardsMsg') {
-			var result = A2(_user$project$Boards$update, _p1._0, model.boards);
+		var _p0 = msg;
+		if (_p0.ctor === 'BoardsMsg') {
+			var result = A2(_user$project$Boards$update, _p0._0, model.boards);
 			return {
 				ctor: '_Tuple2',
 				_0: _elm_lang$core$Native_Utils.update(
@@ -18607,59 +18394,19 @@ var _user$project$App$update = F2(
 				ctor: '_Tuple2',
 				_0: _elm_lang$core$Native_Utils.update(
 					model,
-					{activePage: _p1._0}),
+					{activePage: _p0._0}),
 				_1: _elm_lang$core$Platform_Cmd$none
 			};
 		}
 	});
-var _user$project$App$init = {
-	ctor: '_Tuple2',
-	_0: {mdl: _debois$elm_mdl$Material$model, boards: _user$project$Boards$model, activePage: _user$project$Route$BoardsPage},
-	_1: _elm_lang$core$Platform_Cmd$none
-};
-var _user$project$App$subscriptions = function (model) {
-	return _elm_lang$core$Platform_Sub$none;
-};
-var _user$project$App$Model = F3(
-	function (a, b, c) {
-		return {mdl: a, activePage: b, boards: c};
-	});
-var _user$project$App$SetActivePage = function (a) {
-	return {ctor: 'SetActivePage', _0: a};
-};
-var _user$project$App$location2messages = function (location) {
-	var _p2 = location.hash;
-	switch (_p2) {
-		case '':
-			return {
-				ctor: '::',
-				_0: _user$project$App$SetActivePage(_user$project$Route$BoardsPage),
-				_1: {ctor: '[]'}
-			};
-		case '#board':
-			return {
-				ctor: '::',
-				_0: _user$project$App$SetActivePage(_user$project$Route$BoardDetailsPage),
-				_1: {ctor: '[]'}
-			};
-		default:
-			return {
-				ctor: '::',
-				_0: _user$project$App$SetActivePage(_user$project$Route$PageNotFound),
-				_1: {ctor: '[]'}
-			};
-	}
-};
-var _user$project$App$BoardsMsg = function (a) {
-	return {ctor: 'BoardsMsg', _0: a};
-};
-var _user$project$App$view_ = function (model) {
-	var _p3 = model.activePage;
-	switch (_p3.ctor) {
+
+var _user$project$App_View$view_ = function (model) {
+	var _p0 = model.activePage;
+	switch (_p0.ctor) {
 		case 'BoardsPage':
 			return A2(
 				_elm_lang$html$Html$map,
-				_user$project$App$BoardsMsg,
+				_user$project$App_Model$BoardsMsg,
 				_user$project$Boards$view(model.boards));
 		case 'BoardDetailsPage':
 			return A2(
@@ -18681,10 +18428,10 @@ var _user$project$App$view_ = function (model) {
 				});
 	}
 };
-var _user$project$App$view = _elm_lang$html$Html_Lazy$lazy(_user$project$App$view_);
+var _user$project$App_View$view = _elm_lang$html$Html_Lazy$lazy(_user$project$App_View$view_);
 
 var _user$project$Main$main = _rgrempel$elm_route_url$RouteUrl$program(
-	{delta2url: _user$project$App$delta2url, location2messages: _user$project$App$location2messages, init: _user$project$App$init, update: _user$project$App$update, view: _user$project$App$view, subscriptions: _user$project$App$subscriptions})();
+	{delta2url: _user$project$App_Model$delta2url, location2messages: _user$project$App_Model$location2messages, init: _user$project$App_Model$init, update: _user$project$App_Update$update, view: _user$project$App_View$view, subscriptions: _user$project$App_Model$subscriptions})();
 
 var Elm = {};
 Elm['Main'] = Elm['Main'] || {};
