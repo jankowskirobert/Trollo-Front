@@ -34,9 +34,15 @@ update msg model =
 
         BoardDetailsMsg msg ->
             let
-                result =
-                    BoardDetails.update msg model.boardDetails
+                details =
+                    model.boardDetails
+
+                detailsData =
+                    model.boards
+
+                ( model_, cmd ) =
+                    BoardDetails.update msg { details | data = detailsData.boardDetails }
             in
-                ( { model | boardDetails = Tuple.first result }
+                ( { model | boardDetails = model_ }
                 , Cmd.none
                 )

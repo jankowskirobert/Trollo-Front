@@ -79,9 +79,19 @@ getExampleSetOfData =
         ]
 
 
+getExampleSetOfData2 : ColumnView
+getExampleSetOfData2 =
+    ColumnView "UUU2"
+        [ CardView 1 1 "Test21" "Test1"
+        , CardView 1 1 "Test22" "Test1"
+        , CardView 1 1 "Test23" "Test1"
+        , CardView 1 1 "Test24" "Test1"
+        ]
+
+
 getExampleSetOfBoards : List BoardView
 getExampleSetOfBoards =
-    [ BoardView "Board 1" [ getExampleSetOfData, getExampleSetOfData ] ]
+    [ BoardView "Board 1" [ getExampleSetOfData, getExampleSetOfData ], BoardView "Board 2" [ getExampleSetOfData2, getExampleSetOfData2 ] ]
 
 
 putElementToList : String -> List CardView -> List CardView
@@ -94,7 +104,7 @@ isListExist column listname =
     List.member listname (List.map (\x -> x.title) column)
 
 
-putCardElementToList : AddCard -> List ColumnView -> List ColumnView
+putCardElementToList : AddCard -> ColumnView -> ColumnView
 putCardElementToList card columns =
     -- let
     --     column =

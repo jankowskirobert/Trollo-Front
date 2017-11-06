@@ -23,7 +23,7 @@ import Navigation
 type Msg
     = Mdl (Material.Msg Msg)
     | AddBoard
-    | UpdateCurrentBoardView
+    | UpdateCurrentBoardView BoardTask.BoardView
 
 
 type alias Model =
@@ -54,7 +54,7 @@ update msg model =
         AddBoard ->
             ( model, Cmd.none, Maybe.Nothing )
 
-        UpdateCurrentBoardView ->
+        UpdateCurrentBoardView board ->
             let
                 boards =
                     model.boards
@@ -65,7 +65,7 @@ update msg model =
                 stricBoard_ =
                     Maybe.withDefault (BoardTask.BoardView "" []) board_
             in
-                ( { model | boardDetails = stricBoard_ }, Cmd.none, Just (Page.BoardDetailsPage) )
+                ( { model | boardDetails = board }, Cmd.none, Just (Page.BoardDetailsPage) )
 
         Mdl msg_ ->
             let
@@ -119,7 +119,7 @@ view model =
                         [ Options.css "width" "200px"
                         , Options.css "height" "200px"
                         , Options.css "background" "rgba(255, 0, 255, 1)"
-                        , Options.onClick (UpdateCurrentBoardView)
+                        , Options.onClick (UpdateCurrentBoardView i)
                         ]
                         [ Card.text [ Card.expand ] [] -- Filler
                         , Card.text
