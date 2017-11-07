@@ -5,11 +5,6 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import BoardTask
-import Material.Dialog as Dialog
-import Material.Button as Button
-import Material.Textfield as Textfield
-import Material.Options as Options
-import Material
 import Debug
 
 
@@ -20,8 +15,7 @@ subscriptions model =
 
 model : Model
 model =
-    { mdl = Material.model
-    , data = BoardTask.BoardView "" []
+    { data = BoardTask.BoardView "" []
     , addCard = BoardTask.AddCard "" ""
     , addColumn = BoardTask.AddColumn ""
     , dialogAction = None
@@ -37,7 +31,6 @@ type Msg
     = AddToList
     | SetCardDialog BoardTask.ColumnView
     | SetColumnDialog
-    | Mdl (Material.Msg Msg)
 
 
 type DialogAction
@@ -47,8 +40,7 @@ type DialogAction
 
 
 type alias Model =
-    { mdl : Material.Model
-    , data : BoardTask.BoardView
+    { data : BoardTask.BoardView
     , addCard : BoardTask.AddCard
     , addColumn : BoardTask.AddColumn
     , dialogAction : DialogAction
@@ -95,13 +87,6 @@ update msg model =
 
         SetColumnDialog ->
             ( { model | dialogAction = AddNewColumn }, Cmd.none )
-
-        Mdl msg_ ->
-            let
-                ( md, cm ) =
-                    Material.update Mdl msg_ model
-            in
-                ( md, cm )
 
 
 
@@ -154,10 +139,7 @@ getColumnCard card =
 
 viewButton : Int -> Model -> BoardTask.ColumnView -> Html Msg
 viewButton idx model column =
-    Button.render Mdl
-        [ idx ]
-        model.mdl
-        [ Dialog.openOn "click", Options.onClick SetColumnDialog, Button.raised, Button.colored ]
+    button [ onClick SetColumnDialog ]
         [ text ("Add Card #" ++ toString idx) ]
 
 
@@ -184,19 +166,23 @@ viewDialog model =
         ( title, content, actions ) =
             case model.dialogAction of
                 AddNewCard ->
-                    d0 model
+                    ( "", "", "" )
 
                 AddNewColumn ->
-                    d1 model
+                    ( "", "", "" )
 
                 None ->
-                    d2 model
+                    ( "", "", "" )
     in
-        Dialog.view []
-            [ Dialog.title [] title
-            , Dialog.content [] content
-            , Dialog.actions [] actions
-            ]
+        div [] []
+
+
+
+-- Dialog.view []
+--     [ Dialog.title [] title
+--     , Dialog.content [] content
+--     , Dialog.actions [] actions
+--     ]
 
 
 view : Model -> Html Msg
@@ -213,73 +199,64 @@ view model =
         ]
 
 
-d0 : Model -> ( List (Html Msg), List (Html Msg), List (Html Msg) )
-d0 model =
-    ( [ text "Add New Card" ]
-    , [ Textfield.render Mdl
-            [ 2 ]
-            model.mdl
-            [ Textfield.label "Title"
-            , Textfield.floatingLabel
-            ]
-            [ text "Close" ]
-      ]
-    , [ Button.render Mdl
-            [ 0 ]
-            model.mdl
-            [ Dialog.closeOn "click"
-            ]
-            [ text "Close" ]
-      , Button.render Mdl
-            [ 1 ]
-            model.mdl
-            [ Button.colored
-            , Button.raised
-            , Dialog.closeOn "click"
-            ]
-            [ text "Submit" ]
-      ]
-    )
 
-
-
--- title, content, actions
-
-
-d1 : Model -> ( List (Html Msg), List (Html Msg), List (Html Msg) )
-d1 model =
-    ( [ text "Hello!" ]
-    , [ text "D1" ]
-    , [ Button.render Mdl
-            [ 0 ]
-            model.mdl
-            [ Dialog.closeOn "click" ]
-            [ text "Close" ]
-      , Button.render Mdl
-            [ 3 ]
-            model.mdl
-            [ Button.colored
-            , Button.raised
-            , Dialog.closeOn "click"
-            ]
-            [ text "Submit" ]
-      ]
-    )
-
-
-d2 : Model -> ( List (Html Msg), List (Html Msg), List (Html Msg) )
-d2 model =
-    ( [ text "Hello!" ]
-    , [ text "D2" ]
-    , [ Button.render Mdl
-            [ 0 ]
-            model.mdl
-            [ Dialog.closeOn "click" ]
-            [ text "Close" ]
-      ]
-    )
-
-
-
+-- d0 : Model -> ( List (Html Msg), List (Html Msg), List (Html Msg) )
+-- d0 model =
+--     ( [ text "Add New Card" ]
+--     , [ Textfield.render Mdl
+--             [ 2 ]
+--             model.mdl
+--             [ Textfield.label "Title"
+--             , Textfield.floatingLabel
+--             ]
+--             [ text "Close" ]
+--       ]
+--     , [ Button.render Mdl
+--             [ 0 ]
+--             model.mdl
+--             [ Dialog.closeOn "click"
+--             ]
+--             [ text "Close" ]
+--       , Button.render Mdl
+--             [ 1 ]
+--             model.mdl
+--             [ Button.colored
+--             , Button.raised
+--             , Dialog.closeOn "click"
+--             ]
+--             [ text "Submit" ]
+--       ]
+--     )
+-- -- title, content, actions
+-- d1 : Model -> ( List (Html Msg), List (Html Msg), List (Html Msg) )
+-- d1 model =
+--     ( [ text "Hello!" ]
+--     , [ text "D1" ]
+--     , [ Button.render Mdl
+--             [ 0 ]
+--             model.mdl
+--             [ Dialog.closeOn "click" ]
+--             [ text "Close" ]
+--       , Button.render Mdl
+--             [ 3 ]
+--             model.mdl
+--             [ Button.colored
+--             , Button.raised
+--             , Dialog.closeOn "click"
+--             ]
+--             [ text "Submit" ]
+--       ]
+--     )
+-- d2 : Model -> ( List (Html Msg), List (Html Msg), List (Html Msg) )
+-- d2 model =
+--     ( [ text "Hello!" ]
+--     , [ text "D2" ]
+--     , [ Button.render Mdl
+--             [ 0 ]
+--             model.mdl
+--             [ Dialog.closeOn "click" ]
+--             [ text "Close" ]
+--       ]
+--     )
 -- div [ class "main_board" ]
 --   [ section [ class "list" ] [text model.title], button [ onClick boardMessage ] [ text "More Please!" ]]

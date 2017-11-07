@@ -5,7 +5,6 @@ import Page
 import Boards
 import BoardDetails
 import Debug
-import Material
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -40,12 +39,12 @@ update msg model =
                 --     detailsData =
                 --         model.boards
                 -- { details | data = detailsData.boardDetails }
-                ( model_, cmd ) =
-                    BoardDetails.update msg model.boardDetails
-
+                -- ( model_, cmd ) =
+                --     BoardDetails.update msg model.boardDetails
                 log_ =
                     Debug.log ("Have: " ++ "?") "Should: #board"
             in
-                ( { model | boardDetails = model_ }
-                , Cmd.none
-                )
+                -- ( { model | boardDetails = model_ }
+                -- , Cmd.none
+                -- )
+                ( model, Cmd.none )
