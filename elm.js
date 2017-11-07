@@ -17609,6 +17609,9 @@ var _user$project$App_Model$Model = F4(
 var _user$project$App_Model$Mdl = function (a) {
 	return {ctor: 'Mdl', _0: a};
 };
+var _user$project$App_Model$GoHome = function (a) {
+	return {ctor: 'GoHome', _0: a};
+};
 var _user$project$App_Model$SetActivePage = function (a) {
 	return {ctor: 'SetActivePage', _0: a};
 };
@@ -17693,6 +17696,12 @@ var _user$project$App_Update$update = F2(
 							{activePage: _p0._0}),
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
+				case 'GoHome':
+					var _v3 = _user$project$App_Model$SetActivePage(_user$project$Page$BoardsPage),
+						_v4 = model;
+					msg = _v3;
+					model = _v4;
+					continue update;
 				case 'Mdl':
 					return A3(_debois$elm_mdl$Material$update, _user$project$App_Model$Mdl, _p0._0, model);
 				default:
@@ -17820,54 +17829,152 @@ var _user$project$Boards_View$view = function (model) {
 			model.boards));
 };
 
+var _user$project$App_View$header = function (model) {
+	return {
+		ctor: '::',
+		_0: A2(
+			_debois$elm_mdl$Material_Layout$row,
+			{
+				ctor: '::',
+				_0: A2(_debois$elm_mdl$Material_Options$css, 'transition', 'height 333ms ease-in-out 0s'),
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: A2(
+					_debois$elm_mdl$Material_Layout$title,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text('Trollo'),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: _debois$elm_mdl$Material_Layout$spacer,
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_debois$elm_mdl$Material_Layout$navigation,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: A2(
+									_debois$elm_mdl$Material_Layout$link,
+									{ctor: '[]'},
+									{
+										ctor: '::',
+										_0: _debois$elm_mdl$Material_Icon$i('photo'),
+										_1: {ctor: '[]'}
+									}),
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					}
+				}
+			}),
+		_1: {ctor: '[]'}
+	};
+};
 var _user$project$App_View$view_ = function (model) {
-	var _p0 = model.activePage;
-	switch (_p0.ctor) {
-		case 'BoardsPage':
-			return A2(
-				_elm_lang$html$Html$map,
-				_user$project$App_Model$BoardsMsg,
-				_user$project$Boards_View$view(model.boards));
-		case 'BoardDetailsPage':
-			var model_ = model.boardDetails;
-			var boards = model.boards;
-			var board = boards.boardDetails;
-			return A2(
-				_elm_lang$html$Html$map,
-				_user$project$App_Model$BoardDetailsMsg,
-				_user$project$BoardDetails$view(model.boardDetails));
-		case 'PageNotFound':
-			return A2(
-				_elm_lang$html$Html$div,
-				{ctor: '[]'},
-				{
+	var h_ = function () {
+		var _p0 = model.activePage;
+		switch (_p0.ctor) {
+			case 'BoardsPage':
+				return A2(
+					_elm_lang$html$Html$map,
+					_user$project$App_Model$BoardsMsg,
+					_user$project$Boards_View$view(model.boards));
+			case 'BoardDetailsPage':
+				var model_ = model.boardDetails;
+				var boards = model.boards;
+				var board = boards.boardDetails;
+				return A2(
+					_elm_lang$html$Html$map,
+					_user$project$App_Model$BoardDetailsMsg,
+					_user$project$BoardDetails$view(model.boardDetails));
+			case 'PageNotFound':
+				return A2(
+					_elm_lang$html$Html$div,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text('404'),
+						_1: {ctor: '[]'}
+					});
+			default:
+				return A2(
+					_elm_lang$html$Html$li,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$a,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$href('#boards'),
+								_1: {ctor: '[]'}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text('jhjhkhk'),
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					});
+		}
+	}();
+	return A4(
+		_debois$elm_mdl$Material_Layout$render,
+		_user$project$App_Model$Mdl,
+		model.mdl,
+		{
+			ctor: '::',
+			_0: _debois$elm_mdl$Material_Layout$fixedHeader,
+			_1: {
+				ctor: '::',
+				_0: _debois$elm_mdl$Material_Layout$onSelectTab(_user$project$App_Model$GoHome),
+				_1: {ctor: '[]'}
+			}
+		},
+		{
+			header: _user$project$App_View$header(model),
+			drawer: {ctor: '[]'},
+			tabs: {
+				ctor: '_Tuple2',
+				_0: {
 					ctor: '::',
-					_0: _elm_lang$html$Html$text('404'),
+					_0: _elm_lang$html$Html$text('Borders'),
 					_1: {ctor: '[]'}
-				});
-		default:
-			return A2(
-				_elm_lang$html$Html$li,
-				{ctor: '[]'},
-				{
+				},
+				_1: {
 					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$a,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$href('#boards'),
-							_1: {ctor: '[]'}
-						},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text('jhjhkhk'),
-							_1: {ctor: '[]'}
-						}),
+					_0: _debois$elm_mdl$Material_Color$background(
+						A2(_debois$elm_mdl$Material_Color$color, _debois$elm_mdl$Material_Color$Teal, _debois$elm_mdl$Material_Color$S400)),
 					_1: {ctor: '[]'}
-				});
-	}
+				}
+			},
+			main: {
+				ctor: '::',
+				_0: h_,
+				_1: {ctor: '[]'}
+			}
+		});
 };
 var _user$project$App_View$view = _elm_lang$html$Html_Lazy$lazy(_user$project$App_View$view_);
+var _user$project$App_View$tabs = {
+	ctor: '::',
+	_0: function (_p1) {
+		return A2(
+			_elm_lang$html$Html$map,
+			_user$project$App_Model$BoardsMsg,
+			_user$project$Boards_View$view(
+				function (_) {
+					return _.boards;
+				}(_p1)));
+	},
+	_1: {ctor: '[]'}
+};
 
 var _user$project$Main$main = _elm_lang$html$Html$program(
 	{init: _user$project$App_Model$init, update: _user$project$App_Update$update, view: _user$project$App_View$view, subscriptions: _user$project$App_Model$subscriptions})();

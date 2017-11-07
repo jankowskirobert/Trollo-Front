@@ -7,7 +7,17 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Page exposing (..)
 import Boards.View as Boards exposing (view)
+import Material.Options as Options exposing (css, when)
 import BoardDetails
+import Material.Layout as Layout
+import Material.Icon as Icon
+import Material.Color as Color
+
+
+tabs : List (Model -> Html Msg)
+tabs =
+    [ (.boards >> Boards.view >> Html.map BoardsMsg)
+    ]
 
 
 view : Model -> Html Msg
@@ -17,26 +27,56 @@ view =
 
 view_ : Model -> Html Msg
 view_ model =
-    case model.activePage of
-        BoardsPage ->
-            Html.map BoardsMsg (Boards.view model.boards)
+    let
+        h_ =
+            case model.activePage of
+                BoardsPage ->
+                    Html.map BoardsMsg (Boards.view model.boards)
 
-        BoardDetailsPage ->
-            let
-                boards =
-                    model.boards
+                BoardDetailsPage ->
+                    let
+                        boards =
+                            model.boards
 
-                model_ =
-                    model.boardDetails
+                        model_ =
+                            model.boardDetails
 
-                board =
-                    boards.boardDetails
-            in
-                Html.map BoardDetailsMsg (BoardDetails.view model.boardDetails)
+                        board =
+                            boards.boardDetails
+                    in
+                        Html.map BoardDetailsMsg (BoardDetails.view model.boardDetails)
 
-        -- (BoardDetails.view { data_ | data = board })
-        PageNotFound ->
-            div [] [ text "404" ]
+                -- (BoardDetails.view { data_ | data = board })
+                PageNotFound ->
+                    div [] [ text "404" ]
 
-        Home ->
-            li [] [ a [ href ("#boards") ] [ text "jhjhkhk" ] ]
+                Home ->
+                    li [] [ a [ href ("#boards") ] [ text "jhjhkhk" ] ]
+    in
+        Layout.render Mdl
+            model.mdl
+            [ Layout.fixedHeader
+            , Layout.onSelectTab GoHome
+            ]
+            { header = header model
+            , drawer = []
+            , tabs = ( [ text "Borders" ], [ Color.background (Color.color Color.Teal Color.S400) ] )
+            , main = [ h_ ]
+            }
+
+
+header : Model -> List (Html Msg)
+header model =
+    [ Layout.row
+        [ css "transition" "height 333ms ease-in-out 0s"
+        ]
+        [ Layout.title [] [ text "Trollo" ]
+        , Layout.spacer
+        , Layout.navigation []
+            [ Layout.link
+                [-- Options.onClick ToggleHeader
+                ]
+                [ Icon.i "photo" ]
+            ]
+        ]
+    ]

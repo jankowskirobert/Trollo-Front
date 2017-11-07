@@ -31,6 +31,9 @@ update msg model =
         SetActivePage page ->
             ( { model | activePage = page }, Cmd.none )
 
+        GoHome i ->
+            update (SetActivePage Page.BoardsPage) model
+
         Mdl msg_ ->
             Material.update Mdl msg_ model
 

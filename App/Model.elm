@@ -28,6 +28,7 @@ type Msg
     = BoardsMsg Boards.Msg
     | BoardDetailsMsg BoardDetails.Msg
     | SetActivePage Router.Page
+    | GoHome Int
     | Mdl (Material.Msg Msg)
 
 
