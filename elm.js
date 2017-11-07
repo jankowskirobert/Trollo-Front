@@ -16815,6 +16815,30 @@ var _user$project$BoardTask$AddBoard = F2(
 		return {title: a, teams: b};
 	});
 
+var _user$project$Boards_Model$model = function () {
+	var boards_ = _user$project$BoardTask$getExampleSetOfBoards;
+	var board_ = _elm_lang$core$List$head(boards_);
+	var stricBoard_ = A2(
+		_elm_lang$core$Maybe$withDefault,
+		A2(
+			_user$project$BoardTask$BoardView,
+			'',
+			{ctor: '[]'}),
+		board_);
+	return {boards: boards_, boardDetails: stricBoard_, mdl: _debois$elm_mdl$Material$model};
+}();
+var _user$project$Boards_Model$Model = F3(
+	function (a, b, c) {
+		return {boards: a, boardDetails: b, mdl: c};
+	});
+var _user$project$Boards_Model$Mdl = function (a) {
+	return {ctor: 'Mdl', _0: a};
+};
+var _user$project$Boards_Model$UpdateCurrentBoardView = function (a) {
+	return {ctor: 'UpdateCurrentBoardView', _0: a};
+};
+var _user$project$Boards_Model$AddBoard = {ctor: 'AddBoard'};
+
 var _user$project$BoardDetails$viewDialog = function (model) {
 	var _p0 = function () {
 		var _p1 = model.dialogAction;
@@ -17034,26 +17058,32 @@ var _user$project$Page$BoardDetailsPage = {ctor: 'BoardDetailsPage'};
 var _user$project$Page$BoardsPage = {ctor: 'BoardsPage'};
 var _user$project$Page$Home = {ctor: 'Home'};
 
-var _user$project$Boards$model = function () {
-	var boards_ = _user$project$BoardTask$getExampleSetOfBoards;
-	var board_ = _elm_lang$core$List$head(boards_);
-	var stricBoard_ = A2(
-		_elm_lang$core$Maybe$withDefault,
-		A2(
-			_user$project$BoardTask$BoardView,
-			'',
-			{ctor: '[]'}),
-		board_);
-	return {boards: boards_, boardDetails: stricBoard_, mdl: _debois$elm_mdl$Material$model};
-}();
-var _user$project$Boards$Model = F3(
-	function (a, b, c) {
-		return {boards: a, boardDetails: b, mdl: c};
+var _user$project$App_Model$init = {
+	ctor: '_Tuple2',
+	_0: {boards: _user$project$Boards_Model$model, activePage: _user$project$Page$BoardsPage, boardDetails: _user$project$BoardDetails$model, mdl: _debois$elm_mdl$Material$model},
+	_1: _elm_lang$core$Platform_Cmd$none
+};
+var _user$project$App_Model$subscriptions = function (model) {
+	return _elm_lang$core$Platform_Sub$none;
+};
+var _user$project$App_Model$Model = F4(
+	function (a, b, c, d) {
+		return {activePage: a, boards: b, boardDetails: c, mdl: d};
 	});
-var _user$project$Boards$Mdl = function (a) {
+var _user$project$App_Model$Mdl = function (a) {
 	return {ctor: 'Mdl', _0: a};
 };
-var _user$project$Boards$update = F2(
+var _user$project$App_Model$SetActivePage = function (a) {
+	return {ctor: 'SetActivePage', _0: a};
+};
+var _user$project$App_Model$BoardDetailsMsg = function (a) {
+	return {ctor: 'BoardDetailsMsg', _0: a};
+};
+var _user$project$App_Model$BoardsMsg = function (a) {
+	return {ctor: 'BoardsMsg', _0: a};
+};
+
+var _user$project$Boards_Update$update = F2(
 	function (msg, model) {
 		var _p0 = msg;
 		switch (_p0.ctor) {
@@ -17077,68 +17107,9 @@ var _user$project$Boards$update = F2(
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			default:
-				return A3(_debois$elm_mdl$Material$update, _user$project$Boards$Mdl, _p0._0, model);
+				return A3(_debois$elm_mdl$Material$update, _user$project$Boards_Model$Mdl, _p0._0, model);
 		}
 	});
-var _user$project$Boards$UpdateCurrentBoardView = function (a) {
-	return {ctor: 'UpdateCurrentBoardView', _0: a};
-};
-var _user$project$Boards$view = function (model) {
-	return A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		A2(
-			_elm_lang$core$List$map,
-			function (i) {
-				return A2(
-					_elm_lang$html$Html$div,
-					{ctor: '[]'},
-					{
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$button,
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html_Events$onClick(
-									_user$project$Boards$UpdateCurrentBoardView(i)),
-								_1: {ctor: '[]'}
-							},
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html$text(i.title),
-								_1: {ctor: '[]'}
-							}),
-						_1: {ctor: '[]'}
-					});
-			},
-			model.boards));
-};
-var _user$project$Boards$AddBoard = {ctor: 'AddBoard'};
-
-var _user$project$App_Model$init = {
-	ctor: '_Tuple2',
-	_0: {boards: _user$project$Boards$model, activePage: _user$project$Page$BoardsPage, boardDetails: _user$project$BoardDetails$model, mdl: _debois$elm_mdl$Material$model},
-	_1: _elm_lang$core$Platform_Cmd$none
-};
-var _user$project$App_Model$subscriptions = function (model) {
-	return _elm_lang$core$Platform_Sub$none;
-};
-var _user$project$App_Model$Model = F4(
-	function (a, b, c, d) {
-		return {activePage: a, boards: b, boardDetails: c, mdl: d};
-	});
-var _user$project$App_Model$Mdl = function (a) {
-	return {ctor: 'Mdl', _0: a};
-};
-var _user$project$App_Model$SetActivePage = function (a) {
-	return {ctor: 'SetActivePage', _0: a};
-};
-var _user$project$App_Model$BoardDetailsMsg = function (a) {
-	return {ctor: 'BoardDetailsMsg', _0: a};
-};
-var _user$project$App_Model$BoardsMsg = function (a) {
-	return {ctor: 'BoardsMsg', _0: a};
-};
 
 var _user$project$App_Update$update = F2(
 	function (msg, model) {
@@ -17159,7 +17130,7 @@ var _user$project$App_Update$update = F2(
 									{boards: x});
 							}),
 						_user$project$App_Model$BoardsMsg,
-						_user$project$Boards$update,
+						_user$project$Boards_Update$update,
 						_p0._0,
 						model);
 					var m = _p1._0;
@@ -17208,6 +17179,37 @@ var _user$project$App_Update$update = F2(
 		}
 	});
 
+var _user$project$Boards_View$view = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		A2(
+			_elm_lang$core$List$map,
+			function (i) {
+				return A2(
+					_elm_lang$html$Html$div,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$button,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Events$onClick(
+									_user$project$Boards_Model$UpdateCurrentBoardView(i)),
+								_1: {ctor: '[]'}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(i.title),
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					});
+			},
+			model.boards));
+};
+
 var _user$project$App_View$view_ = function (model) {
 	var _p0 = model.activePage;
 	switch (_p0.ctor) {
@@ -17215,7 +17217,7 @@ var _user$project$App_View$view_ = function (model) {
 			return A2(
 				_elm_lang$html$Html$map,
 				_user$project$App_Model$BoardsMsg,
-				_user$project$Boards$view(model.boards));
+				_user$project$Boards_View$view(model.boards));
 		case 'BoardDetailsPage':
 			var model_ = model.boardDetails;
 			var boards = model.boards;

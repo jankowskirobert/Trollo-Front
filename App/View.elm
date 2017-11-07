@@ -6,7 +6,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Page exposing (..)
-import Boards
+import Boards.View as Boards exposing (view)
 import BoardDetails
 
 

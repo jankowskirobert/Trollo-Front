@@ -2,7 +2,7 @@ module App.Update exposing (..)
 
 import App.Model exposing (..)
 import Page
-import Boards
+import Boards.Update as Boards exposing (update)
 import BoardDetails
 import Debug
 import Material

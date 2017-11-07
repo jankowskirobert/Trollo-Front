@@ -1,6 +1,6 @@
 module App.Model exposing (..)
 
-import Boards as BoardsModule
+import Boards.Model as Boards exposing (Model, model, Msg)
 import BoardDetails
 import Page as Router exposing (Page(..))
 import Navigation exposing (Location)
@@ -15,7 +15,7 @@ subscriptions model =
 
 init : ( Model, Cmd Msg )
 init =
-    ( { boards = BoardsModule.model
+    ( { boards = Boards.model
       , activePage = Router.BoardsPage
       , boardDetails = BoardDetails.model
       , mdl = Material.model
@@ -25,7 +25,7 @@ init =
 
 
 type Msg
-    = BoardsMsg BoardsModule.Msg
+    = BoardsMsg Boards.Msg
     | BoardDetailsMsg BoardDetails.Msg
     | SetActivePage Router.Page
     | Mdl (Material.Msg Msg)
@@ -33,7 +33,7 @@ type Msg
 
 type alias Model =
     { activePage : Router.Page
-    , boards : BoardsModule.Model
+    , boards : Boards.Model
     , boardDetails : BoardDetails.Model
     , mdl : Material.Model
     }
