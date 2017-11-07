@@ -5,44 +5,34 @@ import Page
 import Boards
 import BoardDetails
 import Debug
+import Material
+import Material.Helpers exposing (pure, lift, map1st, map2nd)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    case msg of
+    case Debug.log "Message" msg of
         BoardsMsg msg ->
             let
-                ( model_, cmd, page ) =
-                    Boards.update msg model.boards
+                ( m, c ) =
+                    lift .boards (\m x -> { m | boards = x }) BoardsMsg Boards.update msg model
 
-                log =
-                    page
+                details =
+                    m.boardDetails
+
+                detailsData =
+                    m.boards
+
+                updated =
+                    { m | boardDetails = { details | data = detailsData.boardDetails } }
             in
-                case page of
-                    Nothing ->
-                        ( { model | boards = model_ }, Cmd.none )
-
-                    Just x ->
-                        let
-                            log_ =
-                                Debug.log ("Have: " ++ (Page.pageToString x)) "Should: #board"
-                        in
-                            update (SetActivePage x) { model | boards = model_ }
+                update (SetActivePage Page.BoardDetailsPage) updated
 
         SetActivePage page ->
             ( { model | activePage = page }, Cmd.none )
 
+        Mdl msg_ ->
+            Material.update Mdl msg_ model
+
         BoardDetailsMsg msg ->
-            let
-                details =
-                    model.boardDetails
-
-                detailsData =
-                    model.boards
-
-                ( model_, cmd ) =
-                    BoardDetails.update msg { details | data = detailsData.boardDetails }
-            in
-                ( { model | boardDetails = model_ }
-                , Cmd.none
-                )
+            lift .boardDetails (\m x -> { m | boardDetails = x }) BoardDetailsMsg BoardDetails.update msg model

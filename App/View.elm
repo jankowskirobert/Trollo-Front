@@ -32,7 +32,7 @@ view_ model =
                 board =
                     boards.boardDetails
             in
-                Html.map BoardDetailsMsg (BoardDetails.view { model_ | data = board })
+                Html.map BoardDetailsMsg (BoardDetails.view model.boardDetails)
 
         -- (BoardDetails.view { data_ | data = board })
         PageNotFound ->

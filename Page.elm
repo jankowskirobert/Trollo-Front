@@ -1,5 +1,7 @@
 module Page exposing (Page(..), pageToString)
 
+import BoardTask
+
 
 type Page
     = Home

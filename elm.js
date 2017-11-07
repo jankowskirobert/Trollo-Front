@@ -14956,629 +14956,6 @@ var _debois$elm_mdl$Material$Model = F8(
 		return {button: a, textfield: b, menu: c, snackbar: d, layout: e, toggles: f, tooltip: g, tabs: h};
 	});
 
-var _debois$elm_mdl$Material_Card$stopClick = _debois$elm_mdl$Material_Options_Internal$attribute(
-	A2(_elm_lang$html$Html_Attributes$attribute, 'onclick', 'var event = arguments[0] || window.event; event.stopPropagation();'));
-var _debois$elm_mdl$Material_Card$block = function (block) {
-	var _p0 = block;
-	switch (_p0.ctor) {
-		case 'Title':
-			return A2(
-				_debois$elm_mdl$Material_Options$div,
-				{
-					ctor: '::',
-					_0: _debois$elm_mdl$Material_Options$cs('mdl-card__title'),
-					_1: _p0._0
-				},
-				_p0._1);
-		case 'Media':
-			return A2(
-				_debois$elm_mdl$Material_Options$div,
-				{
-					ctor: '::',
-					_0: _debois$elm_mdl$Material_Options$cs('mdl-card__media'),
-					_1: _p0._0
-				},
-				_p0._1);
-		case 'SupportingText':
-			return A2(
-				_debois$elm_mdl$Material_Options$div,
-				{
-					ctor: '::',
-					_0: _debois$elm_mdl$Material_Options$cs('mdl-card__supporting-text'),
-					_1: _p0._0
-				},
-				_p0._1);
-		case 'Actions':
-			return A2(
-				_debois$elm_mdl$Material_Options$div,
-				{
-					ctor: '::',
-					_0: _debois$elm_mdl$Material_Options$cs('mdl-card__actions'),
-					_1: {ctor: '::', _0: _debois$elm_mdl$Material_Card$stopClick, _1: _p0._0}
-				},
-				_p0._1);
-		default:
-			return A2(
-				_debois$elm_mdl$Material_Options$div,
-				{
-					ctor: '::',
-					_0: _debois$elm_mdl$Material_Options$cs('mdl-card__menu'),
-					_1: {ctor: '::', _0: _debois$elm_mdl$Material_Card$stopClick, _1: _p0._0}
-				},
-				_p0._1);
-	}
-};
-var _debois$elm_mdl$Material_Card$view = F2(
-	function (styling, views) {
-		return A2(
-			_debois$elm_mdl$Material_Options$div,
-			{
-				ctor: '::',
-				_0: _debois$elm_mdl$Material_Options$many(styling),
-				_1: {
-					ctor: '::',
-					_0: _debois$elm_mdl$Material_Options$cs('mdl-card'),
-					_1: {
-						ctor: '::',
-						_0: A2(_debois$elm_mdl$Material_Options$css, 'min-height', '0px'),
-						_1: {ctor: '[]'}
-					}
-				}
-			},
-			A2(_elm_lang$core$List$map, _debois$elm_mdl$Material_Card$block, views));
-	});
-var _debois$elm_mdl$Material_Card$subhead = function (styling) {
-	return _debois$elm_mdl$Material_Options$span(
-		{
-			ctor: '::',
-			_0: _debois$elm_mdl$Material_Options$cs('mdl-card__subtitle-text'),
-			_1: {
-				ctor: '::',
-				_0: A2(_debois$elm_mdl$Material_Options$css, 'padding-top', '8px'),
-				_1: styling
-			}
-		});
-};
-var _debois$elm_mdl$Material_Card$head = function (styling) {
-	return A2(
-		_debois$elm_mdl$Material_Options$styled,
-		_elm_lang$html$Html$h1,
-		{
-			ctor: '::',
-			_0: _debois$elm_mdl$Material_Options$cs('mdl-card__title-text'),
-			_1: {
-				ctor: '::',
-				_0: A2(_debois$elm_mdl$Material_Options$css, 'align-self', 'flex-start'),
-				_1: styling
-			}
-		});
-};
-var _debois$elm_mdl$Material_Card$expand = _debois$elm_mdl$Material_Options$cs('mdl-card--expand');
-var _debois$elm_mdl$Material_Card$border = _debois$elm_mdl$Material_Options$cs('mdl-card--border');
-var _debois$elm_mdl$Material_Card$Actions = F2(
-	function (a, b) {
-		return {ctor: 'Actions', _0: a, _1: b};
-	});
-var _debois$elm_mdl$Material_Card$actions = _debois$elm_mdl$Material_Card$Actions;
-var _debois$elm_mdl$Material_Card$SupportingText = F2(
-	function (a, b) {
-		return {ctor: 'SupportingText', _0: a, _1: b};
-	});
-var _debois$elm_mdl$Material_Card$text = _debois$elm_mdl$Material_Card$SupportingText;
-var _debois$elm_mdl$Material_Card$Media = F2(
-	function (a, b) {
-		return {ctor: 'Media', _0: a, _1: b};
-	});
-var _debois$elm_mdl$Material_Card$media = _debois$elm_mdl$Material_Card$Media;
-var _debois$elm_mdl$Material_Card$Menu = F2(
-	function (a, b) {
-		return {ctor: 'Menu', _0: a, _1: b};
-	});
-var _debois$elm_mdl$Material_Card$menu = F2(
-	function (styling, block) {
-		return A2(_debois$elm_mdl$Material_Card$Menu, styling, block);
-	});
-var _debois$elm_mdl$Material_Card$Title = F2(
-	function (a, b) {
-		return {ctor: 'Title', _0: a, _1: b};
-	});
-var _debois$elm_mdl$Material_Card$title = F2(
-	function (styling, block) {
-		return A2(
-			_debois$elm_mdl$Material_Card$Title,
-			{
-				ctor: '::',
-				_0: _debois$elm_mdl$Material_Options$many(styling),
-				_1: {
-					ctor: '::',
-					_0: A2(_debois$elm_mdl$Material_Options$css, 'justify-content', 'flex-end'),
-					_1: {
-						ctor: '::',
-						_0: A2(_debois$elm_mdl$Material_Options$css, 'flex-direction', 'column'),
-						_1: {
-							ctor: '::',
-							_0: A2(_debois$elm_mdl$Material_Options$css, 'align-items', 'flex-start'),
-							_1: {ctor: '[]'}
-						}
-					}
-				}
-			},
-			block);
-	});
-
-var _debois$elm_mdl$Material_Color$text = function (_p0) {
-	var _p1 = _p0;
-	return _debois$elm_mdl$Material_Options$cs(
-		A2(_elm_lang$core$Basics_ops['++'], 'mdl-color-text--', _p1._0));
-};
-var _debois$elm_mdl$Material_Color$background = function (_p2) {
-	var _p3 = _p2;
-	return _debois$elm_mdl$Material_Options$cs(
-		A2(_elm_lang$core$Basics_ops['++'], 'mdl-color--', _p3._0));
-};
-var _debois$elm_mdl$Material_Color$shadeName = function (shade) {
-	var _p4 = shade;
-	switch (_p4.ctor) {
-		case 'S50':
-			return '50';
-		case 'S100':
-			return '100';
-		case 'S200':
-			return '200';
-		case 'S300':
-			return '300';
-		case 'S400':
-			return '400';
-		case 'S500':
-			return '500';
-		case 'S600':
-			return '600';
-		case 'S700':
-			return '700';
-		case 'S800':
-			return '800';
-		case 'S900':
-			return '900';
-		case 'A100':
-			return 'A100';
-		case 'A200':
-			return 'A200';
-		case 'A400':
-			return 'A400';
-		default:
-			return 'A700';
-	}
-};
-var _debois$elm_mdl$Material_Color$hueName = function (color) {
-	var _p5 = color;
-	switch (_p5.ctor) {
-		case 'Indigo':
-			return 'indigo';
-		case 'Blue':
-			return 'blue';
-		case 'LightBlue':
-			return 'light-blue';
-		case 'Cyan':
-			return 'cyan';
-		case 'Teal':
-			return 'teal';
-		case 'Green':
-			return 'green';
-		case 'LightGreen':
-			return 'light-green';
-		case 'Lime':
-			return 'lime';
-		case 'Yellow':
-			return 'yellow';
-		case 'Amber':
-			return 'amber';
-		case 'Orange':
-			return 'orange';
-		case 'Brown':
-			return 'brown';
-		case 'BlueGrey':
-			return 'blue-grey';
-		case 'Grey':
-			return 'grey';
-		case 'DeepOrange':
-			return 'deep-orange';
-		case 'Red':
-			return 'red';
-		case 'Pink':
-			return 'pink';
-		case 'Purple':
-			return 'purple';
-		default:
-			return 'deep-purple';
-	}
-};
-var _debois$elm_mdl$Material_Color$scheme = F2(
-	function (primary, accent) {
-		var q = _elm_lang$core$String$map(
-			function (x) {
-				return _elm_lang$core$Native_Utils.eq(
-					x,
-					_elm_lang$core$Native_Utils.chr('-')) ? _elm_lang$core$Native_Utils.chr('_') : x;
-			});
-		var cssFile = function () {
-			var _p6 = accent;
-			switch (_p6.ctor) {
-				case 'Grey':
-					return '';
-				case 'Brown':
-					return '';
-				case 'BlueGrey':
-					return '';
-				default:
-					return A2(
-						_elm_lang$core$Basics_ops['++'],
-						'.',
-						A2(
-							_elm_lang$core$Basics_ops['++'],
-							q(
-								_debois$elm_mdl$Material_Color$hueName(primary)),
-							A2(
-								_elm_lang$core$Basics_ops['++'],
-								'-',
-								q(
-									_debois$elm_mdl$Material_Color$hueName(accent)))));
-			}
-		}();
-		return A2(
-			_elm_lang$core$Basics_ops['++'],
-			'material',
-			A2(_elm_lang$core$Basics_ops['++'], cssFile, '.min.css'));
-	});
-var _debois$elm_mdl$Material_Color$DeepPurple = {ctor: 'DeepPurple'};
-var _debois$elm_mdl$Material_Color$Purple = {ctor: 'Purple'};
-var _debois$elm_mdl$Material_Color$Pink = {ctor: 'Pink'};
-var _debois$elm_mdl$Material_Color$Red = {ctor: 'Red'};
-var _debois$elm_mdl$Material_Color$DeepOrange = {ctor: 'DeepOrange'};
-var _debois$elm_mdl$Material_Color$Grey = {ctor: 'Grey'};
-var _debois$elm_mdl$Material_Color$BlueGrey = {ctor: 'BlueGrey'};
-var _debois$elm_mdl$Material_Color$Brown = {ctor: 'Brown'};
-var _debois$elm_mdl$Material_Color$Orange = {ctor: 'Orange'};
-var _debois$elm_mdl$Material_Color$Amber = {ctor: 'Amber'};
-var _debois$elm_mdl$Material_Color$Yellow = {ctor: 'Yellow'};
-var _debois$elm_mdl$Material_Color$Lime = {ctor: 'Lime'};
-var _debois$elm_mdl$Material_Color$LightGreen = {ctor: 'LightGreen'};
-var _debois$elm_mdl$Material_Color$Green = {ctor: 'Green'};
-var _debois$elm_mdl$Material_Color$Teal = {ctor: 'Teal'};
-var _debois$elm_mdl$Material_Color$Cyan = {ctor: 'Cyan'};
-var _debois$elm_mdl$Material_Color$LightBlue = {ctor: 'LightBlue'};
-var _debois$elm_mdl$Material_Color$Blue = {ctor: 'Blue'};
-var _debois$elm_mdl$Material_Color$Indigo = {ctor: 'Indigo'};
-var _debois$elm_mdl$Material_Color$hues = _elm_lang$core$Array$fromList(
-	{
-		ctor: '::',
-		_0: _debois$elm_mdl$Material_Color$Indigo,
-		_1: {
-			ctor: '::',
-			_0: _debois$elm_mdl$Material_Color$Blue,
-			_1: {
-				ctor: '::',
-				_0: _debois$elm_mdl$Material_Color$LightBlue,
-				_1: {
-					ctor: '::',
-					_0: _debois$elm_mdl$Material_Color$Cyan,
-					_1: {
-						ctor: '::',
-						_0: _debois$elm_mdl$Material_Color$Teal,
-						_1: {
-							ctor: '::',
-							_0: _debois$elm_mdl$Material_Color$Green,
-							_1: {
-								ctor: '::',
-								_0: _debois$elm_mdl$Material_Color$LightGreen,
-								_1: {
-									ctor: '::',
-									_0: _debois$elm_mdl$Material_Color$Lime,
-									_1: {
-										ctor: '::',
-										_0: _debois$elm_mdl$Material_Color$Yellow,
-										_1: {
-											ctor: '::',
-											_0: _debois$elm_mdl$Material_Color$Amber,
-											_1: {
-												ctor: '::',
-												_0: _debois$elm_mdl$Material_Color$Orange,
-												_1: {
-													ctor: '::',
-													_0: _debois$elm_mdl$Material_Color$Brown,
-													_1: {
-														ctor: '::',
-														_0: _debois$elm_mdl$Material_Color$BlueGrey,
-														_1: {
-															ctor: '::',
-															_0: _debois$elm_mdl$Material_Color$Grey,
-															_1: {
-																ctor: '::',
-																_0: _debois$elm_mdl$Material_Color$DeepOrange,
-																_1: {
-																	ctor: '::',
-																	_0: _debois$elm_mdl$Material_Color$Red,
-																	_1: {
-																		ctor: '::',
-																		_0: _debois$elm_mdl$Material_Color$Pink,
-																		_1: {
-																			ctor: '::',
-																			_0: _debois$elm_mdl$Material_Color$Purple,
-																			_1: {
-																				ctor: '::',
-																				_0: _debois$elm_mdl$Material_Color$DeepPurple,
-																				_1: {ctor: '[]'}
-																			}
-																		}
-																	}
-																}
-															}
-														}
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	});
-var _debois$elm_mdl$Material_Color$accentHues = _elm_lang$core$Array$fromList(
-	{
-		ctor: '::',
-		_0: _debois$elm_mdl$Material_Color$Indigo,
-		_1: {
-			ctor: '::',
-			_0: _debois$elm_mdl$Material_Color$Blue,
-			_1: {
-				ctor: '::',
-				_0: _debois$elm_mdl$Material_Color$LightBlue,
-				_1: {
-					ctor: '::',
-					_0: _debois$elm_mdl$Material_Color$Cyan,
-					_1: {
-						ctor: '::',
-						_0: _debois$elm_mdl$Material_Color$Teal,
-						_1: {
-							ctor: '::',
-							_0: _debois$elm_mdl$Material_Color$Green,
-							_1: {
-								ctor: '::',
-								_0: _debois$elm_mdl$Material_Color$LightGreen,
-								_1: {
-									ctor: '::',
-									_0: _debois$elm_mdl$Material_Color$Lime,
-									_1: {
-										ctor: '::',
-										_0: _debois$elm_mdl$Material_Color$Yellow,
-										_1: {
-											ctor: '::',
-											_0: _debois$elm_mdl$Material_Color$Amber,
-											_1: {
-												ctor: '::',
-												_0: _debois$elm_mdl$Material_Color$Orange,
-												_1: {
-													ctor: '::',
-													_0: _debois$elm_mdl$Material_Color$DeepOrange,
-													_1: {
-														ctor: '::',
-														_0: _debois$elm_mdl$Material_Color$Red,
-														_1: {
-															ctor: '::',
-															_0: _debois$elm_mdl$Material_Color$Pink,
-															_1: {
-																ctor: '::',
-																_0: _debois$elm_mdl$Material_Color$Purple,
-																_1: {
-																	ctor: '::',
-																	_0: _debois$elm_mdl$Material_Color$DeepPurple,
-																	_1: {ctor: '[]'}
-																}
-															}
-														}
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	});
-var _debois$elm_mdl$Material_Color$A700 = {ctor: 'A700'};
-var _debois$elm_mdl$Material_Color$A400 = {ctor: 'A400'};
-var _debois$elm_mdl$Material_Color$A200 = {ctor: 'A200'};
-var _debois$elm_mdl$Material_Color$A100 = {ctor: 'A100'};
-var _debois$elm_mdl$Material_Color$S900 = {ctor: 'S900'};
-var _debois$elm_mdl$Material_Color$S800 = {ctor: 'S800'};
-var _debois$elm_mdl$Material_Color$S700 = {ctor: 'S700'};
-var _debois$elm_mdl$Material_Color$S600 = {ctor: 'S600'};
-var _debois$elm_mdl$Material_Color$S500 = {ctor: 'S500'};
-var _debois$elm_mdl$Material_Color$S400 = {ctor: 'S400'};
-var _debois$elm_mdl$Material_Color$S300 = {ctor: 'S300'};
-var _debois$elm_mdl$Material_Color$S200 = {ctor: 'S200'};
-var _debois$elm_mdl$Material_Color$S100 = {ctor: 'S100'};
-var _debois$elm_mdl$Material_Color$S50 = {ctor: 'S50'};
-var _debois$elm_mdl$Material_Color$shades = _elm_lang$core$Array$fromList(
-	{
-		ctor: '::',
-		_0: _debois$elm_mdl$Material_Color$S50,
-		_1: {
-			ctor: '::',
-			_0: _debois$elm_mdl$Material_Color$S100,
-			_1: {
-				ctor: '::',
-				_0: _debois$elm_mdl$Material_Color$S200,
-				_1: {
-					ctor: '::',
-					_0: _debois$elm_mdl$Material_Color$S300,
-					_1: {
-						ctor: '::',
-						_0: _debois$elm_mdl$Material_Color$S400,
-						_1: {
-							ctor: '::',
-							_0: _debois$elm_mdl$Material_Color$S500,
-							_1: {
-								ctor: '::',
-								_0: _debois$elm_mdl$Material_Color$S600,
-								_1: {
-									ctor: '::',
-									_0: _debois$elm_mdl$Material_Color$S700,
-									_1: {
-										ctor: '::',
-										_0: _debois$elm_mdl$Material_Color$S800,
-										_1: {
-											ctor: '::',
-											_0: _debois$elm_mdl$Material_Color$S900,
-											_1: {
-												ctor: '::',
-												_0: _debois$elm_mdl$Material_Color$A100,
-												_1: {
-													ctor: '::',
-													_0: _debois$elm_mdl$Material_Color$A200,
-													_1: {
-														ctor: '::',
-														_0: _debois$elm_mdl$Material_Color$A400,
-														_1: {
-															ctor: '::',
-															_0: _debois$elm_mdl$Material_Color$A700,
-															_1: {ctor: '[]'}
-														}
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	});
-var _debois$elm_mdl$Material_Color$C = function (a) {
-	return {ctor: 'C', _0: a};
-};
-var _debois$elm_mdl$Material_Color$color = F2(
-	function (hue, shade) {
-		return _debois$elm_mdl$Material_Color$C(
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				_debois$elm_mdl$Material_Color$hueName(hue),
-				A2(
-					_elm_lang$core$Basics_ops['++'],
-					'-',
-					_debois$elm_mdl$Material_Color$shadeName(shade))));
-	});
-var _debois$elm_mdl$Material_Color$white = _debois$elm_mdl$Material_Color$C('white');
-var _debois$elm_mdl$Material_Color$black = _debois$elm_mdl$Material_Color$C('black');
-var _debois$elm_mdl$Material_Color$primary = _debois$elm_mdl$Material_Color$C('primary');
-var _debois$elm_mdl$Material_Color$primaryDark = _debois$elm_mdl$Material_Color$C('primary-dark');
-var _debois$elm_mdl$Material_Color$primaryContrast = _debois$elm_mdl$Material_Color$C('primary-contrast');
-var _debois$elm_mdl$Material_Color$accent = _debois$elm_mdl$Material_Color$C('accent');
-var _debois$elm_mdl$Material_Color$accentContrast = _debois$elm_mdl$Material_Color$C('accent-contrast');
-
-var _debois$elm_mdl$Material_Dialog$theDialog = 'elm-mdl-singleton-dialog';
-var _debois$elm_mdl$Material_Dialog$openOn = function () {
-	var handler = A2(
-		_elm_lang$core$Basics_ops['++'],
-		'\n      // Don\'t mess up the elm runtime.\n      try {\n        var dialog = document.getElementById(\'',
-		A2(_elm_lang$core$Basics_ops['++'], _debois$elm_mdl$Material_Dialog$theDialog, '\');\n        if (! dialog) {\n          console.log (\'Cannot display dialog: No dialog element. Use `Dialog.view` to construct one.\');\n          return;\n        }\n        if (! dialog.showModal) {\n          if (typeof dialogPolyfill !== \'undefined\' && dialogPolyfill.registerDialog) {\n            dialogPolyfill.registerDialog(dialog);\n          } else {\n            console.log (\'Cannot display dialog: Your browser does not support the <dialog> element. Get a polyfill at:\\n\\nhttps://github.com/GoogleChrome/dialog-polyfill\\n\');\n            return;\n          }\n        }\n        dialog.showModal();\n      }\n      catch (e)\n      {\n        console.log (\"A dialog method threw an exception. This is not supposed to happen; likely you\'re using a broken polyfill. If not, please file an issue:\\n\\nhttps://github.com/debois/elm-mdl/issues/new\");\n      }\n      '));
-	return function (event) {
-		return _debois$elm_mdl$Material_Options_Internal$attribute(
-			A2(
-				_elm_lang$html$Html_Attributes$attribute,
-				A2(_elm_lang$core$Basics_ops['++'], 'on', event),
-				handler));
-	};
-}();
-var _debois$elm_mdl$Material_Dialog$closeOn = function () {
-	var handler = A2(
-		_elm_lang$core$Basics_ops['++'],
-		'\n      // Don\'t mess up the elm runtime!\n      try {\n        var dialog = document.getElementById(\'',
-		A2(_elm_lang$core$Basics_ops['++'], _debois$elm_mdl$Material_Dialog$theDialog, '\');\n        if (! dialog) {\n          console.log (\'Cannot close dialog: No dialog element. Use `Dialog.view` to construct one.\');\n          return;\n        }\n        if (! dialog.open) {\n          console.log (\'Cannot close dialog: The dialog is not open. Use `Dialog.closeOn` only on components rendered inside the dialog.\');\n          return;\n        }\n        if (! dialog.close) {\n          console.log (\'Cannot close dialog: The dialog does not have a `close` method. Perhaps you forgot a polyfill? Get one at:\\n\\nhttps://github.com/GoogleChrome/dialog-polyfill\\n\');\n          return;\n        }\n        dialog.close();\n      }\n      catch (e)\n      {\n        console.log (\"A dialog method threw an exception. This is not supposed to happen; likely you\'re using a broken polyfill. If not, please file an issue:\\n\\nhttps://github.com/debois/elm-mdl/issues/new\");\n      }\n      '));
-	return function (event) {
-		return _debois$elm_mdl$Material_Options_Internal$attribute(
-			A2(
-				_elm_lang$html$Html_Attributes$attribute,
-				A2(_elm_lang$core$Basics_ops['++'], 'on', event),
-				handler));
-	};
-}();
-var _debois$elm_mdl$Material_Dialog$contentBlock = function (block) {
-	var _p0 = block;
-	switch (_p0.ctor) {
-		case 'Title':
-			return A2(
-				_debois$elm_mdl$Material_Options$div,
-				{
-					ctor: '::',
-					_0: _debois$elm_mdl$Material_Options$cs('mdl-dialog__title'),
-					_1: _p0._0
-				},
-				_p0._1);
-		case 'Content':
-			return A2(
-				_debois$elm_mdl$Material_Options$div,
-				{
-					ctor: '::',
-					_0: _debois$elm_mdl$Material_Options$cs('mdl-dialog__content'),
-					_1: _p0._0
-				},
-				_p0._1);
-		default:
-			return A2(
-				_debois$elm_mdl$Material_Options$div,
-				{
-					ctor: '::',
-					_0: _debois$elm_mdl$Material_Options$cs('mdl-dialog__actions'),
-					_1: _p0._0
-				},
-				_p0._1);
-	}
-};
-var _debois$elm_mdl$Material_Dialog$view = F2(
-	function (styling, contentBlocks) {
-		return A4(
-			_debois$elm_mdl$Material_Options$styled_,
-			_elm_lang$html$Html$node('dialog'),
-			{
-				ctor: '::',
-				_0: _debois$elm_mdl$Material_Options$cs('mdl-dialog'),
-				_1: styling
-			},
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$id(_debois$elm_mdl$Material_Dialog$theDialog),
-				_1: {ctor: '[]'}
-			},
-			A2(_elm_lang$core$List$map, _debois$elm_mdl$Material_Dialog$contentBlock, contentBlocks));
-	});
-var _debois$elm_mdl$Material_Dialog$fullWidth = _debois$elm_mdl$Material_Options$cs('mdl-dialog__actions--full-width');
-var _debois$elm_mdl$Material_Dialog$Actions = F2(
-	function (a, b) {
-		return {ctor: 'Actions', _0: a, _1: b};
-	});
-var _debois$elm_mdl$Material_Dialog$actions = _debois$elm_mdl$Material_Dialog$Actions;
-var _debois$elm_mdl$Material_Dialog$Content = F2(
-	function (a, b) {
-		return {ctor: 'Content', _0: a, _1: b};
-	});
-var _debois$elm_mdl$Material_Dialog$content = _debois$elm_mdl$Material_Dialog$Content;
-var _debois$elm_mdl$Material_Dialog$Title = F2(
-	function (a, b) {
-		return {ctor: 'Title', _0: a, _1: b};
-	});
-var _debois$elm_mdl$Material_Dialog$title = _debois$elm_mdl$Material_Dialog$Title;
-
 //import Maybe, Native.List //
 
 var _elm_lang$core$Native_Regex = function() {
@@ -15715,190 +15092,6 @@ var _elm_lang$core$Regex$AtMost = function (a) {
 	return {ctor: 'AtMost', _0: a};
 };
 var _elm_lang$core$Regex$All = {ctor: 'All'};
-
-var _debois$elm_mdl$Material_Grid$clip = F3(
-	function (lower, upper, k) {
-		return A2(
-			_elm_lang$core$Basics$max,
-			lower,
-			A2(_elm_lang$core$Basics$min, k, upper));
-	});
-var _debois$elm_mdl$Material_Grid$stretch = _debois$elm_mdl$Material_Options$cs('mdl-cell--stretch');
-var _debois$elm_mdl$Material_Grid$align = function (a) {
-	var _p0 = a;
-	switch (_p0.ctor) {
-		case 'Top':
-			return _debois$elm_mdl$Material_Options$cs('mdl-cell--top');
-		case 'Middle':
-			return _debois$elm_mdl$Material_Options$cs('mdl-cell--middle');
-		default:
-			return _debois$elm_mdl$Material_Options$cs('mdl-cell--bottom');
-	}
-};
-var _debois$elm_mdl$Material_Grid$suffix = function (device) {
-	var _p1 = device;
-	switch (_p1.ctor) {
-		case 'All':
-			return '';
-		case 'Desktop':
-			return '-desktop';
-		case 'Tablet':
-			return '-tablet';
-		default:
-			return '-phone';
-	}
-};
-var _debois$elm_mdl$Material_Grid$size = F2(
-	function (device, k) {
-		var c = function () {
-			var _p2 = device;
-			switch (_p2.ctor) {
-				case 'All':
-					return A3(_debois$elm_mdl$Material_Grid$clip, 1, 12, k);
-				case 'Desktop':
-					return A3(_debois$elm_mdl$Material_Grid$clip, 1, 12, k);
-				case 'Tablet':
-					return A3(_debois$elm_mdl$Material_Grid$clip, 1, 8, k);
-				default:
-					return A3(_debois$elm_mdl$Material_Grid$clip, 1, 4, k);
-			}
-		}();
-		return _debois$elm_mdl$Material_Options$cs(
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				'mdl-cell--',
-				A2(
-					_elm_lang$core$Basics_ops['++'],
-					_elm_lang$core$Basics$toString(c),
-					A2(
-						_elm_lang$core$Basics_ops['++'],
-						'-col',
-						_debois$elm_mdl$Material_Grid$suffix(device)))));
-	});
-var _debois$elm_mdl$Material_Grid$offset = F2(
-	function (device, k) {
-		var c = function () {
-			var _p3 = device;
-			switch (_p3.ctor) {
-				case 'All':
-					return A3(_debois$elm_mdl$Material_Grid$clip, 0, 11, k);
-				case 'Desktop':
-					return A3(_debois$elm_mdl$Material_Grid$clip, 0, 11, k);
-				case 'Tablet':
-					return A3(_debois$elm_mdl$Material_Grid$clip, 0, 7, k);
-				default:
-					return A3(_debois$elm_mdl$Material_Grid$clip, 0, 3, k);
-			}
-		}();
-		return _debois$elm_mdl$Material_Options$cs(
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				'mdl-cell--',
-				A2(
-					_elm_lang$core$Basics_ops['++'],
-					_elm_lang$core$Basics$toString(c),
-					A2(
-						_elm_lang$core$Basics_ops['++'],
-						'-offset',
-						_debois$elm_mdl$Material_Grid$suffix(device)))));
-	});
-var _debois$elm_mdl$Material_Grid$hide = function (device) {
-	return _debois$elm_mdl$Material_Options$cs(
-		function () {
-			var _p4 = device;
-			if (_p4.ctor === 'All') {
-				return '';
-			} else {
-				return A2(
-					_elm_lang$core$Basics_ops['++'],
-					'mdl-cell--hide-',
-					_debois$elm_mdl$Material_Grid$suffix(device));
-			}
-		}());
-};
-var _debois$elm_mdl$Material_Grid$order = F2(
-	function (device, n) {
-		return _debois$elm_mdl$Material_Options$cs(
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				'mdl-cell--order-',
-				A2(
-					_elm_lang$core$Basics_ops['++'],
-					_elm_lang$core$Basics$toString(
-						A3(_debois$elm_mdl$Material_Grid$clip, 1, 12, n)),
-					_debois$elm_mdl$Material_Grid$suffix(device))));
-	});
-var _debois$elm_mdl$Material_Grid$grid = F2(
-	function (styling, cells) {
-		return A2(
-			_debois$elm_mdl$Material_Options$div,
-			{
-				ctor: '::',
-				_0: _debois$elm_mdl$Material_Options$cs('mdl-grid'),
-				_1: styling
-			},
-			A2(
-				_elm_lang$core$List$map,
-				function (_p5) {
-					var _p6 = _p5;
-					return _p6._0;
-				},
-				cells));
-	});
-var _debois$elm_mdl$Material_Grid$maxWidth = function (w) {
-	return A2(_debois$elm_mdl$Material_Options$css, 'max-width', w);
-};
-var _debois$elm_mdl$Material_Grid$noSpacing = _debois$elm_mdl$Material_Options$cs('mdl-grid--no-spacing');
-var _debois$elm_mdl$Material_Grid$Phone = {ctor: 'Phone'};
-var _debois$elm_mdl$Material_Grid$Tablet = {ctor: 'Tablet'};
-var _debois$elm_mdl$Material_Grid$Desktop = {ctor: 'Desktop'};
-var _debois$elm_mdl$Material_Grid$All = {ctor: 'All'};
-var _debois$elm_mdl$Material_Grid$Cell = function (a) {
-	return {ctor: 'Cell', _0: a};
-};
-var _debois$elm_mdl$Material_Grid$cell = F2(
-	function (styling, elms) {
-		return _debois$elm_mdl$Material_Grid$Cell(
-			A2(
-				_debois$elm_mdl$Material_Options$div,
-				{
-					ctor: '::',
-					_0: _debois$elm_mdl$Material_Options$cs('mdl-cell'),
-					_1: styling
-				},
-				elms));
-	});
-var _debois$elm_mdl$Material_Grid$Bottom = {ctor: 'Bottom'};
-var _debois$elm_mdl$Material_Grid$Middle = {ctor: 'Middle'};
-var _debois$elm_mdl$Material_Grid$Top = {ctor: 'Top'};
-
-var _debois$elm_mdl$Material_Typography$uppercase = _debois$elm_mdl$Material_Options$cs('mdl-typography--text-uppercase');
-var _debois$elm_mdl$Material_Typography$lowercase = _debois$elm_mdl$Material_Options$cs('mdl-typography--text-lowercase');
-var _debois$elm_mdl$Material_Typography$capitalize = _debois$elm_mdl$Material_Options$cs('mdl-typography--text-capitalize');
-var _debois$elm_mdl$Material_Typography$justify = _debois$elm_mdl$Material_Options$cs('mdl-typography--text-justify');
-var _debois$elm_mdl$Material_Typography$right = _debois$elm_mdl$Material_Options$cs('mdl-typography--text-right');
-var _debois$elm_mdl$Material_Typography$left = _debois$elm_mdl$Material_Options$cs('mdl-typography--text-left');
-var _debois$elm_mdl$Material_Typography$center = _debois$elm_mdl$Material_Options$cs('mdl-typography--text-center');
-var _debois$elm_mdl$Material_Typography$tableStriped = _debois$elm_mdl$Material_Options$cs('mdl-typography--table-striped');
-var _debois$elm_mdl$Material_Typography$nowrap = _debois$elm_mdl$Material_Options$cs('mdl-typography--text-nowrap');
-var _debois$elm_mdl$Material_Typography$contrast = function (x) {
-	return A2(
-		_debois$elm_mdl$Material_Options$css,
-		'opacity',
-		_elm_lang$core$Basics$toString(x));
-};
-var _debois$elm_mdl$Material_Typography$menu = _debois$elm_mdl$Material_Options$cs('mdl-typography--menu-color-contrast');
-var _debois$elm_mdl$Material_Typography$button = _debois$elm_mdl$Material_Options$cs('mdl-typography--button-color-contrast');
-var _debois$elm_mdl$Material_Typography$caption = _debois$elm_mdl$Material_Options$cs('mdl-typography--caption-force-preferred-font-color-contrast');
-var _debois$elm_mdl$Material_Typography$body2 = _debois$elm_mdl$Material_Options$cs('mdl-typography--body-2-force-preferred-font-color-contrast');
-var _debois$elm_mdl$Material_Typography$body1 = _debois$elm_mdl$Material_Options$cs('mdl-typography--body-1-force-preferred-font-color-contrast');
-var _debois$elm_mdl$Material_Typography$subhead = _debois$elm_mdl$Material_Options$cs('mdl-typography--subhead-color-contrast');
-var _debois$elm_mdl$Material_Typography$title = _debois$elm_mdl$Material_Options$cs('mdl-typography--title-color-contrast');
-var _debois$elm_mdl$Material_Typography$headline = _debois$elm_mdl$Material_Options$cs('mdl-typography--headline-color-contrast');
-var _debois$elm_mdl$Material_Typography$display4 = _debois$elm_mdl$Material_Options$cs('mdl-typography--display-4-color-contrast');
-var _debois$elm_mdl$Material_Typography$display3 = _debois$elm_mdl$Material_Options$cs('mdl-typography--display-3-color-contrast');
-var _debois$elm_mdl$Material_Typography$display2 = _debois$elm_mdl$Material_Options$cs('mdl-typography--display-2-color-contrast');
-var _debois$elm_mdl$Material_Typography$display1 = _debois$elm_mdl$Material_Options$cs('mdl-typography--display-1-color-contrast');
 
 var _elm_lang$html$Html_Lazy$lazy3 = _elm_lang$virtual_dom$VirtualDom$lazy3;
 var _elm_lang$html$Html_Lazy$lazy2 = _elm_lang$virtual_dom$VirtualDom$lazy2;
@@ -16938,9 +16131,6 @@ var _sporto$erl$Erl$hashFromAll = function (str) {
 var _sporto$erl$Erl$parseHost = function (str) {
 	return A2(_elm_lang$core$String$split, '.', str);
 };
-var _sporto$erl$Erl$schemeHostDelim = function (str) {
-	return A2(_elm_lang$core$String$startsWith, '//', str) ? _elm_lang$core$Maybe$Just('//') : (A2(_elm_lang$core$String$contains, '://', str) ? _elm_lang$core$Maybe$Just('://') : _elm_lang$core$Maybe$Nothing);
-};
 var _sporto$erl$Erl$extractProtocol = function (str) {
 	var parts = A2(_elm_lang$core$String$split, '://', str);
 	var _p3 = _elm_lang$core$List$length(parts);
@@ -17026,36 +16216,15 @@ var _sporto$erl$Erl$rightFromOrSame = F2(
 			_elm_lang$core$List$head(
 				_elm_lang$core$List$reverse(parts)));
 	});
-var _sporto$erl$Erl$rightFromLeftMost = F2(
-	function (delimiter, str) {
-		var parts = A2(_elm_lang$core$String$split, delimiter, str);
-		var _p7 = _elm_lang$core$List$length(parts);
-		switch (_p7) {
-			case 0:
-				return '';
-			case 1:
-				return '';
-			default:
-				return A2(
-					_elm_lang$core$String$join,
-					delimiter,
-					A2(
-						_elm_lang$core$Maybe$withDefault,
-						{ctor: '[]'},
-						_elm_lang$core$List$tail(parts)));
-		}
-	});
 var _sporto$erl$Erl$extractHost = function (str) {
-	var delim = _sporto$erl$Erl$schemeHostDelim(str);
-	var _p8 = delim;
-	if (_p8.ctor === 'Just') {
+	if (A2(_elm_lang$core$String$contains, '//', str)) {
 		return A2(
 			_sporto$erl$Erl$leftFromOrSame,
 			':',
 			A2(
 				_sporto$erl$Erl$leftFromOrSame,
 				'/',
-				A2(_sporto$erl$Erl$rightFromLeftMost, _p8._0, str)));
+				A2(_sporto$erl$Erl$rightFromOrSame, '//', str)));
 	} else {
 		var rx = '((\\w|-)+\\.)+(\\w|-)+';
 		return A2(
@@ -17071,7 +16240,10 @@ var _sporto$erl$Erl$extractHost = function (str) {
 						_elm_lang$core$Regex$find,
 						_elm_lang$core$Regex$AtMost(1),
 						_elm_lang$core$Regex$regex(rx),
-						A2(_sporto$erl$Erl$leftFromOrSame, '/', str)))));
+						A2(
+							_sporto$erl$Erl$leftFromOrSame,
+							'/',
+							A2(_sporto$erl$Erl$rightFromOrSame, '//', str))))));
 	}
 };
 var _sporto$erl$Erl$host = function (str) {
@@ -17079,34 +16251,28 @@ var _sporto$erl$Erl$host = function (str) {
 		_sporto$erl$Erl$extractHost(str));
 };
 var _sporto$erl$Erl$extractPath = function (str) {
-	var delim = _sporto$erl$Erl$schemeHostDelim(str);
-	var trimmed = function () {
-		var _p9 = delim;
-		if (_p9.ctor === 'Just') {
-			return A2(_sporto$erl$Erl$rightFromLeftMost, _p9._0, str);
-		} else {
-			return str;
-		}
-	}();
 	var host = _sporto$erl$Erl$extractHost(str);
 	return A4(
 		_elm_lang$core$Regex$replace,
 		_elm_lang$core$Regex$AtMost(1),
-		_elm_lang$core$Regex$regex(
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				'^.*?',
-				A2(
-					_elm_lang$core$Basics_ops['++'],
-					_elm_lang$core$Regex$escape(host),
-					'(:\\d+)?'))),
-		function (_p10) {
+		_elm_lang$core$Regex$regex(':\\d+'),
+		function (_p7) {
 			return '';
 		},
-		A2(
-			_sporto$erl$Erl$leftFromOrSame,
-			'#',
-			A2(_sporto$erl$Erl$leftFromOrSame, '?', trimmed)));
+		A4(
+			_elm_lang$core$Regex$replace,
+			_elm_lang$core$Regex$AtMost(1),
+			_elm_lang$core$Regex$regex(host),
+			function (_p8) {
+				return '';
+			},
+			A2(
+				_sporto$erl$Erl$leftFromOrSame,
+				'#',
+				A2(
+					_sporto$erl$Erl$leftFromOrSame,
+					'?',
+					A2(_sporto$erl$Erl$rightFromOrSame, '//', str)))));
 };
 var _sporto$erl$Erl$hasLeadingSlashFromAll = function (str) {
 	return A2(
@@ -17123,8 +16289,8 @@ var _sporto$erl$Erl$hasTrailingSlashFromAll = function (str) {
 var _sporto$erl$Erl$rightFrom = F2(
 	function (delimiter, str) {
 		var parts = A2(_elm_lang$core$String$split, delimiter, str);
-		var _p11 = _elm_lang$core$List$length(parts);
-		switch (_p11) {
+		var _p9 = _elm_lang$core$List$length(parts);
+		switch (_p9) {
 			case 0:
 				return '';
 			case 1:
@@ -17494,10 +16660,6 @@ var _rgrempel$elm_route_url$RouteUrl$programWithFlags = function (_p23) {
 		_rgrempel$elm_route_url$RouteUrl$navigationAppWithFlags(_p23));
 };
 
-var _user$project$BoardTask$putCardElementToList = F2(
-	function (card, columns) {
-		return columns;
-	});
 var _user$project$BoardTask$isListExist = F2(
 	function (column, listname) {
 		return A2(
@@ -17653,6 +16815,26 @@ var _user$project$BoardTask$AddBoard = F2(
 		return {title: a, teams: b};
 	});
 
+var _user$project$BoardDetails$viewDialog = function (model) {
+	var _p0 = function () {
+		var _p1 = model.dialogAction;
+		switch (_p1.ctor) {
+			case 'AddNewCard':
+				return {ctor: '_Tuple3', _0: '', _1: '', _2: ''};
+			case 'AddNewColumn':
+				return {ctor: '_Tuple3', _0: '', _1: '', _2: ''};
+			default:
+				return {ctor: '_Tuple3', _0: '', _1: '', _2: ''};
+		}
+	}();
+	var title = _p0._0;
+	var content = _p0._1;
+	var actions = _p0._2;
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{ctor: '[]'});
+};
 var _user$project$BoardDetails$getColumnCard = function (card) {
 	return A2(
 		_elm_lang$html$Html$article,
@@ -17677,306 +16859,90 @@ var _user$project$BoardDetails$getColumnCard = function (card) {
 var _user$project$BoardDetails$subscriptions = function (model) {
 	return _elm_lang$core$Platform_Sub$none;
 };
-var _user$project$BoardDetails$Model = F6(
-	function (a, b, c, d, e, f) {
-		return {mdl: a, data: b, addCard: c, addColumn: d, dialogAction: e, activeColumnView: f};
+var _user$project$BoardDetails$Model = F5(
+	function (a, b, c, d, e) {
+		return {data: a, addCard: b, addColumn: c, dialogAction: d, mdl: e};
 	});
 var _user$project$BoardDetails$Mdl = function (a) {
 	return {ctor: 'Mdl', _0: a};
 };
-var _user$project$BoardDetails$d0 = function (model) {
-	return {
-		ctor: '_Tuple3',
-		_0: {
-			ctor: '::',
-			_0: _elm_lang$html$Html$text('Add New Card'),
-			_1: {ctor: '[]'}
-		},
-		_1: {
-			ctor: '::',
-			_0: A5(
-				_debois$elm_mdl$Material_Textfield$render,
-				_user$project$BoardDetails$Mdl,
-				{
-					ctor: '::',
-					_0: 2,
-					_1: {ctor: '[]'}
-				},
-				model.mdl,
-				{
-					ctor: '::',
-					_0: _debois$elm_mdl$Material_Textfield$label('Title'),
-					_1: {
-						ctor: '::',
-						_0: _debois$elm_mdl$Material_Textfield$floatingLabel,
-						_1: {ctor: '[]'}
-					}
-				},
-				{ctor: '[]'}),
-			_1: {ctor: '[]'}
-		},
-		_2: {
-			ctor: '::',
-			_0: A5(
-				_debois$elm_mdl$Material_Button$render,
-				_user$project$BoardDetails$Mdl,
-				{
-					ctor: '::',
-					_0: 0,
-					_1: {ctor: '[]'}
-				},
-				model.mdl,
-				{
-					ctor: '::',
-					_0: _debois$elm_mdl$Material_Dialog$closeOn('click'),
-					_1: {ctor: '[]'}
-				},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text('Close'),
-					_1: {ctor: '[]'}
-				}),
-			_1: {
-				ctor: '::',
-				_0: A5(
-					_debois$elm_mdl$Material_Button$render,
-					_user$project$BoardDetails$Mdl,
-					{
-						ctor: '::',
-						_0: 0,
-						_1: {ctor: '[]'}
-					},
-					model.mdl,
-					{
-						ctor: '::',
-						_0: _debois$elm_mdl$Material_Button$colored,
-						_1: {
-							ctor: '::',
-							_0: _debois$elm_mdl$Material_Button$raised,
-							_1: {
-								ctor: '::',
-								_0: _debois$elm_mdl$Material_Dialog$closeOn('click'),
-								_1: {ctor: '[]'}
-							}
-						}
-					},
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html$text('Submit'),
-						_1: {ctor: '[]'}
-					}),
-				_1: {ctor: '[]'}
-			}
-		}
-	};
-};
-var _user$project$BoardDetails$d1 = function (model) {
-	return {
-		ctor: '_Tuple3',
-		_0: {
-			ctor: '::',
-			_0: _elm_lang$html$Html$text('Hello!'),
-			_1: {ctor: '[]'}
-		},
-		_1: {
-			ctor: '::',
-			_0: _elm_lang$html$Html$text('D1'),
-			_1: {ctor: '[]'}
-		},
-		_2: {
-			ctor: '::',
-			_0: A5(
-				_debois$elm_mdl$Material_Button$render,
-				_user$project$BoardDetails$Mdl,
-				{
-					ctor: '::',
-					_0: 0,
-					_1: {ctor: '[]'}
-				},
-				model.mdl,
-				{
-					ctor: '::',
-					_0: _debois$elm_mdl$Material_Dialog$closeOn('click'),
-					_1: {ctor: '[]'}
-				},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text('Close'),
-					_1: {ctor: '[]'}
-				}),
-			_1: {
-				ctor: '::',
-				_0: A5(
-					_debois$elm_mdl$Material_Button$render,
-					_user$project$BoardDetails$Mdl,
-					{
-						ctor: '::',
-						_0: 0,
-						_1: {ctor: '[]'}
-					},
-					model.mdl,
-					{
-						ctor: '::',
-						_0: _debois$elm_mdl$Material_Button$colored,
-						_1: {
-							ctor: '::',
-							_0: _debois$elm_mdl$Material_Button$raised,
-							_1: {
-								ctor: '::',
-								_0: _debois$elm_mdl$Material_Dialog$closeOn('click'),
-								_1: {ctor: '[]'}
-							}
-						}
-					},
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html$text('Submit'),
-						_1: {ctor: '[]'}
-					}),
-				_1: {ctor: '[]'}
-			}
-		}
-	};
-};
-var _user$project$BoardDetails$d2 = function (model) {
-	return {
-		ctor: '_Tuple3',
-		_0: {
-			ctor: '::',
-			_0: _elm_lang$html$Html$text('Hello!'),
-			_1: {ctor: '[]'}
-		},
-		_1: {
-			ctor: '::',
-			_0: _elm_lang$html$Html$text('D2'),
-			_1: {ctor: '[]'}
-		},
-		_2: {
-			ctor: '::',
-			_0: A5(
-				_debois$elm_mdl$Material_Button$render,
-				_user$project$BoardDetails$Mdl,
-				{
-					ctor: '::',
-					_0: 0,
-					_1: {ctor: '[]'}
-				},
-				model.mdl,
-				{
-					ctor: '::',
-					_0: _debois$elm_mdl$Material_Dialog$closeOn('click'),
-					_1: {ctor: '[]'}
-				},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text('Close'),
-					_1: {ctor: '[]'}
-				}),
-			_1: {ctor: '[]'}
-		}
-	};
-};
 var _user$project$BoardDetails$SetColumnDialog = {ctor: 'SetColumnDialog'};
-var _user$project$BoardDetails$SetCardDialog = function (a) {
-	return {ctor: 'SetCardDialog', _0: a};
-};
-var _user$project$BoardDetails$AddToList = {ctor: 'AddToList'};
-var _user$project$BoardDetails$None = {ctor: 'None'};
-var _user$project$BoardDetails$model = {
-	mdl: _debois$elm_mdl$Material$model,
-	data: A2(
-		_user$project$BoardTask$BoardView,
-		'',
-		{ctor: '[]'}),
-	addCard: A2(_user$project$BoardTask$AddCard, '', ''),
-	addColumn: _user$project$BoardTask$AddColumn(''),
-	dialogAction: _user$project$BoardDetails$None,
-	activeColumnView: A2(
-		_user$project$BoardTask$ColumnView,
-		'',
-		{ctor: '[]'})
-};
-var _user$project$BoardDetails$init = {ctor: '_Tuple2', _0: _user$project$BoardDetails$model, _1: _elm_lang$core$Platform_Cmd$none};
-var _user$project$BoardDetails$getBoardColumn = function (column) {
-	var rendered_ = A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		A2(
-			_elm_lang$core$List$map,
-			function (l) {
-				return _user$project$BoardDetails$getColumnCard(l);
+var _user$project$BoardDetails$viewButton = F3(
+	function (idx, model, column) {
+		return A2(
+			_elm_lang$html$Html$button,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Events$onClick(_user$project$BoardDetails$SetColumnDialog),
+				_1: {ctor: '[]'}
 			},
-			column.cards));
-	return A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$section,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('list'),
-					_1: {ctor: '[]'}
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html$text(
+					A2(
+						_elm_lang$core$Basics_ops['++'],
+						'Add Card #',
+						_elm_lang$core$Basics$toString(idx))),
+				_1: {ctor: '[]'}
+			});
+	});
+var _user$project$BoardDetails$getBoardColumn = F2(
+	function (column, model) {
+		var rows = column.cards;
+		var rendered_ = A2(
+			_elm_lang$html$Html$div,
+			{ctor: '[]'},
+			A2(
+				_elm_lang$core$List$map,
+				function (l) {
+					return _user$project$BoardDetails$getColumnCard(l);
 				},
-				{
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$div,
-						{ctor: '[]'},
-						{
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$header,
-								{ctor: '[]'},
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html$text(column.title),
-									_1: {ctor: '[]'}
-								}),
-							_1: {ctor: '[]'}
-						}),
-					_1: {
+				rows));
+		return A2(
+			_elm_lang$html$Html$div,
+			{ctor: '[]'},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$section,
+					{
 						ctor: '::',
-						_0: rendered_,
+						_0: _elm_lang$html$Html_Attributes$class('list'),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$div,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$header,
+									{ctor: '[]'},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html$text(column.title),
+										_1: {ctor: '[]'}
+									}),
+								_1: {ctor: '[]'}
+							}),
 						_1: {
 							ctor: '::',
-							_0: A5(
-								_debois$elm_mdl$Material_Button$render,
-								_user$project$BoardDetails$Mdl,
-								{
-									ctor: '::',
-									_0: 0,
-									_1: {ctor: '[]'}
-								},
-								_user$project$BoardDetails$model.mdl,
-								{
-									ctor: '::',
-									_0: _debois$elm_mdl$Material_Button$raised,
-									_1: {
-										ctor: '::',
-										_0: _debois$elm_mdl$Material_Dialog$openOn('click'),
-										_1: {
-											ctor: '::',
-											_0: _debois$elm_mdl$Material_Options$onClick(
-												_user$project$BoardDetails$SetCardDialog(column)),
-											_1: {ctor: '[]'}
-										}
-									}
-								},
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html$text('Add Card'),
-									_1: {ctor: '[]'}
-								}),
-							_1: {ctor: '[]'}
+							_0: rendered_,
+							_1: {
+								ctor: '::',
+								_0: A3(_user$project$BoardDetails$viewButton, 0, model, column),
+								_1: {ctor: '[]'}
+							}
 						}
-					}
-				}),
-			_1: {ctor: '[]'}
-		});
-};
-var _user$project$BoardDetails$view = function (model) {
+					}),
+				_1: {ctor: '[]'}
+			});
+	});
+var _user$project$BoardDetails$viewColumns = function (model) {
+	var data_ = model.data;
+	var columns_ = data_.columns;
 	return A2(
 		_elm_lang$html$Html$div,
 		{
@@ -17984,68 +16950,43 @@ var _user$project$BoardDetails$view = function (model) {
 			_0: _elm_lang$html$Html_Attributes$class('main_board'),
 			_1: {ctor: '[]'}
 		},
+		A2(
+			_elm_lang$core$List$map,
+			function (l) {
+				return A2(_user$project$BoardDetails$getBoardColumn, l, model);
+			},
+			columns_));
+};
+var _user$project$BoardDetails$view = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
 		{
 			ctor: '::',
-			_0: function () {
-				var data_ = model.data;
-				var columns_ = data_.columns;
-				return A2(
-					_elm_lang$html$Html$div,
-					{ctor: '[]'},
-					A2(
-						_elm_lang$core$List$map,
-						function (l) {
-							return _user$project$BoardDetails$getBoardColumn(l);
-						},
-						columns_));
-			}(),
+			_0: _user$project$BoardDetails$viewColumns(model),
 			_1: {
 				ctor: '::',
-				_0: function () {
-					var _p0 = function () {
-						var _p1 = model.dialogAction;
-						switch (_p1.ctor) {
-							case 'AddNewCard':
-								return _user$project$BoardDetails$d0(model);
-							case 'AddNewColumn':
-								return _user$project$BoardDetails$d1(model);
-							default:
-								return _user$project$BoardDetails$d2(model);
-						}
-					}();
-					var title = _p0._0;
-					var content = _p0._1;
-					var actions = _p0._2;
-					return A2(
-						_debois$elm_mdl$Material_Dialog$view,
-						{ctor: '[]'},
-						{
-							ctor: '::',
-							_0: A2(
-								_debois$elm_mdl$Material_Dialog$title,
-								{ctor: '[]'},
-								title),
-							_1: {
-								ctor: '::',
-								_0: A2(
-									_debois$elm_mdl$Material_Dialog$content,
-									{ctor: '[]'},
-									content),
-								_1: {
-									ctor: '::',
-									_0: A2(
-										_debois$elm_mdl$Material_Dialog$actions,
-										{ctor: '[]'},
-										actions),
-									_1: {ctor: '[]'}
-								}
-							}
-						});
-				}(),
+				_0: _user$project$BoardDetails$viewDialog(model),
 				_1: {ctor: '[]'}
 			}
 		});
 };
+var _user$project$BoardDetails$SetCardDialog = function (a) {
+	return {ctor: 'SetCardDialog', _0: a};
+};
+var _user$project$BoardDetails$AddToList = {ctor: 'AddToList'};
+var _user$project$BoardDetails$None = {ctor: 'None'};
+var _user$project$BoardDetails$model = {
+	data: A2(
+		_user$project$BoardTask$BoardView,
+		'',
+		{ctor: '[]'}),
+	addCard: A2(_user$project$BoardTask$AddCard, '', ''),
+	addColumn: _user$project$BoardTask$AddColumn(''),
+	dialogAction: _user$project$BoardDetails$None,
+	mdl: _debois$elm_mdl$Material$model
+};
+var _user$project$BoardDetails$init = {ctor: '_Tuple2', _0: _user$project$BoardDetails$model, _1: _elm_lang$core$Platform_Cmd$none};
 var _user$project$BoardDetails$AddNewColumn = {ctor: 'AddNewColumn'};
 var _user$project$BoardDetails$AddNewCard = {ctor: 'AddNewCard'};
 var _user$project$BoardDetails$update = F2(
@@ -18093,72 +17034,6 @@ var _user$project$Page$BoardDetailsPage = {ctor: 'BoardDetailsPage'};
 var _user$project$Page$BoardsPage = {ctor: 'BoardsPage'};
 var _user$project$Page$Home = {ctor: 'Home'};
 
-var _user$project$Boards$white = _debois$elm_mdl$Material_Color$text(_debois$elm_mdl$Material_Color$white);
-var _user$project$Boards$style = function (h) {
-	return {
-		ctor: '::',
-		_0: A2(_debois$elm_mdl$Material_Options$css, 'text-sizing', 'border-box'),
-		_1: {
-			ctor: '::',
-			_0: A2(_debois$elm_mdl$Material_Options$css, 'background-color', '#BDBDBD'),
-			_1: {
-				ctor: '::',
-				_0: A2(
-					_debois$elm_mdl$Material_Options$css,
-					'height',
-					A2(
-						_elm_lang$core$Basics_ops['++'],
-						_elm_lang$core$Basics$toString(h),
-						'px')),
-				_1: {
-					ctor: '::',
-					_0: A2(_debois$elm_mdl$Material_Options$css, 'padding-left', '8px'),
-					_1: {
-						ctor: '::',
-						_0: A2(_debois$elm_mdl$Material_Options$css, 'padding-top', '4px'),
-						_1: {
-							ctor: '::',
-							_0: A2(_debois$elm_mdl$Material_Options$css, 'color', 'white'),
-							_1: {ctor: '[]'}
-						}
-					}
-				}
-			}
-		}
-	};
-};
-var _user$project$Boards$color = function (k) {
-	return _debois$elm_mdl$Material_Color$background(
-		A3(
-			_elm_lang$core$Basics$flip,
-			_debois$elm_mdl$Material_Color$color,
-			_debois$elm_mdl$Material_Color$S500,
-			A2(
-				_elm_lang$core$Maybe$withDefault,
-				_debois$elm_mdl$Material_Color$Teal,
-				A2(
-					_elm_lang$core$Array$get,
-					A2(
-						_elm_lang$core$Basics_ops['%'],
-						k + 0,
-						_elm_lang$core$Array$length(_debois$elm_mdl$Material_Color$hues)),
-					_debois$elm_mdl$Material_Color$hues))));
-};
-var _user$project$Boards$democell = F2(
-	function (k, styling) {
-		return _debois$elm_mdl$Material_Grid$cell(
-			_elm_lang$core$List$concat(
-				{
-					ctor: '::',
-					_0: _user$project$Boards$style(k),
-					_1: {
-						ctor: '::',
-						_0: styling,
-						_1: {ctor: '[]'}
-					}
-				}));
-	});
-var _user$project$Boards$std = _user$project$Boards$democell(200);
 var _user$project$Boards$model = function () {
 	var boards_ = _user$project$BoardTask$getExampleSetOfBoards;
 	var board_ = _elm_lang$core$List$head(boards_);
@@ -18169,16 +17044,12 @@ var _user$project$Boards$model = function () {
 			'',
 			{ctor: '[]'}),
 		board_);
-	return {mdl: _debois$elm_mdl$Material$model, boards: boards_, boardDetails: stricBoard_};
+	return {boards: boards_, boardDetails: stricBoard_, mdl: _debois$elm_mdl$Material$model};
 }();
 var _user$project$Boards$Model = F3(
 	function (a, b, c) {
-		return {mdl: a, boards: b, boardDetails: c};
+		return {boards: a, boardDetails: b, mdl: c};
 	});
-var _user$project$Boards$UpdateCurrentBoardView = function (a) {
-	return {ctor: 'UpdateCurrentBoardView', _0: a};
-};
-var _user$project$Boards$AddBoard = {ctor: 'AddBoard'};
 var _user$project$Boards$Mdl = function (a) {
 	return {ctor: 'Mdl', _0: a};
 };
@@ -18187,7 +17058,7 @@ var _user$project$Boards$update = F2(
 		var _p0 = msg;
 		switch (_p0.ctor) {
 			case 'AddBoard':
-				return {ctor: '_Tuple3', _0: model, _1: _elm_lang$core$Platform_Cmd$none, _2: _elm_lang$core$Maybe$Nothing};
+				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			case 'UpdateCurrentBoardView':
 				var boards = model.boards;
 				var board_ = _elm_lang$core$List$head(boards);
@@ -18199,181 +17070,54 @@ var _user$project$Boards$update = F2(
 						{ctor: '[]'}),
 					board_);
 				return {
-					ctor: '_Tuple3',
+					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
 						{boardDetails: _p0._0}),
-					_1: _elm_lang$core$Platform_Cmd$none,
-					_2: _elm_lang$core$Maybe$Just(_user$project$Page$BoardDetailsPage)
+					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			default:
-				var _p1 = A3(_debois$elm_mdl$Material$update, _user$project$Boards$Mdl, _p0._0, model);
-				var md = _p1._0;
-				var cm = _p1._1;
-				return {ctor: '_Tuple3', _0: md, _1: cm, _2: _elm_lang$core$Maybe$Nothing};
+				return A3(_debois$elm_mdl$Material$update, _user$project$Boards$Mdl, _p0._0, model);
 		}
 	});
+var _user$project$Boards$UpdateCurrentBoardView = function (a) {
+	return {ctor: 'UpdateCurrentBoardView', _0: a};
+};
 var _user$project$Boards$view = function (model) {
 	return A2(
-		_debois$elm_mdl$Material_Grid$grid,
+		_elm_lang$html$Html$div,
 		{ctor: '[]'},
 		A2(
 			_elm_lang$core$List$map,
 			function (i) {
 				return A2(
-					_user$project$Boards$std,
-					{
-						ctor: '::',
-						_0: A2(_debois$elm_mdl$Material_Grid$size, _debois$elm_mdl$Material_Grid$All, 4),
-						_1: {
-							ctor: '::',
-							_0: _user$project$Boards$color(5),
-							_1: {ctor: '[]'}
-						}
-					},
+					_elm_lang$html$Html$div,
+					{ctor: '[]'},
 					{
 						ctor: '::',
 						_0: A2(
-							_debois$elm_mdl$Material_Card$view,
+							_elm_lang$html$Html$button,
 							{
 								ctor: '::',
-								_0: A2(_debois$elm_mdl$Material_Options$css, 'width', '200px'),
-								_1: {
-									ctor: '::',
-									_0: A2(_debois$elm_mdl$Material_Options$css, 'height', '200px'),
-									_1: {
-										ctor: '::',
-										_0: A2(_debois$elm_mdl$Material_Options$css, 'background', 'rgba(255, 0, 255, 1)'),
-										_1: {
-											ctor: '::',
-											_0: _debois$elm_mdl$Material_Options$onClick(
-												_user$project$Boards$UpdateCurrentBoardView(i)),
-											_1: {ctor: '[]'}
-										}
-									}
-								}
+								_0: _elm_lang$html$Html_Events$onClick(
+									_user$project$Boards$UpdateCurrentBoardView(i)),
+								_1: {ctor: '[]'}
 							},
 							{
 								ctor: '::',
-								_0: A2(
-									_debois$elm_mdl$Material_Card$text,
-									{
-										ctor: '::',
-										_0: _debois$elm_mdl$Material_Card$expand,
-										_1: {ctor: '[]'}
-									},
-									{ctor: '[]'}),
-								_1: {
-									ctor: '::',
-									_0: A2(
-										_debois$elm_mdl$Material_Card$text,
-										{
-											ctor: '::',
-											_0: A2(_debois$elm_mdl$Material_Options$css, 'background', 'rgba(0, 0, 0, 0.5)'),
-											_1: {ctor: '[]'}
-										},
-										{
-											ctor: '::',
-											_0: A2(
-												_debois$elm_mdl$Material_Options$span,
-												{
-													ctor: '::',
-													_0: _user$project$Boards$white,
-													_1: {
-														ctor: '::',
-														_0: _debois$elm_mdl$Material_Typography$title,
-														_1: {
-															ctor: '::',
-															_0: _debois$elm_mdl$Material_Typography$contrast(1.0),
-															_1: {ctor: '[]'}
-														}
-													}
-												},
-												{
-													ctor: '::',
-													_0: _elm_lang$html$Html$text(i.title),
-													_1: {ctor: '[]'}
-												}),
-											_1: {
-												ctor: '::',
-												_0: A5(
-													_debois$elm_mdl$Material_Button$render,
-													_user$project$Boards$Mdl,
-													{
-														ctor: '::',
-														_0: 1,
-														_1: {ctor: '[]'}
-													},
-													model.mdl,
-													{
-														ctor: '::',
-														_0: _debois$elm_mdl$Material_Button$icon,
-														_1: {
-															ctor: '::',
-															_0: _debois$elm_mdl$Material_Button$ripple,
-															_1: {ctor: '[]'}
-														}
-													},
-													{
-														ctor: '::',
-														_0: _debois$elm_mdl$Material_Icon$i('phone'),
-														_1: {ctor: '[]'}
-													}),
-												_1: {
-													ctor: '::',
-													_0: A2(
-														_elm_lang$html$Html$li,
-														{ctor: '[]'},
-														{
-															ctor: '::',
-															_0: A2(
-																_elm_lang$html$Html$a,
-																{
-																	ctor: '::',
-																	_0: _elm_lang$html$Html_Attributes$href('#board'),
-																	_1: {ctor: '[]'}
-																},
-																{
-																	ctor: '::',
-																	_0: _elm_lang$html$Html$text('jhjhkhk'),
-																	_1: {ctor: '[]'}
-																}),
-															_1: {ctor: '[]'}
-														}),
-													_1: {ctor: '[]'}
-												}
-											}
-										}),
-									_1: {ctor: '[]'}
-								}
+								_0: _elm_lang$html$Html$text(i.title),
+								_1: {ctor: '[]'}
 							}),
 						_1: {ctor: '[]'}
 					});
 			},
 			model.boards));
 };
+var _user$project$Boards$AddBoard = {ctor: 'AddBoard'};
 
-var _user$project$App_Model$delta2url = F2(
-	function (previous, current) {
-		var _p0 = current.activePage;
-		switch (_p0.ctor) {
-			case 'BoardsPage':
-				return _elm_lang$core$Maybe$Just(
-					A2(_rgrempel$elm_route_url$RouteUrl$UrlChange, _rgrempel$elm_route_url$RouteUrl$NewEntry, '/#boards'));
-			case 'BoardDetailsPage':
-				return _elm_lang$core$Maybe$Just(
-					A2(_rgrempel$elm_route_url$RouteUrl$UrlChange, _rgrempel$elm_route_url$RouteUrl$NewEntry, '/#board'));
-			case 'PageNotFound':
-				return _elm_lang$core$Maybe$Just(
-					A2(_rgrempel$elm_route_url$RouteUrl$UrlChange, _rgrempel$elm_route_url$RouteUrl$NewEntry, '/#404'));
-			default:
-				return _elm_lang$core$Maybe$Just(
-					A2(_rgrempel$elm_route_url$RouteUrl$UrlChange, _rgrempel$elm_route_url$RouteUrl$NewEntry, ''));
-		}
-	});
 var _user$project$App_Model$init = {
 	ctor: '_Tuple2',
-	_0: {mdl: _debois$elm_mdl$Material$model, boards: _user$project$Boards$model, activePage: _user$project$Page$BoardsPage, boardDetails: _user$project$BoardDetails$model},
+	_0: {boards: _user$project$Boards$model, activePage: _user$project$Page$BoardsPage, boardDetails: _user$project$BoardDetails$model, mdl: _debois$elm_mdl$Material$model},
 	_1: _elm_lang$core$Platform_Cmd$none
 };
 var _user$project$App_Model$subscriptions = function (model) {
@@ -18381,39 +17125,13 @@ var _user$project$App_Model$subscriptions = function (model) {
 };
 var _user$project$App_Model$Model = F4(
 	function (a, b, c, d) {
-		return {mdl: a, activePage: b, boards: c, boardDetails: d};
+		return {activePage: a, boards: b, boardDetails: c, mdl: d};
 	});
+var _user$project$App_Model$Mdl = function (a) {
+	return {ctor: 'Mdl', _0: a};
+};
 var _user$project$App_Model$SetActivePage = function (a) {
 	return {ctor: 'SetActivePage', _0: a};
-};
-var _user$project$App_Model$location2messages = function (location) {
-	var _p1 = location.hash;
-	switch (_p1) {
-		case '':
-			return {
-				ctor: '::',
-				_0: _user$project$App_Model$SetActivePage(_user$project$Page$BoardsPage),
-				_1: {ctor: '[]'}
-			};
-		case '#boards':
-			return {
-				ctor: '::',
-				_0: _user$project$App_Model$SetActivePage(_user$project$Page$BoardsPage),
-				_1: {ctor: '[]'}
-			};
-		case '#board':
-			return {
-				ctor: '::',
-				_0: _user$project$App_Model$SetActivePage(_user$project$Page$BoardDetailsPage),
-				_1: {ctor: '[]'}
-			};
-		default:
-			return {
-				ctor: '::',
-				_0: _user$project$App_Model$SetActivePage(_user$project$Page$PageNotFound),
-				_1: {ctor: '[]'}
-			};
-	}
 };
 var _user$project$App_Model$BoardDetailsMsg = function (a) {
 	return {ctor: 'BoardDetailsMsg', _0: a};
@@ -18426,40 +17144,40 @@ var _user$project$App_Update$update = F2(
 	function (msg, model) {
 		update:
 		while (true) {
-			var _p0 = msg;
+			var _p0 = A2(_elm_lang$core$Debug$log, 'Message', msg);
 			switch (_p0.ctor) {
 				case 'BoardsMsg':
-					var _p1 = A2(_user$project$Boards$update, _p0._0, model.boards);
-					var model_ = _p1._0;
-					var cmd = _p1._1;
-					var page = _p1._2;
-					var log = page;
-					var _p2 = page;
-					if (_p2.ctor === 'Nothing') {
-						return {
-							ctor: '_Tuple2',
-							_0: _elm_lang$core$Native_Utils.update(
-								model,
-								{boards: model_}),
-							_1: _elm_lang$core$Platform_Cmd$none
-						};
-					} else {
-						var _p3 = _p2._0;
-						var log_ = A2(
-							_elm_lang$core$Debug$log,
-							A2(
-								_elm_lang$core$Basics_ops['++'],
-								'Have: ',
-								_user$project$Page$pageToString(_p3)),
-							'Should: #board');
-						var _v2 = _user$project$App_Model$SetActivePage(_p3),
-							_v3 = _elm_lang$core$Native_Utils.update(
-							model,
-							{boards: model_});
-						msg = _v2;
-						model = _v3;
-						continue update;
-					}
+					var _p1 = A6(
+						_debois$elm_mdl$Material_Helpers$lift,
+						function (_) {
+							return _.boards;
+						},
+						F2(
+							function (m, x) {
+								return _elm_lang$core$Native_Utils.update(
+									m,
+									{boards: x});
+							}),
+						_user$project$App_Model$BoardsMsg,
+						_user$project$Boards$update,
+						_p0._0,
+						model);
+					var m = _p1._0;
+					var c = _p1._1;
+					var details = m.boardDetails;
+					var detailsData = m.boards;
+					var updated = _elm_lang$core$Native_Utils.update(
+						m,
+						{
+							boardDetails: _elm_lang$core$Native_Utils.update(
+								details,
+								{data: detailsData.boardDetails})
+						});
+					var _v1 = _user$project$App_Model$SetActivePage(_user$project$Page$BoardDetailsPage),
+						_v2 = updated;
+					msg = _v1;
+					model = _v2;
+					continue update;
 				case 'SetActivePage':
 					return {
 						ctor: '_Tuple2',
@@ -18468,13 +17186,24 @@ var _user$project$App_Update$update = F2(
 							{activePage: _p0._0}),
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
+				case 'Mdl':
+					return A3(_debois$elm_mdl$Material$update, _user$project$App_Model$Mdl, _p0._0, model);
 				default:
-					var _p4 = A2(_user$project$BoardDetails$update, _p0._0, model.boardDetails);
-					var model_ = _p4._0;
-					var cmd = _p4._1;
-					var detailsData = model.boards;
-					var details = model.boardDetails;
-					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+					return A6(
+						_debois$elm_mdl$Material_Helpers$lift,
+						function (_) {
+							return _.boardDetails;
+						},
+						F2(
+							function (m, x) {
+								return _elm_lang$core$Native_Utils.update(
+									m,
+									{boardDetails: x});
+							}),
+						_user$project$App_Model$BoardDetailsMsg,
+						_user$project$BoardDetails$update,
+						_p0._0,
+						model);
 			}
 		}
 	});
@@ -18494,10 +17223,7 @@ var _user$project$App_View$view_ = function (model) {
 			return A2(
 				_elm_lang$html$Html$map,
 				_user$project$App_Model$BoardDetailsMsg,
-				_user$project$BoardDetails$view(
-					_elm_lang$core$Native_Utils.update(
-						model_,
-						{data: board})));
+				_user$project$BoardDetails$view(model.boardDetails));
 		case 'PageNotFound':
 			return A2(
 				_elm_lang$html$Html$div,
@@ -18531,8 +17257,8 @@ var _user$project$App_View$view_ = function (model) {
 };
 var _user$project$App_View$view = _elm_lang$html$Html_Lazy$lazy(_user$project$App_View$view_);
 
-var _user$project$Main$main = _rgrempel$elm_route_url$RouteUrl$program(
-	{delta2url: _user$project$App_Model$delta2url, location2messages: _user$project$App_Model$location2messages, init: _user$project$App_Model$init, update: _user$project$App_Update$update, view: _user$project$App_View$view, subscriptions: _user$project$App_Model$subscriptions})();
+var _user$project$Main$main = _elm_lang$html$Html$program(
+	{init: _user$project$App_Model$init, update: _user$project$App_Update$update, view: _user$project$App_View$view, subscriptions: _user$project$App_Model$subscriptions})();
 
 var Elm = {};
 Elm['Main'] = Elm['Main'] || {};

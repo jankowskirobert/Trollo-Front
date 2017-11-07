@@ -1,17 +1,16 @@
 module Main exposing (..)
 
-import App.Model exposing (Msg, init, subscriptions, Model, delta2url, location2messages)
+import App.Model exposing (Msg, init, subscriptions, Model)
 import App.View exposing (view)
 import App.Update exposing (update)
 import RouteUrl exposing (RouteUrlProgram)
+import Html
 
 
-main : RouteUrlProgram Never Model Msg
+main : Program Never Model Msg
 main =
-    RouteUrl.program
-        { delta2url = delta2url
-        , location2messages = location2messages
-        , init = init
+    Html.program
+        { init = init
         , update = update
         , view = view
         , subscriptions = subscriptions
