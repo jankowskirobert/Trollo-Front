@@ -5,7 +5,6 @@ module BoardTask
         , AddColumn
         , ColumnView
         , BoardView
-        , putCardElementToList
         , getEmptyDataSet
         , decodeFromJson
         , getExampleSetOfData
@@ -102,14 +101,3 @@ putElementToList column lst =
 isListExist : List ColumnView -> String -> Bool
 isListExist column listname =
     List.member listname (List.map (\x -> x.title) column)
-
-
-putCardElementToList : AddCard -> ColumnView -> ColumnView
-putCardElementToList card columns =
-    -- let
-    --     column =
-    --         List.head (List.filter (isListExist columns)
-    --     cards =
-    --         column.cards
-    -- in
-    (columns)

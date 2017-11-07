@@ -10,6 +10,7 @@ import Material.Button as Button
 import Material.Textfield as Textfield
 import Material.Options as Options
 import Material
+import Debug
 
 
 subscriptions : Model -> Sub Msg
@@ -24,7 +25,6 @@ model =
     , addCard = BoardTask.AddCard "" ""
     , addColumn = BoardTask.AddColumn ""
     , dialogAction = None
-    , activeColumnView = BoardTask.ColumnView "" []
     }
 
 
@@ -52,7 +52,6 @@ type alias Model =
     , addCard : BoardTask.AddCard
     , addColumn : BoardTask.AddColumn
     , dialogAction : DialogAction
-    , activeColumnView : BoardTask.ColumnView
     }
 
 
@@ -97,8 +96,12 @@ update msg model =
         SetColumnDialog ->
             ( { model | dialogAction = AddNewColumn }, Cmd.none )
 
-        Mdl action_ ->
-            Material.update Mdl action_ model
+        Mdl msg_ ->
+            let
+                ( md, cm ) =
+                    Material.update Mdl msg_ model
+            in
+                ( md, cm )
 
 
 
@@ -118,11 +121,14 @@ update msg model =
 --       </article>
 
 
-getBoardColumn : BoardTask.ColumnView -> Html Msg
-getBoardColumn column =
+getBoardColumn : BoardTask.ColumnView -> Model -> Html Msg
+getBoardColumn column model =
     let
-        rendered_ =
+        rows =
             column.cards
+
+        rendered_ =
+            rows
                 |> List.map (\l -> getColumnCard l)
                 |> div []
     in
@@ -130,14 +136,7 @@ getBoardColumn column =
             [ section [ class "list" ]
                 [ div [] [ header [] [ text column.title ] ]
                 , rendered_
-                , Button.render Mdl
-                    [ 0 ]
-                    model.mdl
-                    [ Button.raised
-                    , Dialog.openOn "click"
-                    , Options.onClick (SetCardDialog column)
-                    ]
-                    [ text "Add Card" ]
+                , viewButton 0 model column
                 ]
             ]
 
@@ -153,36 +152,58 @@ getColumnCard card =
 --     Html.Lazy.lazy view_
 
 
+viewButton : Int -> Model -> BoardTask.ColumnView -> Html Msg
+viewButton idx model column =
+    Button.render Mdl
+        [ idx ]
+        model.mdl
+        [ Dialog.openOn "click", Options.onClick SetColumnDialog, Button.raised, Button.colored ]
+        [ text ("Add Card #" ++ toString idx) ]
+
+
+viewColumns : Model -> Html Msg
+viewColumns model =
+    let
+        data_ =
+            model.data
+
+        columns_ =
+            data_.columns
+    in
+        columns_
+            |> List.map
+                (\l ->
+                    getBoardColumn l model
+                )
+            |> div [ class "main_board" ]
+
+
+viewDialog : Model -> Html Msg
+viewDialog model =
+    let
+        ( title, content, actions ) =
+            case model.dialogAction of
+                AddNewCard ->
+                    d0 model
+
+                AddNewColumn ->
+                    d1 model
+
+                None ->
+                    d2 model
+    in
+        Dialog.view []
+            [ Dialog.title [] title
+            , Dialog.content [] content
+            , Dialog.actions [] actions
+            ]
+
+
 view : Model -> Html Msg
 view model =
-    div [ class "main_board" ]
-        [ let
-            data_ =
-                model.data
-
-            columns_ =
-                data_.columns
-          in
-            columns_
-                |> List.map (\l -> getBoardColumn l)
-                |> div []
-        , let
-            ( title, content, actions ) =
-                case model.dialogAction of
-                    AddNewCard ->
-                        d0 model
-
-                    AddNewColumn ->
-                        d1 model
-
-                    None ->
-                        d2 model
-          in
-            Dialog.view []
-                [ Dialog.title [] title
-                , Dialog.content [] content
-                , Dialog.actions [] actions
-                ]
+    div []
+        [ viewColumns model
+        , viewDialog model
 
         -- , Button.render Mdl
         --     [ 1 ]
@@ -200,27 +221,21 @@ d0 model =
             model.mdl
             [ Textfield.label "Title"
             , Textfield.floatingLabel
-
-            -- , Textfield.value model.addCard.title
             ]
-            []
+            [ text "Close" ]
       ]
     , [ Button.render Mdl
             [ 0 ]
             model.mdl
             [ Dialog.closeOn "click"
-
-            -- , Options.onClick CleanAddCard
             ]
             [ text "Close" ]
       , Button.render Mdl
-            [ 0 ]
+            [ 1 ]
             model.mdl
             [ Button.colored
             , Button.raised
             , Dialog.closeOn "click"
-
-            -- , Options.onClick (AddToList)
             ]
             [ text "Submit" ]
       ]
@@ -241,13 +256,11 @@ d1 model =
             [ Dialog.closeOn "click" ]
             [ text "Close" ]
       , Button.render Mdl
-            [ 0 ]
+            [ 3 ]
             model.mdl
             [ Button.colored
             , Button.raised
             , Dialog.closeOn "click"
-
-            -- , Options.onClick AddToList
             ]
             [ text "Submit" ]
       ]
