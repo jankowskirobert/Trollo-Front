@@ -16131,9 +16131,6 @@ var _sporto$erl$Erl$hashFromAll = function (str) {
 var _sporto$erl$Erl$parseHost = function (str) {
 	return A2(_elm_lang$core$String$split, '.', str);
 };
-var _sporto$erl$Erl$schemeHostDelim = function (str) {
-	return A2(_elm_lang$core$String$startsWith, '//', str) ? _elm_lang$core$Maybe$Just('//') : (A2(_elm_lang$core$String$contains, '://', str) ? _elm_lang$core$Maybe$Just('://') : _elm_lang$core$Maybe$Nothing);
-};
 var _sporto$erl$Erl$extractProtocol = function (str) {
 	var parts = A2(_elm_lang$core$String$split, '://', str);
 	var _p3 = _elm_lang$core$List$length(parts);
@@ -16219,36 +16216,15 @@ var _sporto$erl$Erl$rightFromOrSame = F2(
 			_elm_lang$core$List$head(
 				_elm_lang$core$List$reverse(parts)));
 	});
-var _sporto$erl$Erl$rightFromLeftMost = F2(
-	function (delimiter, str) {
-		var parts = A2(_elm_lang$core$String$split, delimiter, str);
-		var _p7 = _elm_lang$core$List$length(parts);
-		switch (_p7) {
-			case 0:
-				return '';
-			case 1:
-				return '';
-			default:
-				return A2(
-					_elm_lang$core$String$join,
-					delimiter,
-					A2(
-						_elm_lang$core$Maybe$withDefault,
-						{ctor: '[]'},
-						_elm_lang$core$List$tail(parts)));
-		}
-	});
 var _sporto$erl$Erl$extractHost = function (str) {
-	var delim = _sporto$erl$Erl$schemeHostDelim(str);
-	var _p8 = delim;
-	if (_p8.ctor === 'Just') {
+	if (A2(_elm_lang$core$String$contains, '//', str)) {
 		return A2(
 			_sporto$erl$Erl$leftFromOrSame,
 			':',
 			A2(
 				_sporto$erl$Erl$leftFromOrSame,
 				'/',
-				A2(_sporto$erl$Erl$rightFromLeftMost, _p8._0, str)));
+				A2(_sporto$erl$Erl$rightFromOrSame, '//', str)));
 	} else {
 		var rx = '((\\w|-)+\\.)+(\\w|-)+';
 		return A2(
@@ -16264,7 +16240,10 @@ var _sporto$erl$Erl$extractHost = function (str) {
 						_elm_lang$core$Regex$find,
 						_elm_lang$core$Regex$AtMost(1),
 						_elm_lang$core$Regex$regex(rx),
-						A2(_sporto$erl$Erl$leftFromOrSame, '/', str)))));
+						A2(
+							_sporto$erl$Erl$leftFromOrSame,
+							'/',
+							A2(_sporto$erl$Erl$rightFromOrSame, '//', str))))));
 	}
 };
 var _sporto$erl$Erl$host = function (str) {
@@ -16272,34 +16251,28 @@ var _sporto$erl$Erl$host = function (str) {
 		_sporto$erl$Erl$extractHost(str));
 };
 var _sporto$erl$Erl$extractPath = function (str) {
-	var delim = _sporto$erl$Erl$schemeHostDelim(str);
-	var trimmed = function () {
-		var _p9 = delim;
-		if (_p9.ctor === 'Just') {
-			return A2(_sporto$erl$Erl$rightFromLeftMost, _p9._0, str);
-		} else {
-			return str;
-		}
-	}();
 	var host = _sporto$erl$Erl$extractHost(str);
 	return A4(
 		_elm_lang$core$Regex$replace,
 		_elm_lang$core$Regex$AtMost(1),
-		_elm_lang$core$Regex$regex(
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				'^.*?',
-				A2(
-					_elm_lang$core$Basics_ops['++'],
-					_elm_lang$core$Regex$escape(host),
-					'(:\\d+)?'))),
-		function (_p10) {
+		_elm_lang$core$Regex$regex(':\\d+'),
+		function (_p7) {
 			return '';
 		},
-		A2(
-			_sporto$erl$Erl$leftFromOrSame,
-			'#',
-			A2(_sporto$erl$Erl$leftFromOrSame, '?', trimmed)));
+		A4(
+			_elm_lang$core$Regex$replace,
+			_elm_lang$core$Regex$AtMost(1),
+			_elm_lang$core$Regex$regex(host),
+			function (_p8) {
+				return '';
+			},
+			A2(
+				_sporto$erl$Erl$leftFromOrSame,
+				'#',
+				A2(
+					_sporto$erl$Erl$leftFromOrSame,
+					'?',
+					A2(_sporto$erl$Erl$rightFromOrSame, '//', str)))));
 };
 var _sporto$erl$Erl$hasLeadingSlashFromAll = function (str) {
 	return A2(
@@ -16316,8 +16289,8 @@ var _sporto$erl$Erl$hasTrailingSlashFromAll = function (str) {
 var _sporto$erl$Erl$rightFrom = F2(
 	function (delimiter, str) {
 		var parts = A2(_elm_lang$core$String$split, delimiter, str);
-		var _p11 = _elm_lang$core$List$length(parts);
-		switch (_p11) {
+		var _p9 = _elm_lang$core$List$length(parts);
+		switch (_p9) {
 			case 0:
 				return '';
 			case 1:
@@ -16886,10 +16859,13 @@ var _user$project$BoardDetails$getColumnCard = function (card) {
 var _user$project$BoardDetails$subscriptions = function (model) {
 	return _elm_lang$core$Platform_Sub$none;
 };
-var _user$project$BoardDetails$Model = F4(
-	function (a, b, c, d) {
-		return {data: a, addCard: b, addColumn: c, dialogAction: d};
+var _user$project$BoardDetails$Model = F5(
+	function (a, b, c, d, e) {
+		return {data: a, addCard: b, addColumn: c, dialogAction: d, mdl: e};
 	});
+var _user$project$BoardDetails$Mdl = function (a) {
+	return {ctor: 'Mdl', _0: a};
+};
 var _user$project$BoardDetails$SetColumnDialog = {ctor: 'SetColumnDialog'};
 var _user$project$BoardDetails$viewButton = F3(
 	function (idx, model, column) {
@@ -17007,7 +16983,8 @@ var _user$project$BoardDetails$model = {
 		{ctor: '[]'}),
 	addCard: A2(_user$project$BoardTask$AddCard, '', ''),
 	addColumn: _user$project$BoardTask$AddColumn(''),
-	dialogAction: _user$project$BoardDetails$None
+	dialogAction: _user$project$BoardDetails$None,
+	mdl: _debois$elm_mdl$Material$model
 };
 var _user$project$BoardDetails$init = {ctor: '_Tuple2', _0: _user$project$BoardDetails$model, _1: _elm_lang$core$Platform_Cmd$none};
 var _user$project$BoardDetails$AddNewColumn = {ctor: 'AddNewColumn'};
@@ -17026,7 +17003,7 @@ var _user$project$BoardDetails$update = F2(
 						{dialogAction: _user$project$BoardDetails$AddNewCard}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
-			default:
+			case 'SetColumnDialog':
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
@@ -17034,6 +17011,8 @@ var _user$project$BoardDetails$update = F2(
 						{dialogAction: _user$project$BoardDetails$AddNewColumn}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
+			default:
+				return A3(_debois$elm_mdl$Material$update, _user$project$BoardDetails$Mdl, _p2._0, model);
 		}
 	});
 
@@ -17055,31 +17034,6 @@ var _user$project$Page$BoardDetailsPage = {ctor: 'BoardDetailsPage'};
 var _user$project$Page$BoardsPage = {ctor: 'BoardsPage'};
 var _user$project$Page$Home = {ctor: 'Home'};
 
-var _user$project$Boards$update = F2(
-	function (msg, model) {
-		var _p0 = msg;
-		if (_p0.ctor === 'AddBoard') {
-			return {ctor: '_Tuple3', _0: model, _1: _elm_lang$core$Platform_Cmd$none, _2: _elm_lang$core$Maybe$Nothing};
-		} else {
-			var boards = model.boards;
-			var board_ = _elm_lang$core$List$head(boards);
-			var stricBoard_ = A2(
-				_elm_lang$core$Maybe$withDefault,
-				A2(
-					_user$project$BoardTask$BoardView,
-					'',
-					{ctor: '[]'}),
-				board_);
-			return {
-				ctor: '_Tuple3',
-				_0: _elm_lang$core$Native_Utils.update(
-					model,
-					{boardDetails: _p0._0}),
-				_1: _elm_lang$core$Platform_Cmd$none,
-				_2: _elm_lang$core$Maybe$Just(_user$project$Page$BoardDetailsPage)
-			};
-		}
-	});
 var _user$project$Boards$model = function () {
 	var boards_ = _user$project$BoardTask$getExampleSetOfBoards;
 	var board_ = _elm_lang$core$List$head(boards_);
@@ -17090,11 +17044,41 @@ var _user$project$Boards$model = function () {
 			'',
 			{ctor: '[]'}),
 		board_);
-	return {boards: boards_, boardDetails: stricBoard_};
+	return {boards: boards_, boardDetails: stricBoard_, mdl: _debois$elm_mdl$Material$model};
 }();
-var _user$project$Boards$Model = F2(
-	function (a, b) {
-		return {boards: a, boardDetails: b};
+var _user$project$Boards$Model = F3(
+	function (a, b, c) {
+		return {boards: a, boardDetails: b, mdl: c};
+	});
+var _user$project$Boards$Mdl = function (a) {
+	return {ctor: 'Mdl', _0: a};
+};
+var _user$project$Boards$update = F2(
+	function (msg, model) {
+		var _p0 = msg;
+		switch (_p0.ctor) {
+			case 'AddBoard':
+				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+			case 'UpdateCurrentBoardView':
+				var boards = model.boards;
+				var board_ = _elm_lang$core$List$head(boards);
+				var stricBoard_ = A2(
+					_elm_lang$core$Maybe$withDefault,
+					A2(
+						_user$project$BoardTask$BoardView,
+						'',
+						{ctor: '[]'}),
+					board_);
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{boardDetails: _p0._0}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			default:
+				return A3(_debois$elm_mdl$Material$update, _user$project$Boards$Mdl, _p0._0, model);
+		}
 	});
 var _user$project$Boards$UpdateCurrentBoardView = function (a) {
 	return {ctor: 'UpdateCurrentBoardView', _0: a};
@@ -17131,27 +17115,9 @@ var _user$project$Boards$view = function (model) {
 };
 var _user$project$Boards$AddBoard = {ctor: 'AddBoard'};
 
-var _user$project$App_Model$delta2url = F2(
-	function (previous, current) {
-		var _p0 = current.activePage;
-		switch (_p0.ctor) {
-			case 'BoardsPage':
-				return _elm_lang$core$Maybe$Just(
-					A2(_rgrempel$elm_route_url$RouteUrl$UrlChange, _rgrempel$elm_route_url$RouteUrl$NewEntry, '/#boards'));
-			case 'BoardDetailsPage':
-				return _elm_lang$core$Maybe$Just(
-					A2(_rgrempel$elm_route_url$RouteUrl$UrlChange, _rgrempel$elm_route_url$RouteUrl$NewEntry, '/#board'));
-			case 'PageNotFound':
-				return _elm_lang$core$Maybe$Just(
-					A2(_rgrempel$elm_route_url$RouteUrl$UrlChange, _rgrempel$elm_route_url$RouteUrl$NewEntry, '/#404'));
-			default:
-				return _elm_lang$core$Maybe$Just(
-					A2(_rgrempel$elm_route_url$RouteUrl$UrlChange, _rgrempel$elm_route_url$RouteUrl$NewEntry, ''));
-		}
-	});
 var _user$project$App_Model$init = {
 	ctor: '_Tuple2',
-	_0: {mdl: _debois$elm_mdl$Material$model, boards: _user$project$Boards$model, activePage: _user$project$Page$BoardsPage, boardDetails: _user$project$BoardDetails$model},
+	_0: {boards: _user$project$Boards$model, activePage: _user$project$Page$BoardsPage, boardDetails: _user$project$BoardDetails$model, mdl: _debois$elm_mdl$Material$model},
 	_1: _elm_lang$core$Platform_Cmd$none
 };
 var _user$project$App_Model$subscriptions = function (model) {
@@ -17159,39 +17125,13 @@ var _user$project$App_Model$subscriptions = function (model) {
 };
 var _user$project$App_Model$Model = F4(
 	function (a, b, c, d) {
-		return {mdl: a, activePage: b, boards: c, boardDetails: d};
+		return {activePage: a, boards: b, boardDetails: c, mdl: d};
 	});
+var _user$project$App_Model$Mdl = function (a) {
+	return {ctor: 'Mdl', _0: a};
+};
 var _user$project$App_Model$SetActivePage = function (a) {
 	return {ctor: 'SetActivePage', _0: a};
-};
-var _user$project$App_Model$location2messages = function (location) {
-	var _p1 = location.hash;
-	switch (_p1) {
-		case '':
-			return {
-				ctor: '::',
-				_0: _user$project$App_Model$SetActivePage(_user$project$Page$BoardsPage),
-				_1: {ctor: '[]'}
-			};
-		case '#boards':
-			return {
-				ctor: '::',
-				_0: _user$project$App_Model$SetActivePage(_user$project$Page$BoardsPage),
-				_1: {ctor: '[]'}
-			};
-		case '#board':
-			return {
-				ctor: '::',
-				_0: _user$project$App_Model$SetActivePage(_user$project$Page$BoardDetailsPage),
-				_1: {ctor: '[]'}
-			};
-		default:
-			return {
-				ctor: '::',
-				_0: _user$project$App_Model$SetActivePage(_user$project$Page$PageNotFound),
-				_1: {ctor: '[]'}
-			};
-	}
 };
 var _user$project$App_Model$BoardDetailsMsg = function (a) {
 	return {ctor: 'BoardDetailsMsg', _0: a};
@@ -17204,40 +17144,40 @@ var _user$project$App_Update$update = F2(
 	function (msg, model) {
 		update:
 		while (true) {
-			var _p0 = msg;
+			var _p0 = A2(_elm_lang$core$Debug$log, 'Message', msg);
 			switch (_p0.ctor) {
 				case 'BoardsMsg':
-					var _p1 = A2(_user$project$Boards$update, _p0._0, model.boards);
-					var model_ = _p1._0;
-					var cmd = _p1._1;
-					var page = _p1._2;
-					var log = page;
-					var _p2 = page;
-					if (_p2.ctor === 'Nothing') {
-						return {
-							ctor: '_Tuple2',
-							_0: _elm_lang$core$Native_Utils.update(
-								model,
-								{boards: model_}),
-							_1: _elm_lang$core$Platform_Cmd$none
-						};
-					} else {
-						var _p3 = _p2._0;
-						var log_ = A2(
-							_elm_lang$core$Debug$log,
-							A2(
-								_elm_lang$core$Basics_ops['++'],
-								'Have: ',
-								_user$project$Page$pageToString(_p3)),
-							'Should: #board');
-						var _v2 = _user$project$App_Model$SetActivePage(_p3),
-							_v3 = _elm_lang$core$Native_Utils.update(
-							model,
-							{boards: model_});
-						msg = _v2;
-						model = _v3;
-						continue update;
-					}
+					var _p1 = A6(
+						_debois$elm_mdl$Material_Helpers$lift,
+						function (_) {
+							return _.boards;
+						},
+						F2(
+							function (m, x) {
+								return _elm_lang$core$Native_Utils.update(
+									m,
+									{boards: x});
+							}),
+						_user$project$App_Model$BoardsMsg,
+						_user$project$Boards$update,
+						_p0._0,
+						model);
+					var m = _p1._0;
+					var c = _p1._1;
+					var details = m.boardDetails;
+					var detailsData = m.boards;
+					var updated = _elm_lang$core$Native_Utils.update(
+						m,
+						{
+							boardDetails: _elm_lang$core$Native_Utils.update(
+								details,
+								{data: detailsData.boardDetails})
+						});
+					var _v1 = _user$project$App_Model$SetActivePage(_user$project$Page$BoardDetailsPage),
+						_v2 = updated;
+					msg = _v1;
+					model = _v2;
+					continue update;
 				case 'SetActivePage':
 					return {
 						ctor: '_Tuple2',
@@ -17246,12 +17186,24 @@ var _user$project$App_Update$update = F2(
 							{activePage: _p0._0}),
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
+				case 'Mdl':
+					return A3(_debois$elm_mdl$Material$update, _user$project$App_Model$Mdl, _p0._0, model);
 				default:
-					var log_ = A2(
-						_elm_lang$core$Debug$log,
-						A2(_elm_lang$core$Basics_ops['++'], 'Have: ', '?'),
-						'Should: #board');
-					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+					return A6(
+						_debois$elm_mdl$Material_Helpers$lift,
+						function (_) {
+							return _.boardDetails;
+						},
+						F2(
+							function (m, x) {
+								return _elm_lang$core$Native_Utils.update(
+									m,
+									{boardDetails: x});
+							}),
+						_user$project$App_Model$BoardDetailsMsg,
+						_user$project$BoardDetails$update,
+						_p0._0,
+						model);
 			}
 		}
 	});
@@ -17271,10 +17223,7 @@ var _user$project$App_View$view_ = function (model) {
 			return A2(
 				_elm_lang$html$Html$map,
 				_user$project$App_Model$BoardDetailsMsg,
-				_user$project$BoardDetails$view(
-					_elm_lang$core$Native_Utils.update(
-						model_,
-						{data: board})));
+				_user$project$BoardDetails$view(model.boardDetails));
 		case 'PageNotFound':
 			return A2(
 				_elm_lang$html$Html$div,
@@ -17308,8 +17257,8 @@ var _user$project$App_View$view_ = function (model) {
 };
 var _user$project$App_View$view = _elm_lang$html$Html_Lazy$lazy(_user$project$App_View$view_);
 
-var _user$project$Main$main = _rgrempel$elm_route_url$RouteUrl$program(
-	{delta2url: _user$project$App_Model$delta2url, location2messages: _user$project$App_Model$location2messages, init: _user$project$App_Model$init, update: _user$project$App_Update$update, view: _user$project$App_View$view, subscriptions: _user$project$App_Model$subscriptions})();
+var _user$project$Main$main = _elm_lang$html$Html$program(
+	{init: _user$project$App_Model$init, update: _user$project$App_Update$update, view: _user$project$App_View$view, subscriptions: _user$project$App_Model$subscriptions})();
 
 var Elm = {};
 Elm['Main'] = Elm['Main'] || {};

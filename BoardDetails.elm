@@ -6,6 +6,7 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import BoardTask
 import Debug
+import Material
 
 
 subscriptions : Model -> Sub Msg
@@ -19,6 +20,7 @@ model =
     , addCard = BoardTask.AddCard "" ""
     , addColumn = BoardTask.AddColumn ""
     , dialogAction = None
+    , mdl = Material.model
     }
 
 
@@ -31,6 +33,7 @@ type Msg
     = AddToList
     | SetCardDialog BoardTask.ColumnView
     | SetColumnDialog
+    | Mdl (Material.Msg Msg)
 
 
 type DialogAction
@@ -44,6 +47,7 @@ type alias Model =
     , addCard : BoardTask.AddCard
     , addColumn : BoardTask.AddColumn
     , dialogAction : DialogAction
+    , mdl : Material.Model
     }
 
 
@@ -87,6 +91,9 @@ update msg model =
 
         SetColumnDialog ->
             ( { model | dialogAction = AddNewColumn }, Cmd.none )
+
+        Mdl msg_ ->
+            Material.update Mdl msg_ model
 
 
 
