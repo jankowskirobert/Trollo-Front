@@ -49,9 +49,6 @@ view_ model =
                 -- (BoardDetails.view { data_ | data = board })
                 PageNotFound ->
                     div [] [ text "404" ]
-
-                Home ->
-                    li [] [ a [ href ("#boards") ] [ text "jhjhkhk" ] ]
     in
         Layout.render Mdl
             model.mdl
@@ -60,7 +57,7 @@ view_ model =
             ]
             { header = header model
             , drawer = []
-            , tabs = ( [ text "Borders" ], [ Color.background (Color.color Color.Teal Color.S400) ] )
+            , tabs = ( [ text "Boards" ], [ Color.background (Color.color Color.Teal Color.S400) ] )
             , main = [ h_ ]
             }
 

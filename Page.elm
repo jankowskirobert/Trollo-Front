@@ -4,8 +4,7 @@ import BoardTask
 
 
 type Page
-    = Home
-    | BoardsPage
+    = BoardsPage
     | BoardDetailsPage
     | PageNotFound
 
@@ -13,9 +12,6 @@ type Page
 pageToString : Page -> String
 pageToString page =
     case page of
-        Home ->
-            ""
-
         BoardsPage ->
             "#boards"
 

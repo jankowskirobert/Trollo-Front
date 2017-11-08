@@ -17404,8 +17404,6 @@ var _user$project$BoardDetails_Model$AddNewCard = {ctor: 'AddNewCard'};
 var _user$project$Page$pageToString = function (page) {
 	var _p0 = page;
 	switch (_p0.ctor) {
-		case 'Home':
-			return '';
 		case 'BoardsPage':
 			return '#boards';
 		case 'BoardDetailsPage':
@@ -17417,7 +17415,6 @@ var _user$project$Page$pageToString = function (page) {
 var _user$project$Page$PageNotFound = {ctor: 'PageNotFound'};
 var _user$project$Page$BoardDetailsPage = {ctor: 'BoardDetailsPage'};
 var _user$project$Page$BoardsPage = {ctor: 'BoardsPage'};
-var _user$project$Page$Home = {ctor: 'Home'};
 
 var _user$project$App_Model$init = {
 	ctor: '_Tuple2',
@@ -17891,33 +17888,13 @@ var _user$project$App_View$view_ = function (model) {
 					_elm_lang$html$Html$map,
 					_user$project$App_Model$BoardDetailsMsg,
 					_user$project$BoardDetails_View$view(model.boardDetails));
-			case 'PageNotFound':
+			default:
 				return A2(
 					_elm_lang$html$Html$div,
 					{ctor: '[]'},
 					{
 						ctor: '::',
 						_0: _elm_lang$html$Html$text('404'),
-						_1: {ctor: '[]'}
-					});
-			default:
-				return A2(
-					_elm_lang$html$Html$li,
-					{ctor: '[]'},
-					{
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$a,
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$href('#boards'),
-								_1: {ctor: '[]'}
-							},
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html$text('jhjhkhk'),
-								_1: {ctor: '[]'}
-							}),
 						_1: {ctor: '[]'}
 					});
 		}
@@ -17942,7 +17919,7 @@ var _user$project$App_View$view_ = function (model) {
 				ctor: '_Tuple2',
 				_0: {
 					ctor: '::',
-					_0: _elm_lang$html$Html$text('Borders'),
+					_0: _elm_lang$html$Html$text('Boards'),
 					_1: {ctor: '[]'}
 				},
 				_1: {

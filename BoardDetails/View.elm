@@ -8,6 +8,9 @@ import Html.Events exposing (..)
 import BoardTask
 import Debug
 import Material
+import Material.Textfield as Textfield
+import Material.Button as Button
+import Material.Dialog as Dialog
 
 
 getBoardColumn : BoardTask.ColumnView -> Model -> Html Msg
@@ -43,7 +46,7 @@ getColumnCard card =
 
 viewButton : Int -> Model -> BoardTask.ColumnView -> Html Msg
 viewButton idx model column =
-    button [ onClick SetColumnDialog ]
+    button [ onClick (SetCardDialog column) ]
         [ text ("Add Card #" ++ toString idx) ]
 
 
@@ -70,23 +73,19 @@ viewDialog model =
         ( title, content, actions ) =
             case model.dialogAction of
                 AddNewCard ->
-                    ( "", "", "" )
+                    d0 model
 
                 AddNewColumn ->
-                    ( "", "", "" )
+                    ( [ div [] [] ], [ div [] [] ], [ div [] [] ] )
 
                 None ->
-                    ( "", "", "" )
+                    ( [ div [] [] ], [ div [] [] ], [ div [] [] ] )
     in
-        div [] []
-
-
-
--- Dialog.view []
---     [ Dialog.title [] title
---     , Dialog.content [] content
---     , Dialog.actions [] actions
---     ]
+        Dialog.view []
+            [ Dialog.title [] title
+            , Dialog.content [] content
+            , Dialog.actions [] actions
+            ]
 
 
 view : Model -> Html Msg
@@ -103,34 +102,36 @@ view model =
         ]
 
 
+d0 : Model -> ( List (Html Msg), List (Html Msg), List (Html Msg) )
+d0 model =
+    ( [ text "Add New Card" ]
+    , [ Textfield.render Mdl
+            [ 2 ]
+            model.mdl
+            [ Textfield.label "Title"
+            , Textfield.floatingLabel
+            ]
+            [ text "Close" ]
+      ]
+    , [ Button.render Mdl
+            [ 0 ]
+            model.mdl
+            [ Dialog.closeOn "click"
+            ]
+            [ text "Close" ]
+      , Button.render Mdl
+            [ 1 ]
+            model.mdl
+            [ Button.colored
+            , Button.raised
+            , Dialog.closeOn "click"
+            ]
+            [ text "Submit" ]
+      ]
+    )
 
--- d0 : Model -> ( List (Html Msg), List (Html Msg), List (Html Msg) )
--- d0 model =
---     ( [ text "Add New Card" ]
---     , [ Textfield.render Mdl
---             [ 2 ]
---             model.mdl
---             [ Textfield.label "Title"
---             , Textfield.floatingLabel
---             ]
---             [ text "Close" ]
---       ]
---     , [ Button.render Mdl
---             [ 0 ]
---             model.mdl
---             [ Dialog.closeOn "click"
---             ]
---             [ text "Close" ]
---       , Button.render Mdl
---             [ 1 ]
---             model.mdl
---             [ Button.colored
---             , Button.raised
---             , Dialog.closeOn "click"
---             ]
---             [ text "Submit" ]
---       ]
---     )
+
+
 -- -- title, content, actions
 -- d1 : Model -> ( List (Html Msg), List (Html Msg), List (Html Msg) )
 -- d1 model =
