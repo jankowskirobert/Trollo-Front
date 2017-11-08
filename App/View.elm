@@ -69,6 +69,8 @@ header : Model -> List (Html Msg)
 header model =
     [ Layout.row
         [ css "transition" "height 333ms ease-in-out 0s"
+        , css "height" "74px"
+        , css "padding" "2rem"
         ]
         [ Layout.title [] [ img [ src "logo.png", width 180, height 66] [] ]
         , Layout.spacer]
