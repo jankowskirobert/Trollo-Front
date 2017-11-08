@@ -60,7 +60,7 @@ view_ model =
             ]
             { header = header model
             , drawer = []
-            , tabs = ( [ text "Borders" ], [ Color.background (Color.color Color.Teal Color.S400) ] )
+            , tabs = ( [ text "Boards" ], [ Color.background (Color.color Color.Teal Color.S400) ] )
             , main = [ h_ ]
             }
 
@@ -70,13 +70,6 @@ header model =
     [ Layout.row
         [ css "transition" "height 333ms ease-in-out 0s"
         ]
-        [ Layout.title [] [ text "Trollo" ]
-        , Layout.spacer
-        , Layout.navigation []
-            [ Layout.link
-                [-- Options.onClick ToggleHeader
-                ]
-                [ Icon.i "photo" ]
-            ]
-        ]
+        [ Layout.title [] [ img [ src "logo.png", width 180, height 66] [] ]
+        , Layout.spacer]
     ]
