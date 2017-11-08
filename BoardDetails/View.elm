@@ -1,5 +1,6 @@
-module BoardDetails exposing (Model, model, view, update, Msg)
+module BoardDetails.View exposing (..)
 
+import BoardDetails.Model exposing (Msg(..), Model, DialogAction(..))
 import Html.Lazy
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -7,110 +8,6 @@ import Html.Events exposing (..)
 import BoardTask
 import Debug
 import Material
-
-
-subscriptions : Model -> Sub Msg
-subscriptions model =
-    Sub.none
-
-
-model : Model
-model =
-    { data = BoardTask.BoardView "" []
-    , addCard = BoardTask.AddCard "" ""
-    , addColumn = BoardTask.AddColumn ""
-    , dialogAction = None
-    , mdl = Material.model
-    }
-
-
-init : ( Model, Cmd Msg )
-init =
-    ( model, Cmd.none )
-
-
-type Msg
-    = AddToList
-    | SetCardDialog BoardTask.ColumnView
-    | SetColumnDialog
-    | Mdl (Material.Msg Msg)
-
-
-type DialogAction
-    = AddNewCard
-    | AddNewColumn
-    | None
-
-
-type alias Model =
-    { data : BoardTask.BoardView
-    , addCard : BoardTask.AddCard
-    , addColumn : BoardTask.AddColumn
-    , dialogAction : DialogAction
-    , mdl : Material.Model
-    }
-
-
-
--- dialogBuilder : Model -> Html Msg -> Html Msg -> Html Msg
--- dialogBuilder model =
---     Dialog.view
---         [ Options.id "TEST"
---         ]
---         [ Dialog.title [] [ text "Add new card" ]
---         , Dialog.content []
---             [ content
---             ]
---         , Dialog.actions
---             []
---             [ dialogActions ]
---         ]
--- UPDATE
-
-
-update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
-    case msg of
-        AddToList ->
-            -- let
-            -- view_ =
-            --     model.activeColumnView
-            -- cards_ =
-            --     view_.cards
-            -- isInBoard =
-            --     cards_
-            --         ++ [ (BoardTask.CardView 1 1 "column" "Test1") ]
-            -- in
-            -- if addcard.title /= "" then
-            --     ( { model | data = BoardTask.putCardElementToList model.addCard column_, addCard = BoardTask.AddCard "" "" }, Cmd.none )
-            -- else
-            ( model, Cmd.none )
-
-        SetCardDialog columView_ ->
-            ( { model | dialogAction = AddNewCard }, Cmd.none )
-
-        SetColumnDialog ->
-            ( { model | dialogAction = AddNewColumn }, Cmd.none )
-
-        Mdl msg_ ->
-            Material.update Mdl msg_ model
-
-
-
--- Refresh (Ok newResponse) ->
---   (newResponse, Cmd.none)
--- Refresh (Err _) ->
---   (model, Cmd.none)
--- view model =
---   div []
---     [ button [ onClick Decrement ] [ text "-" ]
---     , div [] [ text (toString model) ]
---     , button [ onClick Increment ] [ text "+" ]
---     ]
---  <article class="card">
---         <header>Drag and Drop CSS</header>
---         <div class="detail">1/2</div>
---       </article>
 
 
 getBoardColumn : BoardTask.ColumnView -> Model -> Html Msg

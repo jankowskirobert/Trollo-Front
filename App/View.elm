@@ -8,7 +8,7 @@ import Html.Events exposing (..)
 import Page exposing (..)
 import Boards.View as Boards exposing (view)
 import Material.Options as Options exposing (css, when)
-import BoardDetails
+import BoardDetails.View as BoardDetails
 import Material.Layout as Layout
 import Material.Icon as Icon
 import Material.Color as Color

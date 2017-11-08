@@ -17375,206 +17375,31 @@ var _user$project$Boards_Model$UpdateCurrentBoardView = function (a) {
 };
 var _user$project$Boards_Model$AddBoard = {ctor: 'AddBoard'};
 
-var _user$project$BoardDetails$viewDialog = function (model) {
-	var _p0 = function () {
-		var _p1 = model.dialogAction;
-		switch (_p1.ctor) {
-			case 'AddNewCard':
-				return {ctor: '_Tuple3', _0: '', _1: '', _2: ''};
-			case 'AddNewColumn':
-				return {ctor: '_Tuple3', _0: '', _1: '', _2: ''};
-			default:
-				return {ctor: '_Tuple3', _0: '', _1: '', _2: ''};
-		}
-	}();
-	var title = _p0._0;
-	var content = _p0._1;
-	var actions = _p0._2;
-	return A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		{ctor: '[]'});
-};
-var _user$project$BoardDetails$getColumnCard = function (card) {
-	return A2(
-		_elm_lang$html$Html$article,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('card'),
-			_1: {ctor: '[]'}
-		},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$header,
-				{ctor: '[]'},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text(card.title),
-					_1: {ctor: '[]'}
-				}),
-			_1: {ctor: '[]'}
-		});
-};
-var _user$project$BoardDetails$subscriptions = function (model) {
-	return _elm_lang$core$Platform_Sub$none;
-};
-var _user$project$BoardDetails$Model = F5(
+var _user$project$BoardDetails_Model$Model = F5(
 	function (a, b, c, d, e) {
 		return {data: a, addCard: b, addColumn: c, dialogAction: d, mdl: e};
 	});
-var _user$project$BoardDetails$Mdl = function (a) {
+var _user$project$BoardDetails_Model$Mdl = function (a) {
 	return {ctor: 'Mdl', _0: a};
 };
-var _user$project$BoardDetails$SetColumnDialog = {ctor: 'SetColumnDialog'};
-var _user$project$BoardDetails$viewButton = F3(
-	function (idx, model, column) {
-		return A2(
-			_elm_lang$html$Html$button,
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html_Events$onClick(_user$project$BoardDetails$SetColumnDialog),
-				_1: {ctor: '[]'}
-			},
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html$text(
-					A2(
-						_elm_lang$core$Basics_ops['++'],
-						'Add Card #',
-						_elm_lang$core$Basics$toString(idx))),
-				_1: {ctor: '[]'}
-			});
-	});
-var _user$project$BoardDetails$getBoardColumn = F2(
-	function (column, model) {
-		var rows = column.cards;
-		var rendered_ = A2(
-			_elm_lang$html$Html$div,
-			{ctor: '[]'},
-			A2(
-				_elm_lang$core$List$map,
-				function (l) {
-					return _user$project$BoardDetails$getColumnCard(l);
-				},
-				rows));
-		return A2(
-			_elm_lang$html$Html$div,
-			{ctor: '[]'},
-			{
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$section,
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class('list'),
-						_1: {ctor: '[]'}
-					},
-					{
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$div,
-							{ctor: '[]'},
-							{
-								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$header,
-									{ctor: '[]'},
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html$text(column.title),
-										_1: {ctor: '[]'}
-									}),
-								_1: {ctor: '[]'}
-							}),
-						_1: {
-							ctor: '::',
-							_0: rendered_,
-							_1: {
-								ctor: '::',
-								_0: A3(_user$project$BoardDetails$viewButton, 0, model, column),
-								_1: {ctor: '[]'}
-							}
-						}
-					}),
-				_1: {ctor: '[]'}
-			});
-	});
-var _user$project$BoardDetails$viewColumns = function (model) {
-	var data_ = model.data;
-	var columns_ = data_.columns;
-	return A2(
-		_elm_lang$html$Html$div,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('main_board'),
-			_1: {ctor: '[]'}
-		},
-		A2(
-			_elm_lang$core$List$map,
-			function (l) {
-				return A2(_user$project$BoardDetails$getBoardColumn, l, model);
-			},
-			columns_));
-};
-var _user$project$BoardDetails$view = function (model) {
-	return A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: _user$project$BoardDetails$viewColumns(model),
-			_1: {
-				ctor: '::',
-				_0: _user$project$BoardDetails$viewDialog(model),
-				_1: {ctor: '[]'}
-			}
-		});
-};
-var _user$project$BoardDetails$SetCardDialog = function (a) {
+var _user$project$BoardDetails_Model$SetColumnDialog = {ctor: 'SetColumnDialog'};
+var _user$project$BoardDetails_Model$SetCardDialog = function (a) {
 	return {ctor: 'SetCardDialog', _0: a};
 };
-var _user$project$BoardDetails$AddToList = {ctor: 'AddToList'};
-var _user$project$BoardDetails$None = {ctor: 'None'};
-var _user$project$BoardDetails$model = {
+var _user$project$BoardDetails_Model$AddToList = {ctor: 'AddToList'};
+var _user$project$BoardDetails_Model$None = {ctor: 'None'};
+var _user$project$BoardDetails_Model$model = {
 	data: A2(
 		_user$project$BoardTask$BoardView,
 		'',
 		{ctor: '[]'}),
 	addCard: A2(_user$project$BoardTask$AddCard, '', ''),
 	addColumn: _user$project$BoardTask$AddColumn(''),
-	dialogAction: _user$project$BoardDetails$None,
+	dialogAction: _user$project$BoardDetails_Model$None,
 	mdl: _debois$elm_mdl$Material$model
 };
-var _user$project$BoardDetails$init = {ctor: '_Tuple2', _0: _user$project$BoardDetails$model, _1: _elm_lang$core$Platform_Cmd$none};
-var _user$project$BoardDetails$AddNewColumn = {ctor: 'AddNewColumn'};
-var _user$project$BoardDetails$AddNewCard = {ctor: 'AddNewCard'};
-var _user$project$BoardDetails$update = F2(
-	function (msg, model) {
-		var _p2 = msg;
-		switch (_p2.ctor) {
-			case 'AddToList':
-				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
-			case 'SetCardDialog':
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{dialogAction: _user$project$BoardDetails$AddNewCard}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			case 'SetColumnDialog':
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{dialogAction: _user$project$BoardDetails$AddNewColumn}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			default:
-				return A3(_debois$elm_mdl$Material$update, _user$project$BoardDetails$Mdl, _p2._0, model);
-		}
-	});
+var _user$project$BoardDetails_Model$AddNewColumn = {ctor: 'AddNewColumn'};
+var _user$project$BoardDetails_Model$AddNewCard = {ctor: 'AddNewCard'};
 
 var _user$project$Page$pageToString = function (page) {
 	var _p0 = page;
@@ -17596,7 +17421,7 @@ var _user$project$Page$Home = {ctor: 'Home'};
 
 var _user$project$App_Model$init = {
 	ctor: '_Tuple2',
-	_0: {boards: _user$project$Boards_Model$model, activePage: _user$project$Page$BoardsPage, boardDetails: _user$project$BoardDetails$model, mdl: _debois$elm_mdl$Material$model},
+	_0: {boards: _user$project$Boards_Model$model, activePage: _user$project$Page$BoardsPage, boardDetails: _user$project$BoardDetails_Model$model, mdl: _debois$elm_mdl$Material$model},
 	_1: _elm_lang$core$Platform_Cmd$none
 };
 var _user$project$App_Model$subscriptions = function (model) {
@@ -17647,6 +17472,33 @@ var _user$project$Boards_Update$update = F2(
 				};
 			default:
 				return A3(_debois$elm_mdl$Material$update, _user$project$Boards_Model$Mdl, _p0._0, model);
+		}
+	});
+
+var _user$project$BoardDetails_Update$update = F2(
+	function (msg, model) {
+		var _p0 = msg;
+		switch (_p0.ctor) {
+			case 'AddToList':
+				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+			case 'SetCardDialog':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{dialogAction: _user$project$BoardDetails_Model$AddNewCard}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'SetColumnDialog':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{dialogAction: _user$project$BoardDetails_Model$AddNewColumn}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			default:
+				return A3(_debois$elm_mdl$Material$update, _user$project$BoardDetails_Model$Mdl, _p0._0, model);
 		}
 	});
 
@@ -17717,7 +17569,7 @@ var _user$project$App_Update$update = F2(
 									{boardDetails: x});
 							}),
 						_user$project$App_Model$BoardDetailsMsg,
-						_user$project$BoardDetails$update,
+						_user$project$BoardDetails_Update$update,
 						_p0._0,
 						model);
 			}
@@ -17829,6 +17681,152 @@ var _user$project$Boards_View$view = function (model) {
 			model.boards));
 };
 
+var _user$project$BoardDetails_View$viewDialog = function (model) {
+	var _p0 = function () {
+		var _p1 = model.dialogAction;
+		switch (_p1.ctor) {
+			case 'AddNewCard':
+				return {ctor: '_Tuple3', _0: '', _1: '', _2: ''};
+			case 'AddNewColumn':
+				return {ctor: '_Tuple3', _0: '', _1: '', _2: ''};
+			default:
+				return {ctor: '_Tuple3', _0: '', _1: '', _2: ''};
+		}
+	}();
+	var title = _p0._0;
+	var content = _p0._1;
+	var actions = _p0._2;
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{ctor: '[]'});
+};
+var _user$project$BoardDetails_View$viewButton = F3(
+	function (idx, model, column) {
+		return A2(
+			_elm_lang$html$Html$button,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Events$onClick(_user$project$BoardDetails_Model$SetColumnDialog),
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html$text(
+					A2(
+						_elm_lang$core$Basics_ops['++'],
+						'Add Card #',
+						_elm_lang$core$Basics$toString(idx))),
+				_1: {ctor: '[]'}
+			});
+	});
+var _user$project$BoardDetails_View$getColumnCard = function (card) {
+	return A2(
+		_elm_lang$html$Html$article,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('card'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$header,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(card.title),
+					_1: {ctor: '[]'}
+				}),
+			_1: {ctor: '[]'}
+		});
+};
+var _user$project$BoardDetails_View$getBoardColumn = F2(
+	function (column, model) {
+		var rows = column.cards;
+		var rendered_ = A2(
+			_elm_lang$html$Html$div,
+			{ctor: '[]'},
+			A2(
+				_elm_lang$core$List$map,
+				function (l) {
+					return _user$project$BoardDetails_View$getColumnCard(l);
+				},
+				rows));
+		return A2(
+			_elm_lang$html$Html$div,
+			{ctor: '[]'},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$section,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('list'),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$div,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$header,
+									{ctor: '[]'},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html$text(column.title),
+										_1: {ctor: '[]'}
+									}),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: rendered_,
+							_1: {
+								ctor: '::',
+								_0: A3(_user$project$BoardDetails_View$viewButton, 0, model, column),
+								_1: {ctor: '[]'}
+							}
+						}
+					}),
+				_1: {ctor: '[]'}
+			});
+	});
+var _user$project$BoardDetails_View$viewColumns = function (model) {
+	var data_ = model.data;
+	var columns_ = data_.columns;
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('main_board'),
+			_1: {ctor: '[]'}
+		},
+		A2(
+			_elm_lang$core$List$map,
+			function (l) {
+				return A2(_user$project$BoardDetails_View$getBoardColumn, l, model);
+			},
+			columns_));
+};
+var _user$project$BoardDetails_View$view = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: _user$project$BoardDetails_View$viewColumns(model),
+			_1: {
+				ctor: '::',
+				_0: _user$project$BoardDetails_View$viewDialog(model),
+				_1: {ctor: '[]'}
+			}
+		});
+};
+
 var _user$project$App_View$header = function (model) {
 	return {
 		ctor: '::',
@@ -17892,7 +17890,7 @@ var _user$project$App_View$view_ = function (model) {
 				return A2(
 					_elm_lang$html$Html$map,
 					_user$project$App_Model$BoardDetailsMsg,
-					_user$project$BoardDetails$view(model.boardDetails));
+					_user$project$BoardDetails_View$view(model.boardDetails));
 			case 'PageNotFound':
 				return A2(
 					_elm_lang$html$Html$div,

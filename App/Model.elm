@@ -1,7 +1,7 @@
 module App.Model exposing (..)
 
 import Boards.Model as Boards exposing (Model, model, Msg)
-import BoardDetails
+import BoardDetails.Model as BoardDetails
 import Page as Router exposing (Page(..))
 import Navigation exposing (Location)
 import RouteUrl exposing (HistoryEntry(..), UrlChange)
