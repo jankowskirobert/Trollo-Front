@@ -5,15 +5,17 @@ module BoardTask
         , AddColumn
         , ColumnView
         , BoardView
-        , getEmptyDataSet
-        , decodeFromJson
+        , getCardView
         , getExampleSetOfData
         , putElementToList
         , getExampleSetOfBoards
+        , Msg
+        , Model
+        , model
         )
 
 import Json.Decode
-
+import Http
 
 -- STRUCTURE
 
@@ -23,7 +25,7 @@ type alias Team =
 
 
 type alias CardView =
-    { userId : Int, id : Int, title : String, body : String }
+    { uniqueNumber : String, status : Bool, title : String, description : String,  boardID : Int }
 
 
 type alias ColumnView =
@@ -45,46 +47,55 @@ type alias AddColumn =
 type alias AddBoard =
     { title : String, teams : List Team }
 
-
-
--- EMPTY SET
-
-
-getEmptyDataSet : CardView
-getEmptyDataSet =
-    { userId = 0
-    , id = 0
-    , title = ""
-    , body = ""
+type alias Model =
+    { cardFromRest : CardView
     }
 
+model : Model
+model = 
+    {
+        cardFromRest = CardView "UNI1" True "TITLE1" "DESC1" 1
+    }
 
-decodeFromJson : Json.Decode.Decoder CardView
-decodeFromJson =
-    Json.Decode.map4 CardView
-        (Json.Decode.at [ "userId" ] Json.Decode.int)
-        (Json.Decode.at [ "id" ] Json.Decode.int)
+update : Msg -> Model -> ( Model, Cmd Msg )
+update msg model =
+    case msg of
+        GetInitialCard ->
+            (model, getCardView "aa1fafe2-c4a5-11e7-b1df-3200105b0f20")
+        GetCardFromApi (Ok card) ->
+            ( {model | cardFromRest = card}, Cmd.none)
+        GetCardFromApi (Err _) ->    
+            ( model, Cmd.none )
+            
+
+
+decodeCardViewFromJson : Json.Decode.Decoder CardView
+decodeCardViewFromJson =
+    Json.Decode.map5 CardView
+        (Json.Decode.at [ "uniqueNumber" ] Json.Decode.string)
+        (Json.Decode.at [ "status" ] Json.Decode.bool)
         (Json.Decode.at [ "title" ] Json.Decode.string)
-        (Json.Decode.at [ "body" ] Json.Decode.string)
+        (Json.Decode.at [ "description" ] Json.Decode.string)
+        (Json.Decode.at [ "boardID" ] Json.Decode.int)
 
 
 getExampleSetOfData : ColumnView
 getExampleSetOfData =
     ColumnView "UUU"
-        [ CardView 1 1 "Test1" "Test1"
-        , CardView 1 1 "Test2" "Test1"
-        , CardView 1 1 "Test3" "Test1"
-        , CardView 1 1 "Test4" "Test1"
+        [ CardView "UNI1" True "TITLE1" "DESC1" 1
+        , CardView "UNI1" True "TITLE1" "DESC1" 1
+        , CardView "UNI1" True "TITLE1" "DESC1" 1
+        , CardView "UNI1" True "TITLE1" "DESC1" 1
         ]
 
 
 getExampleSetOfData2 : ColumnView
 getExampleSetOfData2 =
     ColumnView "UUU2"
-        [ CardView 1 1 "Test21" "Test1"
-        , CardView 1 1 "Test22" "Test1"
-        , CardView 1 1 "Test23" "Test1"
-        , CardView 1 1 "Test24" "Test1"
+        [ CardView "UNI21" True "TITLE1" "DESC1" 1
+        , CardView "UNI1" True "TITLE1" "DESC1" 1
+        , CardView "UNI1" True "TITLE1" "DESC1" 1
+        , CardView "UNI1" True "TITLE1" "DESC1" 1
         ]
 
 
@@ -95,9 +106,37 @@ getExampleSetOfBoards =
 
 putElementToList : String -> List CardView -> List CardView
 putElementToList column lst =
-    (CardView 1 1 column "Test1") :: lst
+    (CardView "UNI1" True "TITLE1" "DESC1" 1) :: lst
 
 
 isListExist : List ColumnView -> String -> Bool
 isListExist columns listname =
     List.member listname (List.map (\x -> x.title) columns)
+
+type Msg = GetCardFromApi (Result Http.Error CardView) | GetInitialCard
+
+getCardView : String -> Cmd Msg 
+getCardView cardId =
+   let
+     url = "https://127.0.0.1/card/"++cardId
+     req = Http.get url decodeCardViewFromJson
+   in
+ Http.send GetCardFromApi req
+
+getColumnView : Cmd Msg 
+getColumnView =
+   let
+     url = "https://jsonplaceholder.typicode.com/posts/1"
+     req = Http.get url decodeCardViewFromJson
+   in
+ Http.send GetCardFromApi req
+
+getBoardView : Cmd Msg 
+getBoardView =
+   let
+     url = "https://jsonplaceholder.typicode.com/posts/1"
+     req = Http.get url decodeCardViewFromJson
+   in
+ Http.send GetCardFromApi req
+
+--  getCardList : 
