@@ -11,6 +11,8 @@ import Material
 import Material.Textfield as Textfield
 import Material.Button as Button
 import Material.Dialog as Dialog
+import Material.Options as Options
+import Column
 
 
 getBoardColumn : BoardTask.ColumnView -> Model -> Html Msg
@@ -46,23 +48,30 @@ getColumnCard card =
 
 viewButton : Int -> Model -> BoardTask.ColumnView -> Html Msg
 viewButton idx model column =
-    button [ onClick (SetCardDialog column) ]
-        [ text ("Add Card #" ++ toString idx) ]
+    Button.render Mdl
+        [ 1 ]
+        model.mdl
+        [ Button.raised, Dialog.openOn "click", Options.onClick (SetCardDialog column) ]
+        [ text "Add Card" ]
 
 
 viewColumns : Model -> Html Msg
 viewColumns model =
     let
-        data_ =
+        bv =
             model.data
 
-        columns_ =
-            data_.columns
+        stored =
+            model.column
+
+        columns =
+            bv.columns
     in
-        columns_
+        columns
             |> List.map
                 (\l ->
-                    getBoardColumn l model
+                    Html.map ColumnMsg (Column.view { stored | data = l })
+                 -- getBoardColumn l model
                 )
             |> div [ class "main_board" ]
 
@@ -92,13 +101,8 @@ view : Model -> Html Msg
 view model =
     div []
         [ viewColumns model
-        , viewDialog model
 
-        -- , Button.render Mdl
-        --     [ 1 ]
-        --     model.mdl
-        --     [ Button.raised, Dialog.openOn "click", Options.onClick SetColumnDialog ]
-        --     [ text "Add Column" ]
+        -- , viewDialog model
         ]
 
 
@@ -125,6 +129,7 @@ d0 model =
             [ Button.colored
             , Button.raised
             , Dialog.closeOn "click"
+            , Options.onClick AddToList
             ]
             [ text "Submit" ]
       ]

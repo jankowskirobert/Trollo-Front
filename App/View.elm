@@ -66,6 +66,7 @@ header : Model -> List (Html Msg)
 header model =
     [ Layout.row
         [ css "transition" "height 333ms ease-in-out 0s"
+        , css "padding" "2rem"
         ]
         [ Layout.title [] [ text "Trollo" ]
         , Layout.spacer

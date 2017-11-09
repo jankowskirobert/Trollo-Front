@@ -15336,6 +15336,99 @@ var _debois$elm_mdl$Material_Color$primaryContrast = _debois$elm_mdl$Material_Co
 var _debois$elm_mdl$Material_Color$accent = _debois$elm_mdl$Material_Color$C('accent');
 var _debois$elm_mdl$Material_Color$accentContrast = _debois$elm_mdl$Material_Color$C('accent-contrast');
 
+var _debois$elm_mdl$Material_Dialog$theDialog = 'elm-mdl-singleton-dialog';
+var _debois$elm_mdl$Material_Dialog$openOn = function () {
+	var handler = A2(
+		_elm_lang$core$Basics_ops['++'],
+		'\n      // Don\'t mess up the elm runtime.\n      try {\n        var dialog = document.getElementById(\'',
+		A2(_elm_lang$core$Basics_ops['++'], _debois$elm_mdl$Material_Dialog$theDialog, '\');\n        if (! dialog) {\n          console.log (\'Cannot display dialog: No dialog element. Use `Dialog.view` to construct one.\');\n          return;\n        }\n        if (! dialog.showModal) {\n          if (typeof dialogPolyfill !== \'undefined\' && dialogPolyfill.registerDialog) {\n            dialogPolyfill.registerDialog(dialog);\n          } else {\n            console.log (\'Cannot display dialog: Your browser does not support the <dialog> element. Get a polyfill at:\\n\\nhttps://github.com/GoogleChrome/dialog-polyfill\\n\');\n            return;\n          }\n        }\n        dialog.showModal();\n      }\n      catch (e)\n      {\n        console.log (\"A dialog method threw an exception. This is not supposed to happen; likely you\'re using a broken polyfill. If not, please file an issue:\\n\\nhttps://github.com/debois/elm-mdl/issues/new\");\n      }\n      '));
+	return function (event) {
+		return _debois$elm_mdl$Material_Options_Internal$attribute(
+			A2(
+				_elm_lang$html$Html_Attributes$attribute,
+				A2(_elm_lang$core$Basics_ops['++'], 'on', event),
+				handler));
+	};
+}();
+var _debois$elm_mdl$Material_Dialog$closeOn = function () {
+	var handler = A2(
+		_elm_lang$core$Basics_ops['++'],
+		'\n      // Don\'t mess up the elm runtime!\n      try {\n        var dialog = document.getElementById(\'',
+		A2(_elm_lang$core$Basics_ops['++'], _debois$elm_mdl$Material_Dialog$theDialog, '\');\n        if (! dialog) {\n          console.log (\'Cannot close dialog: No dialog element. Use `Dialog.view` to construct one.\');\n          return;\n        }\n        if (! dialog.open) {\n          console.log (\'Cannot close dialog: The dialog is not open. Use `Dialog.closeOn` only on components rendered inside the dialog.\');\n          return;\n        }\n        if (! dialog.close) {\n          console.log (\'Cannot close dialog: The dialog does not have a `close` method. Perhaps you forgot a polyfill? Get one at:\\n\\nhttps://github.com/GoogleChrome/dialog-polyfill\\n\');\n          return;\n        }\n        dialog.close();\n      }\n      catch (e)\n      {\n        console.log (\"A dialog method threw an exception. This is not supposed to happen; likely you\'re using a broken polyfill. If not, please file an issue:\\n\\nhttps://github.com/debois/elm-mdl/issues/new\");\n      }\n      '));
+	return function (event) {
+		return _debois$elm_mdl$Material_Options_Internal$attribute(
+			A2(
+				_elm_lang$html$Html_Attributes$attribute,
+				A2(_elm_lang$core$Basics_ops['++'], 'on', event),
+				handler));
+	};
+}();
+var _debois$elm_mdl$Material_Dialog$contentBlock = function (block) {
+	var _p0 = block;
+	switch (_p0.ctor) {
+		case 'Title':
+			return A2(
+				_debois$elm_mdl$Material_Options$div,
+				{
+					ctor: '::',
+					_0: _debois$elm_mdl$Material_Options$cs('mdl-dialog__title'),
+					_1: _p0._0
+				},
+				_p0._1);
+		case 'Content':
+			return A2(
+				_debois$elm_mdl$Material_Options$div,
+				{
+					ctor: '::',
+					_0: _debois$elm_mdl$Material_Options$cs('mdl-dialog__content'),
+					_1: _p0._0
+				},
+				_p0._1);
+		default:
+			return A2(
+				_debois$elm_mdl$Material_Options$div,
+				{
+					ctor: '::',
+					_0: _debois$elm_mdl$Material_Options$cs('mdl-dialog__actions'),
+					_1: _p0._0
+				},
+				_p0._1);
+	}
+};
+var _debois$elm_mdl$Material_Dialog$view = F2(
+	function (styling, contentBlocks) {
+		return A4(
+			_debois$elm_mdl$Material_Options$styled_,
+			_elm_lang$html$Html$node('dialog'),
+			{
+				ctor: '::',
+				_0: _debois$elm_mdl$Material_Options$cs('mdl-dialog'),
+				_1: styling
+			},
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$id(_debois$elm_mdl$Material_Dialog$theDialog),
+				_1: {ctor: '[]'}
+			},
+			A2(_elm_lang$core$List$map, _debois$elm_mdl$Material_Dialog$contentBlock, contentBlocks));
+	});
+var _debois$elm_mdl$Material_Dialog$fullWidth = _debois$elm_mdl$Material_Options$cs('mdl-dialog__actions--full-width');
+var _debois$elm_mdl$Material_Dialog$Actions = F2(
+	function (a, b) {
+		return {ctor: 'Actions', _0: a, _1: b};
+	});
+var _debois$elm_mdl$Material_Dialog$actions = _debois$elm_mdl$Material_Dialog$Actions;
+var _debois$elm_mdl$Material_Dialog$Content = F2(
+	function (a, b) {
+		return {ctor: 'Content', _0: a, _1: b};
+	});
+var _debois$elm_mdl$Material_Dialog$content = _debois$elm_mdl$Material_Dialog$Content;
+var _debois$elm_mdl$Material_Dialog$Title = F2(
+	function (a, b) {
+		return {ctor: 'Title', _0: a, _1: b};
+	});
+var _debois$elm_mdl$Material_Dialog$title = _debois$elm_mdl$Material_Dialog$Title;
+
 //import Maybe, Native.List //
 
 var _elm_lang$core$Native_Regex = function() {
@@ -17197,7 +17290,7 @@ var _rgrempel$elm_route_url$RouteUrl$programWithFlags = function (_p23) {
 };
 
 var _user$project$BoardTask$isListExist = F2(
-	function (column, listname) {
+	function (columns, listname) {
 		return A2(
 			_elm_lang$core$List$member,
 			listname,
@@ -17206,7 +17299,7 @@ var _user$project$BoardTask$isListExist = F2(
 				function (x) {
 					return x.title;
 				},
-				column));
+				columns));
 	});
 var _user$project$BoardTask$getEmptyDataSet = {userId: 0, id: 0, title: '', body: ''};
 var _user$project$BoardTask$Team = F2(
@@ -17375,14 +17468,347 @@ var _user$project$Boards_Model$UpdateCurrentBoardView = function (a) {
 };
 var _user$project$Boards_Model$AddBoard = {ctor: 'AddBoard'};
 
-var _user$project$BoardDetails_Model$Model = F5(
-	function (a, b, c, d, e) {
-		return {data: a, addCard: b, addColumn: c, dialogAction: d, mdl: e};
+var _user$project$Column$getColumnCard = function (card) {
+	return A2(
+		_elm_lang$html$Html$article,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('card'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$header,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(card.title),
+					_1: {ctor: '[]'}
+				}),
+			_1: {ctor: '[]'}
+		});
+};
+var _user$project$Column$Model = F4(
+	function (a, b, c, d) {
+		return {data: a, addCard: b, dialogAction: c, mdl: d};
+	});
+var _user$project$Column$Mdl = function (a) {
+	return {ctor: 'Mdl', _0: a};
+};
+var _user$project$Column$SetCardDialog = {ctor: 'SetCardDialog'};
+var _user$project$Column$viewButton = F3(
+	function (idx, model, column) {
+		return A5(
+			_debois$elm_mdl$Material_Button$render,
+			_user$project$Column$Mdl,
+			{
+				ctor: '::',
+				_0: 1,
+				_1: {ctor: '[]'}
+			},
+			model.mdl,
+			{
+				ctor: '::',
+				_0: _debois$elm_mdl$Material_Button$raised,
+				_1: {
+					ctor: '::',
+					_0: _debois$elm_mdl$Material_Dialog$openOn('click'),
+					_1: {
+						ctor: '::',
+						_0: _debois$elm_mdl$Material_Options$onClick(_user$project$Column$SetCardDialog),
+						_1: {ctor: '[]'}
+					}
+				}
+			},
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html$text('Add Card'),
+				_1: {ctor: '[]'}
+			});
+	});
+var _user$project$Column$getBoardColumn = function (model) {
+	var column = model.data;
+	var rows = column.cards;
+	var rendered_ = A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		A2(
+			_elm_lang$core$List$map,
+			function (l) {
+				return _user$project$Column$getColumnCard(l);
+			},
+			rows));
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$section,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('list'),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$div,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$header,
+								{ctor: '[]'},
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html$text(column.title),
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: rendered_,
+						_1: {
+							ctor: '::',
+							_0: A3(_user$project$Column$viewButton, 0, model, column),
+							_1: {ctor: '[]'}
+						}
+					}
+				}),
+			_1: {ctor: '[]'}
+		});
+};
+var _user$project$Column$AddToList = {ctor: 'AddToList'};
+var _user$project$Column$d0 = function (model) {
+	return {
+		ctor: '_Tuple3',
+		_0: {
+			ctor: '::',
+			_0: _elm_lang$html$Html$text('Add New Card'),
+			_1: {ctor: '[]'}
+		},
+		_1: {
+			ctor: '::',
+			_0: A5(
+				_debois$elm_mdl$Material_Textfield$render,
+				_user$project$Column$Mdl,
+				{
+					ctor: '::',
+					_0: 2,
+					_1: {ctor: '[]'}
+				},
+				model.mdl,
+				{
+					ctor: '::',
+					_0: _debois$elm_mdl$Material_Textfield$label('Title'),
+					_1: {
+						ctor: '::',
+						_0: _debois$elm_mdl$Material_Textfield$floatingLabel,
+						_1: {ctor: '[]'}
+					}
+				},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text('Close'),
+					_1: {ctor: '[]'}
+				}),
+			_1: {ctor: '[]'}
+		},
+		_2: {
+			ctor: '::',
+			_0: A5(
+				_debois$elm_mdl$Material_Button$render,
+				_user$project$Column$Mdl,
+				{
+					ctor: '::',
+					_0: 0,
+					_1: {ctor: '[]'}
+				},
+				model.mdl,
+				{
+					ctor: '::',
+					_0: _debois$elm_mdl$Material_Dialog$closeOn('click'),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text('Close'),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A5(
+					_debois$elm_mdl$Material_Button$render,
+					_user$project$Column$Mdl,
+					{
+						ctor: '::',
+						_0: 1,
+						_1: {ctor: '[]'}
+					},
+					model.mdl,
+					{
+						ctor: '::',
+						_0: _debois$elm_mdl$Material_Button$colored,
+						_1: {
+							ctor: '::',
+							_0: _debois$elm_mdl$Material_Button$raised,
+							_1: {
+								ctor: '::',
+								_0: _debois$elm_mdl$Material_Dialog$closeOn('click'),
+								_1: {
+									ctor: '::',
+									_0: _debois$elm_mdl$Material_Options$onClick(_user$project$Column$AddToList),
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text('Submit'),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			}
+		}
+	};
+};
+var _user$project$Column$viewDialog = function (model) {
+	var _p0 = function () {
+		var _p1 = model.dialogAction;
+		if (_p1.ctor === 'AddNewCard') {
+			return _user$project$Column$d0(model);
+		} else {
+			return {
+				ctor: '_Tuple3',
+				_0: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$div,
+						{ctor: '[]'},
+						{ctor: '[]'}),
+					_1: {ctor: '[]'}
+				},
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$div,
+						{ctor: '[]'},
+						{ctor: '[]'}),
+					_1: {ctor: '[]'}
+				},
+				_2: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$div,
+						{ctor: '[]'},
+						{ctor: '[]'}),
+					_1: {ctor: '[]'}
+				}
+			};
+		}
+	}();
+	var title = _p0._0;
+	var content = _p0._1;
+	var actions = _p0._2;
+	return A2(
+		_debois$elm_mdl$Material_Dialog$view,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_debois$elm_mdl$Material_Dialog$title,
+				{ctor: '[]'},
+				title),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_debois$elm_mdl$Material_Dialog$content,
+					{ctor: '[]'},
+					content),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_debois$elm_mdl$Material_Dialog$actions,
+						{ctor: '[]'},
+						actions),
+					_1: {ctor: '[]'}
+				}
+			}
+		});
+};
+var _user$project$Column$view = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: _user$project$Column$getBoardColumn(model),
+			_1: {
+				ctor: '::',
+				_0: _user$project$Column$viewDialog(model),
+				_1: {ctor: '[]'}
+			}
+		});
+};
+var _user$project$Column$None = {ctor: 'None'};
+var _user$project$Column$model = {
+	data: A2(
+		_user$project$BoardTask$ColumnView,
+		'',
+		{ctor: '[]'}),
+	addCard: A2(_user$project$BoardTask$AddCard, '', ''),
+	dialogAction: _user$project$Column$None,
+	mdl: _debois$elm_mdl$Material$model
+};
+var _user$project$Column$AddNewCard = {ctor: 'AddNewCard'};
+var _user$project$Column$update = F2(
+	function (msg, model) {
+		var _p2 = msg;
+		switch (_p2.ctor) {
+			case 'AddToList':
+				var data_ = model.data;
+				var cardsA = data_.cards;
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							data: _elm_lang$core$Native_Utils.update(
+								data_,
+								{
+									cards: A2(_user$project$BoardTask$putElementToList, ' ', cardsA)
+								})
+						}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'SetCardDialog':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{dialogAction: _user$project$Column$AddNewCard}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			default:
+				return A3(_debois$elm_mdl$Material$update, _user$project$Column$Mdl, _p2._0, model);
+		}
+	});
+
+var _user$project$BoardDetails_Model$Model = F7(
+	function (a, b, c, d, e, f, g) {
+		return {data: a, addCard: b, addColumn: c, dialogAction: d, mdl: e, activeColumnView: f, column: g};
 	});
 var _user$project$BoardDetails_Model$Mdl = function (a) {
 	return {ctor: 'Mdl', _0: a};
 };
 var _user$project$BoardDetails_Model$SetColumnDialog = {ctor: 'SetColumnDialog'};
+var _user$project$BoardDetails_Model$ColumnMsg = function (a) {
+	return {ctor: 'ColumnMsg', _0: a};
+};
 var _user$project$BoardDetails_Model$SetCardDialog = function (a) {
 	return {ctor: 'SetCardDialog', _0: a};
 };
@@ -17395,8 +17821,10 @@ var _user$project$BoardDetails_Model$model = {
 		{ctor: '[]'}),
 	addCard: A2(_user$project$BoardTask$AddCard, '', ''),
 	addColumn: _user$project$BoardTask$AddColumn(''),
+	activeColumnView: _elm_lang$core$Maybe$Nothing,
 	dialogAction: _user$project$BoardDetails_Model$None,
-	mdl: _debois$elm_mdl$Material$model
+	mdl: _debois$elm_mdl$Material$model,
+	column: _user$project$Column$model
 };
 var _user$project$BoardDetails_Model$AddNewColumn = {ctor: 'AddNewColumn'};
 var _user$project$BoardDetails_Model$AddNewCard = {ctor: 'AddNewCard'};
@@ -17477,13 +17905,22 @@ var _user$project$BoardDetails_Update$update = F2(
 		var _p0 = msg;
 		switch (_p0.ctor) {
 			case 'AddToList':
-				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+				var _p1 = model.activeColumnView;
+				if (_p1.ctor === 'Nothing') {
+					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+				} else {
+					var cards = _p1._0.cards;
+					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+				}
 			case 'SetCardDialog':
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{dialogAction: _user$project$BoardDetails_Model$AddNewCard}),
+						{
+							dialogAction: _user$project$BoardDetails_Model$AddNewCard,
+							activeColumnView: _elm_lang$core$Maybe$Just(_p0._0)
+						}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'SetColumnDialog':
@@ -17494,6 +17931,25 @@ var _user$project$BoardDetails_Update$update = F2(
 						{dialogAction: _user$project$BoardDetails_Model$AddNewColumn}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
+			case 'ColumnMsg':
+				var _p2 = A6(
+					_debois$elm_mdl$Material_Helpers$lift,
+					function (_) {
+						return _.column;
+					},
+					F2(
+						function (m, x) {
+							return _elm_lang$core$Native_Utils.update(
+								m,
+								{column: x});
+						}),
+					_user$project$BoardDetails_Model$ColumnMsg,
+					_user$project$Column$update,
+					_p0._0,
+					model);
+				var m = _p2._0;
+				var c = _p2._1;
+				return {ctor: '_Tuple2', _0: m, _1: _elm_lang$core$Platform_Cmd$none};
 			default:
 				return A3(_debois$elm_mdl$Material$update, _user$project$BoardDetails_Model$Mdl, _p0._0, model);
 		}
@@ -17678,42 +18134,255 @@ var _user$project$Boards_View$view = function (model) {
 			model.boards));
 };
 
+var _user$project$BoardDetails_View$d0 = function (model) {
+	return {
+		ctor: '_Tuple3',
+		_0: {
+			ctor: '::',
+			_0: _elm_lang$html$Html$text('Add New Card'),
+			_1: {ctor: '[]'}
+		},
+		_1: {
+			ctor: '::',
+			_0: A5(
+				_debois$elm_mdl$Material_Textfield$render,
+				_user$project$BoardDetails_Model$Mdl,
+				{
+					ctor: '::',
+					_0: 2,
+					_1: {ctor: '[]'}
+				},
+				model.mdl,
+				{
+					ctor: '::',
+					_0: _debois$elm_mdl$Material_Textfield$label('Title'),
+					_1: {
+						ctor: '::',
+						_0: _debois$elm_mdl$Material_Textfield$floatingLabel,
+						_1: {ctor: '[]'}
+					}
+				},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text('Close'),
+					_1: {ctor: '[]'}
+				}),
+			_1: {ctor: '[]'}
+		},
+		_2: {
+			ctor: '::',
+			_0: A5(
+				_debois$elm_mdl$Material_Button$render,
+				_user$project$BoardDetails_Model$Mdl,
+				{
+					ctor: '::',
+					_0: 0,
+					_1: {ctor: '[]'}
+				},
+				model.mdl,
+				{
+					ctor: '::',
+					_0: _debois$elm_mdl$Material_Dialog$closeOn('click'),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text('Close'),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A5(
+					_debois$elm_mdl$Material_Button$render,
+					_user$project$BoardDetails_Model$Mdl,
+					{
+						ctor: '::',
+						_0: 1,
+						_1: {ctor: '[]'}
+					},
+					model.mdl,
+					{
+						ctor: '::',
+						_0: _debois$elm_mdl$Material_Button$colored,
+						_1: {
+							ctor: '::',
+							_0: _debois$elm_mdl$Material_Button$raised,
+							_1: {
+								ctor: '::',
+								_0: _debois$elm_mdl$Material_Dialog$closeOn('click'),
+								_1: {
+									ctor: '::',
+									_0: _debois$elm_mdl$Material_Options$onClick(_user$project$BoardDetails_Model$AddToList),
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text('Submit'),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			}
+		}
+	};
+};
 var _user$project$BoardDetails_View$viewDialog = function (model) {
 	var _p0 = function () {
 		var _p1 = model.dialogAction;
 		switch (_p1.ctor) {
 			case 'AddNewCard':
-				return {ctor: '_Tuple3', _0: '', _1: '', _2: ''};
+				return _user$project$BoardDetails_View$d0(model);
 			case 'AddNewColumn':
-				return {ctor: '_Tuple3', _0: '', _1: '', _2: ''};
+				return {
+					ctor: '_Tuple3',
+					_0: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$div,
+							{ctor: '[]'},
+							{ctor: '[]'}),
+						_1: {ctor: '[]'}
+					},
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$div,
+							{ctor: '[]'},
+							{ctor: '[]'}),
+						_1: {ctor: '[]'}
+					},
+					_2: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$div,
+							{ctor: '[]'},
+							{ctor: '[]'}),
+						_1: {ctor: '[]'}
+					}
+				};
 			default:
-				return {ctor: '_Tuple3', _0: '', _1: '', _2: ''};
+				return {
+					ctor: '_Tuple3',
+					_0: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$div,
+							{ctor: '[]'},
+							{ctor: '[]'}),
+						_1: {ctor: '[]'}
+					},
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$div,
+							{ctor: '[]'},
+							{ctor: '[]'}),
+						_1: {ctor: '[]'}
+					},
+					_2: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$div,
+							{ctor: '[]'},
+							{ctor: '[]'}),
+						_1: {ctor: '[]'}
+					}
+				};
 		}
 	}();
 	var title = _p0._0;
 	var content = _p0._1;
 	var actions = _p0._2;
 	return A2(
+		_debois$elm_mdl$Material_Dialog$view,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_debois$elm_mdl$Material_Dialog$title,
+				{ctor: '[]'},
+				title),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_debois$elm_mdl$Material_Dialog$content,
+					{ctor: '[]'},
+					content),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_debois$elm_mdl$Material_Dialog$actions,
+						{ctor: '[]'},
+						actions),
+					_1: {ctor: '[]'}
+				}
+			}
+		});
+};
+var _user$project$BoardDetails_View$viewColumns = function (model) {
+	var stored = model.column;
+	var bv = model.data;
+	var columns = bv.columns;
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('main_board'),
+			_1: {ctor: '[]'}
+		},
+		A2(
+			_elm_lang$core$List$map,
+			function (l) {
+				return A2(
+					_elm_lang$html$Html$map,
+					_user$project$BoardDetails_Model$ColumnMsg,
+					_user$project$Column$view(
+						_elm_lang$core$Native_Utils.update(
+							stored,
+							{data: l})));
+			},
+			columns));
+};
+var _user$project$BoardDetails_View$view = function (model) {
+	return A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
-		{ctor: '[]'});
+		{
+			ctor: '::',
+			_0: _user$project$BoardDetails_View$viewColumns(model),
+			_1: {ctor: '[]'}
+		});
 };
 var _user$project$BoardDetails_View$viewButton = F3(
 	function (idx, model, column) {
-		return A2(
-			_elm_lang$html$Html$button,
+		return A5(
+			_debois$elm_mdl$Material_Button$render,
+			_user$project$BoardDetails_Model$Mdl,
 			{
 				ctor: '::',
-				_0: _elm_lang$html$Html_Events$onClick(_user$project$BoardDetails_Model$SetColumnDialog),
+				_0: 1,
 				_1: {ctor: '[]'}
+			},
+			model.mdl,
+			{
+				ctor: '::',
+				_0: _debois$elm_mdl$Material_Button$raised,
+				_1: {
+					ctor: '::',
+					_0: _debois$elm_mdl$Material_Dialog$openOn('click'),
+					_1: {
+						ctor: '::',
+						_0: _debois$elm_mdl$Material_Options$onClick(
+							_user$project$BoardDetails_Model$SetCardDialog(column)),
+						_1: {ctor: '[]'}
+					}
+				}
 			},
 			{
 				ctor: '::',
-				_0: _elm_lang$html$Html$text(
-					A2(
-						_elm_lang$core$Basics_ops['++'],
-						'Add Card #',
-						_elm_lang$core$Basics$toString(idx))),
+				_0: _elm_lang$html$Html$text('Add Card'),
 				_1: {ctor: '[]'}
 			});
 	});
@@ -17792,37 +18461,6 @@ var _user$project$BoardDetails_View$getBoardColumn = F2(
 				_1: {ctor: '[]'}
 			});
 	});
-var _user$project$BoardDetails_View$viewColumns = function (model) {
-	var data_ = model.data;
-	var columns_ = data_.columns;
-	return A2(
-		_elm_lang$html$Html$div,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('main_board'),
-			_1: {ctor: '[]'}
-		},
-		A2(
-			_elm_lang$core$List$map,
-			function (l) {
-				return A2(_user$project$BoardDetails_View$getBoardColumn, l, model);
-			},
-			columns_));
-};
-var _user$project$BoardDetails_View$view = function (model) {
-	return A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: _user$project$BoardDetails_View$viewColumns(model),
-			_1: {
-				ctor: '::',
-				_0: _user$project$BoardDetails_View$viewDialog(model),
-				_1: {ctor: '[]'}
-			}
-		});
-};
 
 var _user$project$App_View$header = function (model) {
 	return {
@@ -17832,7 +18470,11 @@ var _user$project$App_View$header = function (model) {
 			{
 				ctor: '::',
 				_0: A2(_debois$elm_mdl$Material_Options$css, 'transition', 'height 333ms ease-in-out 0s'),
-				_1: {ctor: '[]'}
+				_1: {
+					ctor: '::',
+					_0: A2(_debois$elm_mdl$Material_Options$css, 'padding', '2rem'),
+					_1: {ctor: '[]'}
+				}
 			},
 			{
 				ctor: '::',

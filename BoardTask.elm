@@ -99,5 +99,5 @@ putElementToList column lst =
 
 
 isListExist : List ColumnView -> String -> Bool
-isListExist column listname =
-    List.member listname (List.map (\x -> x.title) column)
+isListExist columns listname =
+    List.member listname (List.map (\x -> x.title) columns)
