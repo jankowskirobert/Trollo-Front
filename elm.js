@@ -17301,34 +17301,36 @@ var _user$project$BoardTask$isListExist = F2(
 				},
 				columns));
 	});
-var _user$project$BoardTask$getEmptyDataSet = {userId: 0, id: 0, title: '', body: ''};
 var _user$project$BoardTask$Team = F2(
 	function (a, b) {
 		return {teamId: a, name: b};
 	});
-var _user$project$BoardTask$CardView = F4(
-	function (a, b, c, d) {
-		return {userId: a, id: b, title: c, body: d};
+var _user$project$BoardTask$CardView = F5(
+	function (a, b, c, d, e) {
+		return {uniqueNumber: a, status: b, title: c, description: d, boardID: e};
 	});
-var _user$project$BoardTask$decodeFromJson = A5(
-	_elm_lang$core$Json_Decode$map4,
+var _user$project$BoardTask$model = {
+	cardFromRest: A5(_user$project$BoardTask$CardView, 'UNI1', true, 'TITLE1', 'DESC1', 1)
+};
+var _user$project$BoardTask$decodeCardViewFromJson = A6(
+	_elm_lang$core$Json_Decode$map5,
 	_user$project$BoardTask$CardView,
 	A2(
 		_elm_lang$core$Json_Decode$at,
 		{
 			ctor: '::',
-			_0: 'userId',
+			_0: 'uniqueNumber',
 			_1: {ctor: '[]'}
 		},
-		_elm_lang$core$Json_Decode$int),
+		_elm_lang$core$Json_Decode$string),
 	A2(
 		_elm_lang$core$Json_Decode$at,
 		{
 			ctor: '::',
-			_0: 'id',
+			_0: 'status',
 			_1: {ctor: '[]'}
 		},
-		_elm_lang$core$Json_Decode$int),
+		_elm_lang$core$Json_Decode$bool),
 	A2(
 		_elm_lang$core$Json_Decode$at,
 		{
@@ -17341,15 +17343,23 @@ var _user$project$BoardTask$decodeFromJson = A5(
 		_elm_lang$core$Json_Decode$at,
 		{
 			ctor: '::',
-			_0: 'body',
+			_0: 'description',
 			_1: {ctor: '[]'}
 		},
-		_elm_lang$core$Json_Decode$string));
+		_elm_lang$core$Json_Decode$string),
+	A2(
+		_elm_lang$core$Json_Decode$at,
+		{
+			ctor: '::',
+			_0: 'boardID',
+			_1: {ctor: '[]'}
+		},
+		_elm_lang$core$Json_Decode$int));
 var _user$project$BoardTask$putElementToList = F2(
 	function (column, lst) {
 		return {
 			ctor: '::',
-			_0: A4(_user$project$BoardTask$CardView, 1, 1, column, 'Test1'),
+			_0: A5(_user$project$BoardTask$CardView, 'UNI1', true, 'TITLE1', 'DESC1', 1),
 			_1: lst
 		};
 	});
@@ -17362,16 +17372,16 @@ var _user$project$BoardTask$getExampleSetOfData = A2(
 	'UUU',
 	{
 		ctor: '::',
-		_0: A4(_user$project$BoardTask$CardView, 1, 1, 'Test1', 'Test1'),
+		_0: A5(_user$project$BoardTask$CardView, 'UNI1', true, 'TITLE1', 'DESC1', 1),
 		_1: {
 			ctor: '::',
-			_0: A4(_user$project$BoardTask$CardView, 1, 1, 'Test2', 'Test1'),
+			_0: A5(_user$project$BoardTask$CardView, 'UNI1', true, 'TITLE1', 'DESC1', 1),
 			_1: {
 				ctor: '::',
-				_0: A4(_user$project$BoardTask$CardView, 1, 1, 'Test3', 'Test1'),
+				_0: A5(_user$project$BoardTask$CardView, 'UNI1', true, 'TITLE1', 'DESC1', 1),
 				_1: {
 					ctor: '::',
-					_0: A4(_user$project$BoardTask$CardView, 1, 1, 'Test4', 'Test1'),
+					_0: A5(_user$project$BoardTask$CardView, 'UNI1', true, 'TITLE1', 'DESC1', 1),
 					_1: {ctor: '[]'}
 				}
 			}
@@ -17382,16 +17392,16 @@ var _user$project$BoardTask$getExampleSetOfData2 = A2(
 	'UUU2',
 	{
 		ctor: '::',
-		_0: A4(_user$project$BoardTask$CardView, 1, 1, 'Test21', 'Test1'),
+		_0: A5(_user$project$BoardTask$CardView, 'UNI21', true, 'TITLE1', 'DESC1', 1),
 		_1: {
 			ctor: '::',
-			_0: A4(_user$project$BoardTask$CardView, 1, 1, 'Test22', 'Test1'),
+			_0: A5(_user$project$BoardTask$CardView, 'UNI1', true, 'TITLE1', 'DESC1', 1),
 			_1: {
 				ctor: '::',
-				_0: A4(_user$project$BoardTask$CardView, 1, 1, 'Test23', 'Test1'),
+				_0: A5(_user$project$BoardTask$CardView, 'UNI1', true, 'TITLE1', 'DESC1', 1),
 				_1: {
 					ctor: '::',
-					_0: A4(_user$project$BoardTask$CardView, 1, 1, 'Test24', 'Test1'),
+					_0: A5(_user$project$BoardTask$CardView, 'UNI1', true, 'TITLE1', 'DESC1', 1),
 					_1: {ctor: '[]'}
 				}
 			}
@@ -17443,6 +17453,51 @@ var _user$project$BoardTask$AddBoard = F2(
 	function (a, b) {
 		return {title: a, teams: b};
 	});
+var _user$project$BoardTask$Model = function (a) {
+	return {cardFromRest: a};
+};
+var _user$project$BoardTask$GetInitialCard = {ctor: 'GetInitialCard'};
+var _user$project$BoardTask$GetCardFromApi = function (a) {
+	return {ctor: 'GetCardFromApi', _0: a};
+};
+var _user$project$BoardTask$getCardView = function (cardId) {
+	var url = A2(_elm_lang$core$Basics_ops['++'], 'https://127.0.0.1/card/', cardId);
+	var req = A2(_elm_lang$http$Http$get, url, _user$project$BoardTask$decodeCardViewFromJson);
+	return A2(_elm_lang$http$Http$send, _user$project$BoardTask$GetCardFromApi, req);
+};
+var _user$project$BoardTask$update = F2(
+	function (msg, model) {
+		var _p0 = msg;
+		if (_p0.ctor === 'GetInitialCard') {
+			return {
+				ctor: '_Tuple2',
+				_0: model,
+				_1: _user$project$BoardTask$getCardView('aa1fafe2-c4a5-11e7-b1df-3200105b0f20')
+			};
+		} else {
+			if (_p0._0.ctor === 'Ok') {
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{cardFromRest: _p0._0._0}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			} else {
+				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+			}
+		}
+	});
+var _user$project$BoardTask$getColumnView = function () {
+	var url = 'https://jsonplaceholder.typicode.com/posts/1';
+	var req = A2(_elm_lang$http$Http$get, url, _user$project$BoardTask$decodeCardViewFromJson);
+	return A2(_elm_lang$http$Http$send, _user$project$BoardTask$GetCardFromApi, req);
+}();
+var _user$project$BoardTask$getBoardView = function () {
+	var url = 'https://jsonplaceholder.typicode.com/posts/1';
+	var req = A2(_elm_lang$http$Http$get, url, _user$project$BoardTask$decodeCardViewFromJson);
+	return A2(_elm_lang$http$Http$send, _user$project$BoardTask$GetCardFromApi, req);
+}();
 
 var _user$project$Boards_Model$model = function () {
 	var boards_ = _user$project$BoardTask$getExampleSetOfBoards;
@@ -17489,12 +17544,15 @@ var _user$project$Column$getColumnCard = function (card) {
 			_1: {ctor: '[]'}
 		});
 };
-var _user$project$Column$Model = F4(
-	function (a, b, c, d) {
-		return {data: a, addCard: b, dialogAction: c, mdl: d};
+var _user$project$Column$Model = F5(
+	function (a, b, c, d, e) {
+		return {data: a, addCard: b, dialogAction: c, mdl: d, cardRest: e};
 	});
 var _user$project$Column$Mdl = function (a) {
 	return {ctor: 'Mdl', _0: a};
+};
+var _user$project$Column$AddFromApi = function (a) {
+	return {ctor: 'AddFromApi', _0: a};
 };
 var _user$project$Column$SetCardDialog = {ctor: 'SetCardDialog'};
 var _user$project$Column$viewButton = F3(
@@ -17762,7 +17820,8 @@ var _user$project$Column$model = {
 		{ctor: '[]'}),
 	addCard: A2(_user$project$BoardTask$AddCard, '', ''),
 	dialogAction: _user$project$Column$None,
-	mdl: _debois$elm_mdl$Material$model
+	mdl: _debois$elm_mdl$Material$model,
+	cardRest: _user$project$BoardTask$model
 };
 var _user$project$Column$AddNewCard = {ctor: 'AddNewCard'};
 var _user$project$Column$update = F2(
@@ -17785,6 +17844,8 @@ var _user$project$Column$update = F2(
 						}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
+			case 'AddFromApi':
+				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			case 'SetCardDialog':
 				return {
 					ctor: '_Tuple2',
@@ -18321,40 +18382,6 @@ var _user$project$BoardDetails_View$viewDialog = function (model) {
 			}
 		});
 };
-var _user$project$BoardDetails_View$viewColumns = function (model) {
-	var stored = model.column;
-	var bv = model.data;
-	var columns = bv.columns;
-	return A2(
-		_elm_lang$html$Html$div,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('main_board'),
-			_1: {ctor: '[]'}
-		},
-		A2(
-			_elm_lang$core$List$map,
-			function (l) {
-				return A2(
-					_elm_lang$html$Html$map,
-					_user$project$BoardDetails_Model$ColumnMsg,
-					_user$project$Column$view(
-						_elm_lang$core$Native_Utils.update(
-							stored,
-							{data: l})));
-			},
-			columns));
-};
-var _user$project$BoardDetails_View$view = function (model) {
-	return A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: _user$project$BoardDetails_View$viewColumns(model),
-			_1: {ctor: '[]'}
-		});
-};
 var _user$project$BoardDetails_View$viewButton = F3(
 	function (idx, model, column) {
 		return A5(
@@ -18461,6 +18488,38 @@ var _user$project$BoardDetails_View$getBoardColumn = F2(
 				_1: {ctor: '[]'}
 			});
 	});
+var _user$project$BoardDetails_View$viewColumns = function (model) {
+	var stored = model.column;
+	var bv = model.data;
+	var columns = bv.columns;
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('main_board'),
+			_1: {ctor: '[]'}
+		},
+		A2(
+			_elm_lang$core$List$map,
+			function (l) {
+				return A2(_user$project$BoardDetails_View$getBoardColumn, l, model);
+			},
+			columns));
+};
+var _user$project$BoardDetails_View$view = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: _user$project$BoardDetails_View$viewColumns(model),
+			_1: {
+				ctor: '::',
+				_0: _user$project$BoardDetails_View$viewDialog(model),
+				_1: {ctor: '[]'}
+			}
+		});
+};
 
 var _user$project$App_View$header = function (model) {
 	return {

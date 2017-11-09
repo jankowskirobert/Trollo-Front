@@ -17,12 +17,14 @@ model =
     , addCard = BoardTask.AddCard "" ""
     , dialogAction = None
     , mdl = Material.model
+    , cardRest = BoardTask.model
     }
 
 
 type Msg
     = AddToList
     | SetCardDialog
+    | AddFromApi BoardTask.Msg
     | Mdl (Material.Msg Msg)
 
 
@@ -36,6 +38,7 @@ type alias Model =
     , addCard : BoardTask.AddCard
     , dialogAction : DialogAction
     , mdl : Material.Model
+    , cardRest : BoardTask.Model
     }
 
 
@@ -89,6 +92,9 @@ update msg model =
             in
                 -- ( { model }, Cmd.none )
                 ( { model | data = { data_ | cards = BoardTask.putElementToList " " cardsA } }, Cmd.none )
+
+        AddFromApi msg-> 
+            (model, Cmd.none)
 
         SetCardDialog ->
             ( { model | dialogAction = AddNewCard }, Cmd.none )
