@@ -1,17 +1,80 @@
 module Main exposing (..)
 
-import App.Model exposing (Msg, init, subscriptions, Model)
-import App.View exposing (view)
-import App.Update exposing (update)
-import RouteUrl exposing (RouteUrlProgram)
+import Html exposing (..)
+import Html.Events exposing (..)
+import Html.Attributes exposing (..)
 import Html
+
+
+-- model
+
+
+type alias Model =
+    { username : String
+    , password : String
+    }
+
+
+initModel : Model
+initModel =
+    { username = ""
+    , password = ""
+    }
+
+
+
+-- update
+
+
+type Msg
+    = UsernameInput String
+    | PasswordInput String
+
+
+update : Msg -> Model -> Model
+update msg model =
+    case msg of
+        UsernameInput username ->
+            { model | username = username }
+
+        PasswordInput password ->
+            { model | password = password }
+
+
+
+-- view
+
+
+view : Model -> Html Msg
+view model =
+    div []
+        [ h3 [] [ text "Login Page... So far" ]
+        , Html.form []
+            [ input
+                [ type_ "text"
+                , onInput UsernameInput
+                , placeholder "Username"
+                ]
+                []
+            , input
+                [ type_ "password"
+                , onInput PasswordInput
+                , placeholder "Password"
+                ]
+                []
+            , input [ type_ "submit" ]
+                [ text "Login" ]
+            ]
+        , hr [] []
+        , h4 [] [ text "Login model : " ]
+        , p [] [ text <| toString model ]
+        ]
 
 
 main : Program Never Model Msg
 main =
-    Html.program
-        { init = init
-        , update = update
+    Html.beginnerProgram
+        { model = initModel
         , view = view
-        , subscriptions = subscriptions
+        , update = update
         }
