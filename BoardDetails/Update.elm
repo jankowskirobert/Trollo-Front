@@ -39,8 +39,10 @@ update msg model =
 
         ColumnMsg msg ->
             let
-                ( m, c ) =
-                    lift .column (\m x -> { m | column = x }) ColumnMsg Column.update msg model
+                items = Array.fromList column
+
+                ( m, c, col ) =
+                     lift .column (\m x -> { m | column = x }) ColumnMsg Column.update msg model
             in
                 ( m, Cmd.none )
 

@@ -7,13 +7,9 @@ import Column
 
 model : Model
 model =
-    { data = BoardTask.BoardView "" []
-    , addCard = BoardTask.AddCard "" ""
-    , addColumn = BoardTask.AddColumn ""
-    , activeColumnView = Maybe.Nothing
-    , dialogAction = None
+    { board = Maybe.Nothing
+    , columns = [] ]
     , mdl = Material.model
-    , column = Column.model
     }
 
 
@@ -32,11 +28,11 @@ type DialogAction
 
 
 type alias Model =
-    { data : BoardTask.BoardView
-    , addCard : BoardTask.AddCard
+    { board : Maybe BoardTask.BoardView
+    , columns : List BoardTask.ColumnView
     , addColumn : BoardTask.AddColumn
     , dialogAction : DialogAction
     , mdl : Material.Model
     , activeColumnView : Maybe BoardTask.ColumnView
-    , column : Column.Model
+    , column : List Column.Model
     }

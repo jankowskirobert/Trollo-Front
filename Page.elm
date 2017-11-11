@@ -1,4 +1,4 @@
-module Page exposing (Page(..), pageToString)
+module Page exposing (Page(..))
 
 import BoardTask
 
@@ -6,17 +6,6 @@ import BoardTask
 type Page
     = BoardsPage
     | BoardDetailsPage
+    | LoginPage
+    | LogoutPage
     | PageNotFound
-
-
-pageToString : Page -> String
-pageToString page =
-    case page of
-        BoardsPage ->
-            "#boards"
-
-        BoardDetailsPage ->
-            "#board"
-
-        PageNotFound ->
-            "#404"

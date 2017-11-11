@@ -13,7 +13,7 @@ import BoardTask
 
 model : Model
 model =
-    { data = BoardTask.ColumnView "" []
+    { data = BoardTask.ColumnView 1 1 "" []
     , addCard = BoardTask.AddCard "" ""
     , dialogAction = None
     , mdl = Material.model
@@ -97,7 +97,7 @@ setCardInList card list =
         out
 
 
-update : Msg -> Model -> ( Model, Cmd Msg )
+update : Msg -> Model -> ( Model, Cmd Msg, Maybe Int )
 update msg model =
     case msg of
         AddToList ->
@@ -108,16 +108,23 @@ update msg model =
                 cardsA =
                     data_.cards
             in
-                ( { model | data = setData (BoardTask.CardView "UNI1sadasd" True "TITLE1QWe" "DESC1" 1) data_ }, Cmd.none )
+                ( { model | data = setData (BoardTask.CardView "UNI1sadasd" True "TITLE1QWe" "DESC1" 1) data_ }, Cmd.none, Just 1 )
 
         AddFromApi msg ->
-            ( model, Cmd.none )
+            ( model, Cmd.none, Just 1 )
 
         SetCardDialog ->
-            ( { model | dialogAction = AddNewCard }, Cmd.none )
+            ( { model | dialogAction = AddNewCard }, Cmd.none, Just 1 )
 
         Mdl msg_ ->
-            Material.update Mdl msg_ model
+            let
+                ( m, c ) =
+                    Material.update Mdl msg_ model
+
+                colId =
+                    model.data
+            in
+                ( m, c, Just colId.viewId )
 
 
 view : Model -> Html Msg

@@ -1,39 +1,40 @@
 module Boards.Model exposing (Msg(..), Model, model, Operation(..))
 
-import Material
 import BoardTask
+import Material
 
 
 type Msg
     = AddBoard
     | UpdateCurrentBoardView BoardTask.BoardView
-    | Mdl (Material.Msg Msg)
+    | EditBoardName
+    | SetOperation Operation
+    | SetNewBoardName String
 
 
 type Operation
     = Choose
-    | Edit
+    | Edit Int BoardTask.BoardView
     | None
+    | AddNewBoard
 
 
 type alias Model =
-    { boards : List BoardTask.BoardView
-    , boardDetails : BoardTask.BoardView
-    , mdl : Material.Model
+    { boards : List (Maybe BoardTask.BoardView)
+    , currentBoard : Maybe BoardTask.BoardView
     , opr : Operation
+    , newBoardName : Maybe String
+    , currentBoardIdx : Maybe Int
+    , showDialog : Bool
     }
 
 
 model : Model
 model =
-    let
-        boards_ =
-            BoardTask.getExampleSetOfBoards
-
-        board_ =
-            List.head boards_
-
-        stricBoard_ =
-            Maybe.withDefault (BoardTask.BoardView "" []) board_
-    in
-        ({ boards = boards_, boardDetails = stricBoard_, mdl = Material.model, opr = None })
+    { boards = List.map (\x -> Just x) BoardTask.getExampleSetOfBoards
+    , opr = None
+    , currentBoard = Maybe.Nothing
+    , newBoardName = Maybe.Nothing
+    , currentBoardIdx = Maybe.Nothing
+    , showDialog = False
+    }
