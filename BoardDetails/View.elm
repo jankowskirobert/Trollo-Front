@@ -64,14 +64,20 @@ viewColumns model =
         stored =
             model.column
 
+        storedCol =
+            stored.data
+
         columns =
             bv.columns
     in
         columns
             |> List.map
                 (\l ->
-                    -- Html.map ColumnMsg (Column.view { stored | data = l })
-                    getBoardColumn l model
+                    -- Html.map ColumnMsg
+                    --     (Column.view { stored | data = l })
+                    getBoardColumn
+                        l
+                        model
                 )
             |> div [ class "main_board" ]
 
@@ -102,7 +108,7 @@ view model =
     div []
         [ viewColumns model
 
-        , viewDialog model
+        -- , viewDialog model
         ]
 
 

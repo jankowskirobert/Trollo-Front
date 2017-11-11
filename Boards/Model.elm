@@ -1,4 +1,4 @@
-module Boards.Model exposing (Msg(..), Model, model)
+module Boards.Model exposing (Msg(..), Model, model, Operation(..))
 
 import Material
 import BoardTask
@@ -10,10 +10,17 @@ type Msg
     | Mdl (Material.Msg Msg)
 
 
+type Operation
+    = Choose
+    | Edit
+    | None
+
+
 type alias Model =
     { boards : List BoardTask.BoardView
     , boardDetails : BoardTask.BoardView
     , mdl : Material.Model
+    , opr : Operation
     }
 
 
@@ -29,4 +36,4 @@ model =
         stricBoard_ =
             Maybe.withDefault (BoardTask.BoardView "" []) board_
     in
-        ({ boards = boards_, boardDetails = stricBoard_, mdl = Material.model })
+        ({ boards = boards_, boardDetails = stricBoard_, mdl = Material.model, opr = None })

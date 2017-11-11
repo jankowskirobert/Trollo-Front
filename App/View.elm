@@ -34,17 +34,7 @@ view_ model =
                     Html.map BoardsMsg (Boards.view model.boards)
 
                 BoardDetailsPage ->
-                    let
-                        boards =
-                            model.boards
-
-                        model_ =
-                            model.boardDetails
-
-                        board =
-                            boards.boardDetails
-                    in
-                        Html.map BoardDetailsMsg (BoardDetails.view model.boardDetails)
+                    Html.map BoardDetailsMsg (BoardDetails.view model.boardDetails)
 
                 -- (BoardDetails.view { data_ | data = board })
                 PageNotFound ->

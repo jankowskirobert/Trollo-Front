@@ -3,6 +3,7 @@ module App.Update exposing (..)
 import App.Model exposing (..)
 import Page
 import Boards.Update as Boards exposing (update)
+import Boards.Model as BoardModel
 import BoardDetails.Update as BoardDetails
 import Debug
 import Material
@@ -26,13 +27,21 @@ update msg model =
                 updated =
                     { m | boardDetails = { details | data = detailsData.boardDetails } }
             in
-                update (SetActivePage Page.BoardDetailsPage) updated
+                case detailsData.opr of
+                    BoardModel.Choose ->
+                        ( { updated | activePage = Page.BoardDetailsPage }, Cmd.none )
+
+                    BoardModel.Edit ->
+                        ( model, Cmd.none )
+
+                    BoardModel.None ->
+                        ( model, Cmd.none )
 
         SetActivePage page ->
             ( { model | activePage = page }, Cmd.none )
 
         GoHome i ->
-            update (SetActivePage Page.BoardsPage) model
+            ( { model | activePage = Page.BoardsPage }, Cmd.none )
 
         Mdl msg_ ->
             Material.update Mdl msg_ model

@@ -79,6 +79,24 @@ viewButton idx model column =
         [ text "Add Card" ]
 
 
+setData : BoardTask.CardView -> BoardTask.ColumnView -> BoardTask.ColumnView
+setData x y =
+    let
+        data =
+            y.cards
+    in
+        { y | cards = setCardInList x data }
+
+
+setCardInList : BoardTask.CardView -> List BoardTask.CardView -> List BoardTask.CardView
+setCardInList card list =
+    let
+        out =
+            card :: list
+    in
+        out
+
+
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
@@ -90,11 +108,10 @@ update msg model =
                 cardsA =
                     data_.cards
             in
-                -- ( { model }, Cmd.none )
-                ( { model | data = { data_ | cards = BoardTask.putElementToList " " cardsA } }, Cmd.none )
+                ( { model | data = setData (BoardTask.CardView "UNI1sadasd" True "TITLE1QWe" "DESC1" 1) data_ }, Cmd.none )
 
-        AddFromApi msg-> 
-            (model, Cmd.none)
+        AddFromApi msg ->
+            ( model, Cmd.none )
 
         SetCardDialog ->
             ( { model | dialogAction = AddNewCard }, Cmd.none )
