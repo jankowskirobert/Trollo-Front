@@ -14956,386 +14956,6 @@ var _debois$elm_mdl$Material$Model = F8(
 		return {button: a, textfield: b, menu: c, snackbar: d, layout: e, toggles: f, tooltip: g, tabs: h};
 	});
 
-var _debois$elm_mdl$Material_Color$text = function (_p0) {
-	var _p1 = _p0;
-	return _debois$elm_mdl$Material_Options$cs(
-		A2(_elm_lang$core$Basics_ops['++'], 'mdl-color-text--', _p1._0));
-};
-var _debois$elm_mdl$Material_Color$background = function (_p2) {
-	var _p3 = _p2;
-	return _debois$elm_mdl$Material_Options$cs(
-		A2(_elm_lang$core$Basics_ops['++'], 'mdl-color--', _p3._0));
-};
-var _debois$elm_mdl$Material_Color$shadeName = function (shade) {
-	var _p4 = shade;
-	switch (_p4.ctor) {
-		case 'S50':
-			return '50';
-		case 'S100':
-			return '100';
-		case 'S200':
-			return '200';
-		case 'S300':
-			return '300';
-		case 'S400':
-			return '400';
-		case 'S500':
-			return '500';
-		case 'S600':
-			return '600';
-		case 'S700':
-			return '700';
-		case 'S800':
-			return '800';
-		case 'S900':
-			return '900';
-		case 'A100':
-			return 'A100';
-		case 'A200':
-			return 'A200';
-		case 'A400':
-			return 'A400';
-		default:
-			return 'A700';
-	}
-};
-var _debois$elm_mdl$Material_Color$hueName = function (color) {
-	var _p5 = color;
-	switch (_p5.ctor) {
-		case 'Indigo':
-			return 'indigo';
-		case 'Blue':
-			return 'blue';
-		case 'LightBlue':
-			return 'light-blue';
-		case 'Cyan':
-			return 'cyan';
-		case 'Teal':
-			return 'teal';
-		case 'Green':
-			return 'green';
-		case 'LightGreen':
-			return 'light-green';
-		case 'Lime':
-			return 'lime';
-		case 'Yellow':
-			return 'yellow';
-		case 'Amber':
-			return 'amber';
-		case 'Orange':
-			return 'orange';
-		case 'Brown':
-			return 'brown';
-		case 'BlueGrey':
-			return 'blue-grey';
-		case 'Grey':
-			return 'grey';
-		case 'DeepOrange':
-			return 'deep-orange';
-		case 'Red':
-			return 'red';
-		case 'Pink':
-			return 'pink';
-		case 'Purple':
-			return 'purple';
-		default:
-			return 'deep-purple';
-	}
-};
-var _debois$elm_mdl$Material_Color$scheme = F2(
-	function (primary, accent) {
-		var q = _elm_lang$core$String$map(
-			function (x) {
-				return _elm_lang$core$Native_Utils.eq(
-					x,
-					_elm_lang$core$Native_Utils.chr('-')) ? _elm_lang$core$Native_Utils.chr('_') : x;
-			});
-		var cssFile = function () {
-			var _p6 = accent;
-			switch (_p6.ctor) {
-				case 'Grey':
-					return '';
-				case 'Brown':
-					return '';
-				case 'BlueGrey':
-					return '';
-				default:
-					return A2(
-						_elm_lang$core$Basics_ops['++'],
-						'.',
-						A2(
-							_elm_lang$core$Basics_ops['++'],
-							q(
-								_debois$elm_mdl$Material_Color$hueName(primary)),
-							A2(
-								_elm_lang$core$Basics_ops['++'],
-								'-',
-								q(
-									_debois$elm_mdl$Material_Color$hueName(accent)))));
-			}
-		}();
-		return A2(
-			_elm_lang$core$Basics_ops['++'],
-			'material',
-			A2(_elm_lang$core$Basics_ops['++'], cssFile, '.min.css'));
-	});
-var _debois$elm_mdl$Material_Color$DeepPurple = {ctor: 'DeepPurple'};
-var _debois$elm_mdl$Material_Color$Purple = {ctor: 'Purple'};
-var _debois$elm_mdl$Material_Color$Pink = {ctor: 'Pink'};
-var _debois$elm_mdl$Material_Color$Red = {ctor: 'Red'};
-var _debois$elm_mdl$Material_Color$DeepOrange = {ctor: 'DeepOrange'};
-var _debois$elm_mdl$Material_Color$Grey = {ctor: 'Grey'};
-var _debois$elm_mdl$Material_Color$BlueGrey = {ctor: 'BlueGrey'};
-var _debois$elm_mdl$Material_Color$Brown = {ctor: 'Brown'};
-var _debois$elm_mdl$Material_Color$Orange = {ctor: 'Orange'};
-var _debois$elm_mdl$Material_Color$Amber = {ctor: 'Amber'};
-var _debois$elm_mdl$Material_Color$Yellow = {ctor: 'Yellow'};
-var _debois$elm_mdl$Material_Color$Lime = {ctor: 'Lime'};
-var _debois$elm_mdl$Material_Color$LightGreen = {ctor: 'LightGreen'};
-var _debois$elm_mdl$Material_Color$Green = {ctor: 'Green'};
-var _debois$elm_mdl$Material_Color$Teal = {ctor: 'Teal'};
-var _debois$elm_mdl$Material_Color$Cyan = {ctor: 'Cyan'};
-var _debois$elm_mdl$Material_Color$LightBlue = {ctor: 'LightBlue'};
-var _debois$elm_mdl$Material_Color$Blue = {ctor: 'Blue'};
-var _debois$elm_mdl$Material_Color$Indigo = {ctor: 'Indigo'};
-var _debois$elm_mdl$Material_Color$hues = _elm_lang$core$Array$fromList(
-	{
-		ctor: '::',
-		_0: _debois$elm_mdl$Material_Color$Indigo,
-		_1: {
-			ctor: '::',
-			_0: _debois$elm_mdl$Material_Color$Blue,
-			_1: {
-				ctor: '::',
-				_0: _debois$elm_mdl$Material_Color$LightBlue,
-				_1: {
-					ctor: '::',
-					_0: _debois$elm_mdl$Material_Color$Cyan,
-					_1: {
-						ctor: '::',
-						_0: _debois$elm_mdl$Material_Color$Teal,
-						_1: {
-							ctor: '::',
-							_0: _debois$elm_mdl$Material_Color$Green,
-							_1: {
-								ctor: '::',
-								_0: _debois$elm_mdl$Material_Color$LightGreen,
-								_1: {
-									ctor: '::',
-									_0: _debois$elm_mdl$Material_Color$Lime,
-									_1: {
-										ctor: '::',
-										_0: _debois$elm_mdl$Material_Color$Yellow,
-										_1: {
-											ctor: '::',
-											_0: _debois$elm_mdl$Material_Color$Amber,
-											_1: {
-												ctor: '::',
-												_0: _debois$elm_mdl$Material_Color$Orange,
-												_1: {
-													ctor: '::',
-													_0: _debois$elm_mdl$Material_Color$Brown,
-													_1: {
-														ctor: '::',
-														_0: _debois$elm_mdl$Material_Color$BlueGrey,
-														_1: {
-															ctor: '::',
-															_0: _debois$elm_mdl$Material_Color$Grey,
-															_1: {
-																ctor: '::',
-																_0: _debois$elm_mdl$Material_Color$DeepOrange,
-																_1: {
-																	ctor: '::',
-																	_0: _debois$elm_mdl$Material_Color$Red,
-																	_1: {
-																		ctor: '::',
-																		_0: _debois$elm_mdl$Material_Color$Pink,
-																		_1: {
-																			ctor: '::',
-																			_0: _debois$elm_mdl$Material_Color$Purple,
-																			_1: {
-																				ctor: '::',
-																				_0: _debois$elm_mdl$Material_Color$DeepPurple,
-																				_1: {ctor: '[]'}
-																			}
-																		}
-																	}
-																}
-															}
-														}
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	});
-var _debois$elm_mdl$Material_Color$accentHues = _elm_lang$core$Array$fromList(
-	{
-		ctor: '::',
-		_0: _debois$elm_mdl$Material_Color$Indigo,
-		_1: {
-			ctor: '::',
-			_0: _debois$elm_mdl$Material_Color$Blue,
-			_1: {
-				ctor: '::',
-				_0: _debois$elm_mdl$Material_Color$LightBlue,
-				_1: {
-					ctor: '::',
-					_0: _debois$elm_mdl$Material_Color$Cyan,
-					_1: {
-						ctor: '::',
-						_0: _debois$elm_mdl$Material_Color$Teal,
-						_1: {
-							ctor: '::',
-							_0: _debois$elm_mdl$Material_Color$Green,
-							_1: {
-								ctor: '::',
-								_0: _debois$elm_mdl$Material_Color$LightGreen,
-								_1: {
-									ctor: '::',
-									_0: _debois$elm_mdl$Material_Color$Lime,
-									_1: {
-										ctor: '::',
-										_0: _debois$elm_mdl$Material_Color$Yellow,
-										_1: {
-											ctor: '::',
-											_0: _debois$elm_mdl$Material_Color$Amber,
-											_1: {
-												ctor: '::',
-												_0: _debois$elm_mdl$Material_Color$Orange,
-												_1: {
-													ctor: '::',
-													_0: _debois$elm_mdl$Material_Color$DeepOrange,
-													_1: {
-														ctor: '::',
-														_0: _debois$elm_mdl$Material_Color$Red,
-														_1: {
-															ctor: '::',
-															_0: _debois$elm_mdl$Material_Color$Pink,
-															_1: {
-																ctor: '::',
-																_0: _debois$elm_mdl$Material_Color$Purple,
-																_1: {
-																	ctor: '::',
-																	_0: _debois$elm_mdl$Material_Color$DeepPurple,
-																	_1: {ctor: '[]'}
-																}
-															}
-														}
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	});
-var _debois$elm_mdl$Material_Color$A700 = {ctor: 'A700'};
-var _debois$elm_mdl$Material_Color$A400 = {ctor: 'A400'};
-var _debois$elm_mdl$Material_Color$A200 = {ctor: 'A200'};
-var _debois$elm_mdl$Material_Color$A100 = {ctor: 'A100'};
-var _debois$elm_mdl$Material_Color$S900 = {ctor: 'S900'};
-var _debois$elm_mdl$Material_Color$S800 = {ctor: 'S800'};
-var _debois$elm_mdl$Material_Color$S700 = {ctor: 'S700'};
-var _debois$elm_mdl$Material_Color$S600 = {ctor: 'S600'};
-var _debois$elm_mdl$Material_Color$S500 = {ctor: 'S500'};
-var _debois$elm_mdl$Material_Color$S400 = {ctor: 'S400'};
-var _debois$elm_mdl$Material_Color$S300 = {ctor: 'S300'};
-var _debois$elm_mdl$Material_Color$S200 = {ctor: 'S200'};
-var _debois$elm_mdl$Material_Color$S100 = {ctor: 'S100'};
-var _debois$elm_mdl$Material_Color$S50 = {ctor: 'S50'};
-var _debois$elm_mdl$Material_Color$shades = _elm_lang$core$Array$fromList(
-	{
-		ctor: '::',
-		_0: _debois$elm_mdl$Material_Color$S50,
-		_1: {
-			ctor: '::',
-			_0: _debois$elm_mdl$Material_Color$S100,
-			_1: {
-				ctor: '::',
-				_0: _debois$elm_mdl$Material_Color$S200,
-				_1: {
-					ctor: '::',
-					_0: _debois$elm_mdl$Material_Color$S300,
-					_1: {
-						ctor: '::',
-						_0: _debois$elm_mdl$Material_Color$S400,
-						_1: {
-							ctor: '::',
-							_0: _debois$elm_mdl$Material_Color$S500,
-							_1: {
-								ctor: '::',
-								_0: _debois$elm_mdl$Material_Color$S600,
-								_1: {
-									ctor: '::',
-									_0: _debois$elm_mdl$Material_Color$S700,
-									_1: {
-										ctor: '::',
-										_0: _debois$elm_mdl$Material_Color$S800,
-										_1: {
-											ctor: '::',
-											_0: _debois$elm_mdl$Material_Color$S900,
-											_1: {
-												ctor: '::',
-												_0: _debois$elm_mdl$Material_Color$A100,
-												_1: {
-													ctor: '::',
-													_0: _debois$elm_mdl$Material_Color$A200,
-													_1: {
-														ctor: '::',
-														_0: _debois$elm_mdl$Material_Color$A400,
-														_1: {
-															ctor: '::',
-															_0: _debois$elm_mdl$Material_Color$A700,
-															_1: {ctor: '[]'}
-														}
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	});
-var _debois$elm_mdl$Material_Color$C = function (a) {
-	return {ctor: 'C', _0: a};
-};
-var _debois$elm_mdl$Material_Color$color = F2(
-	function (hue, shade) {
-		return _debois$elm_mdl$Material_Color$C(
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				_debois$elm_mdl$Material_Color$hueName(hue),
-				A2(
-					_elm_lang$core$Basics_ops['++'],
-					'-',
-					_debois$elm_mdl$Material_Color$shadeName(shade))));
-	});
-var _debois$elm_mdl$Material_Color$white = _debois$elm_mdl$Material_Color$C('white');
-var _debois$elm_mdl$Material_Color$black = _debois$elm_mdl$Material_Color$C('black');
-var _debois$elm_mdl$Material_Color$primary = _debois$elm_mdl$Material_Color$C('primary');
-var _debois$elm_mdl$Material_Color$primaryDark = _debois$elm_mdl$Material_Color$C('primary-dark');
-var _debois$elm_mdl$Material_Color$primaryContrast = _debois$elm_mdl$Material_Color$C('primary-contrast');
-var _debois$elm_mdl$Material_Color$accent = _debois$elm_mdl$Material_Color$C('accent');
-var _debois$elm_mdl$Material_Color$accentContrast = _debois$elm_mdl$Material_Color$C('accent-contrast');
-
 //import Maybe, Native.List //
 
 var _elm_lang$core$Native_Regex = function() {
@@ -15472,162 +15092,6 @@ var _elm_lang$core$Regex$AtMost = function (a) {
 	return {ctor: 'AtMost', _0: a};
 };
 var _elm_lang$core$Regex$All = {ctor: 'All'};
-
-var _debois$elm_mdl$Material_Grid$clip = F3(
-	function (lower, upper, k) {
-		return A2(
-			_elm_lang$core$Basics$max,
-			lower,
-			A2(_elm_lang$core$Basics$min, k, upper));
-	});
-var _debois$elm_mdl$Material_Grid$stretch = _debois$elm_mdl$Material_Options$cs('mdl-cell--stretch');
-var _debois$elm_mdl$Material_Grid$align = function (a) {
-	var _p0 = a;
-	switch (_p0.ctor) {
-		case 'Top':
-			return _debois$elm_mdl$Material_Options$cs('mdl-cell--top');
-		case 'Middle':
-			return _debois$elm_mdl$Material_Options$cs('mdl-cell--middle');
-		default:
-			return _debois$elm_mdl$Material_Options$cs('mdl-cell--bottom');
-	}
-};
-var _debois$elm_mdl$Material_Grid$suffix = function (device) {
-	var _p1 = device;
-	switch (_p1.ctor) {
-		case 'All':
-			return '';
-		case 'Desktop':
-			return '-desktop';
-		case 'Tablet':
-			return '-tablet';
-		default:
-			return '-phone';
-	}
-};
-var _debois$elm_mdl$Material_Grid$size = F2(
-	function (device, k) {
-		var c = function () {
-			var _p2 = device;
-			switch (_p2.ctor) {
-				case 'All':
-					return A3(_debois$elm_mdl$Material_Grid$clip, 1, 12, k);
-				case 'Desktop':
-					return A3(_debois$elm_mdl$Material_Grid$clip, 1, 12, k);
-				case 'Tablet':
-					return A3(_debois$elm_mdl$Material_Grid$clip, 1, 8, k);
-				default:
-					return A3(_debois$elm_mdl$Material_Grid$clip, 1, 4, k);
-			}
-		}();
-		return _debois$elm_mdl$Material_Options$cs(
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				'mdl-cell--',
-				A2(
-					_elm_lang$core$Basics_ops['++'],
-					_elm_lang$core$Basics$toString(c),
-					A2(
-						_elm_lang$core$Basics_ops['++'],
-						'-col',
-						_debois$elm_mdl$Material_Grid$suffix(device)))));
-	});
-var _debois$elm_mdl$Material_Grid$offset = F2(
-	function (device, k) {
-		var c = function () {
-			var _p3 = device;
-			switch (_p3.ctor) {
-				case 'All':
-					return A3(_debois$elm_mdl$Material_Grid$clip, 0, 11, k);
-				case 'Desktop':
-					return A3(_debois$elm_mdl$Material_Grid$clip, 0, 11, k);
-				case 'Tablet':
-					return A3(_debois$elm_mdl$Material_Grid$clip, 0, 7, k);
-				default:
-					return A3(_debois$elm_mdl$Material_Grid$clip, 0, 3, k);
-			}
-		}();
-		return _debois$elm_mdl$Material_Options$cs(
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				'mdl-cell--',
-				A2(
-					_elm_lang$core$Basics_ops['++'],
-					_elm_lang$core$Basics$toString(c),
-					A2(
-						_elm_lang$core$Basics_ops['++'],
-						'-offset',
-						_debois$elm_mdl$Material_Grid$suffix(device)))));
-	});
-var _debois$elm_mdl$Material_Grid$hide = function (device) {
-	return _debois$elm_mdl$Material_Options$cs(
-		function () {
-			var _p4 = device;
-			if (_p4.ctor === 'All') {
-				return '';
-			} else {
-				return A2(
-					_elm_lang$core$Basics_ops['++'],
-					'mdl-cell--hide-',
-					_debois$elm_mdl$Material_Grid$suffix(device));
-			}
-		}());
-};
-var _debois$elm_mdl$Material_Grid$order = F2(
-	function (device, n) {
-		return _debois$elm_mdl$Material_Options$cs(
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				'mdl-cell--order-',
-				A2(
-					_elm_lang$core$Basics_ops['++'],
-					_elm_lang$core$Basics$toString(
-						A3(_debois$elm_mdl$Material_Grid$clip, 1, 12, n)),
-					_debois$elm_mdl$Material_Grid$suffix(device))));
-	});
-var _debois$elm_mdl$Material_Grid$grid = F2(
-	function (styling, cells) {
-		return A2(
-			_debois$elm_mdl$Material_Options$div,
-			{
-				ctor: '::',
-				_0: _debois$elm_mdl$Material_Options$cs('mdl-grid'),
-				_1: styling
-			},
-			A2(
-				_elm_lang$core$List$map,
-				function (_p5) {
-					var _p6 = _p5;
-					return _p6._0;
-				},
-				cells));
-	});
-var _debois$elm_mdl$Material_Grid$maxWidth = function (w) {
-	return A2(_debois$elm_mdl$Material_Options$css, 'max-width', w);
-};
-var _debois$elm_mdl$Material_Grid$noSpacing = _debois$elm_mdl$Material_Options$cs('mdl-grid--no-spacing');
-var _debois$elm_mdl$Material_Grid$Phone = {ctor: 'Phone'};
-var _debois$elm_mdl$Material_Grid$Tablet = {ctor: 'Tablet'};
-var _debois$elm_mdl$Material_Grid$Desktop = {ctor: 'Desktop'};
-var _debois$elm_mdl$Material_Grid$All = {ctor: 'All'};
-var _debois$elm_mdl$Material_Grid$Cell = function (a) {
-	return {ctor: 'Cell', _0: a};
-};
-var _debois$elm_mdl$Material_Grid$cell = F2(
-	function (styling, elms) {
-		return _debois$elm_mdl$Material_Grid$Cell(
-			A2(
-				_debois$elm_mdl$Material_Options$div,
-				{
-					ctor: '::',
-					_0: _debois$elm_mdl$Material_Options$cs('mdl-cell'),
-					_1: styling
-				},
-				elms));
-	});
-var _debois$elm_mdl$Material_Grid$Bottom = {ctor: 'Bottom'};
-var _debois$elm_mdl$Material_Grid$Middle = {ctor: 'Middle'};
-var _debois$elm_mdl$Material_Grid$Top = {ctor: 'Top'};
 
 var _elm_lang$html$Html_Lazy$lazy3 = _elm_lang$virtual_dom$VirtualDom$lazy3;
 var _elm_lang$html$Html_Lazy$lazy2 = _elm_lang$virtual_dom$VirtualDom$lazy2;
@@ -16395,6 +15859,563 @@ var _elm_lang$navigation$Navigation$onEffects = F4(
 			stepState);
 	});
 _elm_lang$core$Native_Platform.effectManagers['Navigation'] = {pkg: 'elm-lang/navigation', init: _elm_lang$navigation$Navigation$init, onEffects: _elm_lang$navigation$Navigation$onEffects, onSelfMsg: _elm_lang$navigation$Navigation$onSelfMsg, tag: 'fx', cmdMap: _elm_lang$navigation$Navigation$cmdMap, subMap: _elm_lang$navigation$Navigation$subMap};
+
+var _krisajenkins$elm_exts$Exts_Html_Bootstrap$video = F2(
+	function (ratio, url) {
+		var ratioClass = function () {
+			var _p0 = ratio;
+			if (_p0.ctor === 'SixteenByNine') {
+				return 'embed-responsive-16by9';
+			} else {
+				return 'embed-responsive-4by3';
+			}
+		}();
+		return A2(
+			_elm_lang$html$Html$div,
+			{ctor: '[]'},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$h1,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text('About'),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$div,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('embed-responsive'),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$iframe,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$class('embed-responsive-item'),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$src(url),
+										_1: {ctor: '[]'}
+									}
+								},
+								{ctor: '[]'}),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				}
+			});
+	});
+var _krisajenkins$elm_exts$Exts_Html_Bootstrap$badge = _elm_lang$html$Html$span(
+	{
+		ctor: '::',
+		_0: _elm_lang$html$Html_Attributes$class('badge'),
+		_1: {ctor: '[]'}
+	});
+var _krisajenkins$elm_exts$Exts_Html_Bootstrap$well = _elm_lang$html$Html$div(
+	{
+		ctor: '::',
+		_0: _elm_lang$html$Html_Attributes$class('well'),
+		_1: {ctor: '[]'}
+	});
+var _krisajenkins$elm_exts$Exts_Html_Bootstrap$jumbotron = _elm_lang$html$Html$div(
+	{
+		ctor: '::',
+		_0: _elm_lang$html$Html_Attributes$class('jumbotron'),
+		_1: {ctor: '[]'}
+	});
+var _krisajenkins$elm_exts$Exts_Html_Bootstrap$clearfix = A2(
+	_elm_lang$html$Html$div,
+	{
+		ctor: '::',
+		_0: _elm_lang$html$Html_Attributes$class('clearfix'),
+		_1: {ctor: '[]'}
+	},
+	{ctor: '[]'});
+var _krisajenkins$elm_exts$Exts_Html_Bootstrap$empty = A2(
+	_elm_lang$html$Html$span,
+	{ctor: '[]'},
+	{ctor: '[]'});
+var _krisajenkins$elm_exts$Exts_Html_Bootstrap$formGroup = _elm_lang$html$Html$div(
+	{
+		ctor: '::',
+		_0: _elm_lang$html$Html_Attributes$class('form-group'),
+		_1: {ctor: '[]'}
+	});
+var _krisajenkins$elm_exts$Exts_Html_Bootstrap$row = _elm_lang$html$Html$div(
+	{
+		ctor: '::',
+		_0: _elm_lang$html$Html_Attributes$class('row'),
+		_1: {ctor: '[]'}
+	});
+var _krisajenkins$elm_exts$Exts_Html_Bootstrap$twoColumns = F2(
+	function (left, right) {
+		return _krisajenkins$elm_exts$Exts_Html_Bootstrap$row(
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$div,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('col-xs-6'),
+						_1: {ctor: '[]'}
+					},
+					left),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$div,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('col-xs-6'),
+							_1: {ctor: '[]'}
+						},
+						right),
+					_1: {ctor: '[]'}
+				}
+			});
+	});
+var _krisajenkins$elm_exts$Exts_Html_Bootstrap$containerFluid = _elm_lang$html$Html$div(
+	{
+		ctor: '::',
+		_0: _elm_lang$html$Html_Attributes$class('container-fluid'),
+		_1: {ctor: '[]'}
+	});
+var _krisajenkins$elm_exts$Exts_Html_Bootstrap$container = _elm_lang$html$Html$div(
+	{
+		ctor: '::',
+		_0: _elm_lang$html$Html_Attributes$class('container'),
+		_1: {ctor: '[]'}
+	});
+var _krisajenkins$elm_exts$Exts_Html_Bootstrap$stylesheet = A3(
+	_elm_lang$html$Html$node,
+	'link',
+	{
+		ctor: '::',
+		_0: _elm_lang$html$Html_Attributes$rel('stylesheet'),
+		_1: {
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$href('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'),
+			_1: {ctor: '[]'}
+		}
+	},
+	{ctor: '[]'});
+var _krisajenkins$elm_exts$Exts_Html_Bootstrap$FourByThree = {ctor: 'FourByThree'};
+var _krisajenkins$elm_exts$Exts_Html_Bootstrap$SixteenByNine = {ctor: 'SixteenByNine'};
+var _krisajenkins$elm_exts$Exts_Html_Bootstrap$Left = {ctor: 'Left'};
+var _krisajenkins$elm_exts$Exts_Html_Bootstrap$Bottom = {ctor: 'Bottom'};
+var _krisajenkins$elm_exts$Exts_Html_Bootstrap$Right = {ctor: 'Right'};
+var _krisajenkins$elm_exts$Exts_Html_Bootstrap$Top = {ctor: 'Top'};
+var _krisajenkins$elm_exts$Exts_Html_Bootstrap$popover = F5(
+	function (direction, isShown, styles, title, body) {
+		return A2(
+			_elm_lang$html$Html$div,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$classList(
+					{
+						ctor: '::',
+						_0: {ctor: '_Tuple2', _0: 'popover fade', _1: true},
+						_1: {
+							ctor: '::',
+							_0: {ctor: '_Tuple2', _0: 'in', _1: isShown},
+							_1: {
+								ctor: '::',
+								_0: {
+									ctor: '_Tuple2',
+									_0: 'top',
+									_1: _elm_lang$core$Native_Utils.eq(direction, _krisajenkins$elm_exts$Exts_Html_Bootstrap$Top)
+								},
+								_1: {
+									ctor: '::',
+									_0: {
+										ctor: '_Tuple2',
+										_0: 'right',
+										_1: _elm_lang$core$Native_Utils.eq(direction, _krisajenkins$elm_exts$Exts_Html_Bootstrap$Right)
+									},
+									_1: {
+										ctor: '::',
+										_0: {
+											ctor: '_Tuple2',
+											_0: 'bottom',
+											_1: _elm_lang$core$Native_Utils.eq(direction, _krisajenkins$elm_exts$Exts_Html_Bootstrap$Bottom)
+										},
+										_1: {
+											ctor: '::',
+											_0: {
+												ctor: '_Tuple2',
+												_0: 'left',
+												_1: _elm_lang$core$Native_Utils.eq(direction, _krisajenkins$elm_exts$Exts_Html_Bootstrap$Left)
+											},
+											_1: {ctor: '[]'}
+										}
+									}
+								}
+							}
+						}
+					}),
+				_1: {
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$style(
+						A2(
+							_elm_lang$core$Basics_ops['++'],
+							styles,
+							{
+								ctor: '::',
+								_0: {ctor: '_Tuple2', _0: 'display', _1: 'block'},
+								_1: {ctor: '[]'}
+							})),
+					_1: {ctor: '[]'}
+				}
+			},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$div,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('arrow'),
+						_1: {ctor: '[]'}
+					},
+					{ctor: '[]'}),
+				_1: {
+					ctor: '::',
+					_0: function () {
+						var _p1 = title;
+						if (_p1.ctor === 'Just') {
+							return A2(
+								_elm_lang$html$Html$h3,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$class('popover-title'),
+									_1: {ctor: '[]'}
+								},
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html$text(_p1._0),
+									_1: {ctor: '[]'}
+								});
+						} else {
+							return _krisajenkins$elm_exts$Exts_Html_Bootstrap$empty;
+						}
+					}(),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$div,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('popover-content'),
+								_1: {ctor: '[]'}
+							},
+							{
+								ctor: '::',
+								_0: body,
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					}
+				}
+			});
+	});
+
+var _krisajenkins$elm_exts$Exts_Maybe$oneOf = A2(
+	_elm_lang$core$List$foldl,
+	F2(
+		function (x, acc) {
+			return (!_elm_lang$core$Native_Utils.eq(acc, _elm_lang$core$Maybe$Nothing)) ? acc : x;
+		}),
+	_elm_lang$core$Maybe$Nothing);
+var _krisajenkins$elm_exts$Exts_Maybe$when = F2(
+	function (test, value) {
+		return test ? _elm_lang$core$Maybe$Just(value) : _elm_lang$core$Maybe$Nothing;
+	});
+var _krisajenkins$elm_exts$Exts_Maybe$validate = F2(
+	function (predicate, value) {
+		return predicate(value) ? _elm_lang$core$Maybe$Just(value) : _elm_lang$core$Maybe$Nothing;
+	});
+var _krisajenkins$elm_exts$Exts_Maybe$matches = function (predicate) {
+	return _elm_lang$core$Maybe$andThen(
+		_krisajenkins$elm_exts$Exts_Maybe$validate(predicate));
+};
+var _krisajenkins$elm_exts$Exts_Maybe$maybeDefault = F2(
+	function ($default, x) {
+		var _p0 = x;
+		if (_p0.ctor === 'Just') {
+			return _elm_lang$core$Maybe$Just(_p0._0);
+		} else {
+			return _elm_lang$core$Maybe$Just($default);
+		}
+	});
+var _krisajenkins$elm_exts$Exts_Maybe$join = F3(
+	function (f, left, right) {
+		var _p1 = {ctor: '_Tuple2', _0: left, _1: right};
+		if (((_p1.ctor === '_Tuple2') && (_p1._0.ctor === 'Just')) && (_p1._1.ctor === 'Just')) {
+			return _elm_lang$core$Maybe$Just(
+				A2(f, _p1._0._0, _p1._1._0));
+		} else {
+			return _elm_lang$core$Maybe$Nothing;
+		}
+	});
+var _krisajenkins$elm_exts$Exts_Maybe$catMaybes = _elm_lang$core$List$filterMap(_elm_lang$core$Basics$identity);
+var _krisajenkins$elm_exts$Exts_Maybe$mappend = F2(
+	function (a, b) {
+		var _p2 = {ctor: '_Tuple2', _0: a, _1: b};
+		if (_p2._0.ctor === 'Nothing') {
+			return _elm_lang$core$Maybe$Nothing;
+		} else {
+			if (_p2._1.ctor === 'Nothing') {
+				return _elm_lang$core$Maybe$Nothing;
+			} else {
+				return _elm_lang$core$Maybe$Just(
+					{ctor: '_Tuple2', _0: _p2._0._0, _1: _p2._1._0});
+			}
+		}
+	});
+var _krisajenkins$elm_exts$Exts_Maybe$maybe = F2(
+	function ($default, f) {
+		return function (_p3) {
+			return A2(
+				_elm_lang$core$Maybe$withDefault,
+				$default,
+				A2(_elm_lang$core$Maybe$map, f, _p3));
+		};
+	});
+var _krisajenkins$elm_exts$Exts_Maybe$isJust = function (x) {
+	var _p4 = x;
+	if (_p4.ctor === 'Just') {
+		return true;
+	} else {
+		return false;
+	}
+};
+var _krisajenkins$elm_exts$Exts_Maybe$isNothing = function (_p5) {
+	return !_krisajenkins$elm_exts$Exts_Maybe$isJust(_p5);
+};
+
+var _krisajenkins$elm_dialog$Dialog$map = F2(
+	function (f, config) {
+		return {
+			closeMessage: A2(_elm_lang$core$Maybe$map, f, config.closeMessage),
+			containerClass: config.containerClass,
+			header: A2(
+				_elm_lang$core$Maybe$map,
+				_elm_lang$html$Html$map(f),
+				config.header),
+			body: A2(
+				_elm_lang$core$Maybe$map,
+				_elm_lang$html$Html$map(f),
+				config.body),
+			footer: A2(
+				_elm_lang$core$Maybe$map,
+				_elm_lang$html$Html$map(f),
+				config.footer)
+		};
+	});
+var _krisajenkins$elm_dialog$Dialog$mapMaybe = function (_p0) {
+	return _elm_lang$core$Maybe$map(
+		_krisajenkins$elm_dialog$Dialog$map(_p0));
+};
+var _krisajenkins$elm_dialog$Dialog$backdrop = function (config) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$classList(
+				{
+					ctor: '::',
+					_0: {
+						ctor: '_Tuple2',
+						_0: 'modal-backdrop in',
+						_1: _krisajenkins$elm_exts$Exts_Maybe$isJust(config)
+					},
+					_1: {ctor: '[]'}
+				}),
+			_1: {ctor: '[]'}
+		},
+		{ctor: '[]'});
+};
+var _krisajenkins$elm_dialog$Dialog$wrapFooter = function (footer) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('modal-footer'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: footer,
+			_1: {ctor: '[]'}
+		});
+};
+var _krisajenkins$elm_dialog$Dialog$wrapBody = function (body) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('modal-body'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: body,
+			_1: {ctor: '[]'}
+		});
+};
+var _krisajenkins$elm_dialog$Dialog$closeButton = function (closeMessage) {
+	return A2(
+		_elm_lang$html$Html$button,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('close'),
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$html$Html_Events$onClick(closeMessage),
+				_1: {ctor: '[]'}
+			}
+		},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html$text('x'),
+			_1: {ctor: '[]'}
+		});
+};
+var _krisajenkins$elm_dialog$Dialog$wrapHeader = F2(
+	function (closeMessage, header) {
+		return (_elm_lang$core$Native_Utils.eq(closeMessage, _elm_lang$core$Maybe$Nothing) && _elm_lang$core$Native_Utils.eq(header, _elm_lang$core$Maybe$Nothing)) ? _krisajenkins$elm_exts$Exts_Html_Bootstrap$empty : A2(
+			_elm_lang$html$Html$div,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class('modal-header'),
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: A3(_krisajenkins$elm_exts$Exts_Maybe$maybe, _krisajenkins$elm_exts$Exts_Html_Bootstrap$empty, _krisajenkins$elm_dialog$Dialog$closeButton, closeMessage),
+				_1: {
+					ctor: '::',
+					_0: A2(_elm_lang$core$Maybe$withDefault, _krisajenkins$elm_exts$Exts_Html_Bootstrap$empty, header),
+					_1: {ctor: '[]'}
+				}
+			});
+	});
+var _krisajenkins$elm_dialog$Dialog$view = function (maybeConfig) {
+	var displayed = _krisajenkins$elm_exts$Exts_Maybe$isJust(maybeConfig);
+	return A2(
+		_elm_lang$html$Html$div,
+		function () {
+			var _p1 = A2(
+				_elm_lang$core$Maybe$andThen,
+				function (_) {
+					return _.containerClass;
+				},
+				maybeConfig);
+			if (_p1.ctor === 'Nothing') {
+				return {ctor: '[]'};
+			} else {
+				return {
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class(_p1._0),
+					_1: {ctor: '[]'}
+				};
+			}
+		}(),
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$div,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$classList(
+						{
+							ctor: '::',
+							_0: {ctor: '_Tuple2', _0: 'modal', _1: true},
+							_1: {
+								ctor: '::',
+								_0: {ctor: '_Tuple2', _0: 'in', _1: displayed},
+								_1: {ctor: '[]'}
+							}
+						}),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$style(
+							{
+								ctor: '::',
+								_0: {
+									ctor: '_Tuple2',
+									_0: 'display',
+									_1: displayed ? 'block' : 'none'
+								},
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					}
+				},
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$div,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('modal-dialog'),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$div,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$class('modal-content'),
+									_1: {ctor: '[]'}
+								},
+								function () {
+									var _p2 = maybeConfig;
+									if (_p2.ctor === 'Nothing') {
+										return {
+											ctor: '::',
+											_0: _krisajenkins$elm_exts$Exts_Html_Bootstrap$empty,
+											_1: {ctor: '[]'}
+										};
+									} else {
+										var _p3 = _p2._0;
+										return {
+											ctor: '::',
+											_0: A2(_krisajenkins$elm_dialog$Dialog$wrapHeader, _p3.closeMessage, _p3.header),
+											_1: {
+												ctor: '::',
+												_0: A3(_krisajenkins$elm_exts$Exts_Maybe$maybe, _krisajenkins$elm_exts$Exts_Html_Bootstrap$empty, _krisajenkins$elm_dialog$Dialog$wrapBody, _p3.body),
+												_1: {
+													ctor: '::',
+													_0: A3(_krisajenkins$elm_exts$Exts_Maybe$maybe, _krisajenkins$elm_exts$Exts_Html_Bootstrap$empty, _krisajenkins$elm_dialog$Dialog$wrapFooter, _p3.footer),
+													_1: {ctor: '[]'}
+												}
+											}
+										};
+									}
+								}()),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: _krisajenkins$elm_dialog$Dialog$backdrop(maybeConfig),
+				_1: {ctor: '[]'}
+			}
+		});
+};
+var _krisajenkins$elm_dialog$Dialog$Config = F5(
+	function (a, b, c, d, e) {
+		return {closeMessage: a, containerClass: b, header: c, body: d, footer: e};
+	});
 
 
 var _sporto$erl$Erl_Query$getValuesForKey = function (key) {
@@ -17197,7 +17218,7 @@ var _rgrempel$elm_route_url$RouteUrl$programWithFlags = function (_p23) {
 };
 
 var _user$project$BoardTask$isListExist = F2(
-	function (column, listname) {
+	function (columns, listname) {
 		return A2(
 			_elm_lang$core$List$member,
 			listname,
@@ -17206,36 +17227,62 @@ var _user$project$BoardTask$isListExist = F2(
 				function (x) {
 					return x.title;
 				},
-				column));
+				columns));
 	});
-var _user$project$BoardTask$getEmptyDataSet = {userId: 0, id: 0, title: '', body: ''};
+var _user$project$BoardTask$indicesOf = F2(
+	function (thing, things) {
+		return A2(
+			_elm_lang$core$List$map,
+			_elm_lang$core$Tuple$first,
+			A2(
+				_elm_lang$core$List$filter,
+				function (_p0) {
+					var _p1 = _p0;
+					return _elm_lang$core$Native_Utils.eq(_p1._1, thing);
+				},
+				A2(
+					_elm_lang$core$List$indexedMap,
+					F2(
+						function (v0, v1) {
+							return {ctor: '_Tuple2', _0: v0, _1: v1};
+						}),
+					things)));
+	});
+var _user$project$BoardTask$firstIndexOf = F2(
+	function (thing, things) {
+		return A2(
+			_elm_lang$core$Maybe$withDefault,
+			-1,
+			_elm_lang$core$List$minimum(
+				A2(_user$project$BoardTask$indicesOf, thing, things)));
+	});
 var _user$project$BoardTask$Team = F2(
 	function (a, b) {
 		return {teamId: a, name: b};
 	});
-var _user$project$BoardTask$CardView = F4(
-	function (a, b, c, d) {
-		return {userId: a, id: b, title: c, body: d};
+var _user$project$BoardTask$CardView = F5(
+	function (a, b, c, d, e) {
+		return {uniqueNumber: a, status: b, title: c, description: d, boardID: e};
 	});
-var _user$project$BoardTask$decodeFromJson = A5(
-	_elm_lang$core$Json_Decode$map4,
+var _user$project$BoardTask$decodeCardViewFromJson = A6(
+	_elm_lang$core$Json_Decode$map5,
 	_user$project$BoardTask$CardView,
 	A2(
 		_elm_lang$core$Json_Decode$at,
 		{
 			ctor: '::',
-			_0: 'userId',
+			_0: 'uniqueNumber',
 			_1: {ctor: '[]'}
 		},
-		_elm_lang$core$Json_Decode$int),
+		_elm_lang$core$Json_Decode$string),
 	A2(
 		_elm_lang$core$Json_Decode$at,
 		{
 			ctor: '::',
-			_0: 'id',
+			_0: 'status',
 			_1: {ctor: '[]'}
 		},
-		_elm_lang$core$Json_Decode$int),
+		_elm_lang$core$Json_Decode$bool),
 	A2(
 		_elm_lang$core$Json_Decode$at,
 		{
@@ -17248,96 +17295,64 @@ var _user$project$BoardTask$decodeFromJson = A5(
 		_elm_lang$core$Json_Decode$at,
 		{
 			ctor: '::',
-			_0: 'body',
+			_0: 'description',
 			_1: {ctor: '[]'}
 		},
-		_elm_lang$core$Json_Decode$string));
+		_elm_lang$core$Json_Decode$string),
+	A2(
+		_elm_lang$core$Json_Decode$at,
+		{
+			ctor: '::',
+			_0: 'boardID',
+			_1: {ctor: '[]'}
+		},
+		_elm_lang$core$Json_Decode$int));
 var _user$project$BoardTask$putElementToList = F2(
 	function (column, lst) {
 		return {
 			ctor: '::',
-			_0: A4(_user$project$BoardTask$CardView, 1, 1, column, 'Test1'),
+			_0: A5(_user$project$BoardTask$CardView, 'UNI1', true, 'TITLE1', 'DESC1', 1),
 			_1: lst
 		};
 	});
-var _user$project$BoardTask$ColumnView = F2(
-	function (a, b) {
-		return {title: a, cards: b};
+var _user$project$BoardTask$ColumnView = F4(
+	function (a, b, c, d) {
+		return {viewId: a, id: b, title: c, boardID: d};
 	});
-var _user$project$BoardTask$getExampleSetOfData = A2(
-	_user$project$BoardTask$ColumnView,
-	'UUU',
-	{
+var _user$project$BoardTask$getExampleSetOfData = A4(_user$project$BoardTask$ColumnView, 1, 1, 'UUU', 1);
+var _user$project$BoardTask$getExampleSetOfColumns = {
+	ctor: '::',
+	_0: A4(_user$project$BoardTask$ColumnView, 2, 2, 'UUU2', 2),
+	_1: {
 		ctor: '::',
-		_0: A4(_user$project$BoardTask$CardView, 1, 1, 'Test1', 'Test1'),
-		_1: {
-			ctor: '::',
-			_0: A4(_user$project$BoardTask$CardView, 1, 1, 'Test2', 'Test1'),
-			_1: {
-				ctor: '::',
-				_0: A4(_user$project$BoardTask$CardView, 1, 1, 'Test3', 'Test1'),
-				_1: {
-					ctor: '::',
-					_0: A4(_user$project$BoardTask$CardView, 1, 1, 'Test4', 'Test1'),
-					_1: {ctor: '[]'}
-				}
-			}
-		}
-	});
-var _user$project$BoardTask$getExampleSetOfData2 = A2(
-	_user$project$BoardTask$ColumnView,
-	'UUU2',
-	{
-		ctor: '::',
-		_0: A4(_user$project$BoardTask$CardView, 1, 1, 'Test21', 'Test1'),
-		_1: {
-			ctor: '::',
-			_0: A4(_user$project$BoardTask$CardView, 1, 1, 'Test22', 'Test1'),
-			_1: {
-				ctor: '::',
-				_0: A4(_user$project$BoardTask$CardView, 1, 1, 'Test23', 'Test1'),
-				_1: {
-					ctor: '::',
-					_0: A4(_user$project$BoardTask$CardView, 1, 1, 'Test24', 'Test1'),
-					_1: {ctor: '[]'}
-				}
-			}
-		}
-	});
-var _user$project$BoardTask$BoardView = F2(
-	function (a, b) {
-		return {title: a, columns: b};
+		_0: A4(_user$project$BoardTask$ColumnView, 1, 1, 'UUU', 1),
+		_1: {ctor: '[]'}
+	}
+};
+var _user$project$BoardTask$getColumnsForBoard = function (boardId) {
+	return A2(
+		_elm_lang$core$List$filter,
+		function (x) {
+			return _elm_lang$core$Native_Utils.eq(x.boardID, boardId);
+		},
+		_user$project$BoardTask$getExampleSetOfColumns);
+};
+var _user$project$BoardTask$BoardView = F3(
+	function (a, b, c) {
+		return {viewId: a, id: b, title: c};
 	});
 var _user$project$BoardTask$getExampleSetOfBoards = {
 	ctor: '::',
-	_0: A2(
-		_user$project$BoardTask$BoardView,
-		'Board 1',
-		{
-			ctor: '::',
-			_0: _user$project$BoardTask$getExampleSetOfData,
-			_1: {
-				ctor: '::',
-				_0: _user$project$BoardTask$getExampleSetOfData,
-				_1: {ctor: '[]'}
-			}
-		}),
+	_0: A3(_user$project$BoardTask$BoardView, 1, 1, 'Board 1'),
 	_1: {
 		ctor: '::',
-		_0: A2(
-			_user$project$BoardTask$BoardView,
-			'Board 2',
-			{
-				ctor: '::',
-				_0: _user$project$BoardTask$getExampleSetOfData2,
-				_1: {
-					ctor: '::',
-					_0: _user$project$BoardTask$getExampleSetOfData2,
-					_1: {ctor: '[]'}
-				}
-			}),
+		_0: A3(_user$project$BoardTask$BoardView, 2, 2, 'Board 2'),
 		_1: {ctor: '[]'}
 	}
+};
+var _user$project$BoardTask$model = {boards: _user$project$BoardTask$getExampleSetOfBoards};
+var _user$project$BoardTask$getBoards = function (user) {
+	return _user$project$BoardTask$getExampleSetOfBoards;
 };
 var _user$project$BoardTask$AddCard = F2(
 	function (a, b) {
@@ -17350,75 +17365,86 @@ var _user$project$BoardTask$AddBoard = F2(
 	function (a, b) {
 		return {title: a, teams: b};
 	});
-
-var _user$project$Boards_Model$model = function () {
-	var boards_ = _user$project$BoardTask$getExampleSetOfBoards;
-	var board_ = _elm_lang$core$List$head(boards_);
-	var stricBoard_ = A2(
-		_elm_lang$core$Maybe$withDefault,
-		A2(
-			_user$project$BoardTask$BoardView,
-			'',
-			{ctor: '[]'}),
-		board_);
-	return {boards: boards_, boardDetails: stricBoard_, mdl: _debois$elm_mdl$Material$model};
+var _user$project$BoardTask$User = function (a) {
+	return {boards: a};
+};
+var _user$project$BoardTask$GetInitialCard = {ctor: 'GetInitialCard'};
+var _user$project$BoardTask$GetCardFromApi = function (a) {
+	return {ctor: 'GetCardFromApi', _0: a};
+};
+var _user$project$BoardTask$getCardView = function (cardId) {
+	var url = A2(_elm_lang$core$Basics_ops['++'], 'https://127.0.0.1/card/', cardId);
+	var req = A2(_elm_lang$http$Http$get, url, _user$project$BoardTask$decodeCardViewFromJson);
+	return A2(_elm_lang$http$Http$send, _user$project$BoardTask$GetCardFromApi, req);
+};
+var _user$project$BoardTask$getColumnView = function () {
+	var url = 'https://jsonplaceholder.typicode.com/posts/1';
+	var req = A2(_elm_lang$http$Http$get, url, _user$project$BoardTask$decodeCardViewFromJson);
+	return A2(_elm_lang$http$Http$send, _user$project$BoardTask$GetCardFromApi, req);
 }();
-var _user$project$Boards_Model$Model = F3(
-	function (a, b, c) {
-		return {boards: a, boardDetails: b, mdl: c};
+var _user$project$BoardTask$getBoardView = function () {
+	var url = 'https://jsonplaceholder.typicode.com/posts/1';
+	var req = A2(_elm_lang$http$Http$get, url, _user$project$BoardTask$decodeCardViewFromJson);
+	return A2(_elm_lang$http$Http$send, _user$project$BoardTask$GetCardFromApi, req);
+}();
+
+var _user$project$Boards_Model$Model = F6(
+	function (a, b, c, d, e, f) {
+		return {boards: a, currentBoard: b, opr: c, newBoardName: d, currentBoardIdx: e, showDialog: f};
 	});
-var _user$project$Boards_Model$Mdl = function (a) {
-	return {ctor: 'Mdl', _0: a};
+var _user$project$Boards_Model$SetNewBoardName = function (a) {
+	return {ctor: 'SetNewBoardName', _0: a};
 };
-var _user$project$Boards_Model$UpdateCurrentBoardView = function (a) {
-	return {ctor: 'UpdateCurrentBoardView', _0: a};
+var _user$project$Boards_Model$SetOperation = function (a) {
+	return {ctor: 'SetOperation', _0: a};
 };
+var _user$project$Boards_Model$EditBoardName = {ctor: 'EditBoardName'};
 var _user$project$Boards_Model$AddBoard = {ctor: 'AddBoard'};
-
-var _user$project$BoardDetails_Model$Model = F5(
-	function (a, b, c, d, e) {
-		return {data: a, addCard: b, addColumn: c, dialogAction: d, mdl: e};
+var _user$project$Boards_Model$AddNewBoard = {ctor: 'AddNewBoard'};
+var _user$project$Boards_Model$None = {ctor: 'None'};
+var _user$project$Boards_Model$model = {
+	boards: A2(
+		_elm_lang$core$List$map,
+		function (x) {
+			return _elm_lang$core$Maybe$Just(x);
+		},
+		_user$project$BoardTask$getExampleSetOfBoards),
+	opr: _user$project$Boards_Model$None,
+	currentBoard: _elm_lang$core$Maybe$Nothing,
+	newBoardName: _elm_lang$core$Maybe$Nothing,
+	currentBoardIdx: _elm_lang$core$Maybe$Nothing,
+	showDialog: false
+};
+var _user$project$Boards_Model$Edit = F2(
+	function (a, b) {
+		return {ctor: 'Edit', _0: a, _1: b};
 	});
-var _user$project$BoardDetails_Model$Mdl = function (a) {
-	return {ctor: 'Mdl', _0: a};
+var _user$project$Boards_Model$Choose = function (a) {
+	return {ctor: 'Choose', _0: a};
 };
-var _user$project$BoardDetails_Model$SetColumnDialog = {ctor: 'SetColumnDialog'};
-var _user$project$BoardDetails_Model$SetCardDialog = function (a) {
-	return {ctor: 'SetCardDialog', _0: a};
-};
-var _user$project$BoardDetails_Model$AddToList = {ctor: 'AddToList'};
-var _user$project$BoardDetails_Model$None = {ctor: 'None'};
-var _user$project$BoardDetails_Model$model = {
-	data: A2(
-		_user$project$BoardTask$BoardView,
-		'',
-		{ctor: '[]'}),
-	addCard: A2(_user$project$BoardTask$AddCard, '', ''),
-	addColumn: _user$project$BoardTask$AddColumn(''),
-	dialogAction: _user$project$BoardDetails_Model$None,
-	mdl: _debois$elm_mdl$Material$model
-};
-var _user$project$BoardDetails_Model$AddNewColumn = {ctor: 'AddNewColumn'};
-var _user$project$BoardDetails_Model$AddNewCard = {ctor: 'AddNewCard'};
 
-var _user$project$Page$pageToString = function (page) {
-	var _p0 = page;
-	switch (_p0.ctor) {
-		case 'BoardsPage':
-			return '#boards';
-		case 'BoardDetailsPage':
-			return '#board';
-		default:
-			return '#404';
-	}
-};
 var _user$project$Page$PageNotFound = {ctor: 'PageNotFound'};
+var _user$project$Page$LogoutPage = {ctor: 'LogoutPage'};
+var _user$project$Page$LoginPage = {ctor: 'LoginPage'};
 var _user$project$Page$BoardDetailsPage = {ctor: 'BoardDetailsPage'};
 var _user$project$Page$BoardsPage = {ctor: 'BoardsPage'};
 
+var _user$project$BoardDetails_Model$model = {
+	board: _elm_lang$core$Maybe$Nothing,
+	columns: {ctor: '[]'}
+};
+var _user$project$BoardDetails_Model$Model = F2(
+	function (a, b) {
+		return {board: a, columns: b};
+	});
+var _user$project$BoardDetails_Model$NoneMsg = {ctor: 'NoneMsg'};
+var _user$project$BoardDetails_Model$None = {ctor: 'None'};
+var _user$project$BoardDetails_Model$AddNewColumn = {ctor: 'AddNewColumn'};
+var _user$project$BoardDetails_Model$AddNewCard = {ctor: 'AddNewCard'};
+
 var _user$project$App_Model$init = {
 	ctor: '_Tuple2',
-	_0: {boards: _user$project$Boards_Model$model, activePage: _user$project$Page$BoardsPage, boardDetails: _user$project$BoardDetails_Model$model, mdl: _debois$elm_mdl$Material$model},
+	_0: {boards: _user$project$Boards_Model$model, activePage: _user$project$Page$BoardsPage, user: _user$project$BoardTask$model, boardDetails: _user$project$BoardDetails_Model$model},
 	_1: _elm_lang$core$Platform_Cmd$none
 };
 var _user$project$App_Model$subscriptions = function (model) {
@@ -17426,11 +17452,8 @@ var _user$project$App_Model$subscriptions = function (model) {
 };
 var _user$project$App_Model$Model = F4(
 	function (a, b, c, d) {
-		return {activePage: a, boards: b, boardDetails: c, mdl: d};
+		return {activePage: a, user: b, boards: c, boardDetails: d};
 	});
-var _user$project$App_Model$Mdl = function (a) {
-	return {ctor: 'Mdl', _0: a};
-};
 var _user$project$App_Model$GoHome = function (a) {
 	return {ctor: 'GoHome', _0: a};
 };
@@ -17444,223 +17467,372 @@ var _user$project$App_Model$BoardsMsg = function (a) {
 	return {ctor: 'BoardsMsg', _0: a};
 };
 
+var _user$project$Boards_Update$updateElement2 = F3(
+	function (list, id, board) {
+		return A2(
+			_elm_lang$core$Basics_ops['++'],
+			A2(_elm_lang$core$List$take, id, list),
+			{
+				ctor: '::',
+				_0: _elm_lang$core$Maybe$Just(board),
+				_1: A2(_elm_lang$core$List$drop, id + 1, list)
+			});
+	});
 var _user$project$Boards_Update$update = F2(
 	function (msg, model) {
 		var _p0 = msg;
 		switch (_p0.ctor) {
 			case 'AddBoard':
-				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
-			case 'UpdateCurrentBoardView':
-				var boards = model.boards;
-				var board_ = _elm_lang$core$List$head(boards);
-				var stricBoard_ = A2(
-					_elm_lang$core$Maybe$withDefault,
-					A2(
-						_user$project$BoardTask$BoardView,
-						'',
-						{ctor: '[]'}),
-					board_);
+				var _p1 = model.newBoardName;
+				if (_p1.ctor === 'Nothing') {
+					return {ctor: '_Tuple3', _0: model, _1: _elm_lang$core$Platform_Cmd$none, _2: _elm_lang$core$Maybe$Nothing};
+				} else {
+					var boards_ = model.boards;
+					return {
+						ctor: '_Tuple3',
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{
+								boards: {
+									ctor: '::',
+									_0: _elm_lang$core$Maybe$Just(
+										A3(_user$project$BoardTask$BoardView, 3, 3, _p1._0)),
+									_1: boards_
+								},
+								showDialog: false
+							}),
+						_1: _elm_lang$core$Platform_Cmd$none,
+						_2: _elm_lang$core$Maybe$Nothing
+					};
+				}
+			case 'SetOperation':
+				var _p3 = _p0._0;
+				var _p2 = _p3;
+				switch (_p2.ctor) {
+					case 'Edit':
+						return {
+							ctor: '_Tuple3',
+							_0: _elm_lang$core$Native_Utils.update(
+								model,
+								{
+									opr: _p3,
+									currentBoardIdx: _elm_lang$core$Maybe$Just(_p2._0),
+									currentBoard: _elm_lang$core$Maybe$Just(_p2._1),
+									showDialog: true
+								}),
+							_1: _elm_lang$core$Platform_Cmd$none,
+							_2: _elm_lang$core$Maybe$Nothing
+						};
+					case 'None':
+						return {
+							ctor: '_Tuple3',
+							_0: _elm_lang$core$Native_Utils.update(
+								model,
+								{opr: _p3, currentBoardIdx: _elm_lang$core$Maybe$Nothing, currentBoard: _elm_lang$core$Maybe$Nothing, showDialog: false}),
+							_1: _elm_lang$core$Platform_Cmd$none,
+							_2: _elm_lang$core$Maybe$Nothing
+						};
+					case 'AddNewBoard':
+						return {
+							ctor: '_Tuple3',
+							_0: _elm_lang$core$Native_Utils.update(
+								model,
+								{opr: _p3, showDialog: true}),
+							_1: _elm_lang$core$Platform_Cmd$none,
+							_2: _elm_lang$core$Maybe$Nothing
+						};
+					default:
+						return {
+							ctor: '_Tuple3',
+							_0: _elm_lang$core$Native_Utils.update(
+								model,
+								{
+									opr: _p3,
+									currentBoard: _elm_lang$core$Maybe$Just(_p2._0),
+									showDialog: false
+								}),
+							_1: _elm_lang$core$Platform_Cmd$none,
+							_2: _elm_lang$core$Maybe$Just(_user$project$Page$BoardDetailsPage)
+						};
+				}
+			case 'SetNewBoardName':
 				return {
-					ctor: '_Tuple2',
+					ctor: '_Tuple3',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{boardDetails: _p0._0}),
-					_1: _elm_lang$core$Platform_Cmd$none
+						{
+							newBoardName: _elm_lang$core$Maybe$Just(_p0._0)
+						}),
+					_1: _elm_lang$core$Platform_Cmd$none,
+					_2: _elm_lang$core$Maybe$Nothing
 				};
 			default:
-				return A3(_debois$elm_mdl$Material$update, _user$project$Boards_Model$Mdl, _p0._0, model);
+				var _p4 = model.currentBoard;
+				if (_p4.ctor === 'Nothing') {
+					return {ctor: '_Tuple3', _0: model, _1: _elm_lang$core$Platform_Cmd$none, _2: _elm_lang$core$Maybe$Nothing};
+				} else {
+					var _p5 = model.newBoardName;
+					if (_p5.ctor === 'Nothing') {
+						return {ctor: '_Tuple3', _0: model, _1: _elm_lang$core$Platform_Cmd$none, _2: _elm_lang$core$Maybe$Nothing};
+					} else {
+						var _p6 = model.currentBoardIdx;
+						if (_p6.ctor === 'Nothing') {
+							return {ctor: '_Tuple3', _0: model, _1: _elm_lang$core$Platform_Cmd$none, _2: _elm_lang$core$Maybe$Nothing};
+						} else {
+							var board_ = _elm_lang$core$Native_Utils.update(
+								_p4._0,
+								{title: _p5._0});
+							var boards_ = model.boards;
+							return {
+								ctor: '_Tuple3',
+								_0: _elm_lang$core$Native_Utils.update(
+									model,
+									{
+										boards: A3(_user$project$Boards_Update$updateElement2, boards_, _p6._0, board_),
+										opr: _user$project$Boards_Model$None,
+										showDialog: false,
+										newBoardName: _elm_lang$core$Maybe$Nothing
+									}),
+								_1: _elm_lang$core$Platform_Cmd$none,
+								_2: _elm_lang$core$Maybe$Nothing
+							};
+						}
+					}
+				}
 		}
 	});
 
 var _user$project$BoardDetails_Update$update = F2(
 	function (msg, model) {
 		var _p0 = msg;
-		switch (_p0.ctor) {
-			case 'AddToList':
-				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
-			case 'SetCardDialog':
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{dialogAction: _user$project$BoardDetails_Model$AddNewCard}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			case 'SetColumnDialog':
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{dialogAction: _user$project$BoardDetails_Model$AddNewColumn}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			default:
-				return A3(_debois$elm_mdl$Material$update, _user$project$BoardDetails_Model$Mdl, _p0._0, model);
-		}
+		return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 	});
 
 var _user$project$App_Update$update = F2(
 	function (msg, model) {
-		update:
-		while (true) {
-			var _p0 = A2(_elm_lang$core$Debug$log, 'Message', msg);
-			switch (_p0.ctor) {
-				case 'BoardsMsg':
-					var _p1 = A6(
-						_debois$elm_mdl$Material_Helpers$lift,
-						function (_) {
-							return _.boards;
-						},
-						F2(
-							function (m, x) {
-								return _elm_lang$core$Native_Utils.update(
-									m,
-									{boards: x});
-							}),
-						_user$project$App_Model$BoardsMsg,
-						_user$project$Boards_Update$update,
-						_p0._0,
-						model);
-					var m = _p1._0;
-					var c = _p1._1;
-					var details = m.boardDetails;
-					var detailsData = m.boards;
-					var updated = _elm_lang$core$Native_Utils.update(
-						m,
-						{
-							boardDetails: _elm_lang$core$Native_Utils.update(
-								details,
-								{data: detailsData.boardDetails})
-						});
-					var _v1 = _user$project$App_Model$SetActivePage(_user$project$Page$BoardDetailsPage),
-						_v2 = updated;
-					msg = _v1;
-					model = _v2;
-					continue update;
-				case 'SetActivePage':
+		var _p0 = A2(_elm_lang$core$Debug$log, 'Message', msg);
+		switch (_p0.ctor) {
+			case 'BoardsMsg':
+				var bd_ = model.boardDetails;
+				var _p1 = A2(_user$project$Boards_Update$update, _p0._0, model.boards);
+				var m = _p1._0;
+				var c = _p1._1;
+				var p = _p1._2;
+				var updated = function () {
+					var _p2 = A2(_elm_lang$core$Debug$log, 'Message', m.currentBoard);
+					if (_p2.ctor === 'Nothing') {
+						return bd_;
+					} else {
+						return _elm_lang$core$Native_Utils.update(
+							bd_,
+							{
+								columns: _user$project$BoardTask$getColumnsForBoard(_p2._0.id)
+							});
+					}
+				}();
+				var _p3 = p;
+				if (_p3.ctor === 'Nothing') {
 					return {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
 							model,
-							{activePage: _p0._0}),
+							{boards: m, boardDetails: updated}),
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
-				case 'GoHome':
-					var _v3 = _user$project$App_Model$SetActivePage(_user$project$Page$BoardsPage),
-						_v4 = model;
-					msg = _v3;
-					model = _v4;
-					continue update;
-				case 'Mdl':
-					return A3(_debois$elm_mdl$Material$update, _user$project$App_Model$Mdl, _p0._0, model);
-				default:
-					return A6(
-						_debois$elm_mdl$Material_Helpers$lift,
-						function (_) {
-							return _.boardDetails;
-						},
-						F2(
-							function (m, x) {
-								return _elm_lang$core$Native_Utils.update(
-									m,
-									{boardDetails: x});
-							}),
-						_user$project$App_Model$BoardDetailsMsg,
-						_user$project$BoardDetails_Update$update,
-						_p0._0,
-						model);
-			}
+				} else {
+					return {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{boards: m, activePage: _p3._0, boardDetails: updated}),
+						_1: _elm_lang$core$Platform_Cmd$none
+					};
+				}
+			case 'SetActivePage':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{activePage: _p0._0}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'GoHome':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{activePage: _user$project$Page$BoardsPage}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			default:
+				var _p4 = A2(_user$project$BoardDetails_Update$update, _p0._0, model.boardDetails);
+				var m = _p4._0;
+				var c = _p4._1;
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{boardDetails: m}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
 		}
 	});
 
-var _user$project$Boards_View$color = function (k) {
-	return _debois$elm_mdl$Material_Color$background(
-		A3(
-			_elm_lang$core$Basics$flip,
-			_debois$elm_mdl$Material_Color$color,
-			_debois$elm_mdl$Material_Color$S500,
-			A2(
-				_elm_lang$core$Maybe$withDefault,
-				_debois$elm_mdl$Material_Color$Teal,
-				A2(
-					_elm_lang$core$Array$get,
-					A2(
-						_elm_lang$core$Basics_ops['%'],
-						k + 0,
-						_elm_lang$core$Array$length(_debois$elm_mdl$Material_Color$hues)),
-					_debois$elm_mdl$Material_Color$hues))));
-};
-var _user$project$Boards_View$style = function (h) {
-	return {
-		ctor: '::',
-		_0: A2(_debois$elm_mdl$Material_Options$css, 'text-sizing', 'border-box'),
-		_1: {
-			ctor: '::',
-			_0: A2(_debois$elm_mdl$Material_Options$css, 'background-color', '#BDBDBD'),
-			_1: {
+var _user$project$Boards_View$dialogConfigErrorMsg = {
+	closeMessage: _elm_lang$core$Maybe$Just(
+		_user$project$Boards_Model$SetOperation(_user$project$Boards_Model$None)),
+	containerClass: _elm_lang$core$Maybe$Nothing,
+	header: _elm_lang$core$Maybe$Just(
+		A2(
+			_elm_lang$html$Html$h3,
+			{ctor: '[]'},
+			{
 				ctor: '::',
-				_0: A2(
-					_debois$elm_mdl$Material_Options$css,
-					'height',
-					A2(
-						_elm_lang$core$Basics_ops['++'],
-						_elm_lang$core$Basics$toString(h),
-						'px')),
+				_0: _elm_lang$html$Html$text('ERROR!'),
+				_1: {ctor: '[]'}
+			})),
+	body: _elm_lang$core$Maybe$Just(
+		_elm_lang$html$Html$text('Board not found')),
+	footer: _elm_lang$core$Maybe$Just(
+		A2(
+			_elm_lang$html$Html$button,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class('btn btn-success'),
 				_1: {
 					ctor: '::',
-					_0: A2(_debois$elm_mdl$Material_Options$css, 'padding-left', '8px'),
-					_1: {
-						ctor: '::',
-						_0: A2(_debois$elm_mdl$Material_Options$css, 'padding-top', '4px'),
-						_1: {
-							ctor: '::',
-							_0: A2(_debois$elm_mdl$Material_Options$css, 'color', 'white'),
-							_1: {ctor: '[]'}
-						}
-					}
+					_0: _elm_lang$html$Html_Events$onClick(
+						_user$project$Boards_Model$SetOperation(_user$project$Boards_Model$None)),
+					_1: {ctor: '[]'}
 				}
-			}
-		}
-	};
+			},
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html$text('OK'),
+				_1: {ctor: '[]'}
+			}))
 };
-var _user$project$Boards_View$democell = F2(
-	function (k, styling) {
-		return _debois$elm_mdl$Material_Grid$cell(
-			_elm_lang$core$List$concat(
-				{
-					ctor: '::',
-					_0: _user$project$Boards_View$style(k),
-					_1: {
-						ctor: '::',
-						_0: styling,
-						_1: {ctor: '[]'}
-					}
-				}));
-	});
-var _user$project$Boards_View$small = _user$project$Boards_View$democell(50);
-var _user$project$Boards_View$std = _user$project$Boards_View$democell(200);
-var _user$project$Boards_View$view = function (model) {
-	return A2(
-		_debois$elm_mdl$Material_Grid$grid,
-		{ctor: '[]'},
-		A2(
-			_elm_lang$core$List$map,
-			function (i) {
-				return A2(
-					_user$project$Boards_View$std,
-					{
-						ctor: '::',
-						_0: A2(_debois$elm_mdl$Material_Grid$size, _debois$elm_mdl$Material_Grid$All, 4),
-						_1: {
+var _user$project$Boards_View$dialogConfig = function (model) {
+	var _p0 = model.opr;
+	switch (_p0.ctor) {
+		case 'Edit':
+			var _p1 = model.currentBoard;
+			if (_p1.ctor === 'Just') {
+				var currentName_ = _p1._0.title;
+				return {
+					closeMessage: _elm_lang$core$Maybe$Just(
+						_user$project$Boards_Model$SetOperation(_user$project$Boards_Model$None)),
+					containerClass: _elm_lang$core$Maybe$Nothing,
+					header: _elm_lang$core$Maybe$Just(
+						A2(
+							_elm_lang$html$Html$h3,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text('Edit Board Name'),
+								_1: {ctor: '[]'}
+							})),
+					body: _elm_lang$core$Maybe$Just(
+						A2(
+							_elm_lang$html$Html$input,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$placeholder(
+									A2(_elm_lang$core$Basics_ops['++'], 'Enter name / ', currentName_)),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Events$onInput(_user$project$Boards_Model$SetNewBoardName),
+									_1: {ctor: '[]'}
+								}
+							},
+							{ctor: '[]'})),
+					footer: _elm_lang$core$Maybe$Just(
+						A2(
+							_elm_lang$html$Html$button,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('btn btn-success'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Events$onClick(_user$project$Boards_Model$EditBoardName),
+									_1: {ctor: '[]'}
+								}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text('OK'),
+								_1: {ctor: '[]'}
+							}))
+				};
+			} else {
+				return _user$project$Boards_View$dialogConfigErrorMsg;
+			}
+		case 'AddNewBoard':
+			return {
+				closeMessage: _elm_lang$core$Maybe$Just(
+					_user$project$Boards_Model$SetOperation(_user$project$Boards_Model$None)),
+				containerClass: _elm_lang$core$Maybe$Nothing,
+				header: _elm_lang$core$Maybe$Just(
+					A2(
+						_elm_lang$html$Html$h3,
+						{ctor: '[]'},
+						{
 							ctor: '::',
-							_0: _user$project$Boards_View$color(5),
+							_0: _elm_lang$html$Html$text('Edit Board Name'),
+							_1: {ctor: '[]'}
+						})),
+				body: _elm_lang$core$Maybe$Just(
+					A2(
+						_elm_lang$html$Html$input,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$placeholder('Enter name '),
 							_1: {
 								ctor: '::',
-								_0: _debois$elm_mdl$Material_Options$onClick(
-									_user$project$Boards_Model$UpdateCurrentBoardView(i)),
+								_0: _elm_lang$html$Html_Events$onInput(_user$project$Boards_Model$SetNewBoardName),
 								_1: {ctor: '[]'}
 							}
-						}
+						},
+						{ctor: '[]'})),
+				footer: _elm_lang$core$Maybe$Just(
+					A2(
+						_elm_lang$html$Html$button,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('btn btn-success'),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Events$onClick(_user$project$Boards_Model$AddBoard),
+								_1: {ctor: '[]'}
+							}
+						},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text('OK'),
+							_1: {ctor: '[]'}
+						}))
+			};
+		case 'Choose':
+			return _user$project$Boards_View$dialogConfigErrorMsg;
+		default:
+			return _user$project$Boards_View$dialogConfigErrorMsg;
+	}
+};
+var _user$project$Boards_View$boardGridBox = F3(
+	function (model, board, idx) {
+		return A2(
+			_elm_lang$html$Html$div,
+			{ctor: '[]'},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$button,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Events$onClick(
+							_user$project$Boards_Model$SetOperation(
+								_user$project$Boards_Model$Choose(board))),
+						_1: {ctor: '[]'}
 					},
 					{
 						ctor: '::',
@@ -17669,53 +17841,105 @@ var _user$project$Boards_View$view = function (model) {
 							{ctor: '[]'},
 							{
 								ctor: '::',
-								_0: _elm_lang$html$Html$text(i.title),
-								_1: {ctor: '[]'}
+								_0: _elm_lang$html$Html$text(
+									A2(_elm_lang$core$Basics_ops['++'], board.title, ' ')),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html$text(
+										A2(
+											_elm_lang$core$Basics_ops['++'],
+											_elm_lang$core$Basics$toString(board.viewId),
+											' ')),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html$text(
+											A2(
+												_elm_lang$core$Basics_ops['++'],
+												_elm_lang$core$Basics$toString(board.id),
+												' ')),
+										_1: {ctor: '[]'}
+									}
+								}
 							}),
 						_1: {ctor: '[]'}
-					});
-			},
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$button,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Events$onClick(
+								_user$project$Boards_Model$SetOperation(
+									A2(_user$project$Boards_Model$Edit, idx, board))),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text('Edit Name'),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				}
+			});
+	});
+var _user$project$Boards_View$view = function (model) {
+	var s = A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		A2(
+			_elm_lang$core$List$indexedMap,
+			F2(
+				function (index, i) {
+					var _p2 = i;
+					if (_p2.ctor === 'Nothing') {
+						return A2(
+							_elm_lang$html$Html$div,
+							{ctor: '[]'},
+							{ctor: '[]'});
+					} else {
+						return A3(_user$project$Boards_View$boardGridBox, model, _p2._0, index);
+					}
+				}),
 			model.boards));
-};
-
-var _user$project$BoardDetails_View$viewDialog = function (model) {
-	var _p0 = function () {
-		var _p1 = model.dialogAction;
-		switch (_p1.ctor) {
-			case 'AddNewCard':
-				return {ctor: '_Tuple3', _0: '', _1: '', _2: ''};
-			case 'AddNewColumn':
-				return {ctor: '_Tuple3', _0: '', _1: '', _2: ''};
-			default:
-				return {ctor: '_Tuple3', _0: '', _1: '', _2: ''};
-		}
-	}();
-	var title = _p0._0;
-	var content = _p0._1;
-	var actions = _p0._2;
 	return A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
-		{ctor: '[]'});
+		{
+			ctor: '::',
+			_0: s,
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$button,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Events$onClick(
+							_user$project$Boards_Model$SetOperation(_user$project$Boards_Model$AddNewBoard)),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text('Add Board'),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: _krisajenkins$elm_dialog$Dialog$view(
+						model.showDialog ? _elm_lang$core$Maybe$Just(
+							_user$project$Boards_View$dialogConfig(model)) : _elm_lang$core$Maybe$Nothing),
+					_1: {ctor: '[]'}
+				}
+			}
+		});
 };
+
 var _user$project$BoardDetails_View$viewButton = F3(
 	function (idx, model, column) {
 		return A2(
-			_elm_lang$html$Html$button,
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html_Events$onClick(_user$project$BoardDetails_Model$SetColumnDialog),
-				_1: {ctor: '[]'}
-			},
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html$text(
-					A2(
-						_elm_lang$core$Basics_ops['++'],
-						'Add Card #',
-						_elm_lang$core$Basics$toString(idx))),
-				_1: {ctor: '[]'}
-			});
+			_elm_lang$html$Html$div,
+			{ctor: '[]'},
+			{ctor: '[]'});
 	});
 var _user$project$BoardDetails_View$getColumnCard = function (card) {
 	return A2(
@@ -17740,7 +17964,11 @@ var _user$project$BoardDetails_View$getColumnCard = function (card) {
 };
 var _user$project$BoardDetails_View$getBoardColumn = F2(
 	function (column, model) {
-		var rows = column.cards;
+		var rows = {
+			ctor: '::',
+			_0: A5(_user$project$BoardTask$CardView, 'UNI1', true, 'TITLE1', 'DESC1', 1),
+			_1: {ctor: '[]'}
+		};
 		var rendered_ = A2(
 			_elm_lang$html$Html$div,
 			{ctor: '[]'},
@@ -17793,8 +18021,7 @@ var _user$project$BoardDetails_View$getBoardColumn = F2(
 			});
 	});
 var _user$project$BoardDetails_View$viewColumns = function (model) {
-	var data_ = model.data;
-	var columns_ = data_.columns;
+	var stored = model.columns;
 	return A2(
 		_elm_lang$html$Html$div,
 		{
@@ -17807,7 +18034,7 @@ var _user$project$BoardDetails_View$viewColumns = function (model) {
 			function (l) {
 				return A2(_user$project$BoardDetails_View$getBoardColumn, l, model);
 			},
-			columns_));
+			stored));
 };
 var _user$project$BoardDetails_View$view = function (model) {
 	return A2(
@@ -17816,79 +18043,39 @@ var _user$project$BoardDetails_View$view = function (model) {
 		{
 			ctor: '::',
 			_0: _user$project$BoardDetails_View$viewColumns(model),
-			_1: {
-				ctor: '::',
-				_0: _user$project$BoardDetails_View$viewDialog(model),
-				_1: {ctor: '[]'}
-			}
+			_1: {ctor: '[]'}
 		});
 };
 
-var _user$project$App_View$header = function (model) {
-	return {
-		ctor: '::',
-		_0: A2(
-			_debois$elm_mdl$Material_Layout$row,
-			{
-				ctor: '::',
-				_0: A2(_debois$elm_mdl$Material_Options$css, 'transition', 'height 333ms ease-in-out 0s'),
-				_1: {ctor: '[]'}
-			},
-			{
-				ctor: '::',
-				_0: A2(
-					_debois$elm_mdl$Material_Layout$title,
-					{ctor: '[]'},
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html$text('Trollo'),
-						_1: {ctor: '[]'}
-					}),
-				_1: {
-					ctor: '::',
-					_0: _debois$elm_mdl$Material_Layout$spacer,
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_debois$elm_mdl$Material_Layout$navigation,
-							{ctor: '[]'},
-							{
-								ctor: '::',
-								_0: A2(
-									_debois$elm_mdl$Material_Layout$link,
-									{ctor: '[]'},
-									{
-										ctor: '::',
-										_0: _debois$elm_mdl$Material_Icon$i('photo'),
-										_1: {ctor: '[]'}
-									}),
-								_1: {ctor: '[]'}
-							}),
-						_1: {ctor: '[]'}
-					}
-				}
-			}),
-		_1: {ctor: '[]'}
-	};
-};
 var _user$project$App_View$view_ = function (model) {
 	var h_ = function () {
 		var _p0 = model.activePage;
 		switch (_p0.ctor) {
 			case 'BoardsPage':
 				return A2(
-					_elm_lang$html$Html$map,
-					_user$project$App_Model$BoardsMsg,
-					_user$project$Boards_View$view(model.boards));
+					_elm_lang$html$Html$div,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$map,
+							_user$project$App_Model$BoardsMsg,
+							_user$project$Boards_View$view(model.boards)),
+						_1: {ctor: '[]'}
+					});
 			case 'BoardDetailsPage':
-				var model_ = model.boardDetails;
-				var boards = model.boards;
-				var board = boards.boardDetails;
 				return A2(
-					_elm_lang$html$Html$map,
-					_user$project$App_Model$BoardDetailsMsg,
-					_user$project$BoardDetails_View$view(model.boardDetails));
-			default:
+					_elm_lang$html$Html$div,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$map,
+							_user$project$App_Model$BoardDetailsMsg,
+							_user$project$BoardDetails_View$view(model.boardDetails)),
+						_1: {ctor: '[]'}
+					});
+			case 'PageNotFound':
 				return A2(
 					_elm_lang$html$Html$div,
 					{ctor: '[]'},
@@ -17897,39 +18084,45 @@ var _user$project$App_View$view_ = function (model) {
 						_0: _elm_lang$html$Html$text('404'),
 						_1: {ctor: '[]'}
 					});
+			case 'LoginPage':
+				return A2(
+					_elm_lang$html$Html$div,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text('login'),
+						_1: {ctor: '[]'}
+					});
+			default:
+				return A2(
+					_elm_lang$html$Html$div,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text('login'),
+						_1: {ctor: '[]'}
+					});
 		}
 	}();
-	return A4(
-		_debois$elm_mdl$Material_Layout$render,
-		_user$project$App_Model$Mdl,
-		model.mdl,
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
 		{
 			ctor: '::',
-			_0: _debois$elm_mdl$Material_Layout$fixedHeader,
-			_1: {
-				ctor: '::',
-				_0: _debois$elm_mdl$Material_Layout$onSelectTab(_user$project$App_Model$GoHome),
-				_1: {ctor: '[]'}
-			}
-		},
-		{
-			header: _user$project$App_View$header(model),
-			drawer: {ctor: '[]'},
-			tabs: {
-				ctor: '_Tuple2',
-				_0: {
+			_0: A2(
+				_elm_lang$html$Html$button,
+				{
 					ctor: '::',
-					_0: _elm_lang$html$Html$text('Boards'),
+					_0: _elm_lang$html$Html_Events$onClick(
+						_user$project$App_Model$GoHome(1)),
 					_1: {ctor: '[]'}
 				},
-				_1: {
+				{
 					ctor: '::',
-					_0: _debois$elm_mdl$Material_Color$background(
-						A2(_debois$elm_mdl$Material_Color$color, _debois$elm_mdl$Material_Color$Teal, _debois$elm_mdl$Material_Color$S400)),
+					_0: _elm_lang$html$Html$text('Go Home'),
 					_1: {ctor: '[]'}
-				}
-			},
-			main: {
+				}),
+			_1: {
 				ctor: '::',
 				_0: h_,
 				_1: {ctor: '[]'}

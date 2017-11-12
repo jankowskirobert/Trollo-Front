@@ -1,61 +1,127 @@
 module Boards.View exposing (view)
 
+import Html.Attributes exposing (..)
+import Html.Events exposing (onClick, onInput)
 import Html exposing (..)
 import Array
-import Material.Grid exposing (..)
-import Material.Options exposing (Style, css, onClick)
-import Material.Color as Color
-import Material
 import Boards.Model exposing (Model, Msg(..))
-
-
-style : Int -> List (Style a)
-style h =
-    [ css "text-sizing" "border-box"
-    , css "background-color" "#BDBDBD"
-    , css "height" (toString h ++ "px")
-    , css "padding-left" "8px"
-    , css "padding-top" "4px"
-    , css "color" "white"
-    ]
-
+import BoardTask
+import Dialog
 
 
 -- Cell variants
-
-
-democell : Int -> List (Style a) -> List (Html a) -> Cell a
-democell k styling =
-    cell <| List.concat [ style k, styling ]
-
-
-small : List (Style a) -> List (Html a) -> Cell a
-small =
-    democell 50
-
-
-std : List (Style a) -> List (Html a) -> Cell a
-std =
-    democell 200
-
-
-
 -- Grid
 
 
-color : Int -> Style a
-color k =
-    Array.get ((k + 0) % Array.length Color.hues) Color.hues
-        |> Maybe.withDefault Color.Teal
-        |> flip Color.color Color.S500
-        |> Color.background
+boardGridBox : Model -> BoardTask.BoardView -> Int -> Html Msg
+boardGridBox model board idx =
+    div []
+        [ button
+            [ onClick (SetOperation (Boards.Model.Choose board))
+            ]
+            [ div []
+                [ text (board.title ++ " ")
+                , text ((toString board.viewId) ++ " ")
+                , text ((toString board.id) ++ " ")
+                ]
+            ]
+        , button
+            [ onClick (SetOperation (Boards.Model.Edit idx board))
+            ]
+            [ text "Edit Name"
+            ]
+        ]
 
 
 view : Model -> Html Msg
 view model =
-    model.boards
-        |> List.map
-            (\i ->
-                std [ size All 4, color 5, onClick (UpdateCurrentBoardView i) ] [ div [] [ text i.title ] ]
+    let
+        s =
+            model.boards
+                |> List.indexedMap
+                    (\index i ->
+                        case i of
+                            Nothing ->
+                                div [] []
+
+                            Just x ->
+                                boardGridBox model x index
+                    )
+                |> div []
+    in
+        div []
+            [ s
+            , button [ onClick (SetOperation Boards.Model.AddNewBoard) ] [ text "Add Board" ]
+            , Dialog.view
+                (if model.showDialog then
+                    Just (dialogConfig model)
+                 else
+                    Nothing
+                )
+            ]
+
+
+dialogConfig : Model -> Dialog.Config Msg
+dialogConfig model =
+    case model.opr of
+        Boards.Model.Edit _ _ ->
+            case model.currentBoard of
+                Just x ->
+                    let
+                        currentName_ =
+                            x.title
+                    in
+                        { closeMessage = Just (SetOperation Boards.Model.None)
+                        , containerClass = Nothing
+                        , header = Just (h3 [] [ text "Edit Board Name" ])
+                        , body = Just (input [ placeholder ("Enter name / " ++ currentName_), onInput SetNewBoardName ] [])
+                        , footer =
+                            Just
+                                (button
+                                    [ class "btn btn-success"
+                                    , onClick EditBoardName
+                                    ]
+                                    [ text "OK" ]
+                                )
+                        }
+
+                Nothing ->
+                    dialogConfigErrorMsg
+
+        Boards.Model.AddNewBoard ->
+            { closeMessage = Just (SetOperation Boards.Model.None)
+            , containerClass = Nothing
+            , header = Just (h3 [] [ text "Edit Board Name" ])
+            , body = Just (input [ placeholder ("Enter name "), onInput SetNewBoardName ] [])
+            , footer =
+                Just
+                    (button
+                        [ class "btn btn-success"
+                        , onClick AddBoard
+                        ]
+                        [ text "OK" ]
+                    )
+            }
+
+        Boards.Model.Choose _ ->
+            dialogConfigErrorMsg
+
+        Boards.Model.None ->
+            dialogConfigErrorMsg
+
+
+dialogConfigErrorMsg : Dialog.Config Msg
+dialogConfigErrorMsg =
+    { closeMessage = Just (SetOperation Boards.Model.None)
+    , containerClass = Nothing
+    , header = Just (h3 [] [ text "ERROR!" ])
+    , body = Just (text "Board not found")
+    , footer =
+        Just
+            (button
+                [ class "btn btn-success"
+                , onClick (SetOperation Boards.Model.None)
+                ]
+                [ text "OK" ]
             )
-        |> grid []
+    }

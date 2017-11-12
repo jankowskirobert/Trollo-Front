@@ -1,11 +1,11 @@
 module App.Model exposing (..)
 
 import Boards.Model as Boards exposing (Model, model, Msg)
-import BoardDetails.Model as BoardDetails
 import Page as Router exposing (Page(..))
 import Navigation exposing (Location)
 import RouteUrl exposing (HistoryEntry(..), UrlChange)
-import Material
+import BoardTask
+import BoardDetails.Model as BoardDetails
 
 
 subscriptions : Model -> Sub Msg
@@ -17,8 +17,8 @@ init : ( Model, Cmd Msg )
 init =
     ( { boards = Boards.model
       , activePage = Router.BoardsPage
+      , user = BoardTask.model
       , boardDetails = BoardDetails.model
-      , mdl = Material.model
       }
     , Cmd.none
     )
@@ -29,14 +29,13 @@ type Msg
     | BoardDetailsMsg BoardDetails.Msg
     | SetActivePage Router.Page
     | GoHome Int
-    | Mdl (Material.Msg Msg)
 
 
 type alias Model =
     { activePage : Router.Page
+    , user : BoardTask.User
     , boards : Boards.Model
     , boardDetails : BoardDetails.Model
-    , mdl : Material.Model
     }
 
 
