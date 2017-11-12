@@ -9,6 +9,7 @@ module BoardTask
         , getExampleSetOfData
         , putElementToList
         , getExampleSetOfBoards
+        , getColumnsForBoard
         , Msg
         , User
         , model
@@ -32,7 +33,7 @@ type alias CardView =
 
 
 type alias ColumnView =
-    { viewId : Int, id : Int, title : String }
+    { viewId : Int, id : Int, title : String, boardID : Int }
 
 
 type alias BoardView =
@@ -89,13 +90,27 @@ getExampleSetOfData =
     ColumnView 1
         1
         "UUU"
+        1
 
 
-getExampleSetOfData2 : ColumnView
-getExampleSetOfData2 =
-    ColumnView 2
+getExampleSetOfColumns : List ColumnView
+getExampleSetOfColumns =
+    [ (ColumnView 2
         2
         "UUU2"
+        2
+      )
+    , (ColumnView 1
+        1
+        "UUU"
+        1
+      )
+    ]
+
+
+getColumnsForBoard : Int -> List ColumnView
+getColumnsForBoard boardId =
+    List.filter (\x -> (x.boardID == boardId)) getExampleSetOfColumns
 
 
 getExampleSetOfBoards : List BoardView

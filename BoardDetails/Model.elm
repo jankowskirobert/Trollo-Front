@@ -10,10 +10,7 @@ model : Model
 model =
     { board = Maybe.Nothing
     , columns =
-        [ BoardTask.ColumnView 1
-            1
-            "UUU"
-        ]
+        []
 
     -- , mdl = Material.model
     }

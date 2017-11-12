@@ -7,6 +7,7 @@ import Boards.Model as BoardModel
 import Debug
 import Material.Helpers exposing (pure, lift, map1st, map2nd)
 import BoardDetails.Update as BoardDetails
+import BoardTask
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -16,6 +17,14 @@ update msg model =
             let
                 ( m, c, p ) =
                     Boards.update msg_ model.boards
+
+                updated =
+                    case m.currentBoard of
+                        Nothing ->
+                            model.boardDetails
+
+                        Just x ->
+                            { m | columns = (BoardTask.getColumnsForBoard x.id) }
 
                 -- details =
                 --     m.boardDetails
