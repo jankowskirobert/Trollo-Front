@@ -7,6 +7,7 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Page exposing (..)
 import Boards.View as Boards exposing (view)
+import BoardDetails.View as BoardDetails
 
 
 tabs : List (Model -> Html Msg)
@@ -26,11 +27,11 @@ view_ model =
         h_ =
             case model.activePage of
                 BoardsPage ->
-                    Html.map BoardsMsg (Boards.view model.boards)
+                    div [] [ Html.map BoardsMsg (Boards.view model.boards) ]
 
                 BoardDetailsPage ->
                     -- Html.map BoardDetailsMsg (BoardDetails.view model.boardDetails)
-                    div [] []
+                    div [] [ Html.map BoardDetailsMsg (BoardDetails.view model.boardDetails) ]
 
                 -- (BoardDetails.view { data_ | data = board })
                 PageNotFound ->

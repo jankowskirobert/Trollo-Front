@@ -5,6 +5,7 @@ import Page as Router exposing (Page(..))
 import Navigation exposing (Location)
 import RouteUrl exposing (HistoryEntry(..), UrlChange)
 import BoardTask
+import BoardDetails.Model as BoardDetails
 
 
 subscriptions : Model -> Sub Msg
@@ -17,6 +18,7 @@ init =
     ( { boards = Boards.model
       , activePage = Router.BoardsPage
       , user = BoardTask.model
+      , boardDetails = BoardDetails.model
       }
     , Cmd.none
     )
@@ -24,6 +26,7 @@ init =
 
 type Msg
     = BoardsMsg Boards.Msg
+    | BoardDetailsMsg BoardDetails.Msg
     | SetActivePage Router.Page
     | GoHome Int
 
@@ -32,6 +35,7 @@ type alias Model =
     { activePage : Router.Page
     , user : BoardTask.User
     , boards : Boards.Model
+    , boardDetails : BoardDetails.Model
     }
 
 

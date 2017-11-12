@@ -6,15 +6,16 @@ import Boards.Update as Boards exposing (update)
 import Boards.Model as BoardModel
 import Debug
 import Material.Helpers exposing (pure, lift, map1st, map2nd)
+import BoardDetails.Update as BoardDetails
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case Debug.log "Message" msg of
-        BoardsMsg msg ->
+        BoardsMsg msg_ ->
             let
-                ( m, c ) =
-                    lift .boards (\m x -> { m | boards = x }) BoardsMsg Boards.update msg model
+                ( m, c, p ) =
+                    Boards.update msg_ model.boards
 
                 -- details =
                 --     m.boardDetails
@@ -23,13 +24,25 @@ update msg model =
                 -- updated =
                 --     { m | boardDetails = { details | data = detailsData.boardDetails } }
             in
-                ( m, Cmd.none )
+                case p of
+                    Nothing ->
+                        ( { model | boards = m }, Cmd.none )
+
+                    Just g ->
+                        ( { model | boards = m, activePage = g }, Cmd.none )
 
         SetActivePage page ->
             ( { model | activePage = page }, Cmd.none )
 
         GoHome i ->
             ( { model | activePage = Page.BoardsPage }, Cmd.none )
+
+        BoardDetailsMsg msg_ ->
+            let
+                ( m, c ) =
+                    BoardDetails.update msg_ model.boardDetails
+            in
+                ( { model | boardDetails = m }, Cmd.none )
 
 
 

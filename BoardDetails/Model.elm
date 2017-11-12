@@ -1,24 +1,33 @@
 module BoardDetails.Model exposing (..)
 
 import BoardTask
-import Material
-import Column
+
+
+-- import Column
 
 
 model : Model
 model =
     { board = Maybe.Nothing
-    , columns = [] ]
-    , mdl = Material.model
+    , columns =
+        [ BoardTask.ColumnView 1
+            1
+            "UUU"
+        ]
+
+    -- , mdl = Material.model
     }
 
 
 type Msg
-    = AddToList
-    | SetCardDialog BoardTask.ColumnView
-    | ColumnMsg Column.Msg
-    | SetColumnDialog
-    | Mdl (Material.Msg Msg)
+    = NoneMsg
+
+
+
+-- = AddToList
+-- | SetCardDialog BoardTask.ColumnView
+-- -- | ColumnMsg Column.Msg
+-- | SetColumnDialog
 
 
 type DialogAction
@@ -30,9 +39,10 @@ type DialogAction
 type alias Model =
     { board : Maybe BoardTask.BoardView
     , columns : List BoardTask.ColumnView
-    , addColumn : BoardTask.AddColumn
-    , dialogAction : DialogAction
-    , mdl : Material.Model
-    , activeColumnView : Maybe BoardTask.ColumnView
-    , column : List Column.Model
+
+    -- , addColumn : BoardTask.AddColumn
+    -- , dialogAction : DialogAction
+    -- , mdl : Material.Model
+    -- , activeColumnView : Maybe BoardTask.ColumnView
+    -- , column : List Column.Model
     }

@@ -17,7 +17,7 @@ boardGridBox : Model -> BoardTask.BoardView -> Int -> Html Msg
 boardGridBox model board idx =
     div []
         [ button
-            [ onClick (UpdateCurrentBoardView board)
+            [ onClick (SetOperation Boards.Model.Choose)
             ]
             [ div []
                 [ text (board.title ++ " ")
