@@ -26,15 +26,6 @@ update msg model =
                         , Maybe.Nothing
                         )
 
-        UpdateCurrentBoardView board ->
-            ( { model
-                | currentBoard = Just board
-                , opr = Choose
-              }
-            , Cmd.none
-            , Maybe.Nothing
-            )
-
         SetOperation oper ->
             case oper of
                 Edit boardId board ->
@@ -68,8 +59,8 @@ update msg model =
                     , Maybe.Nothing
                     )
 
-                Choose ->
-                    ( { model | opr = oper }
+                Choose selectedBoard ->
+                    ( { model | opr = oper, currentBoard = (Just selectedBoard), showDialog = False }
                     , Cmd.none
                     , Just BoardDetailsPage
                     )

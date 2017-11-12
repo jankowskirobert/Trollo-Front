@@ -17315,12 +17315,28 @@ var _user$project$BoardTask$putElementToList = F2(
 			_1: lst
 		};
 	});
-var _user$project$BoardTask$ColumnView = F3(
-	function (a, b, c) {
-		return {viewId: a, id: b, title: c};
+var _user$project$BoardTask$ColumnView = F4(
+	function (a, b, c, d) {
+		return {viewId: a, id: b, title: c, boardID: d};
 	});
-var _user$project$BoardTask$getExampleSetOfData = A3(_user$project$BoardTask$ColumnView, 1, 1, 'UUU');
-var _user$project$BoardTask$getExampleSetOfData2 = A3(_user$project$BoardTask$ColumnView, 2, 2, 'UUU2');
+var _user$project$BoardTask$getExampleSetOfData = A4(_user$project$BoardTask$ColumnView, 1, 1, 'UUU', 1);
+var _user$project$BoardTask$getExampleSetOfColumns = {
+	ctor: '::',
+	_0: A4(_user$project$BoardTask$ColumnView, 2, 2, 'UUU2', 2),
+	_1: {
+		ctor: '::',
+		_0: A4(_user$project$BoardTask$ColumnView, 1, 1, 'UUU', 1),
+		_1: {ctor: '[]'}
+	}
+};
+var _user$project$BoardTask$getColumnsForBoard = function (boardId) {
+	return A2(
+		_elm_lang$core$List$filter,
+		function (x) {
+			return _elm_lang$core$Native_Utils.eq(x.boardID, boardId);
+		},
+		_user$project$BoardTask$getExampleSetOfColumns);
+};
 var _user$project$BoardTask$BoardView = F3(
 	function (a, b, c) {
 		return {viewId: a, id: b, title: c};
@@ -17383,9 +17399,6 @@ var _user$project$Boards_Model$SetOperation = function (a) {
 	return {ctor: 'SetOperation', _0: a};
 };
 var _user$project$Boards_Model$EditBoardName = {ctor: 'EditBoardName'};
-var _user$project$Boards_Model$UpdateCurrentBoardView = function (a) {
-	return {ctor: 'UpdateCurrentBoardView', _0: a};
-};
 var _user$project$Boards_Model$AddBoard = {ctor: 'AddBoard'};
 var _user$project$Boards_Model$AddNewBoard = {ctor: 'AddNewBoard'};
 var _user$project$Boards_Model$None = {ctor: 'None'};
@@ -17406,7 +17419,9 @@ var _user$project$Boards_Model$Edit = F2(
 	function (a, b) {
 		return {ctor: 'Edit', _0: a, _1: b};
 	});
-var _user$project$Boards_Model$Choose = {ctor: 'Choose'};
+var _user$project$Boards_Model$Choose = function (a) {
+	return {ctor: 'Choose', _0: a};
+};
 
 var _user$project$Page$PageNotFound = {ctor: 'PageNotFound'};
 var _user$project$Page$LogoutPage = {ctor: 'LogoutPage'};
@@ -17416,11 +17431,7 @@ var _user$project$Page$BoardsPage = {ctor: 'BoardsPage'};
 
 var _user$project$BoardDetails_Model$model = {
 	board: _elm_lang$core$Maybe$Nothing,
-	columns: {
-		ctor: '::',
-		_0: A3(_user$project$BoardTask$ColumnView, 1, 1, 'UUU'),
-		_1: {ctor: '[]'}
-	}
+	columns: {ctor: '[]'}
 };
 var _user$project$BoardDetails_Model$Model = F2(
 	function (a, b) {
@@ -17494,18 +17505,6 @@ var _user$project$Boards_Update$update = F2(
 						_2: _elm_lang$core$Maybe$Nothing
 					};
 				}
-			case 'UpdateCurrentBoardView':
-				return {
-					ctor: '_Tuple3',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{
-							currentBoard: _elm_lang$core$Maybe$Just(_p0._0),
-							opr: _user$project$Boards_Model$Choose
-						}),
-					_1: _elm_lang$core$Platform_Cmd$none,
-					_2: _elm_lang$core$Maybe$Nothing
-				};
 			case 'SetOperation':
 				var _p3 = _p0._0;
 				var _p2 = _p3;
@@ -17547,7 +17546,11 @@ var _user$project$Boards_Update$update = F2(
 							ctor: '_Tuple3',
 							_0: _elm_lang$core$Native_Utils.update(
 								model,
-								{opr: _p3}),
+								{
+									opr: _p3,
+									currentBoard: _elm_lang$core$Maybe$Just(_p2._0),
+									showDialog: false
+								}),
 							_1: _elm_lang$core$Platform_Cmd$none,
 							_2: _elm_lang$core$Maybe$Just(_user$project$Page$BoardDetailsPage)
 						};
@@ -17610,17 +17613,30 @@ var _user$project$App_Update$update = F2(
 		var _p0 = A2(_elm_lang$core$Debug$log, 'Message', msg);
 		switch (_p0.ctor) {
 			case 'BoardsMsg':
+				var bd_ = model.boardDetails;
 				var _p1 = A2(_user$project$Boards_Update$update, _p0._0, model.boards);
 				var m = _p1._0;
 				var c = _p1._1;
 				var p = _p1._2;
-				var _p2 = p;
-				if (_p2.ctor === 'Nothing') {
+				var updated = function () {
+					var _p2 = A2(_elm_lang$core$Debug$log, 'Message', m.currentBoard);
+					if (_p2.ctor === 'Nothing') {
+						return bd_;
+					} else {
+						return _elm_lang$core$Native_Utils.update(
+							bd_,
+							{
+								columns: _user$project$BoardTask$getColumnsForBoard(_p2._0.id)
+							});
+					}
+				}();
+				var _p3 = p;
+				if (_p3.ctor === 'Nothing') {
 					return {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
 							model,
-							{boards: m}),
+							{boards: m, boardDetails: updated}),
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
 				} else {
@@ -17628,7 +17644,7 @@ var _user$project$App_Update$update = F2(
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
 							model,
-							{boards: m, activePage: _p2._0}),
+							{boards: m, activePage: _p3._0, boardDetails: updated}),
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
 				}
@@ -17649,9 +17665,9 @@ var _user$project$App_Update$update = F2(
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			default:
-				var _p3 = A2(_user$project$BoardDetails_Update$update, _p0._0, model.boardDetails);
-				var m = _p3._0;
-				var c = _p3._1;
+				var _p4 = A2(_user$project$BoardDetails_Update$update, _p0._0, model.boardDetails);
+				var m = _p4._0;
+				var c = _p4._1;
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
@@ -17814,7 +17830,8 @@ var _user$project$Boards_View$boardGridBox = F3(
 					{
 						ctor: '::',
 						_0: _elm_lang$html$Html_Events$onClick(
-							_user$project$Boards_Model$SetOperation(_user$project$Boards_Model$Choose)),
+							_user$project$Boards_Model$SetOperation(
+								_user$project$Boards_Model$Choose(board))),
 						_1: {ctor: '[]'}
 					},
 					{

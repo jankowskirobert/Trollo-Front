@@ -17,7 +17,7 @@ boardGridBox : Model -> BoardTask.BoardView -> Int -> Html Msg
 boardGridBox model board idx =
     div []
         [ button
-            [ onClick (SetOperation Boards.Model.Choose)
+            [ onClick (SetOperation (Boards.Model.Choose board))
             ]
             [ div []
                 [ text (board.title ++ " ")
@@ -103,7 +103,7 @@ dialogConfig model =
                     )
             }
 
-        Boards.Model.Choose ->
+        Boards.Model.Choose _ ->
             dialogConfigErrorMsg
 
         Boards.Model.None ->

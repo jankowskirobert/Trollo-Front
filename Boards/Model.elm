@@ -6,14 +6,13 @@ import Material
 
 type Msg
     = AddBoard
-    | UpdateCurrentBoardView BoardTask.BoardView
     | EditBoardName
     | SetOperation Operation
     | SetNewBoardName String
 
 
 type Operation
-    = Choose
+    = Choose BoardTask.BoardView
     | Edit Int BoardTask.BoardView
     | None
     | AddNewBoard

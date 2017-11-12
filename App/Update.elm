@@ -18,13 +18,16 @@ update msg model =
                 ( m, c, p ) =
                     Boards.update msg_ model.boards
 
+                bd_ =
+                    model.boardDetails
+
                 updated =
-                    case m.currentBoard of
+                    case Debug.log "Message" m.currentBoard of
                         Nothing ->
-                            model.boardDetails
+                            bd_
 
                         Just x ->
-                            { m | columns = (BoardTask.getColumnsForBoard x.id) }
+                            { bd_ | columns = (BoardTask.getColumnsForBoard x.id) }
 
                 -- details =
                 --     m.boardDetails
@@ -35,10 +38,10 @@ update msg model =
             in
                 case p of
                     Nothing ->
-                        ( { model | boards = m }, Cmd.none )
+                        ( { model | boards = m, boardDetails = updated }, Cmd.none )
 
                     Just g ->
-                        ( { model | boards = m, activePage = g }, Cmd.none )
+                        ( { model | boards = m, activePage = g, boardDetails = updated }, Cmd.none )
 
         SetActivePage page ->
             ( { model | activePage = page }, Cmd.none )
