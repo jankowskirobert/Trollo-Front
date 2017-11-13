@@ -36,6 +36,12 @@ update msg model =
         NoneMsg ->
             ( model, Cmd.none )
 
+        EditName ->
+            ( model, Cmd.none )
+
+        AddToList ->
+            ( model, Cmd.none )
+
 
 
 -- ColumnMsg msg ->

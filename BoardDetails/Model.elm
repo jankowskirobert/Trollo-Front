@@ -18,10 +18,11 @@ model =
 
 type Msg
     = NoneMsg
+    | AddToList
+    | EditName
 
 
 
--- = AddToList
 -- | SetCardDialog BoardTask.ColumnView
 -- -- | ColumnMsg Column.Msg
 -- | SetColumnDialog

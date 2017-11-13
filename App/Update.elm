@@ -27,14 +27,7 @@ update msg model =
                             bd_
 
                         Just x ->
-                            { bd_ | columns = (BoardTask.getColumnsForBoard x.id) }
-
-                -- details =
-                --     m.boardDetails
-                -- detailsData =
-                --     m.boards
-                -- updated =
-                --     { m | boardDetails = { details | data = detailsData.boardDetails } }
+                            { bd_ | columns = (BoardTask.getColumnsForBoard x.id), board = Just x }
             in
                 case p of
                     Nothing ->
@@ -55,8 +48,3 @@ update msg model =
                     BoardDetails.update msg_ model.boardDetails
             in
                 ( { model | boardDetails = m }, Cmd.none )
-
-
-
--- BoardDetailsMsg msg ->
---     lift .boardDetails (\m x -> { m | boardDetails = x }) BoardDetailsMsg BoardDetails.update msg model

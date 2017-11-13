@@ -105,6 +105,6 @@ update msg model =
                                         )
 
 
-updateElement2 : List (Maybe BoardTask.BoardView) -> Int -> BoardTask.BoardView -> List (Maybe BoardTask.BoardView)
+updateElement2 : List (Maybe a) -> Int -> a -> List (Maybe a)
 updateElement2 list id board =
     List.take id list ++ (Just board) :: List.drop (id + 1) list

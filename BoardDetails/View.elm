@@ -99,11 +99,24 @@ viewColumns model =
 
 view : Model -> Html Msg
 view model =
-    div []
-        [ viewColumns model
+    let
+        currBoard =
+            model.board
 
-        -- , viewDialog model
-        ]
+        boardName =
+            case currBoard of
+                Nothing ->
+                    "Untitled"
+
+                Just x ->
+                    x.title
+    in
+        div []
+            [ text boardName
+            , viewColumns model
+
+            -- , viewDialog model
+            ]
 
 
 
