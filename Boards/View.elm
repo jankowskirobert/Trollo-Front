@@ -91,7 +91,7 @@ dialogConfig model =
         Boards.Model.AddNewBoard ->
             { closeMessage = Just (SetOperation Boards.Model.None)
             , containerClass = Nothing
-            , header = Just (h3 [] [ text "Edit Board Name" ])
+            , header = Just (h3 [] [ text "Add Board" ])
             , body = Just (input [ placeholder ("Enter name "), onInput SetNewBoardName ] [])
             , footer =
                 Just
