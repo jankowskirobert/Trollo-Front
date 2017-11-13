@@ -7,6 +7,7 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import BoardTask
 import Debug
+import Dialog
 
 
 -- import Column
@@ -115,74 +116,33 @@ view model =
             [ text boardName
             , viewColumns model
             , button
-                [ class "btn btn-success"
-                , onClick (AddNewList)
+                [ class "btn btn-outline-info"
+                , onClick (SetDialogAction BoardDetails.Model.AddNewColumn)
                 ]
                 [ text "Add Column" ]
+            , Dialog.view
+                (if model.showDialog then
+                    Just (dialogConfig model)
+                 else
+                    Nothing
+                )
 
             -- , viewDialog model
             ]
 
 
-
--- d0 : Model -> ( List (Html Msg), List (Html Msg), List (Html Msg) )
--- d0 model =
---     ( [ text "Add New Card" ]
---     , [ Textfield.render Mdl
---             [ 2 ]
---             model.mdl
---             [ Textfield.label "Title"
---             , Textfield.floatingLabel
---             ]
---             [ text "Close" ]
---       ]
---     , [ Button.render Mdl
---             [ 0 ]
---             model.mdl
---             [ Dialog.closeOn "click"
---             ]
---             [ text "Close" ]
---       , Button.render Mdl
---             [ 1 ]
---             model.mdl
---             [ Button.colored
---             , Button.raised
---             , Dialog.closeOn "click"
---             , Options.onClick AddToList
---             ]
---             [ text "Submit" ]
---       ]
---     )
--- -- title, content, actions
--- d1 : Model -> ( List (Html Msg), List (Html Msg), List (Html Msg) )
--- d1 model =
---     ( [ text "Hello!" ]
---     , [ text "D1" ]
---     , [ Button.render Mdl
---             [ 0 ]
---             model.mdl
---             [ Dialog.closeOn "click" ]
---             [ text "Close" ]
---       , Button.render Mdl
---             [ 3 ]
---             model.mdl
---             [ Button.colored
---             , Button.raised
---             , Dialog.closeOn "click"
---             ]
---             [ text "Submit" ]
---       ]
---     )
--- d2 : Model -> ( List (Html Msg), List (Html Msg), List (Html Msg) )
--- d2 model =
---     ( [ text "Hello!" ]
---     , [ text "D2" ]
---     , [ Button.render Mdl
---             [ 0 ]
---             model.mdl
---             [ Dialog.closeOn "click" ]
---             [ text "Close" ]
---       ]
---     )
--- div [ class "main_board" ]
---   [ section [ class "list" ] [text model.title], button [ onClick boardMessage ] [ text "More Please!" ]]
+dialogConfig : Model -> Dialog.Config Msg
+dialogConfig model =
+    { closeMessage = Just (SetDialogAction BoardDetails.Model.None)
+    , containerClass = Nothing
+    , header = Just (h3 [] [ text "List Name" ])
+    , body = Just (input [ placeholder ("Enter name "), onInput SetNewColumndName ] [])
+    , footer =
+        Just
+            (button
+                [ class "btn btn-success"
+                , onClick AddNewList
+                ]
+                [ text "OK" ]
+            )
+    }

@@ -11,6 +11,9 @@ model =
     { board = Maybe.Nothing
     , columns =
         []
+    , showDialog = False
+    , newColumnName = Maybe.Nothing
+    , dialogAction = None
 
     -- , mdl = Material.model
     }
@@ -21,6 +24,8 @@ type Msg
     | AddToList
     | EditName
     | AddNewList
+    | SetDialogAction DialogAction
+    | SetNewColumndName String
 
 
 
@@ -30,14 +35,16 @@ type Msg
 
 
 type DialogAction
-    = AddNewCard
-    | AddNewColumn
+    = AddNewColumn
     | None
 
 
 type alias Model =
     { board : Maybe BoardTask.BoardView
     , columns : List BoardTask.ColumnView
+    , showDialog : Bool
+    , newColumnName : Maybe String
+    , dialogAction : DialogAction
 
     -- , addColumn : BoardTask.AddColumn
     -- , dialogAction : DialogAction

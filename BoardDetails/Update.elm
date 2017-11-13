@@ -44,11 +44,27 @@ update msg model =
             ( model, Cmd.none )
 
         AddNewList ->
-            let
-                cols =
-                    model.columns
-            in
-                ( { model | columns = cols ++ [ (BoardTask.ColumnView 1 1 "UUU" 1) ] }, Cmd.none )
+            case model.newColumnName of
+                Nothing ->
+                    ( model, Cmd.none )
+
+                Just x ->
+                    let
+                        cols =
+                            model.columns
+                    in
+                        ( { model | columns = cols ++ [ (BoardTask.ColumnView 1 1 x 1) ], showDialog = False }, Cmd.none )
+
+        SetDialogAction action ->
+            case action of
+                AddNewColumn ->
+                    ( { model | dialogAction = action, showDialog = True }, Cmd.none )
+
+                None ->
+                    ( { model | dialogAction = action, showDialog = False }, Cmd.none )
+
+        SetNewColumndName name ->
+            ( { model | newColumnName = Just name }, Cmd.none )
 
 
 
