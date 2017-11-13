@@ -114,6 +114,11 @@ view model =
         div []
             [ text boardName
             , viewColumns model
+            , button
+                [ class "btn btn-success"
+                , onClick (AddNewList)
+                ]
+                [ text "Add Column" ]
 
             -- , viewDialog model
             ]

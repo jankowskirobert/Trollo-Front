@@ -1,6 +1,7 @@
 module BoardDetails.Update exposing (..)
 
 import BoardDetails.Model exposing (Model, Msg(..), DialogAction(..))
+import BoardTask
 
 
 -- import Column
@@ -42,6 +43,13 @@ update msg model =
         AddToList ->
             ( model, Cmd.none )
 
+        AddNewList ->
+            let
+                cols =
+                    model.columns
+            in
+                ( { model | columns = cols ++ [ (BoardTask.ColumnView 1 1 "UUU" 1) ] }, Cmd.none )
+
 
 
 -- ColumnMsg msg ->
@@ -51,3 +59,8 @@ update msg model =
 --              lift .column (\m x -> { m | column = x }) ColumnMsg Column.update msg model
 --     in
 --         ( m, Cmd.none )
+
+
+updateElement2 : List (Maybe a) -> Int -> a -> List (Maybe a)
+updateElement2 list id board =
+    List.take id list ++ (Just board) :: List.drop (id + 1) list

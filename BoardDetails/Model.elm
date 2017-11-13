@@ -20,6 +20,7 @@ type Msg
     = NoneMsg
     | AddToList
     | EditName
+    | AddNewList
 
 
 
