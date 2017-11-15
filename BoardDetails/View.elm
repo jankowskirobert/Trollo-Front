@@ -22,16 +22,29 @@ getBoardColumn column model =
         rendered_ =
             rows
                 |> List.map (\l -> getColumnCard l)
-                |> div []
+                |> div [detailsStyle]
     in
         div []
-            [ section [ class "list", style[("backgroundColor","#3D88BF")]]
+            [ section [ class "list", detailsStyleCol]
                 [ div [] [ header [] [ text column.title ] ]
                 , rendered_
                 , viewButton 0 model column
                 ]
             ]
 
+
+detailsStyleCol : Attribute msg
+detailsStyleCol =
+  style
+    [ ("backgroundColor", "#3D88BF")
+    , ("color","white")
+    ]
+
+detailsStyle =
+  style
+    [ ("backgroundColor", "#3D88BF")
+    , ("color","black")
+    ]
 
 getColumnCard : BoardTask.CardView -> Html Msg
 getColumnCard card =
@@ -112,7 +125,7 @@ view model =
                 Just x ->
                     x.title
     in
-        div []
+        div [boardTextStyle]
             [ text boardName
             , viewColumns model
             , button
@@ -130,6 +143,18 @@ view model =
             -- , viewDialog model
             ]
 
+
+boardTextStyle : Attribute msg
+boardTextStyle =
+  style
+    [ 
+      ("font-size", "24px")
+    , ("padding-left", "10px")
+    , ("padding-top", "20px")
+    ]
+
+
+
 addColumnStyle : Attribute msg
 addColumnStyle =
   style
@@ -139,7 +164,8 @@ addColumnStyle =
     , ("border", "none")
     , ("overflow","hidden")
     , ("outline","none")
-    , ("height", "26px")
+    , ("height", "36px")
+    , ("padding-left", "10px")
     , ("webkit-box-shadow", "0px 2px 2px 0px rgba(211,211,211,1)")
     , ("moz-box-shadow", "0px 2px 2px 0px rgba(211,211,211,1)")
     , ("box-shadow", "0px 2px 2px 0px rgba(211,211,211,1)")
