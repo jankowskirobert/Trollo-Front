@@ -8,18 +8,8 @@ import Html.Events exposing (..)
 import Page exposing (..)
 import Boards.View as Boards exposing (view)
 import BoardDetails.View as BoardDetails
-
-import Html.Lazy
-import App.Model exposing (..)
-import Html exposing (..)
-import Html.Attributes exposing (..)
-import Html.Events exposing (..)
-import Page exposing (..)
-import Boards.View as Boards exposing (view)
 import Material.Options as Options exposing (css, when)
 import Material.Layout as Layout
-import Material.Icon as Icon
-import Material.Color as Color
 
 tabs : List (Model -> Html Msg)
 tabs =
