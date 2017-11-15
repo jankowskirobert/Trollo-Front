@@ -15,10 +15,9 @@ import Dialog
 
 boardGridBox : Model -> BoardTask.BoardView -> Int -> Html Msg
 boardGridBox model board idx =
-    div []
+    div [boardStyle]
         [ button
-            [ onClick (SetOperation (Boards.Model.Choose board))
-            ]
+            [ onClick (SetOperation (Boards.Model.Choose board)), boardButtonStyle]
             [ div []
                 [ text (board.title ++ " ")
                 , text ((toString board.viewId) ++ " ")
@@ -26,12 +25,29 @@ boardGridBox model board idx =
                 ]
             ]
         , button
-            [ onClick (SetOperation (Boards.Model.Edit idx board))
-            ]
+            [ onClick (SetOperation (Boards.Model.Edit idx board)), boardButtonStyle]
             [ text "Edit Name"
             ]
         ]
 
+boardStyle : Attribute msg
+boardStyle =
+  style
+    [ ("backgroundColor", "#4062BB")
+    , ("height", "74px")
+    , ("width", "200px")
+    , ("margin", "10px")
+    ]
+
+boardButtonStyle : Attribute msg
+boardButtonStyle =
+  style
+    [ ("color", "#FF7733")
+    , ("backgroundColor", "Transparent")
+    , ("border", "none")
+    , ("overflow","hidden")
+    , ("outline","none")
+    ]
 
 view : Model -> Html Msg
 view model =
