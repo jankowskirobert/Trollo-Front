@@ -74,7 +74,7 @@ header model =
 headerStyle : Attribute msg
 headerStyle =
   style
-    [ ("backgroundColor", "#4062BB")
+    [ ("backgroundColor", "#372554")
     , ("height", "74px")
     , ("width", "100%")
     ]
@@ -82,7 +82,7 @@ headerStyle =
 headerButtonStyle : Attribute msg
 headerButtonStyle =
   style
-    [ ("backgroundColor", "#EBEBEB")
+    [ ("backgroundColor", "Transparent")
     , ("border", "none")
     , ("overflow","hidden")
     , ("outline","none")

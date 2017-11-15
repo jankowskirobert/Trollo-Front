@@ -33,7 +33,8 @@ boardGridBox model board idx =
 boardStyle : Attribute msg
 boardStyle =
   style
-    [ ("backgroundColor", "#4062BB")
+    [ ("backgroundColor", "#372554")
+    , ("float", "left")
     , ("height", "74px")
     , ("width", "200px")
     , ("margin", "10px")
@@ -42,8 +43,9 @@ boardStyle =
 boardButtonStyle : Attribute msg
 boardButtonStyle =
   style
-    [ ("color", "#FF7733")
+    [ ("color", "#F18F01")
     , ("backgroundColor", "Transparent")
+    , ("font-size", "20")
     , ("border", "none")
     , ("overflow","hidden")
     , ("outline","none")
