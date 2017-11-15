@@ -67,14 +67,14 @@ header model =
         , css "height" "74px"
         , css "padding" "0rem"
         ]
-        [ Layout.title [] [ button [ onClick (GoHome 1), headerButtonStyle] [ img [ src "logo.png", width 180, height 66] [] ] ]
+        [ Layout.title [] [ button [ onClick (GoHome 1), headerButtonStyle] [ img [ src "logo.png", width 180, height 74] [] ] ]
         , Layout.spacer]]
 
 
 headerStyle : Attribute msg
 headerStyle =
   style
-    [ ("backgroundColor", "red")
+    [ ("backgroundColor", "#4062BB")
     , ("height", "74px")
     , ("width", "100%")
     ]
@@ -82,7 +82,7 @@ headerStyle =
 headerButtonStyle : Attribute msg
 headerButtonStyle =
   style
-    [ ("backgroundColor", "Transparent")
+    [ ("backgroundColor", "#EBEBEB")
     , ("border", "none")
     , ("overflow","hidden")
     , ("outline","none")
