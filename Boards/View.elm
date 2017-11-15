@@ -53,9 +53,9 @@ boardButtonStyle =
     , ("outline","none")
     , ("width", "100%")
     , ("height", "48px")
-    , ("webkit-box-shadow", "0px 2px 2px 0px rgba(222,222,222,1)")
-    , ("moz-box-shadow", "0px 2px 2px 0px rgba(222,222,222,1)")
-    , ("box-shadow", "0px 2px 2px 0px rgba(222,222,222,1)")
+    , ("webkit-box-shadow", "0px 2px 2px 0px rgba(211,211,211,1)")
+    , ("moz-box-shadow", "0px 2px 2px 0px rgba(211,211,211,1)")
+    , ("box-shadow", "0px 2px 2px 0px rgba(211,211,211,1)")
     ]
 
 boardButtonStyle2 : Attribute msg

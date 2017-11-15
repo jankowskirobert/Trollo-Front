@@ -25,7 +25,7 @@ getBoardColumn column model =
                 |> div []
     in
         div []
-            [ section [ class "list" ]
+            [ section [ class "list", style[("backgroundColor","#3D88BF")]]
                 [ div [] [ header [] [ text column.title ] ]
                 , rendered_
                 , viewButton 0 model column
@@ -116,7 +116,7 @@ view model =
             [ text boardName
             , viewColumns model
             , button
-                [ class "btn btn-outline-info"
+                [ addColumnStyle
                 , onClick (SetDialogAction BoardDetails.Model.AddNewColumn)
                 ]
                 [ text "Add Column" ]
@@ -129,6 +129,22 @@ view model =
 
             -- , viewDialog model
             ]
+
+addColumnStyle : Attribute msg
+addColumnStyle =
+  style
+    [ ("color", "white")
+    , ("backgroundColor", "#166494")
+    , ("font-size", "20")
+    , ("border", "none")
+    , ("overflow","hidden")
+    , ("outline","none")
+    , ("height", "26px")
+    , ("webkit-box-shadow", "0px 2px 2px 0px rgba(211,211,211,1)")
+    , ("moz-box-shadow", "0px 2px 2px 0px rgba(211,211,211,1)")
+    , ("box-shadow", "0px 2px 2px 0px rgba(211,211,211,1)")
+    ]
+
 
 
 dialogConfig : Model -> Dialog.Config Msg
