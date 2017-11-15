@@ -54,11 +54,9 @@ view_ model =
                 LogoutPage ->
                     div [] [ text "login" ]
     in
-        thead []
+        div [headerStyle]
             [ header model, h_ ]
             --[ button [ onClick (GoHome 1) ] [ text "Go Home" ], h_ ]
-
-
 
 
 header : Model -> Html Msg
@@ -67,7 +65,25 @@ header model =
     [Layout.row
         [ css "transition" "height 333ms ease-in-out 0s"
         , css "height" "74px"
-        , css "padding" "2rem"
+        , css "padding" "0rem"
         ]
-        [ Layout.title [] [ button [ onClick (GoHome 1)] [ img [ src "logo.png", width 180, height 66] [] ] ]
+        [ Layout.title [] [ button [ onClick (GoHome 1), headerButtonStyle] [ img [ src "logo.png", width 180, height 66] [] ] ]
         , Layout.spacer]]
+
+
+headerStyle : Attribute msg
+headerStyle =
+  style
+    [ ("backgroundColor", "red")
+    , ("height", "74px")
+    , ("width", "100%")
+    ]
+
+headerButtonStyle : Attribute msg
+headerButtonStyle =
+  style
+    [ ("backgroundColor", "Transparent")
+    , ("border", "none")
+    , ("overflow","hidden")
+    , ("outline","none")
+    ]
