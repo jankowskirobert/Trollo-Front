@@ -10,30 +10,6 @@ import BoardTask
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        -- AddToList ->
-        --     case model.activeColumnView of
-        --         Nothing ->
-        --             ( model, Cmd.none )
-        --         Just x ->
-        --             let
-        --                 cards =
-        --                     x.cards
-        --             in
-        --                 ( model, Cmd.none )
-        -- -- let
-        -- --     cards_ =
-        -- --         view_.cards
-        -- --     isInBoard =
-        -- --         cards_
-        -- --             ++ [ (BoardTask.CardView 1 1 "column" "Test1") ]
-        -- -- in
-        -- --     if addcard.title /= "" then
-        -- --         ( { model | data = BoardTask.putCardElementToList model.addCard column_, addCard = BoardTask.AddCard "" "" }, Cmd.none )
-        -- --     else
-        -- SetCardDialog columView_ ->
-        --     ( { model | dialogAction = AddNewCard, activeColumnView = Just columView_ }, Cmd.none )
-        -- SetColumnDialog ->
-        --     ( { model | dialogAction = AddNewColumn }, Cmd.none )
         NoneMsg ->
             ( model, Cmd.none )
 
@@ -59,6 +35,9 @@ update msg model =
             case action of
                 AddNewColumn ->
                     ( { model | dialogAction = action, showDialog = True }, Cmd.none )
+
+                ShowCardDetail card_ ->
+                    ( { model | dialogAction = action, currentCard = Just card_, showDialog = True }, Cmd.none )
 
                 None ->
                     ( { model | dialogAction = action, showDialog = False }, Cmd.none )

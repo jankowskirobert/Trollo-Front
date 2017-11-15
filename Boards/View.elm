@@ -15,14 +15,17 @@ import Dialog
 
 boardGridBox : Model -> BoardTask.BoardView -> Int -> Html Msg
 boardGridBox model board idx =
-    div []
-        [ button
+    div [ class "col col-lg-2" ]
+        [ a
             [ onClick (SetOperation (Boards.Model.Choose board))
+            , class "list-group-item list-group-item-action flex-column align-items-start"
             ]
-            [ div []
+            [ div [ class "d-flex w-100 justify-content-between" ]
                 [ text (board.title ++ " ")
                 , text ((toString board.viewId) ++ " ")
                 , text ((toString board.id) ++ " ")
+                , h5 [ class "mb-1" ] [ text board.title ]
+                , small [] [ text "3 days ago" ]
                 ]
             ]
         , button
@@ -31,6 +34,17 @@ boardGridBox model board idx =
             [ text "Edit Name"
             ]
         ]
+
+
+
+--  <a href="#" class="list-group-item list-group-item-action flex-column align-items-start active">
+--     <div class="d-flex w-100 justify-content-between">
+--       <h5 class="mb-1">List group item heading</h5>
+--       <small>3 days ago</small>
+--     </div>
+--     <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+--     <small>Donec id elit non mi porta.</small>
+--   </a>
 
 
 view : Model -> Html Msg
@@ -45,9 +59,9 @@ view model =
                                 div [] []
 
                             Just x ->
-                                boardGridBox model x index
+                                div [ class "row justify-content-md-center d-flex flex-nowrap" ] [ boardGridBox model x index ]
                     )
-                |> div []
+                |> div [ class "" ]
     in
         div []
             [ s

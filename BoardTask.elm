@@ -13,6 +13,7 @@ module BoardTask
         , Msg
         , User
         , model
+        , getExampleSetOfCards
         )
 
 import Json.Decode
@@ -29,7 +30,7 @@ type alias Team =
 
 
 type alias CardView =
-    { uniqueNumber : String, status : Bool, title : String, description : String, boardID : Int }
+    { uniqueNumber : String, status : Bool, title : String, description : String, boardID : Int, columnID : Int }
 
 
 type alias ColumnView =
@@ -77,12 +78,13 @@ model =
 
 decodeCardViewFromJson : Json.Decode.Decoder CardView
 decodeCardViewFromJson =
-    Json.Decode.map5 CardView
+    Json.Decode.map6 CardView
         (Json.Decode.at [ "uniqueNumber" ] Json.Decode.string)
         (Json.Decode.at [ "status" ] Json.Decode.bool)
         (Json.Decode.at [ "title" ] Json.Decode.string)
         (Json.Decode.at [ "description" ] Json.Decode.string)
         (Json.Decode.at [ "boardID" ] Json.Decode.int)
+        (Json.Decode.at [ "columnID" ] Json.Decode.int)
 
 
 getExampleSetOfData : ColumnView
@@ -105,6 +107,15 @@ getExampleSetOfColumns =
         "UUU"
         1
       )
+    ]
+
+
+getExampleSetOfCards : List CardView
+getExampleSetOfCards =
+    [ (CardView "UNI1" True "TITLE1" "DESC1" 1 3)
+    , (CardView "UNI1" True "TITLE1" "DESC1" 1 2)
+    , (CardView "UNI1" True "TITLE11" "DESC1" 1 1)
+    , (CardView "UNI1" True "TITLE12" "DESC1" 1 1)
     ]
 
 
@@ -140,7 +151,7 @@ getBoards user =
 
 putElementToList : String -> List CardView -> List CardView
 putElementToList column lst =
-    (CardView "UNI1" True "TITLE1" "DESC1" 1) :: lst
+    (CardView "UNI1" True "TITLE1" "DESC1" 1 1) :: lst
 
 
 isListExist : List ColumnView -> String -> Bool

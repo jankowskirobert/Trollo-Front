@@ -13,11 +13,10 @@ import BoardTask
 
 model : Model
 model =
-    { data = BoardTask.ColumnView 1 1 "" []
+    { cards = []
     , addCard = BoardTask.AddCard "" ""
     , dialogAction = None
-    , mdl = Material.model
-    , cardRest = BoardTask.model
+    , cardsPerColumn = []
     }
 
 
@@ -34,11 +33,10 @@ type DialogAction
 
 
 type alias Model =
-    { data : BoardTask.ColumnView
+    { cards : List BoardTask.CardView
     , addCard : BoardTask.AddCard
     , dialogAction : DialogAction
-    , mdl : Material.Model
-    , cardRest : BoardTask.Model
+    , cardsPerColumn : List (List BoardTask.CardView)
     }
 
 
@@ -77,15 +75,6 @@ viewButton idx model column =
         model.mdl
         [ Button.raised, Dialog.openOn "click", Options.onClick SetCardDialog ]
         [ text "Add Card" ]
-
-
-setData : BoardTask.CardView -> BoardTask.ColumnView -> BoardTask.ColumnView
-setData x y =
-    let
-        data =
-            y.cards
-    in
-        { y | cards = setCardInList x data }
 
 
 setCardInList : BoardTask.CardView -> List BoardTask.CardView -> List BoardTask.CardView

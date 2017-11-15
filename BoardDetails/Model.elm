@@ -14,6 +14,8 @@ model =
     , showDialog = False
     , newColumnName = Maybe.Nothing
     , dialogAction = None
+    , card = Just BoardTask.getExampleSetOfCards
+    , currentCard = Maybe.Nothing
 
     -- , mdl = Material.model
     }
@@ -36,6 +38,7 @@ type Msg
 
 type DialogAction
     = AddNewColumn
+    | ShowCardDetail BoardTask.CardView
     | None
 
 
@@ -45,6 +48,8 @@ type alias Model =
     , showDialog : Bool
     , newColumnName : Maybe String
     , dialogAction : DialogAction
+    , card : Maybe (List BoardTask.CardView)
+    , currentCard : Maybe BoardTask.CardView
 
     -- , addColumn : BoardTask.AddColumn
     -- , dialogAction : DialogAction

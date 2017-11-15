@@ -16,8 +16,16 @@ import Dialog
 getBoardColumn : BoardTask.ColumnView -> Model -> Html Msg
 getBoardColumn column model =
     let
+        cards_ =
+            model.card
+
         rows =
-            [ BoardTask.CardView "UNI1" True "TITLE1" "DESC1" 1 ]
+            case cards_ of
+                Nothing ->
+                    []
+
+                Just cards ->
+                    getCardsForColumn column.id cards
 
         rendered_ =
             rows
@@ -35,7 +43,17 @@ getBoardColumn column model =
 
 getColumnCard : BoardTask.CardView -> Html Msg
 getColumnCard card =
-    article [ class "card" ] [ header [] [ text card.title ] ]
+    article [ class "card" ]
+        [ div
+            []
+            [ header [] [ text card.title ]
+            , button
+                [ class "btn btn-outline-info"
+                , onClick (SetDialogAction (BoardDetails.Model.ShowCardDetail card))
+                ]
+                [ text "View Details" ]
+            ]
+        ]
 
 
 
@@ -98,6 +116,11 @@ viewColumns model =
 --             ]
 
 
+getCardsForColumn : Int -> List BoardTask.CardView -> List BoardTask.CardView
+getCardsForColumn columnId list =
+    List.filter (\x -> (x.columnID == columnId)) list
+
+
 view : Model -> Html Msg
 view model =
     let
@@ -133,15 +156,57 @@ view model =
 
 dialogConfig : Model -> Dialog.Config Msg
 dialogConfig model =
+    case model.dialogAction of
+        AddNewColumn ->
+            { closeMessage = Just (SetDialogAction BoardDetails.Model.None)
+            , containerClass = Nothing
+            , header = Just (h3 [] [ text "List Name" ])
+            , body = Just (input [ placeholder ("Enter name "), onInput SetNewColumndName ] [])
+            , footer =
+                Just
+                    (button
+                        [ class "btn btn-success"
+                        , onClick AddNewList
+                        ]
+                        [ text "OK" ]
+                    )
+            }
+
+        ShowCardDetail _ ->
+            case model.currentCard of
+                Nothing ->
+                    dialogConfigErrorMsg
+
+                Just card_ ->
+                    { closeMessage = Just (SetDialogAction BoardDetails.Model.None)
+                    , containerClass = Nothing
+                    , header = Just (h3 [] [ text "List Name" ])
+                    , body = Just (div [] [ text card_.title, text card_.description ])
+                    , footer =
+                        Just
+                            (button
+                                [ class "btn btn-success"
+                                , onClick (SetDialogAction BoardDetails.Model.None)
+                                ]
+                                [ text "OK" ]
+                            )
+                    }
+
+        None ->
+            dialogConfigErrorMsg
+
+
+dialogConfigErrorMsg : Dialog.Config Msg
+dialogConfigErrorMsg =
     { closeMessage = Just (SetDialogAction BoardDetails.Model.None)
     , containerClass = Nothing
-    , header = Just (h3 [] [ text "List Name" ])
-    , body = Just (input [ placeholder ("Enter name "), onInput SetNewColumndName ] [])
+    , header = Just (h3 [] [ text "ERROR!" ])
+    , body = Just (text "Board not found")
     , footer =
         Just
             (button
                 [ class "btn btn-success"
-                , onClick AddNewList
+                , onClick (SetDialogAction BoardDetails.Model.None)
                 ]
                 [ text "OK" ]
             )
