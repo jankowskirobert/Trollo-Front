@@ -9,6 +9,17 @@ import Page exposing (..)
 import Boards.View as Boards exposing (view)
 import BoardDetails.View as BoardDetails
 
+import Html.Lazy
+import App.Model exposing (..)
+import Html exposing (..)
+import Html.Attributes exposing (..)
+import Html.Events exposing (..)
+import Page exposing (..)
+import Boards.View as Boards exposing (view)
+import Material.Options as Options exposing (css, when)
+import Material.Layout as Layout
+import Material.Icon as Icon
+import Material.Color as Color
 
 tabs : List (Model -> Html Msg)
 tabs =
@@ -43,5 +54,20 @@ view_ model =
                 LogoutPage ->
                     div [] [ text "login" ]
     in
-        div []
-            [ button [ onClick (GoHome 1) ] [ text "Go Home" ], h_ ]
+        thead []
+            [ header model, h_ ]
+            --[ button [ onClick (GoHome 1) ] [ text "Go Home" ], h_ ]
+
+
+
+
+header : Model -> Html Msg
+header model =
+    div  []
+    [Layout.row
+        [ css "transition" "height 333ms ease-in-out 0s"
+        , css "height" "74px"
+        , css "padding" "2rem"
+        ]
+        [ Layout.title [] [ button [ onClick (GoHome 1)] [ img [ src "logo.png", width 180, height 66] [] ] ]
+        , Layout.spacer]]
