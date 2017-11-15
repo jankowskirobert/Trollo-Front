@@ -64,7 +64,7 @@ header model =
 headerStyle : Attribute msg
 headerStyle =
   style
-    [ ("backgroundColor", "#372554")
+    [ ("backgroundColor", "white")
     , ("height", "74px")
     , ("width", "100%")
     ]

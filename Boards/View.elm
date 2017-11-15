@@ -25,7 +25,7 @@ boardGridBox model board idx =
                 ]
             ]
         , button
-            [ onClick (SetOperation (Boards.Model.Edit idx board)), boardButtonStyle, style[("bottom","2px")]]
+            [ onClick (SetOperation (Boards.Model.Edit idx board)), boardButtonStyle2]
             [ text "Edit"
             ]
         ]
@@ -33,7 +33,7 @@ boardGridBox model board idx =
 boardStyle : Attribute msg
 boardStyle =
   style
-    [ ("backgroundColor", "#372554")
+    [ ("backgroundColor", "white")
     , ("position", "relative")
     , ("float", "left")
     , ("height", "74px")
@@ -44,13 +44,36 @@ boardStyle =
 boardButtonStyle : Attribute msg
 boardButtonStyle =
   style
-    [ ("color", "#F18F01")
-    , ("backgroundColor", "Transparent")
+    [ ("color", "#646464")
+    , ("backgroundColor", "white")
     , ("position", "absolute")
     , ("font-size", "20")
     , ("border", "none")
     , ("overflow","hidden")
     , ("outline","none")
+    , ("width", "100%")
+    , ("height", "48px")
+    , ("webkit-box-shadow", "0px 2px 2px 0px rgba(222,222,222,1)")
+    , ("moz-box-shadow", "0px 2px 2px 0px rgba(222,222,222,1)")
+    , ("box-shadow", "0px 2px 2px 0px rgba(222,222,222,1)")
+    ]
+
+boardButtonStyle2 : Attribute msg
+boardButtonStyle2 =
+  style
+    [ ("color", "white")
+    , ("backgroundColor", "#166494")
+    , ("position", "absolute")
+    , ("font-size", "20")
+    , ("border", "none")
+    , ("overflow","hidden")
+    , ("outline","none")
+    , ("width", "100%")
+    , ("height", "26px")
+    , ("bottom", "0px")
+    , ("webkit-box-shadow", "0px 2px 2px 0px rgba(211,211,211,1)")
+    , ("moz-box-shadow", "0px 2px 2px 0px rgba(211,211,211,1)")
+    , ("box-shadow", "0px 2px 2px 0px rgba(211,211,211,1)")
     ]
 
 view : Model -> Html Msg
