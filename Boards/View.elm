@@ -25,8 +25,8 @@ boardGridBox model board idx =
                 ]
             ]
         , button
-            [ onClick (SetOperation (Boards.Model.Edit idx board)), boardButtonStyle]
-            [ text "Edit Name"
+            [ onClick (SetOperation (Boards.Model.Edit idx board)), boardButtonStyle, style[("bottom","2px")]]
+            [ text "Edit"
             ]
         ]
 
@@ -34,6 +34,7 @@ boardStyle : Attribute msg
 boardStyle =
   style
     [ ("backgroundColor", "#372554")
+    , ("position", "relative")
     , ("float", "left")
     , ("height", "74px")
     , ("width", "200px")
@@ -45,6 +46,7 @@ boardButtonStyle =
   style
     [ ("color", "#F18F01")
     , ("backgroundColor", "Transparent")
+    , ("position", "absolute")
     , ("font-size", "20")
     , ("border", "none")
     , ("overflow","hidden")
@@ -69,13 +71,14 @@ view model =
     in
         div []
             [ s
-            , button [ onClick (SetOperation Boards.Model.AddNewBoard) ] [ text "Add Board" ]
-            , Dialog.view
-                (if model.showDialog then
-                    Just (dialogConfig model)
-                 else
-                    Nothing
-                )
+            , div [boardStyle] [button [ onClick (SetOperation Boards.Model.AddNewBoard), boardButtonStyle ] [ text "+ Add new board" ]
+                , Dialog.view
+                    (if model.showDialog then
+                        Just (dialogConfig model)
+                    else
+                        Nothing
+                    )
+                ]
             ]
 
 
