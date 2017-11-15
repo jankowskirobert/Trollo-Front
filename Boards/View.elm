@@ -94,7 +94,7 @@ view model =
     in
         div []
             [ s
-            , div [boardStyle] [button [ onClick (SetOperation Boards.Model.AddNewBoard), boardButtonStyle ] [ text "+ Add new board" ]
+            , div [boardStyle] [button [ onClick (SetOperation Boards.Model.AddNewBoard), boardButtonStyle, style[("box-shadow","none")] ] [ text "+ Add new board" ]
                 , Dialog.view
                     (if model.showDialog then
                         Just (dialogConfig model)
