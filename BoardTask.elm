@@ -110,12 +110,12 @@ getExampleSetOfColumns =
     ]
 
 
-getExampleSetOfCards : List CardView
+getExampleSetOfCards : List (Maybe CardView)
 getExampleSetOfCards =
-    [ (CardView "UNI1" True "TITLE1" "DESC1" 1 3)
-    , (CardView "UNI1" True "TITLE1" "DESC1" 1 2)
-    , (CardView "UNI1" True "TITLE11" "DESC1" 1 1)
-    , (CardView "UNI1" True "TITLE12" "DESC1" 1 1)
+    [ Just (CardView "UNI1" True "TITLE1" "DESC1" 1 3)
+    , Just (CardView "UNI1" True "TITLE1" "DESC1" 1 2)
+    , Just (CardView "UNI1" True "TITLE11" "DESC1" 1 1)
+    , Just (CardView "UNI1" True "TITLE12" "DESC1" 1 1)
     ]
 
 

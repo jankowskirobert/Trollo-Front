@@ -14,8 +14,10 @@ model =
     , showDialog = False
     , newColumnName = Maybe.Nothing
     , dialogAction = None
-    , card = Just BoardTask.getExampleSetOfCards
+    , card = BoardTask.getExampleSetOfCards
     , currentCard = Maybe.Nothing
+    , currentCardIndex = Maybe.Nothing
+    , newCardName = Maybe.Nothing
 
     -- , mdl = Material.model
     }
@@ -28,6 +30,8 @@ type Msg
     | AddNewList
     | SetDialogAction DialogAction
     | SetNewColumndName String
+    | SetNewCardName String
+    | UpdateCurrentCard
 
 
 
@@ -39,6 +43,7 @@ type Msg
 type DialogAction
     = AddNewColumn
     | ShowCardDetail BoardTask.CardView
+    | EditCardDetail Int BoardTask.CardView
     | None
 
 
@@ -48,8 +53,10 @@ type alias Model =
     , showDialog : Bool
     , newColumnName : Maybe String
     , dialogAction : DialogAction
-    , card : Maybe (List BoardTask.CardView)
+    , card : List (Maybe BoardTask.CardView)
     , currentCard : Maybe BoardTask.CardView
+    , currentCardIndex : Maybe Int
+    , newCardName : Maybe String
 
     -- , addColumn : BoardTask.AddColumn
     -- , dialogAction : DialogAction

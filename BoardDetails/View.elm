@@ -20,16 +20,11 @@ getBoardColumn column model =
             model.card
 
         rows =
-            case cards_ of
-                Nothing ->
-                    []
-
-                Just cards ->
-                    getCardsForColumn column.id cards
+            getCardsForColumn column.id cards_
 
         rendered_ =
             rows
-                |> List.map (\l -> getColumnCard l)
+                |> List.indexedMap (\index l -> getColumnCard index l)
                 |> div []
     in
         div []
@@ -41,8 +36,8 @@ getBoardColumn column model =
             ]
 
 
-getColumnCard : BoardTask.CardView -> Html Msg
-getColumnCard card =
+getColumnCard : Int -> BoardTask.CardView -> Html Msg
+getColumnCard indexOnList card =
     article [ class "card" ]
         [ div
             []
@@ -52,6 +47,11 @@ getColumnCard card =
                 , onClick (SetDialogAction (BoardDetails.Model.ShowCardDetail card))
                 ]
                 [ text "View Details" ]
+            , button
+                [ class "btn btn-outline-info"
+                , onClick (SetDialogAction (BoardDetails.Model.EditCardDetail indexOnList card))
+                ]
+                [ text "Edit Details" ]
             ]
         ]
 
@@ -64,15 +64,14 @@ getColumnCard card =
 
 viewButton : Int -> Model -> BoardTask.ColumnView -> Html Msg
 viewButton idx model column =
-    div [] []
+    div []
+        [ button
+            [ class "btn btn-outline-info"
 
-
-
--- Button.render Mdl
---     [ 1 ]
---     model.mdl
---     [ Button.raised, Dialog.openOn "click", Options.onClick (SetCardDialog column) ]
---     [ text "Add Card" ]
+            -- , onClick (SetDialogAction (BoardDetails.Model.ShowCardDetail card))
+            ]
+            [ text "Add Card" ]
+        ]
 
 
 viewColumns : Model -> Html Msg
@@ -116,9 +115,25 @@ viewColumns model =
 --             ]
 
 
-getCardsForColumn : Int -> List BoardTask.CardView -> List BoardTask.CardView
+getCardsForColumn : Int -> List (Maybe BoardTask.CardView) -> List BoardTask.CardView
 getCardsForColumn columnId list =
-    List.filter (\x -> (x.columnID == columnId)) list
+    let
+        hasAnything =
+            List.filter
+                (\x ->
+                    case x of
+                        Nothing ->
+                            False
+
+                        Just t ->
+                            (t.columnID == columnId)
+                )
+                list
+
+        onlyHasRealValues =
+            List.filterMap (\x -> x) hasAnything
+    in
+        onlyHasRealValues
 
 
 view : Model -> Html Msg
@@ -180,13 +195,39 @@ dialogConfig model =
                 Just card_ ->
                     { closeMessage = Just (SetDialogAction BoardDetails.Model.None)
                     , containerClass = Nothing
-                    , header = Just (h3 [] [ text "List Name" ])
+                    , header = Just (h3 [] [ text "Show Card Details" ])
                     , body = Just (div [] [ text card_.title, text card_.description ])
                     , footer =
                         Just
                             (button
                                 [ class "btn btn-success"
                                 , onClick (SetDialogAction BoardDetails.Model.None)
+                                ]
+                                [ text "OK" ]
+                            )
+                    }
+
+        EditCardDetail _ _ ->
+            case ( model.currentCard, model.currentCardIndex ) of
+                ( Nothing, Nothing ) ->
+                    dialogConfigErrorMsg
+
+                ( Nothing, Just x ) ->
+                    dialogConfigErrorMsg
+
+                ( Just x, Nothing ) ->
+                    dialogConfigErrorMsg
+
+                ( Just card_, Just idx_ ) ->
+                    { closeMessage = Just (SetDialogAction BoardDetails.Model.None)
+                    , containerClass = Nothing
+                    , header = Just (h3 [] [ text "Edit Card Details" ])
+                    , body = Just (div [] [ div [] [ input [ placeholder ("Enter name "), onInput SetNewCardName ] [] ], div [] [] ])
+                    , footer =
+                        Just
+                            (button
+                                [ class "btn btn-success"
+                                , onClick UpdateCurrentCard
                                 ]
                                 [ text "OK" ]
                             )

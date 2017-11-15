@@ -42,8 +42,47 @@ update msg model =
                 None ->
                     ( { model | dialogAction = action, showDialog = False }, Cmd.none )
 
+                EditCardDetail idx_ card_ ->
+                    ( { model | dialogAction = action, currentCardIndex = Just idx_, currentCard = Just card_, showDialog = True }, Cmd.none )
+
         SetNewColumndName name ->
             ( { model | newColumnName = Just name }, Cmd.none )
+
+        SetNewCardName name ->
+            ( { model | newCardName = Just name }, Cmd.none )
+
+        UpdateCurrentCard ->
+            case ( model.currentCard, model.currentCardIndex, model.newCardName ) of
+                ( Nothing, Nothing, Nothing ) ->
+                    ( model, Cmd.none )
+
+                ( Nothing, Just x, Nothing ) ->
+                    ( model, Cmd.none )
+
+                ( Nothing, Nothing, Just x ) ->
+                    ( model, Cmd.none )
+
+                ( Just x, Nothing, Nothing ) ->
+                    ( model, Cmd.none )
+
+                ( Just x, Just y, Nothing ) ->
+                    ( model, Cmd.none )
+
+                ( Just x, Nothing, Just y ) ->
+                    ( model, Cmd.none )
+
+                ( Nothing, Just x, Just y ) ->
+                    ( model, Cmd.none )
+
+                ( Just x, Just y, Just z ) ->
+                    let
+                        h =
+                            { x | title = z }
+
+                        cards_ =
+                            model.card
+                    in
+                        ( { model | card = (updateElement2 cards_ y h), showDialog = False }, Cmd.none )
 
 
 
