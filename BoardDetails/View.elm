@@ -25,10 +25,10 @@ getBoardColumn column model =
         rendered_ =
             rows
                 |> List.indexedMap (\index l -> getColumnCard index l)
-                |> div [detailsStyle]
+                |> div [ detailsStyle ]
     in
         div []
-            [ section [ class "list", detailsStyleCol]
+            [ section [ class "list", detailsStyleCol ]
                 [ div [] [ header [] [ text column.title ] ]
                 , rendered_
                 , viewButton 0 model column
@@ -55,18 +55,22 @@ getColumnCard indexOnList card =
             ]
         ]
 
+
 detailsStyleCol : Attribute msg
 detailsStyleCol =
-  style
-    [ ("backgroundColor", "#3D88BF")
-    , ("color","white")
-    ]
+    style
+        [ ( "backgroundColor", "#3D88BF" )
+        , ( "color", "white" )
+        ]
+
 
 detailsStyle =
-  style
-    [ ("backgroundColor", "#3D88BF")
-    , ("color","black")
-    ]
+    style
+        [ ( "backgroundColor", "#3D88BF" )
+        , ( "color", "black" )
+        ]
+
+
 
 -- view : Model -> Html Msg
 -- view =
@@ -78,8 +82,7 @@ viewButton idx model column =
     div []
         [ button
             [ listDetailsButtonStyle
-
-            -- , onClick (SetDialogAction (BoardDetails.Model.ShowCardDetail card))
+            , onClick (SetDialogAction (BoardDetails.Model.AddCard column.id))
             ]
             [ text "Add Card" ]
         ]
@@ -161,7 +164,7 @@ view model =
                 Just x ->
                     x.title
     in
-        div [boardTextStyle]
+        div [ boardTextStyle ]
             [ text boardName
             , viewColumns model
             , button
@@ -182,48 +185,45 @@ view model =
 
 boardTextStyle : Attribute msg
 boardTextStyle =
-  style
-    [ 
-      ("font-size", "24px")
-    , ("padding-left", "10px")
-    , ("padding-top", "20px")
-    ]
-
+    style
+        [ ( "font-size", "24px" )
+        , ( "padding-left", "10px" )
+        , ( "padding-top", "20px" )
+        ]
 
 
 addColumnStyle : Attribute msg
 addColumnStyle =
-  style
-    [ ("color", "white")
-    , ("backgroundColor", "#166494")
-    , ("font-size", "20")
-    , ("border", "none")
-    , ("overflow","hidden")
-    , ("outline","none")
-    , ("height", "36px")
-    , ("padding-left", "10px")
-    , ("webkit-box-shadow", "0px 2px 2px 0px rgba(211,211,211,1)")
-    , ("moz-box-shadow", "0px 2px 2px 0px rgba(211,211,211,1)")
-    , ("box-shadow", "0px 2px 2px 0px rgba(211,211,211,1)")
-    ]
+    style
+        [ ( "color", "white" )
+        , ( "backgroundColor", "#166494" )
+        , ( "font-size", "20" )
+        , ( "border", "none" )
+        , ( "overflow", "hidden" )
+        , ( "outline", "none" )
+        , ( "height", "36px" )
+        , ( "padding-left", "10px" )
+        , ( "webkit-box-shadow", "0px 2px 2px 0px rgba(211,211,211,1)" )
+        , ( "moz-box-shadow", "0px 2px 2px 0px rgba(211,211,211,1)" )
+        , ( "box-shadow", "0px 2px 2px 0px rgba(211,211,211,1)" )
+        ]
+
 
 listDetailsButtonStyle : Attribute msg
 listDetailsButtonStyle =
-  style
-    [ ("color", "#646464")
-    , ("backgroundColor", "#E3EBEE")
-    , ("font-size", "16")
-    , ("border", "none")
-    , ("overflow","hidden")
-    , ("outline","none")
-    , ("height", "30px")
-    , ("margin", "5px")
-    , ("webkit-box-shadow", "0px 2px 2px 0px rgba(211,211,211,1)")
-    , ("moz-box-shadow", "0px 2px 2px 0px rgba(211,211,211,1)")
-    , ("box-shadow", "0px 2px 2px 0px rgba(211,211,211,1)")
-    ]
-
-
+    style
+        [ ( "color", "#646464" )
+        , ( "backgroundColor", "#E3EBEE" )
+        , ( "font-size", "16" )
+        , ( "border", "none" )
+        , ( "overflow", "hidden" )
+        , ( "outline", "none" )
+        , ( "height", "30px" )
+        , ( "margin", "5px" )
+        , ( "webkit-box-shadow", "0px 2px 2px 0px rgba(211,211,211,1)" )
+        , ( "moz-box-shadow", "0px 2px 2px 0px rgba(211,211,211,1)" )
+        , ( "box-shadow", "0px 2px 2px 0px rgba(211,211,211,1)" )
+        ]
 
 
 dialogConfig : Model -> Dialog.Config Msg
@@ -289,6 +289,21 @@ dialogConfig model =
                                 [ text "OK" ]
                             )
                     }
+
+        AddCard _ ->
+            { closeMessage = Just (SetDialogAction BoardDetails.Model.None)
+            , containerClass = Nothing
+            , header = Just (h3 [] [ text "List Name" ])
+            , body = Just (input [ placeholder ("Enter name "), onInput SetNewCardName ] [])
+            , footer =
+                Just
+                    (button
+                        [ class "btn btn-success"
+                        , onClick AddNewCard
+                        ]
+                        [ text "OK" ]
+                    )
+            }
 
         None ->
             dialogConfigErrorMsg

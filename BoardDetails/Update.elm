@@ -45,6 +45,9 @@ update msg model =
                 EditCardDetail idx_ card_ ->
                     ( { model | dialogAction = action, currentCardIndex = Just idx_, currentCard = Just card_, showDialog = True }, Cmd.none )
 
+                AddCard x ->
+                    ( { model | dialogAction = action, showDialog = True, currentColumnIdx = Just x }, Cmd.none )
+
         SetNewColumndName name ->
             ( { model | newColumnName = Just name }, Cmd.none )
 
@@ -83,6 +86,21 @@ update msg model =
                             model.card
                     in
                         ( { model | card = (updateElement2 cards_ y h), showDialog = False }, Cmd.none )
+
+        AddNewCard ->
+            case ( model.newCardName, model.currentColumnIdx ) of
+                ( Nothing, _ ) ->
+                    ( model, Cmd.none )
+
+                ( _, Nothing ) ->
+                    ( model, Cmd.none )
+
+                ( Just x, Just y ) ->
+                    let
+                        card_ =
+                            model.card
+                    in
+                        ( { model | card = card_ ++ [ Just (BoardTask.CardView "UNIX" True x "DESC" 1 y) ], showDialog = False }, Cmd.none )
 
 
 
