@@ -43,12 +43,12 @@ getColumnCard indexOnList card =
             []
             [ header [] [ text card.title ]
             , button
-                [ class "btn btn-outline-info"
+                [ listDetailsButtonStyle
                 , onClick (SetDialogAction (BoardDetails.Model.ShowCardDetail card))
                 ]
                 [ text "View Details" ]
             , button
-                [ class "btn btn-outline-info"
+                [ listDetailsButtonStyle
                 , onClick (SetDialogAction (BoardDetails.Model.EditCardDetail indexOnList card))
                 ]
                 [ text "Edit Details" ]
@@ -77,7 +77,7 @@ viewButton : Int -> Model -> BoardTask.ColumnView -> Html Msg
 viewButton idx model column =
     div []
         [ button
-            [ class "btn btn-outline-info"
+            [ listDetailsButtonStyle
 
             -- , onClick (SetDialogAction (BoardDetails.Model.ShowCardDetail card))
             ]
@@ -206,6 +206,23 @@ addColumnStyle =
     , ("moz-box-shadow", "0px 2px 2px 0px rgba(211,211,211,1)")
     , ("box-shadow", "0px 2px 2px 0px rgba(211,211,211,1)")
     ]
+
+listDetailsButtonStyle : Attribute msg
+listDetailsButtonStyle =
+  style
+    [ ("color", "#646464")
+    , ("backgroundColor", "#E3EBEE")
+    , ("font-size", "16")
+    , ("border", "none")
+    , ("overflow","hidden")
+    , ("outline","none")
+    , ("height", "30px")
+    , ("margin", "5px")
+    , ("webkit-box-shadow", "0px 2px 2px 0px rgba(211,211,211,1)")
+    , ("moz-box-shadow", "0px 2px 2px 0px rgba(211,211,211,1)")
+    , ("box-shadow", "0px 2px 2px 0px rgba(211,211,211,1)")
+    ]
+
 
 
 
