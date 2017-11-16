@@ -25,10 +25,10 @@ getBoardColumn column model =
         rendered_ =
             rows
                 |> List.indexedMap (\index l -> getColumnCard index l)
-                |> div []
+                |> div [detailsStyle]
     in
         div []
-            [ section [ class "list" ]
+            [ section [ class "list", detailsStyleCol]
                 [ div [] [ header [] [ text column.title ] ]
                 , rendered_
                 , viewButton 0 model column
@@ -43,19 +43,30 @@ getColumnCard indexOnList card =
             []
             [ header [] [ text card.title ]
             , button
-                [ class "btn btn-outline-info"
+                [ listDetailsButtonStyle
                 , onClick (SetDialogAction (BoardDetails.Model.ShowCardDetail card))
                 ]
                 [ text "View Details" ]
             , button
-                [ class "btn btn-outline-info"
+                [ listDetailsButtonStyle
                 , onClick (SetDialogAction (BoardDetails.Model.EditCardDetail indexOnList card))
                 ]
                 [ text "Edit Details" ]
             ]
         ]
 
+detailsStyleCol : Attribute msg
+detailsStyleCol =
+  style
+    [ ("backgroundColor", "#3D88BF")
+    , ("color","white")
+    ]
 
+detailsStyle =
+  style
+    [ ("backgroundColor", "#3D88BF")
+    , ("color","black")
+    ]
 
 -- view : Model -> Html Msg
 -- view =
@@ -66,7 +77,7 @@ viewButton : Int -> Model -> BoardTask.ColumnView -> Html Msg
 viewButton idx model column =
     div []
         [ button
-            [ class "btn btn-outline-info"
+            [ listDetailsButtonStyle
 
             -- , onClick (SetDialogAction (BoardDetails.Model.ShowCardDetail card))
             ]
@@ -150,11 +161,11 @@ view model =
                 Just x ->
                     x.title
     in
-        div []
+        div [boardTextStyle]
             [ text boardName
             , viewColumns model
             , button
-                [ class "btn btn-outline-info"
+                [ addColumnStyle
                 , onClick (SetDialogAction BoardDetails.Model.AddNewColumn)
                 ]
                 [ text "Add Column" ]
@@ -167,6 +178,52 @@ view model =
 
             -- , viewDialog model
             ]
+
+
+boardTextStyle : Attribute msg
+boardTextStyle =
+  style
+    [ 
+      ("font-size", "24px")
+    , ("padding-left", "10px")
+    , ("padding-top", "20px")
+    ]
+
+
+
+addColumnStyle : Attribute msg
+addColumnStyle =
+  style
+    [ ("color", "white")
+    , ("backgroundColor", "#166494")
+    , ("font-size", "20")
+    , ("border", "none")
+    , ("overflow","hidden")
+    , ("outline","none")
+    , ("height", "36px")
+    , ("padding-left", "10px")
+    , ("webkit-box-shadow", "0px 2px 2px 0px rgba(211,211,211,1)")
+    , ("moz-box-shadow", "0px 2px 2px 0px rgba(211,211,211,1)")
+    , ("box-shadow", "0px 2px 2px 0px rgba(211,211,211,1)")
+    ]
+
+listDetailsButtonStyle : Attribute msg
+listDetailsButtonStyle =
+  style
+    [ ("color", "#646464")
+    , ("backgroundColor", "#E3EBEE")
+    , ("font-size", "16")
+    , ("border", "none")
+    , ("overflow","hidden")
+    , ("outline","none")
+    , ("height", "30px")
+    , ("margin", "5px")
+    , ("webkit-box-shadow", "0px 2px 2px 0px rgba(211,211,211,1)")
+    , ("moz-box-shadow", "0px 2px 2px 0px rgba(211,211,211,1)")
+    , ("box-shadow", "0px 2px 2px 0px rgba(211,211,211,1)")
+    ]
+
+
 
 
 dialogConfig : Model -> Dialog.Config Msg

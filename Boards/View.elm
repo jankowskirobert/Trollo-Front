@@ -15,10 +15,10 @@ import Dialog
 
 boardGridBox : Model -> BoardTask.BoardView -> Int -> Html Msg
 boardGridBox model board idx =
-    div [ class "col col-lg-2" ]
-        [ a
+    div [ boardStyle ]
+        [ button
             [ onClick (SetOperation (Boards.Model.Choose board))
-            , class "list-group-item list-group-item-action flex-column align-items-start"
+            , boardButtonStyle
             ]
             [ div [ class "d-flex w-100 justify-content-between" ]
                 [ text (board.title ++ " ")
@@ -29,12 +29,56 @@ boardGridBox model board idx =
                 ]
             ]
         , button
-            [ onClick (SetOperation (Boards.Model.Edit idx board))
-            ]
-            [ text "Edit Name"
+            [ onClick (SetOperation (Boards.Model.Edit idx board)), boardButtonStyle2]
+            [ text "Edit"
             ]
         ]
 
+boardStyle : Attribute msg
+boardStyle =
+  style
+    [ ("backgroundColor", "white")
+    , ("position", "relative")
+    , ("float", "left")
+    , ("height", "74px")
+    , ("width", "200px")
+    , ("margin", "10px")
+    ]
+
+boardButtonStyle : Attribute msg
+boardButtonStyle =
+  style
+    [ ("color", "#646464")
+    , ("backgroundColor", "white")
+    , ("position", "absolute")
+    , ("font-size", "20")
+    , ("border", "none")
+    , ("overflow","hidden")
+    , ("outline","none")
+    , ("width", "100%")
+    , ("height", "48px")
+    , ("webkit-box-shadow", "0px 2px 2px 0px rgba(211,211,211,1)")
+    , ("moz-box-shadow", "0px 2px 2px 0px rgba(211,211,211,1)")
+    , ("box-shadow", "0px 2px 2px 0px rgba(211,211,211,1)")
+    ]
+
+boardButtonStyle2 : Attribute msg
+boardButtonStyle2 =
+  style
+    [ ("color", "white")
+    , ("backgroundColor", "#166494")
+    , ("position", "absolute")
+    , ("font-size", "20")
+    , ("border", "none")
+    , ("overflow","hidden")
+    , ("outline","none")
+    , ("width", "100%")
+    , ("height", "26px")
+    , ("bottom", "0px")
+    , ("webkit-box-shadow", "0px 2px 2px 0px rgba(211,211,211,1)")
+    , ("moz-box-shadow", "0px 2px 2px 0px rgba(211,211,211,1)")
+    , ("box-shadow", "0px 2px 2px 0px rgba(211,211,211,1)")
+    ]
 
 
 --  <a href="#" class="list-group-item list-group-item-action flex-column align-items-start active">
@@ -59,19 +103,20 @@ view model =
                                 div [] []
 
                             Just x ->
-                                div [ class "row justify-content-md-center d-flex flex-nowrap" ] [ boardGridBox model x index ]
+                                div [  ] [ boardGridBox model x index ]
                     )
                 |> div [ class "" ]
     in
         div []
             [ s
-            , button [ onClick (SetOperation Boards.Model.AddNewBoard) ] [ text "Add Board" ]
-            , Dialog.view
-                (if model.showDialog then
-                    Just (dialogConfig model)
-                 else
-                    Nothing
-                )
+            , div [boardStyle] [button [ onClick (SetOperation Boards.Model.AddNewBoard), boardButtonStyle, style[("box-shadow","none")] ] [ text "+ Add new board" ]
+                , Dialog.view
+                    (if model.showDialog then
+                        Just (dialogConfig model)
+                    else
+                        Nothing
+                    )
+                ]
             ]
 
 
