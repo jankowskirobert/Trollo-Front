@@ -103,7 +103,7 @@ view model =
                                 div [] []
 
                             Just x ->
-                                div [ class "row justify-content-md-center d-flex flex-nowrap" ] [ boardGridBox model x index ]
+                                div [  ] [ boardGridBox model x index ]
                     )
                 |> div [ class "" ]
     in
