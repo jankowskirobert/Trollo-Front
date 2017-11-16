@@ -1,7 +1,7 @@
 module Boards.Model exposing (Msg(..), Model, model, Operation(..))
 
 import BoardTask
-import Material
+import Http
 
 
 type Msg
@@ -9,6 +9,8 @@ type Msg
     | EditBoardName
     | SetOperation Operation
     | SetNewBoardName String
+    | GetBardsFromApi (Result Http.Error (List BoardTask.BoardView))
+    | FetchAll
 
 
 type Operation
@@ -30,7 +32,7 @@ type alias Model =
 
 model : Model
 model =
-    { boards = List.map (\x -> Just x) BoardTask.getExampleSetOfBoards
+    { boards = []
     , opr = None
     , currentBoard = Maybe.Nothing
     , newBoardName = Maybe.Nothing

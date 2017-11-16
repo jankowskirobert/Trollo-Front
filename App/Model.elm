@@ -1,11 +1,12 @@
 module App.Model exposing (..)
 
-import Boards.Model as Boards exposing (Model, model, Msg)
+import Boards.Model as Boards exposing (Model, model, Msg(..))
 import Page as Router exposing (Page(..))
 import Navigation exposing (Location)
 import RouteUrl exposing (HistoryEntry(..), UrlChange)
 import BoardTask
 import BoardDetails.Model as BoardDetails
+import Boards.Update as Bb
 
 
 subscriptions : Model -> Sub Msg
@@ -20,7 +21,7 @@ init =
       , user = BoardTask.model
       , boardDetails = BoardDetails.model
       }
-    , Cmd.none
+    , Cmd.map BoardsMsg Bb.getBoardView
     )
 
 
