@@ -3,7 +3,6 @@ module Boards.Update exposing (update, getBoardView)
 import Boards.Model exposing (Msg(..), Model, Operation(..))
 import BoardTask
 import Page exposing (Page(..))
-import Boards.Rest as Rest
 import Debug
 import Http
 import Json.Decode
@@ -124,7 +123,7 @@ update msg model =
                 log =
                     Debug.log "ERROR HTTP" (toString err)
             in
-                ( model, Cmd.none, Maybe.Nothing )
+                ( { model | showDialog = True, opr = None }, Cmd.none, Maybe.Nothing )
 
         FetchAll ->
             ( model, getBoardView, Maybe.Nothing )

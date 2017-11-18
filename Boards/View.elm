@@ -7,7 +7,6 @@ import Array
 import Boards.Model exposing (Model, Msg(..))
 import BoardTask
 import Dialog
-import Boards.Rest as Rest
 
 
 -- Cell variants
@@ -127,11 +126,6 @@ view model =
                         Nothing
                     )
                 ]
-            , button
-                [ class "btn btn-success"
-                , onClick FetchAll
-                ]
-                [ text "OK" ]
             ]
 
 
