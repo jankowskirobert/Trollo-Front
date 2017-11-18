@@ -162,7 +162,7 @@ view model =
                     "Untitled"
 
                 Just x ->
-                    x.title
+                    x.boardTitle
     in
         div [ boardTextStyle ]
             [ text boardName

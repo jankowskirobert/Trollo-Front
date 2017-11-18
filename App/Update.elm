@@ -31,10 +31,11 @@ update msg model =
             in
                 case p of
                     Nothing ->
-                        ( { model | boards = m, boardDetails = updated }, Cmd.none )
+                        ( { model | boards = m, boardDetails = updated }, Cmd.map BoardsMsg c )
 
+                    --REVOLUTION!!!! cmd.map command by model
                     Just g ->
-                        ( { model | boards = m, activePage = g, boardDetails = updated }, Cmd.none )
+                        ( { model | boards = m, activePage = g, boardDetails = updated }, Cmd.map BoardsMsg c )
 
         SetActivePage page ->
             ( { model | activePage = page }, Cmd.none )

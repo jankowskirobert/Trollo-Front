@@ -17,6 +17,7 @@ module BoardTask
         )
 
 import Json.Decode
+import Json.Decode.Pipeline
 import Http
 import Array
 import Tuple
@@ -38,7 +39,7 @@ type alias ColumnView =
 
 
 type alias BoardView =
-    { viewId : Int, id : Int, title : String }
+    { id : Int, boardTitle : String, boardDescription : String }
 
 
 type alias AddCard =
@@ -126,7 +127,7 @@ getColumnsForBoard boardId =
 
 getExampleSetOfBoards : List BoardView
 getExampleSetOfBoards =
-    [ BoardView 1 1 "Board 1", BoardView 2 2 "Board 2" ]
+    [ BoardView 1 "Board 1" "", BoardView 2 "Board 2" "" ]
 
 
 indicesOf : a -> List a -> List Int
@@ -198,7 +199,3 @@ getBoardView =
             Http.get url decodeCardViewFromJson
     in
         Http.send GetCardFromApi req
-
-
-
---  getCardList :
