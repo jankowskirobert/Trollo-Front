@@ -17,6 +17,7 @@ type Operation
     = Choose BoardTask.BoardView
     | Edit Int BoardTask.BoardView
     | None
+    | ConnectionError String
     | AddNewBoard
 
 

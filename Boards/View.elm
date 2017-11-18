@@ -154,7 +154,7 @@ dialogConfig model =
                         }
 
                 Nothing ->
-                    dialogConfigErrorMsg
+                    dialogConfigErrorMsg (Just "Board not found")
 
         Boards.Model.AddNewBoard ->
             { closeMessage = Just (SetOperation Boards.Model.None)
@@ -172,24 +172,36 @@ dialogConfig model =
             }
 
         Boards.Model.Choose _ ->
-            dialogConfigErrorMsg
+            dialogConfigErrorMsg (Just "Board not found")
 
         Boards.Model.None ->
-            dialogConfigErrorMsg
+            dialogConfigErrorMsg (Just "Board not found")
+
+        Boards.Model.ConnectionError msg ->
+            dialogConfigErrorMsg (Just msg)
 
 
-dialogConfigErrorMsg : Dialog.Config Msg
-dialogConfigErrorMsg =
-    { closeMessage = Just (SetOperation Boards.Model.None)
-    , containerClass = Nothing
-    , header = Just (h3 [] [ text "ERROR!" ])
-    , body = Just (text "Board not found")
-    , footer =
-        Just
-            (button
-                [ class "btn btn-success"
-                , onClick (SetOperation Boards.Model.None)
-                ]
-                [ text "OK" ]
-            )
-    }
+dialogConfigErrorMsg : Maybe String -> Dialog.Config Msg
+dialogConfigErrorMsg message =
+    let
+        errorMsg =
+            case message of
+                Nothing ->
+                    "Internal Error"
+
+                Just msg_ ->
+                    msg_
+    in
+        { closeMessage = Just (SetOperation Boards.Model.None)
+        , containerClass = Nothing
+        , header = Just (h3 [] [ text "ERROR!" ])
+        , body = Just (text errorMsg)
+        , footer =
+            Just
+                (button
+                    [ class "btn btn-success"
+                    , onClick (SetOperation Boards.Model.None)
+                    ]
+                    [ text "OK" ]
+                )
+        }

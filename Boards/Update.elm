@@ -69,6 +69,15 @@ update msg model =
                     , Just BoardDetailsPage
                     )
 
+                ConnectionError message ->
+                    ( { model
+                        | opr = oper
+                        , showDialog = True
+                      }
+                    , Cmd.none
+                    , Maybe.Nothing
+                    )
+
         SetNewBoardName name_ ->
             ( { model | newBoardName = Just name_ }
             , Cmd.none
@@ -123,7 +132,7 @@ update msg model =
                 log =
                     Debug.log "ERROR HTTP" (toString err)
             in
-                ( { model | showDialog = True, opr = None }, Cmd.none, Maybe.Nothing )
+                ( { model | opr = ConnectionError ((toString err) ++ (". Failed to fetch boards: offline mode")), showDialog = True }, Cmd.none, Maybe.Nothing )
 
         FetchAll ->
             ( model, getBoardView, Maybe.Nothing )
