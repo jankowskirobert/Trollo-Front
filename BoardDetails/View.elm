@@ -8,7 +8,7 @@ import Html.Events exposing (..)
 import BoardTask
 import Debug
 import Dialog
-import BoardDetails.Card.Model as Card
+import BoardDetails.Card.Edit as CardEdit
 
 
 -- import Column
@@ -50,7 +50,7 @@ getColumnCard indexOnList card =
                 [ text "View Details" ]
             , button
                 [ listDetailsButtonStyle
-                , onClick (BoardDetails.Model.CardMsg (Card.EditCardDetail indexOnList card))
+                , onClick (BoardDetails.Model.CardMsg (CardEdit.EditCardDetail indexOnList card))
                 ]
                 [ text "Edit Details" ]
             ]
@@ -179,7 +179,7 @@ view model =
                  else
                     Nothing
                 )
-            , Html.map CardMsg (Card.view model.cardModel)
+            , Html.map CardMsg (CardEdit.view model.cardModel)
 
             -- , viewDialog model
             ]
@@ -265,42 +265,6 @@ dialogConfig model =
                                 [ text "OK" ]
                             )
                     }
-
-        EditCardDetail _ _ ->
-            let
-                updateMode =
-                    model.cardUpdateModel
-            in
-                case ( updateMode.currentCard, updateMode.currentCardIndex ) of
-                    ( Nothing, Nothing ) ->
-                        dialogConfigErrorMsg
-
-                    ( Nothing, Just x ) ->
-                        dialogConfigErrorMsg
-
-                    ( Just x, Nothing ) ->
-                        dialogConfigErrorMsg
-
-                    ( Just card_, Just idx_ ) ->
-                        { closeMessage = Just (SetDialogAction BoardDetails.Model.None)
-                        , containerClass = Nothing
-                        , header = Just (h3 [] [ text "Edit Card Details" ])
-                        , body =
-                            Just
-                                (div []
-                                    [ div [] [ input [ placeholder ("Enter name "), onInput SetNewCardName ] [] ]
-                                    , div [] [ input [ placeholder ("Enter desc "), onInput SetNewCardDescription ] [] ]
-                                    ]
-                                )
-                        , footer =
-                            Just
-                                (button
-                                    [ class "btn btn-success"
-                                    , onClick UpdateCurrentCard
-                                    ]
-                                    [ text "OK" ]
-                                )
-                        }
 
         AddCard _ ->
             { closeMessage = Just (SetDialogAction BoardDetails.Model.None)
