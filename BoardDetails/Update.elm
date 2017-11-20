@@ -2,6 +2,7 @@ module BoardDetails.Update exposing (..)
 
 import BoardDetails.Model exposing (Model, Msg(..), DialogAction(..))
 import BoardTask
+import BoardDetails.Card.Model as Card
 
 
 -- import Column
@@ -108,8 +109,14 @@ update msg model =
                     let
                         card_ =
                             model.card
+
+                        updated =
+                            card_ ++ [ Just (BoardTask.CardView "UNIX" True x "DESC" 1 y) ]
+
+                        ( m, c ) =
+                            Card.update (Card.UpdateList updated) model.cardModel
                     in
-                        ( { model | card = card_ ++ [ Just (BoardTask.CardView "UNIX" True x "DESC" 1 y) ], showDialog = False }, Cmd.none )
+                        ( { model | card = updated, cardModel = m, showDialog = False }, Cmd.none )
 
         SetNewCardDescription desc ->
             let
@@ -120,6 +127,16 @@ update msg model =
                     { updateMode | currentCardDescription = Just desc }
             in
                 ( { model | currentCardDescription = Just desc, cardUpdateModel = updated }, Cmd.none )
+
+        CardMsg msg_ ->
+            let
+                ( m, c ) =
+                    Card.update msg_ model.cardModel
+
+                list_ =
+                    m.currentList
+            in
+                ( { model | cardModel = m, card = list_ }, Cmd.map CardMsg c )
 
 
 

@@ -8,6 +8,7 @@ import Html.Events exposing (..)
 import BoardTask
 import Debug
 import Dialog
+import BoardDetails.Card.Model as Card
 
 
 -- import Column
@@ -49,7 +50,7 @@ getColumnCard indexOnList card =
                 [ text "View Details" ]
             , button
                 [ listDetailsButtonStyle
-                , onClick (SetDialogAction (BoardDetails.Model.EditCardDetail indexOnList card))
+                , onClick (BoardDetails.Model.CardMsg (Card.EditCardDetail indexOnList card))
                 ]
                 [ text "Edit Details" ]
             ]
@@ -178,6 +179,7 @@ view model =
                  else
                     Nothing
                 )
+            , Html.map CardMsg (Card.view model.cardModel)
 
             -- , viewDialog model
             ]
