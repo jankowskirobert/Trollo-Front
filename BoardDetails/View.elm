@@ -8,6 +8,7 @@ import Html.Events exposing (..)
 import BoardTask
 import Debug
 import Dialog
+import BoardDetails.Card.Edit as CardEdit
 
 
 -- import Column
@@ -49,7 +50,7 @@ getColumnCard indexOnList card =
                 [ text "View Details" ]
             , button
                 [ listDetailsButtonStyle
-                , onClick (SetDialogAction (BoardDetails.Model.EditCardDetail indexOnList card))
+                , onClick (BoardDetails.Model.CardMsg (CardEdit.EditCardDetail indexOnList card))
                 ]
                 [ text "Edit Details" ]
             ]
@@ -178,6 +179,7 @@ view model =
                  else
                     Nothing
                 )
+            , Html.map CardMsg (CardEdit.view model.cardModel)
 
             -- , viewDialog model
             ]
@@ -259,32 +261,6 @@ dialogConfig model =
                             (button
                                 [ class "btn btn-success"
                                 , onClick (SetDialogAction BoardDetails.Model.None)
-                                ]
-                                [ text "OK" ]
-                            )
-                    }
-
-        EditCardDetail _ _ ->
-            case ( model.currentCard, model.currentCardIndex ) of
-                ( Nothing, Nothing ) ->
-                    dialogConfigErrorMsg
-
-                ( Nothing, Just x ) ->
-                    dialogConfigErrorMsg
-
-                ( Just x, Nothing ) ->
-                    dialogConfigErrorMsg
-
-                ( Just card_, Just idx_ ) ->
-                    { closeMessage = Just (SetDialogAction BoardDetails.Model.None)
-                    , containerClass = Nothing
-                    , header = Just (h3 [] [ text "Edit Card Details" ])
-                    , body = Just (div [] [ div [] [ input [ placeholder ("Enter name "), onInput SetNewCardName ] [] ], div [] [] ])
-                    , footer =
-                        Just
-                            (button
-                                [ class "btn btn-success"
-                                , onClick UpdateCurrentCard
                                 ]
                                 [ text "OK" ]
                             )

@@ -137,6 +137,9 @@ update msg model =
         FetchAll ->
             ( model, getBoardView, Maybe.Nothing )
 
+        RestMsg msg_ ->
+            ( model, Cmd.none, Maybe.Nothing )
+
 
 decodeBoard : Json.Decode.Decoder BoardTask.BoardView
 decodeBoard =

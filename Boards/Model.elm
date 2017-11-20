@@ -2,6 +2,7 @@ module Boards.Model exposing (Msg(..), Model, model, Operation(..))
 
 import BoardTask
 import Http
+import Boards.Rest as Rest
 
 
 type Msg
@@ -11,6 +12,7 @@ type Msg
     | SetNewBoardName String
     | GetBardsFromApi (Result Http.Error (List BoardTask.BoardView))
     | FetchAll
+    | RestMsg Rest.Msg
 
 
 type Operation
@@ -28,6 +30,7 @@ type alias Model =
     , newBoardName : Maybe String
     , currentBoardIdx : Maybe Int
     , showDialog : Bool
+    , rest : Rest.Model
     }
 
 
@@ -39,4 +42,5 @@ model =
     , newBoardName = Maybe.Nothing
     , currentBoardIdx = Maybe.Nothing
     , showDialog = False
+    , rest = Rest.Model [] Maybe.Nothing
     }

@@ -2,6 +2,7 @@ module BoardDetails.Update exposing (..)
 
 import BoardDetails.Model exposing (Model, Msg(..), DialogAction(..))
 import BoardTask
+import BoardDetails.Card.Edit as CardEdit
 
 
 -- import Column
@@ -42,9 +43,6 @@ update msg model =
                 None ->
                     ( { model | dialogAction = action, showDialog = False }, Cmd.none )
 
-                EditCardDetail idx_ card_ ->
-                    ( { model | dialogAction = action, currentCardIndex = Just idx_, currentCard = Just card_, showDialog = True }, Cmd.none )
-
                 AddCard x ->
                     ( { model | dialogAction = action, showDialog = True, currentColumnIdx = Just x }, Cmd.none )
 
@@ -53,39 +51,6 @@ update msg model =
 
         SetNewCardName name ->
             ( { model | newCardName = Just name }, Cmd.none )
-
-        UpdateCurrentCard ->
-            case ( model.currentCard, model.currentCardIndex, model.newCardName ) of
-                ( Nothing, Nothing, Nothing ) ->
-                    ( model, Cmd.none )
-
-                ( Nothing, Just x, Nothing ) ->
-                    ( model, Cmd.none )
-
-                ( Nothing, Nothing, Just x ) ->
-                    ( model, Cmd.none )
-
-                ( Just x, Nothing, Nothing ) ->
-                    ( model, Cmd.none )
-
-                ( Just x, Just y, Nothing ) ->
-                    ( model, Cmd.none )
-
-                ( Just x, Nothing, Just y ) ->
-                    ( model, Cmd.none )
-
-                ( Nothing, Just x, Just y ) ->
-                    ( model, Cmd.none )
-
-                ( Just x, Just y, Just z ) ->
-                    let
-                        h =
-                            { x | title = z }
-
-                        cards_ =
-                            model.card
-                    in
-                        ( { model | card = (updateElement2 cards_ y h), showDialog = False }, Cmd.none )
 
         AddNewCard ->
             case ( model.newCardName, model.currentColumnIdx ) of
@@ -99,8 +64,24 @@ update msg model =
                     let
                         card_ =
                             model.card
+
+                        updated =
+                            card_ ++ [ Just (BoardTask.CardView "UNIX" True x "DESC" 1 y) ]
+
+                        ( m, c ) =
+                            CardEdit.update (CardEdit.UpdateList updated) model.cardModel
                     in
-                        ( { model | card = card_ ++ [ Just (BoardTask.CardView "UNIX" True x "DESC" 1 y) ], showDialog = False }, Cmd.none )
+                        ( { model | card = updated, cardModel = m, showDialog = False }, Cmd.none )
+
+        CardMsg msg_ ->
+            let
+                ( m, c ) =
+                    CardEdit.update msg_ model.cardModel
+
+                list_ =
+                    m.currentList
+            in
+                ( { model | cardModel = m, card = list_ }, Cmd.map CardMsg c )
 
 
 

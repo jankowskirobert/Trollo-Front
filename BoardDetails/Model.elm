@@ -1,6 +1,7 @@
 module BoardDetails.Model exposing (..)
 
 import BoardTask
+import BoardDetails.Card.Edit as CardEdit
 
 
 -- import Column
@@ -19,8 +20,7 @@ model =
     , currentCardIndex = Maybe.Nothing
     , newCardName = Maybe.Nothing
     , currentColumnIdx = Maybe.Nothing
-
-    -- , mdl = Material.model
+    , cardModel = CardEdit.model
     }
 
 
@@ -32,8 +32,8 @@ type Msg
     | SetDialogAction DialogAction
     | SetNewColumndName String
     | SetNewCardName String
-    | UpdateCurrentCard
     | AddNewCard
+    | CardMsg CardEdit.Msg
 
 
 
@@ -45,7 +45,6 @@ type Msg
 type DialogAction
     = AddNewColumn
     | ShowCardDetail BoardTask.CardView
-    | EditCardDetail Int BoardTask.CardView
     | AddCard Int
     | None
 
@@ -61,6 +60,7 @@ type alias Model =
     , currentCardIndex : Maybe Int
     , newCardName : Maybe String
     , currentColumnIdx : Maybe Int
+    , cardModel : CardEdit.Model
 
     -- , addColumn : BoardTask.AddColumn
     -- , dialogAction : DialogAction
