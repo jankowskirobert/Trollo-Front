@@ -265,30 +265,40 @@ dialogConfig model =
                     }
 
         EditCardDetail _ _ ->
-            case ( model.currentCard, model.currentCardIndex ) of
-                ( Nothing, Nothing ) ->
-                    dialogConfigErrorMsg
+            let
+                updateMode =
+                    model.cardUpdateModel
+            in
+                case ( updateMode.currentCard, updateMode.currentCardIndex ) of
+                    ( Nothing, Nothing ) ->
+                        dialogConfigErrorMsg
 
-                ( Nothing, Just x ) ->
-                    dialogConfigErrorMsg
+                    ( Nothing, Just x ) ->
+                        dialogConfigErrorMsg
 
-                ( Just x, Nothing ) ->
-                    dialogConfigErrorMsg
+                    ( Just x, Nothing ) ->
+                        dialogConfigErrorMsg
 
-                ( Just card_, Just idx_ ) ->
-                    { closeMessage = Just (SetDialogAction BoardDetails.Model.None)
-                    , containerClass = Nothing
-                    , header = Just (h3 [] [ text "Edit Card Details" ])
-                    , body = Just (div [] [ div [] [ input [ placeholder ("Enter name "), onInput SetNewCardName ] [] ], div [] [] ])
-                    , footer =
-                        Just
-                            (button
-                                [ class "btn btn-success"
-                                , onClick UpdateCurrentCard
-                                ]
-                                [ text "OK" ]
-                            )
-                    }
+                    ( Just card_, Just idx_ ) ->
+                        { closeMessage = Just (SetDialogAction BoardDetails.Model.None)
+                        , containerClass = Nothing
+                        , header = Just (h3 [] [ text "Edit Card Details" ])
+                        , body =
+                            Just
+                                (div []
+                                    [ div [] [ input [ placeholder ("Enter name "), onInput SetNewCardName ] [] ]
+                                    , div [] [ input [ placeholder ("Enter desc "), onInput SetNewCardDescription ] [] ]
+                                    ]
+                                )
+                        , footer =
+                            Just
+                                (button
+                                    [ class "btn btn-success"
+                                    , onClick UpdateCurrentCard
+                                    ]
+                                    [ text "OK" ]
+                                )
+                        }
 
         AddCard _ ->
             { closeMessage = Just (SetDialogAction BoardDetails.Model.None)

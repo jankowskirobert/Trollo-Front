@@ -19,6 +19,8 @@ model =
     , currentCardIndex = Maybe.Nothing
     , newCardName = Maybe.Nothing
     , currentColumnIdx = Maybe.Nothing
+    , currentCardDescription = Maybe.Nothing
+    , cardUpdateModel = UpdateCardModel Maybe.Nothing Maybe.Nothing Maybe.Nothing Maybe.Nothing
 
     -- , mdl = Material.model
     }
@@ -32,6 +34,7 @@ type Msg
     | SetDialogAction DialogAction
     | SetNewColumndName String
     | SetNewCardName String
+    | SetNewCardDescription String
     | UpdateCurrentCard
     | AddNewCard
 
@@ -50,6 +53,14 @@ type DialogAction
     | None
 
 
+type alias UpdateCardModel =
+    { currentCard : Maybe BoardTask.CardView
+    , currentCardIndex : Maybe Int
+    , newCardName : Maybe String
+    , currentCardDescription : Maybe String
+    }
+
+
 type alias Model =
     { board : Maybe BoardTask.BoardView
     , columns : List BoardTask.ColumnView
@@ -61,6 +72,8 @@ type alias Model =
     , currentCardIndex : Maybe Int
     , newCardName : Maybe String
     , currentColumnIdx : Maybe Int
+    , currentCardDescription : Maybe String
+    , cardUpdateModel : UpdateCardModel
 
     -- , addColumn : BoardTask.AddColumn
     -- , dialogAction : DialogAction

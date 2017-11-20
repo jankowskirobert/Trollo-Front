@@ -2,7 +2,7 @@ module App.Update exposing (..)
 
 import App.Model exposing (..)
 import Page
-import Boards.Update as Boards exposing (update)
+import Boards.Update as Boards
 import Boards.Model as BoardModel
 import Debug
 import Material.Helpers exposing (pure, lift, map1st, map2nd)
@@ -41,7 +41,7 @@ update msg model =
             ( { model | activePage = page }, Cmd.none )
 
         GoHome i ->
-            ( { model | activePage = Page.BoardsPage }, Cmd.none )
+            ( { model | activePage = Page.BoardsPage }, Cmd.map BoardsMsg Boards.getBoardView )
 
         BoardDetailsMsg msg_ ->
             let
