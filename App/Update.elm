@@ -8,6 +8,7 @@ import Debug
 import Material.Helpers exposing (pure, lift, map1st, map2nd)
 import BoardDetails.Update as BoardDetails
 import BoardTask
+import Boards.Rest as Rest
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -41,7 +42,7 @@ update msg model =
             ( { model | activePage = page }, Cmd.none )
 
         GoHome i ->
-            ( { model | activePage = Page.BoardsPage }, Cmd.map BoardsMsg Boards.getBoardView )
+            ( { model | activePage = Page.BoardsPage }, Cmd.map BoardsMsg (Cmd.map BoardModel.RestMsg Rest.getBoardView) )
 
         BoardDetailsMsg msg_ ->
             let

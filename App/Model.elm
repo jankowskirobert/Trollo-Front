@@ -7,6 +7,7 @@ import RouteUrl exposing (HistoryEntry(..), UrlChange)
 import BoardTask
 import BoardDetails.Model as BoardDetails
 import Boards.Update as Bb
+import Boards.Rest as Rest
 
 
 subscriptions : Model -> Sub Msg
@@ -21,7 +22,7 @@ init =
       , user = BoardTask.model
       , boardDetails = BoardDetails.model
       }
-    , Cmd.map BoardsMsg Bb.getBoardView
+    , Cmd.map BoardsMsg (Cmd.map RestMsg Rest.getBoardView)
     )
 
 

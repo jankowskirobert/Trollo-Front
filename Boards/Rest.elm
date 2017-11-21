@@ -39,7 +39,7 @@ getBoardView : Cmd Msg
 getBoardView =
     let
         url =
-            "http://localhost:8000/boards/"
+            "http://localhost:8000/boards"
 
         req =
             Http.get url decodeBoards

@@ -1,0 +1,14 @@
+{
+    "boards":[
+    {
+        "id": 1,
+        "boardTitle": "Project Trollo",
+        "boardDescription": ""
+    },
+    {
+        "id": 2,
+        "boardTitle": "Robert nie slucha",
+        "boardDescription": ""
+    }
+]
+}

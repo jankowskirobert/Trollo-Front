@@ -11,7 +11,6 @@ type Msg
     | SetOperation Operation
     | SetNewBoardName String
     | GetBardsFromApi (Result Http.Error (List BoardTask.BoardView))
-    | FetchAll
     | RestMsg Rest.Msg
 
 
