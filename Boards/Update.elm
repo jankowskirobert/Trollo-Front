@@ -24,10 +24,10 @@ update msg model =
                             model.boards
                     in
                         ( { model
-                            | boards = (Just (BoardTask.BoardView 3 x "")) :: boards_
+                            | boards = (Just (BoardTask.BoardView 0 x "")) :: boards_
                             , showDialog = False
                           }
-                        , Cmd.none
+                        , Cmd.batch [ Cmd.map RestMsg (Rest.saveBoardView (BoardTask.BoardView 0 x "")) ]
                         , Maybe.Nothing
                         )
 
@@ -114,26 +114,9 @@ update msg model =
                                             , showDialog = False
                                             , newBoardName = Maybe.Nothing
                                           }
-                                        , Cmd.none
+                                        , Cmd.batch [ Cmd.map RestMsg (Rest.updateBoardView choosedBoard) ]
                                         , Maybe.Nothing
                                         )
-
-        GetBardsFromApi (Ok item) ->
-            let
-                log =
-                    Debug.log "OK HTTP" (toString item)
-
-                brds_ =
-                    List.map (\x -> Just x) item
-            in
-                ( { model | boards = brds_ }, Cmd.none, Maybe.Nothing )
-
-        GetBardsFromApi (Err err) ->
-            let
-                log =
-                    Debug.log "ERROR HTTP" (toString err)
-            in
-                ( { model | opr = ConnectionError ((toString err) ++ (". Failed to fetch boards: offline mode")), showDialog = True }, Cmd.none, Maybe.Nothing )
 
         RestMsg msg_ ->
             let

@@ -10,7 +10,6 @@ type Msg
     | EditBoardName
     | SetOperation Operation
     | SetNewBoardName String
-    | GetBardsFromApi (Result Http.Error (List BoardTask.BoardView))
     | RestMsg Rest.Msg
 
 
