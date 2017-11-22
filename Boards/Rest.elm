@@ -13,6 +13,7 @@ import Json.Encode
 type alias Model =
     { boards : List BoardTask.BoardView
     , errorMessage : Maybe String
+    , errorOccured : Maybe Bool
     }
 
 
@@ -104,7 +105,7 @@ update msg model =
                 log =
                     Debug.log "ERROR HTTP" (toString err)
             in
-                ( { model | errorMessage = Just ((toString err) ++ (". Failed to fetch boards: offline mode")) }, Cmd.none )
+                ( { model | errorMessage = Just ((toString err) ++ (". Failed to fetch boards: offline mode")), errorOccured = Just True }, Cmd.none )
 
         SaveBoardToApi (Ok item) ->
             let
@@ -121,7 +122,7 @@ update msg model =
                 log =
                     Debug.log "ERROR HTTP" (toString err)
             in
-                ( model, Cmd.none )
+                ( { model | errorMessage = Just ((toString err) ++ (". Failed to fetch boards: offline mode")), errorOccured = Just True }, Cmd.none )
 
         UpdateBoardToApi (Ok item) ->
             let
@@ -138,7 +139,7 @@ update msg model =
                 log =
                     Debug.log "ERROR HTTP" (toString err)
             in
-                ( model, Cmd.none )
+                ( { model | errorMessage = Just ((toString err) ++ (". Failed to fetch boards: offline mode")), errorOccured = Just True }, Cmd.none )
 
         FetchAll ->
             ( model, getBoardView )
@@ -167,3 +168,8 @@ encodFullBoardView board =
     in
         val
             |> Json.Encode.object
+
+
+updateElement2 : List (Maybe a) -> Int -> a -> List (Maybe a)
+updateElement2 list id board =
+    List.take id list ++ (Just board) :: List.drop (id + 1) list

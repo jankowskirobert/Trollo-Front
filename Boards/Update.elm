@@ -114,7 +114,7 @@ update msg model =
                                             , showDialog = False
                                             , newBoardName = Maybe.Nothing
                                           }
-                                        , Cmd.batch [ Cmd.map RestMsg (Rest.updateBoardView choosedBoard) ]
+                                        , Cmd.batch [ Cmd.map RestMsg (Rest.updateBoardView board_) ]
                                         , Maybe.Nothing
                                         )
 

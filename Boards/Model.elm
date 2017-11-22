@@ -40,5 +40,5 @@ model =
     , newBoardName = Maybe.Nothing
     , currentBoardIdx = Maybe.Nothing
     , showDialog = False
-    , rest = Rest.Model [] Maybe.Nothing
+    , rest = Rest.Model [] Maybe.Nothing Maybe.Nothing
     }
