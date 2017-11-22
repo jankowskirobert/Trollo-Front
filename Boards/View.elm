@@ -24,7 +24,6 @@ boardGridBox model board idx =
                 [ text (board.boardTitle ++ " ")
                 , text ((toString board.id) ++ " ")
                 , h5 [ class "mb-1" ] [ text board.boardTitle ]
-                , small [] [ text "3 days ago" ]
                 ]
             ]
         , button

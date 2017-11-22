@@ -1,4 +1,4 @@
-module Boards.Update exposing (update, getBoardView)
+module Boards.Update exposing (update)
 
 import Boards.Model exposing (Msg(..), Model, Operation(..))
 import BoardTask
@@ -7,6 +7,7 @@ import Debug
 import Http
 import Json.Decode
 import Json.Decode.Pipeline
+import Boards.Rest as Rest
 
 
 update : Msg -> Model -> ( Model, Cmd Msg, Maybe Page )
@@ -23,10 +24,10 @@ update msg model =
                             model.boards
                     in
                         ( { model
-                            | boards = (Just (BoardTask.BoardView 3 x "")) :: boards_
+                            | boards = (Just (BoardTask.BoardView 0 x "")) :: boards_
                             , showDialog = False
                           }
-                        , Cmd.none
+                        , Cmd.batch [ Cmd.map RestMsg (Rest.saveBoardView (BoardTask.BoardView 0 x "")) ]
                         , Maybe.Nothing
                         )
 
@@ -113,32 +114,19 @@ update msg model =
                                             , showDialog = False
                                             , newBoardName = Maybe.Nothing
                                           }
-                                        , Cmd.none
+                                        , Cmd.batch [ Cmd.map RestMsg (Rest.updateBoardView board_) ]
                                         , Maybe.Nothing
                                         )
 
-        GetBardsFromApi (Ok item) ->
-            let
-                log =
-                    Debug.log "OK HTTP" (toString item)
-
-                brds_ =
-                    List.map (\x -> Just x) item
-            in
-                ( { model | boards = brds_ }, Cmd.none, Maybe.Nothing )
-
-        GetBardsFromApi (Err err) ->
-            let
-                log =
-                    Debug.log "ERROR HTTP" (toString err)
-            in
-                ( { model | opr = ConnectionError ((toString err) ++ (". Failed to fetch boards: offline mode")), showDialog = True }, Cmd.none, Maybe.Nothing )
-
-        FetchAll ->
-            ( model, getBoardView, Maybe.Nothing )
-
         RestMsg msg_ ->
-            ( model, Cmd.none, Maybe.Nothing )
+            let
+                ( m, c ) =
+                    Rest.update msg_ model.rest
+
+                remaped =
+                    List.map (\x -> Just x) m.boards
+            in
+                ( { model | rest = m, boards = remaped }, Cmd.map RestMsg c, Maybe.Nothing )
 
 
 decodeBoard : Json.Decode.Decoder BoardTask.BoardView
@@ -153,18 +141,6 @@ decodeBoard =
 decodeBoards : Json.Decode.Decoder (List BoardTask.BoardView)
 decodeBoards =
     Json.Decode.list decodeBoard
-
-
-getBoardView : Cmd Msg
-getBoardView =
-    let
-        url =
-            "http://localhost:8000/boards/"
-
-        req =
-            Http.get url decodeBoards
-    in
-        Http.send GetBardsFromApi req
 
 
 updateElement2 : List (Maybe a) -> Int -> a -> List (Maybe a)

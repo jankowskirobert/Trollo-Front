@@ -7,17 +7,21 @@ import BoardTask
 import Debug
 import Http
 import Json.Decode
+import Json.Encode
 
 
 type alias Model =
     { boards : List BoardTask.BoardView
     , errorMessage : Maybe String
+    , errorOccured : Maybe Bool
     }
 
 
 type Msg
     = NoOp
-    | GetBardsFromApi (Result Http.Error (List BoardTask.BoardView))
+    | GetBoardsFromApi (Result Http.Error (List BoardTask.BoardView))
+    | SaveBoardToApi (Result Http.Error BoardTask.BoardView)
+    | UpdateBoardToApi (Result Http.Error BoardTask.BoardView)
     | FetchAll
 
 
@@ -39,12 +43,48 @@ getBoardView : Cmd Msg
 getBoardView =
     let
         url =
-            "http://localhost:8000/boards/"
+            "http://localhost:8000/boards"
 
         req =
             Http.get url decodeBoards
     in
-        Http.send GetBardsFromApi req
+        Http.send GetBoardsFromApi req
+
+
+saveBoardView : BoardTask.BoardView -> Cmd Msg
+saveBoardView board =
+    let
+        url =
+            "http://localhost:8000/boards"
+
+        req =
+            Http.post url (Http.jsonBody (encodBoardView board)) decodeBoard
+    in
+        Http.send SaveBoardToApi req
+
+
+updateBoardView : BoardTask.BoardView -> Cmd Msg
+updateBoardView board =
+    let
+        url =
+            "http://localhost:8000/boards/" ++ (toString board.id)
+
+        req =
+            Http.request
+                { body = (Http.jsonBody (encodFullBoardView board))
+                , expect = Http.expectJson decodeBoard
+                , headers =
+                    []
+                , method = "PUT"
+                , timeout = Nothing
+                , url = url
+                , withCredentials = False
+                }
+
+        -- Http.post
+        -- url
+    in
+        Http.send UpdateBoardToApi req
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -53,19 +93,83 @@ update msg model =
         NoOp ->
             ( model, Cmd.none )
 
-        GetBardsFromApi (Ok item) ->
+        GetBoardsFromApi (Ok item) ->
             let
                 log =
                     Debug.log "OK HTTP" (toString item)
             in
                 ( { model | boards = item }, Cmd.none )
 
-        GetBardsFromApi (Err err) ->
+        GetBoardsFromApi (Err err) ->
             let
                 log =
                     Debug.log "ERROR HTTP" (toString err)
             in
-                ( { model | errorMessage = Just ((toString err) ++ (". Failed to fetch boards: offline mode")) }, Cmd.none )
+                ( { model | errorMessage = Just ((toString err) ++ (". Failed to fetch boards: offline mode")), errorOccured = Just True }, Cmd.none )
+
+        SaveBoardToApi (Ok item) ->
+            let
+                log =
+                    Debug.log "OK HTTP" (toString item)
+
+                boards_ =
+                    model.boards
+            in
+                ( { model | boards = boards_ ++ [ item ] }, Cmd.none )
+
+        SaveBoardToApi (Err err) ->
+            let
+                log =
+                    Debug.log "ERROR HTTP" (toString err)
+            in
+                ( { model | errorMessage = Just ((toString err) ++ (". Failed to fetch boards: offline mode")), errorOccured = Just True }, Cmd.none )
+
+        UpdateBoardToApi (Ok item) ->
+            let
+                log =
+                    Debug.log "OK HTTP" (toString item)
+
+                boards_ =
+                    model.boards
+            in
+                ( model, Cmd.none )
+
+        UpdateBoardToApi (Err err) ->
+            let
+                log =
+                    Debug.log "ERROR HTTP" (toString err)
+            in
+                ( { model | errorMessage = Just ((toString err) ++ (". Failed to fetch boards: offline mode")), errorOccured = Just True }, Cmd.none )
 
         FetchAll ->
             ( model, getBoardView )
+
+
+encodBoardView : BoardTask.BoardView -> Json.Encode.Value
+encodBoardView board =
+    let
+        val =
+            [ ( "boardTitle", Json.Encode.string board.boardTitle )
+            , ( "boardDescription", Json.Encode.string board.boardDescription )
+            ]
+    in
+        val
+            |> Json.Encode.object
+
+
+encodFullBoardView : BoardTask.BoardView -> Json.Encode.Value
+encodFullBoardView board =
+    let
+        val =
+            [ ( "boardTitle", Json.Encode.string board.boardTitle )
+            , ( "boardDescription", Json.Encode.string board.boardDescription )
+            , ( "id", Json.Encode.int board.id )
+            ]
+    in
+        val
+            |> Json.Encode.object
+
+
+updateElement2 : List (Maybe a) -> Int -> a -> List (Maybe a)
+updateElement2 list id board =
+    List.take id list ++ (Just board) :: List.drop (id + 1) list
