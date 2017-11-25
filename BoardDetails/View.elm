@@ -25,6 +25,7 @@ getBoardColumn column model =
                 Just list ->
                     getCardsForColumn column.id list
 
+        ---PROBLEM WITH EDIT HERE !!!!!!!!!!
         -- rows =
         --     getCardsForColumn column.id list
         rendered_ =
