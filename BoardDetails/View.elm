@@ -25,11 +25,9 @@ getBoardColumn column model =
                 Just list ->
                     getCardsForColumn column.id list
 
-        -- rows =
-        --     getCardsForColumn column.id list
         rendered_ =
             cards_
-                |> List.indexedMap (\index l -> getColumnCard index l)
+                |> List.map (\( index, l ) -> getColumnCard index l)
                 |> div [ detailsStyle ]
     in
         div []
@@ -134,15 +132,18 @@ viewColumns model =
 --             ]
 
 
-getCardsForColumn : Int -> List BoardTask.CardView -> List BoardTask.CardView
+getCardsForColumn : Int -> List BoardTask.CardView -> List ( Int, BoardTask.CardView )
 getCardsForColumn columnId list =
     let
+        maped =
+            List.indexedMap (\idx ele -> ( idx, ele )) list
+
         hasAnything =
             List.filter
-                (\x ->
-                    x.columnID == columnId
+                (\( x, y ) ->
+                    y.columnID == columnId
                 )
-                list
+                maped
     in
         hasAnything
 
