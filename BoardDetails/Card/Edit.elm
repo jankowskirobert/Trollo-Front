@@ -5,6 +5,8 @@ import Dialog
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
+import Array
+import Debug
 
 
 type alias Model =
@@ -12,14 +14,14 @@ type alias Model =
     , currentCardIndex : Maybe Int
     , newCardName : Maybe String
     , currentCardDescription : Maybe String
-    , currentList : List (Maybe BoardTask.CardView)
+    , currentList : Maybe (List BoardTask.CardView)
     , showDialog : Bool
     }
 
 
 model : Model
 model =
-    Model Maybe.Nothing Maybe.Nothing Maybe.Nothing Maybe.Nothing [] False
+    Model Maybe.Nothing Maybe.Nothing Maybe.Nothing Maybe.Nothing Maybe.Nothing False
 
 
 type Msg
@@ -28,7 +30,7 @@ type Msg
     | SetNewCardDescription String
     | UpdateCurrentCard
     | None
-    | UpdateList (List (Maybe BoardTask.CardView))
+    | UpdateList (Maybe (List BoardTask.CardView))
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -40,74 +42,95 @@ update msg model =
         SetNewCardDescription description ->
             ( { model | currentCardDescription = Just description }, Cmd.none )
 
-        EditCardDetail idx card ->
-            ( { model | currentCardIndex = Just idx, currentCard = Just card, showDialog = True }, Cmd.none )
+        EditCardDetail idxOnList card ->
+            ( { model | currentCardIndex = Just idxOnList, currentCard = Just card, showDialog = True }, Cmd.none )
 
         UpdateCurrentCard ->
-            let
-                cards_ =
-                    model.currentList
-            in
-                ( { model | currentList = (updateCardOnList model cards_), showDialog = False }, Cmd.none )
+            case model.currentList of
+                Nothing ->
+                    ( { model | showDialog = False }, Cmd.none )
+
+                Just list ->
+                    ( { model | currentList = Just (updateCardOnList model list), showDialog = False }, Cmd.none )
 
         None ->
             ( { model | showDialog = False }, Cmd.none )
 
         UpdateList newList ->
-            ( { model | currentList = newList }, Cmd.none )
+            ( { model
+                | currentList = newList
+                , currentCard = Maybe.Nothing
+                , currentCardIndex = Maybe.Nothing
+                , newCardName = Maybe.Nothing
+                , currentCardDescription = Maybe.Nothing
+              }
+            , Cmd.none
+            )
 
 
-updateCardOnList : Model -> List (Maybe BoardTask.CardView) -> List (Maybe BoardTask.CardView)
+updateCardOnList : Model -> List BoardTask.CardView -> List BoardTask.CardView
 updateCardOnList updateModel listToUpdateOn =
-    case updateModel.currentCard of
-        Nothing ->
-            listToUpdateOn
+    let
+        xx =
+            Debug.log "Message Card M:" updateModel
+    in
+        case Debug.log "Message Card" updateModel.currentCard of
+            Nothing ->
+                listToUpdateOn
 
-        Just selectedCard ->
-            case updateModel.currentCardIndex of
-                Nothing ->
-                    listToUpdateOn
+            Just selectedCard ->
+                case updateModel.currentCardIndex of
+                    Nothing ->
+                        listToUpdateOn
 
-                Just selectedCardIndex ->
-                    let
-                        ( newName, newDescription ) =
-                            case ( updateModel.newCardName, updateModel.currentCardDescription ) of
-                                ( Nothing, Nothing ) ->
-                                    let
-                                        oldName =
-                                            selectedCard.title
+                    Just selectedCardIndex ->
+                        let
+                            ( newName, newDescription ) =
+                                case ( updateModel.newCardName, updateModel.currentCardDescription ) of
+                                    ( Nothing, Nothing ) ->
+                                        let
+                                            oldName =
+                                                selectedCard.title
 
-                                        oldDescription =
-                                            selectedCard.description
-                                    in
-                                        ( oldName, oldDescription )
+                                            oldDescription =
+                                                selectedCard.description
+                                        in
+                                            ( oldName, oldDescription )
 
-                                ( Just newName_, Nothing ) ->
-                                    let
-                                        oldDescription =
-                                            selectedCard.description
-                                    in
-                                        ( newName_, oldDescription )
+                                    ( Just newName_, Nothing ) ->
+                                        let
+                                            oldDescription =
+                                                selectedCard.description
+                                        in
+                                            ( newName_, oldDescription )
 
-                                ( Nothing, Just newDesc_ ) ->
-                                    let
-                                        oldName =
-                                            selectedCard.title
-                                    in
-                                        ( oldName, newDesc_ )
+                                    ( Nothing, Just newDesc_ ) ->
+                                        let
+                                            oldName =
+                                                selectedCard.title
+                                        in
+                                            ( oldName, newDesc_ )
 
-                                ( Just newTitle_, Just newDesc_ ) ->
-                                    ( newTitle_, newDesc_ )
+                                    ( Just newTitle_, Just newDesc_ ) ->
+                                        ( newTitle_, newDesc_ )
 
-                        updated =
-                            { selectedCard | title = newName, description = newDescription }
-                    in
-                        (updateElement2 listToUpdateOn selectedCardIndex updated)
+                            updated =
+                                { selectedCard | title = newName, description = newDescription }
+                        in
+                            (updateElement2 listToUpdateOn selectedCardIndex updated)
 
 
-updateElement2 : List (Maybe a) -> Int -> a -> List (Maybe a)
-updateElement2 list id board =
-    List.take id list ++ (Just board) :: List.drop (id + 1) list
+updateElement2 : List a -> Int -> a -> List a
+updateElement2 list indexOnList card =
+    let
+        arry_ =
+            Array.fromList list
+
+        updated =
+            Array.set indexOnList (card) arry_
+    in
+        --List.take id list ++ (Just board) :: List.drop (id + 1) list
+        Array.toList updated
 
 
 view : Model -> Html Msg
@@ -122,22 +145,41 @@ view model =
 
 dialogConfig : Model -> Dialog.Config Msg
 dialogConfig model =
-    { closeMessage = Just (None)
-    , containerClass = Nothing
-    , header = Just (h3 [] [ text "Edit Card Details" ])
-    , body =
-        Just
-            (div []
-                [ div [] [ input [ placeholder ("Enter name "), onInput SetNewCardName ] [] ]
-                , div [] [ input [ placeholder ("Enter desc "), onInput SetNewCardDescription ] [] ]
-                ]
-            )
-    , footer =
-        Just
-            (button
-                [ class "btn btn-success"
-                , onClick UpdateCurrentCard
-                ]
-                [ text "OK" ]
-            )
-    }
+    let
+        ele =
+            case model.currentList of
+                Nothing ->
+                    "List not found"
+
+                Just lst ->
+                    case model.currentCardIndex of
+                        Nothing ->
+                            "Index not found"
+
+                        Just idx ->
+                            case (Array.get idx (Array.fromList lst)) of
+                                Nothing ->
+                                    "Card not found"
+
+                                Just card ->
+                                    card.title
+    in
+        { closeMessage = Just (None)
+        , containerClass = Nothing
+        , header = Just (h3 [] [ text "Edit Card Details" ])
+        , body =
+            Just
+                (div []
+                    [ div [] [ input [ placeholder ("Enter name " ++ ele), onInput SetNewCardName ] [] ]
+                    , div [] [ input [ placeholder ("Enter desc "), onInput SetNewCardDescription ] [] ]
+                    ]
+                )
+        , footer =
+            Just
+                (button
+                    [ class "btn btn-success"
+                    , onClick UpdateCurrentCard
+                    ]
+                    [ text "OK" ]
+                )
+        }

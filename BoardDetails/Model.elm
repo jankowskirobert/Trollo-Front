@@ -15,11 +15,12 @@ model =
     , showDialog = False
     , newColumnName = Maybe.Nothing
     , dialogAction = None
-    , card = [] --BoardTask.getExampleSetOfCards
+    , card = Maybe.Nothing --BoardTask.getExampleSetOfCards
     , currentCard = Maybe.Nothing
     , currentCardIndex = Maybe.Nothing
     , newCardName = Maybe.Nothing
     , currentColumnIdx = Maybe.Nothing
+    , currentColumn = Maybe.Nothing
     , cardModel = CardEdit.model
     }
 
@@ -45,7 +46,7 @@ type Msg
 type DialogAction
     = AddNewColumn
     | ShowCardDetail BoardTask.CardView
-    | AddCard Int
+    | AddCard BoardTask.ColumnView
     | None
 
 
@@ -55,11 +56,12 @@ type alias Model =
     , showDialog : Bool
     , newColumnName : Maybe String
     , dialogAction : DialogAction
-    , card : List (Maybe BoardTask.CardView)
+    , card : Maybe (List BoardTask.CardView)
     , currentCard : Maybe BoardTask.CardView
     , currentCardIndex : Maybe Int
     , newCardName : Maybe String
     , currentColumnIdx : Maybe Int
+    , currentColumn : Maybe BoardTask.ColumnView
     , cardModel : CardEdit.Model
 
     -- , addColumn : BoardTask.AddColumn

@@ -18,13 +18,17 @@ getBoardColumn : BoardTask.ColumnView -> Model -> Html Msg
 getBoardColumn column model =
     let
         cards_ =
-            model.card
+            case model.card of
+                Nothing ->
+                    []
 
-        rows =
-            getCardsForColumn column.id cards_
+                Just list ->
+                    getCardsForColumn column.id list
 
+        -- rows =
+        --     getCardsForColumn column.id list
         rendered_ =
-            rows
+            cards_
                 |> List.indexedMap (\index l -> getColumnCard index l)
                 |> div [ detailsStyle ]
     in
@@ -83,7 +87,7 @@ viewButton idx model column =
     div []
         [ button
             [ listDetailsButtonStyle
-            , onClick (SetDialogAction (BoardDetails.Model.AddCard column.id))
+            , onClick (SetDialogAction (BoardDetails.Model.AddCard column))
             ]
             [ text "Add Card" ]
         ]
@@ -130,25 +134,17 @@ viewColumns model =
 --             ]
 
 
-getCardsForColumn : Int -> List (Maybe BoardTask.CardView) -> List BoardTask.CardView
+getCardsForColumn : Int -> List BoardTask.CardView -> List BoardTask.CardView
 getCardsForColumn columnId list =
     let
         hasAnything =
             List.filter
                 (\x ->
-                    case x of
-                        Nothing ->
-                            False
-
-                        Just t ->
-                            (t.columnID == columnId)
+                    x.columnID == columnId
                 )
                 list
-
-        onlyHasRealValues =
-            List.filterMap (\x -> x) hasAnything
     in
-        onlyHasRealValues
+        hasAnything
 
 
 view : Model -> Html Msg

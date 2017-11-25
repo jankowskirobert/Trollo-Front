@@ -35,7 +35,7 @@ type alias CardView =
 
 
 type alias ColumnView =
-    { viewId : Int, id : Int, title : String, boardID : Int }
+    { id : Int, title : String, boardID : Int, tableDescription : String }
 
 
 type alias BoardView =
@@ -90,25 +90,12 @@ decodeCardViewFromJson =
 
 getExampleSetOfData : ColumnView
 getExampleSetOfData =
-    ColumnView 1
-        1
-        "UUU"
-        1
+    ColumnView 1 "UUU" 1 "QQS"
 
 
 getExampleSetOfColumns : List ColumnView
 getExampleSetOfColumns =
-    [ (ColumnView 2
-        2
-        "UUU2"
-        2
-      )
-    , (ColumnView 1
-        1
-        "UUU"
-        1
-      )
-    ]
+    []
 
 
 getExampleSetOfCards : List (Maybe CardView)

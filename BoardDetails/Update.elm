@@ -3,6 +3,7 @@ module BoardDetails.Update exposing (..)
 import BoardDetails.Model exposing (Model, Msg(..), DialogAction(..))
 import BoardTask
 import BoardDetails.Card.Edit as CardEdit
+import Debug
 
 
 -- import Column
@@ -10,7 +11,7 @@ import BoardDetails.Card.Edit as CardEdit
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    case msg of
+    case Debug.log "Message Details" msg of
         NoneMsg ->
             ( model, Cmd.none )
 
@@ -29,8 +30,11 @@ update msg model =
                     let
                         cols =
                             model.columns
+
+                        nxtIdx =
+                            List.length cols
                     in
-                        ( { model | columns = cols ++ [ (BoardTask.ColumnView 1 1 x 1) ], showDialog = False }, Cmd.none )
+                        ( { model | columns = cols ++ [ (BoardTask.ColumnView nxtIdx x 1 "Example") ], showDialog = False }, Cmd.none )
 
         SetDialogAction action ->
             case action of
@@ -44,7 +48,7 @@ update msg model =
                     ( { model | dialogAction = action, showDialog = False }, Cmd.none )
 
                 AddCard x ->
-                    ( { model | dialogAction = action, showDialog = True, currentColumnIdx = Just x }, Cmd.none )
+                    ( { model | dialogAction = action, showDialog = True, currentColumn = Just x }, Cmd.none )
 
         SetNewColumndName name ->
             ( { model | newColumnName = Just name }, Cmd.none )
@@ -53,25 +57,42 @@ update msg model =
             ( { model | newCardName = Just name }, Cmd.none )
 
         AddNewCard ->
-            case ( model.newCardName, model.currentColumnIdx ) of
-                ( Nothing, _ ) ->
-                    ( model, Cmd.none )
+            case model.card of
+                Nothing ->
+                    case ( model.newCardName, model.currentColumn ) of
+                        ( Nothing, _ ) ->
+                            ( model, Cmd.none )
 
-                ( _, Nothing ) ->
-                    ( model, Cmd.none )
+                        ( _, Nothing ) ->
+                            ( model, Cmd.none )
 
-                ( Just x, Just y ) ->
-                    let
-                        card_ =
-                            model.card
+                        ( Just x, Just y ) ->
+                            let
+                                updated =
+                                    [ (BoardTask.CardView "UNIX" True x "DESC" 1 y.id) ]
 
-                        updated =
-                            card_ ++ [ Just (BoardTask.CardView "UNIX" True x "DESC" 1 y) ]
+                                ( m, c ) =
+                                    CardEdit.update (CardEdit.UpdateList (Just updated)) model.cardModel
+                            in
+                                ( { model | card = (Just updated), cardModel = m, showDialog = False }, Cmd.none )
 
-                        ( m, c ) =
-                            CardEdit.update (CardEdit.UpdateList updated) model.cardModel
-                    in
-                        ( { model | card = updated, cardModel = m, showDialog = False }, Cmd.none )
+                Just cards_ ->
+                    case ( model.newCardName, model.currentColumn ) of
+                        ( Nothing, _ ) ->
+                            ( model, Cmd.none )
+
+                        ( _, Nothing ) ->
+                            ( model, Cmd.none )
+
+                        ( Just x, Just y ) ->
+                            let
+                                updated =
+                                    cards_ ++ [ (BoardTask.CardView "UNIX" True x "DESC" 1 y.id) ]
+
+                                ( m, c ) =
+                                    CardEdit.update (CardEdit.UpdateList (Just updated)) model.cardModel
+                            in
+                                ( { model | card = (Just updated), cardModel = m, showDialog = False }, Cmd.map CardMsg c )
 
         CardMsg msg_ ->
             let
