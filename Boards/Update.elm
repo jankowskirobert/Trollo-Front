@@ -65,7 +65,11 @@ update msg model =
                     )
 
                 Choose selectedBoard ->
-                    ( { model | opr = oper, currentBoard = (Just selectedBoard), showDialog = False }
+                    ( { model
+                        | opr = oper
+                        , currentBoard = (Just selectedBoard)
+                        , showDialog = False
+                      }
                     , Cmd.none
                     , Just BoardDetailsPage
                     )

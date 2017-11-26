@@ -49,4 +49,4 @@ update msg model =
                 ( m, c ) =
                     BoardDetails.update msg_ model.boardDetails
             in
-                ( { model | boardDetails = m }, Cmd.none )
+                ( { model | boardDetails = m }, Cmd.map BoardDetailsMsg c )

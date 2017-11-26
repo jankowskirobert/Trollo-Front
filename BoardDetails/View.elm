@@ -141,7 +141,7 @@ getCardsForColumn columnId list =
         hasAnything =
             List.filter
                 (\( x, y ) ->
-                    y.columnID == columnId
+                    y.columnId == columnId
                 )
                 maped
     in

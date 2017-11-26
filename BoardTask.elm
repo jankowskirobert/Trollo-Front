@@ -5,15 +5,13 @@ module BoardTask
         , AddColumn
         , ColumnView
         , BoardView
-        , getCardView
         , getExampleSetOfData
-        , putElementToList
         , getExampleSetOfBoards
         , getColumnsForBoard
         , Msg
         , User
         , model
-        , getExampleSetOfCards
+        , ComentView
         )
 
 import Json.Decode
@@ -21,6 +19,7 @@ import Json.Decode.Pipeline
 import Http
 import Array
 import Tuple
+import Date
 
 
 -- STRUCTURE
@@ -31,7 +30,7 @@ type alias Team =
 
 
 type alias CardView =
-    { uniqueNumber : String, status : Bool, title : String, description : String, boardID : Int, columnID : Int }
+    { id : Int, status : String, title : String, description : String, boardId : Int, columnId : Int }
 
 
 type alias ColumnView =
@@ -40,6 +39,13 @@ type alias ColumnView =
 
 type alias BoardView =
     { id : Int, boardTitle : String, boardDescription : String }
+
+
+type alias ComentView =
+    { id : Int
+    , body : String
+    , added : Date.Date
+    }
 
 
 type alias AddCard =
@@ -77,17 +83,6 @@ model =
 --             ( model, Cmd.none )
 
 
-decodeCardViewFromJson : Json.Decode.Decoder CardView
-decodeCardViewFromJson =
-    Json.Decode.map6 CardView
-        (Json.Decode.at [ "uniqueNumber" ] Json.Decode.string)
-        (Json.Decode.at [ "status" ] Json.Decode.bool)
-        (Json.Decode.at [ "title" ] Json.Decode.string)
-        (Json.Decode.at [ "description" ] Json.Decode.string)
-        (Json.Decode.at [ "boardID" ] Json.Decode.int)
-        (Json.Decode.at [ "columnID" ] Json.Decode.int)
-
-
 getExampleSetOfData : ColumnView
 getExampleSetOfData =
     ColumnView 1 "UUU" 1 "QQS"
@@ -96,15 +91,6 @@ getExampleSetOfData =
 getExampleSetOfColumns : List ColumnView
 getExampleSetOfColumns =
     []
-
-
-getExampleSetOfCards : List (Maybe CardView)
-getExampleSetOfCards =
-    [ Just (CardView "UNI1" True "TITLE1" "DESC1" 1 3)
-    , Just (CardView "UNI1" True "TITLE1" "DESC1" 1 2)
-    , Just (CardView "UNI1" True "TITLE11" "DESC1" 1 1)
-    , Just (CardView "UNI1" True "TITLE12" "DESC1" 1 1)
-    ]
 
 
 getColumnsForBoard : Int -> List ColumnView
@@ -137,11 +123,6 @@ getBoards user =
     getExampleSetOfBoards
 
 
-putElementToList : String -> List CardView -> List CardView
-putElementToList column lst =
-    (CardView "UNI1" True "TITLE1" "DESC1" 1 1) :: lst
-
-
 isListExist : List ColumnView -> String -> Bool
 isListExist columns listname =
     List.member listname (List.map (\x -> x.title) columns)
@@ -150,39 +131,3 @@ isListExist columns listname =
 type Msg
     = GetCardFromApi (Result Http.Error CardView)
     | GetInitialCard
-
-
-getCardView : String -> Cmd Msg
-getCardView cardId =
-    let
-        url =
-            "https://127.0.0.1/card/" ++ cardId
-
-        req =
-            Http.get url decodeCardViewFromJson
-    in
-        Http.send GetCardFromApi req
-
-
-getColumnView : Cmd Msg
-getColumnView =
-    let
-        url =
-            "https://jsonplaceholder.typicode.com/posts/1"
-
-        req =
-            Http.get url decodeCardViewFromJson
-    in
-        Http.send GetCardFromApi req
-
-
-getBoardView : Cmd Msg
-getBoardView =
-    let
-        url =
-            "https://jsonplaceholder.typicode.com/posts/1"
-
-        req =
-            Http.get url decodeCardViewFromJson
-    in
-        Http.send GetCardFromApi req

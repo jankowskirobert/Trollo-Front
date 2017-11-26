@@ -3,11 +3,11 @@ module App.Model exposing (..)
 import Boards.Model as Boards exposing (Model, model, Msg(..))
 import Page as Router exposing (Page(..))
 import Navigation exposing (Location)
-import RouteUrl exposing (HistoryEntry(..), UrlChange)
 import BoardTask
 import BoardDetails.Model as BoardDetails
 import Boards.Update as Bb
 import Boards.Rest as Rest
+import BoardDetails.Rest as CardRest
 
 
 subscriptions : Model -> Sub Msg
@@ -22,7 +22,10 @@ init =
       , user = BoardTask.model
       , boardDetails = BoardDetails.model
       }
-    , Cmd.map BoardsMsg (Cmd.map RestMsg Rest.getBoardView)
+    , Cmd.batch
+        [ (Cmd.map BoardsMsg (Cmd.map RestMsg Rest.getBoardView))
+        , (Cmd.map BoardDetailsMsg (Cmd.map BoardDetails.RestCardMsg CardRest.getCardsView))
+        ]
     )
 
 
