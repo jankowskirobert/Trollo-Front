@@ -58,14 +58,55 @@ update msg model =
             ( { model | newCardName = Just name }, Cmd.none )
 
         AddNewCard ->
-            let
-                cardToPut =
-                    (BoardTask.CardView 0 "OFFLINE INIT" "x" "OFFLINE INIT" 0 0)
+            case model.card of
+                Nothing ->
+                    case ( model.newCardName, model.currentColumn ) of
+                        ( Nothing, _ ) ->
+                            ( model, Cmd.none )
 
-                -- ( mR, cR ) =
-                --     CardRest.update (CardRest.AddCard cardToPut) model.cardRest
-            in
-                ( model, Cmd.batch [ Cmd.map RestCardMsg (CardRest.saveCardView cardToPut) ] )
+                        ( _, Nothing ) ->
+                            ( model, Cmd.none )
+
+                        ( Just x, Just y ) ->
+                            let
+                                cardToPut =
+                                    (BoardTask.CardView 0 "OFFLINE INIT" x "OFFLINE INIT" 0 y.id)
+
+                                updated =
+                                    [ cardToPut ]
+
+                                ( mR, cR ) =
+                                    CardRest.update (CardRest.AddCard cardToPut) model.cardRest
+
+                                ( m, c ) =
+                                    CardEdit.update (CardEdit.UpdateList (Just updated)) model.cardModel
+                            in
+                                ( { model | card = (Just updated), cardModel = m, showDialog = False }, Cmd.batch [ Cmd.map RestCardMsg (CardRest.saveCardView cardToPut), (Cmd.map CardMsg c) ] )
+
+                --Cmd.batch [ (Cmd.map RestCardMsg cR), (Cmd.map CardMsg c) ]
+                Just cards_ ->
+                    case ( model.newCardName, model.currentColumn ) of
+                        ( Nothing, _ ) ->
+                            ( model, Cmd.none )
+
+                        ( _, Nothing ) ->
+                            ( model, Cmd.none )
+
+                        ( Just x, Just y ) ->
+                            let
+                                cardToPut =
+                                    (BoardTask.CardView 1 "OFFLINE " x "OFFLINE " 1 y.id)
+
+                                updated =
+                                    cards_ ++ [ cardToPut ]
+
+                                ( mR, cR ) =
+                                    CardRest.update (CardRest.AddCard cardToPut) model.cardRest
+
+                                ( m, c ) =
+                                    CardEdit.update (CardEdit.UpdateList (Just updated)) model.cardModel
+                            in
+                                ( { model | card = (Just updated), cardModel = m, showDialog = False }, Cmd.batch [ Cmd.map RestCardMsg (CardRest.saveCardView cardToPut), (Cmd.map CardMsg c) ] )
 
         -- Cmd.batch [ (Cmd.map RestCardMsg (CardRest.saveCardView cardToPut)), (Cmd.map CardMsg c) ]
         CardMsg msg_ ->
@@ -102,44 +143,3 @@ update msg model =
 updateElement2 : List (Maybe a) -> Int -> a -> List (Maybe a)
 updateElement2 list id board =
     List.take id list ++ (Just board) :: List.drop (id + 1) list
-
-
-
--- case model.card of
---                 Nothing ->
---                     case ( model.newCardName, model.currentColumn ) of
---                         ( Nothing, _ ) ->
---                             ( model, Cmd.none )
---                         ( _, Nothing ) ->
---                             ( model, Cmd.none )
---                         ( Just x, Just y ) ->
---                             let
---                                 cardToPut =
---                                     (BoardTask.CardView 0 "OFFLINE INIT" x "OFFLINE INIT" 0 y.id)
---                                 updated =
---                                     [ cardToPut ]
---                                 ( mR, cR ) =
---                                     CardRest.update (CardRest.AddCard cardToPut) model.cardRest
---                                 ( m, c ) =
---                                     CardEdit.update (CardEdit.UpdateList (Just updated)) model.cardModel
---                             in
---                                 ( { model | card = (Just updated), cardModel = m, showDialog = False }, Cmd.none )
---                 --Cmd.batch [ (Cmd.map RestCardMsg cR), (Cmd.map CardMsg c) ]
---                 Just cards_ ->
---                     case ( model.newCardName, model.currentColumn ) of
---                         ( Nothing, _ ) ->
---                             ( model, Cmd.none )
---                         ( _, Nothing ) ->
---                             ( model, Cmd.none )
---                         ( Just x, Just y ) ->
---                             let
---                                 cardToPut =
---                                     (BoardTask.CardView 1 "OFFLINE " x "OFFLINE " 1 y.id)
---                                 updated =
---                                     cards_ ++ [ cardToPut ]
---                                 ( mR, cR ) =
---                                     CardRest.update (CardRest.AddCard cardToPut) model.cardRest
---                                 ( m, c ) =
---                                     CardEdit.update (CardEdit.UpdateList (Just updated)) model.cardModel
---                             in
---                                 ( { model | card = (Just updated), cardModel = m, showDialog = False }, Cmd.none )

@@ -124,18 +124,8 @@ saveCardView card =
 
         -- req =
         req =
-            Http.request
-                { body = (Http.jsonBody (encodCardView card))
-                , expect = Http.expectJson decodeCard
-                , headers =
-                    [ Http.header "Content-Type" "application/json" ]
-                , method = "PUT"
-                , timeout = Nothing
-                , url = url
-                , withCredentials = False
-                }
+            Http.post url (Http.jsonBody (encodCardView card)) decodeCard
 
-        -- Http.post url (Http.jsonBody (encodCardView card)) decodeCard
         debugLog2 =
             Debug.log "Card Rest save one Method2" req
     in
