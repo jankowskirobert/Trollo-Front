@@ -4,6 +4,7 @@ import BoardDetails.Model exposing (Model, Msg(..), DialogAction(..))
 import BoardTask
 import BoardDetails.Card.Edit as CardEdit
 import Debug
+import BoardDetails.Rest as CardRest
 
 
 -- import Column
@@ -68,14 +69,21 @@ update msg model =
 
                         ( Just x, Just y ) ->
                             let
+                                cardToPut =
+                                    (BoardTask.CardView 0 "OFFLINE INIT" x "OFFLINE INIT" 0 y.id)
+
                                 updated =
-                                    [ (BoardTask.CardView "UNIX" True x "DESC" 1 y.id) ]
+                                    [ cardToPut ]
+
+                                ( mR, cR ) =
+                                    CardRest.update (CardRest.AddCard cardToPut) model.cardRest
 
                                 ( m, c ) =
                                     CardEdit.update (CardEdit.UpdateList (Just updated)) model.cardModel
                             in
-                                ( { model | card = (Just updated), cardModel = m, showDialog = False }, Cmd.none )
+                                ( { model | card = (Just updated), cardModel = m, showDialog = False }, Cmd.batch [ Cmd.map RestCardMsg (CardRest.saveCardView cardToPut), (Cmd.map CardMsg c) ] )
 
+                --Cmd.batch [ (Cmd.map RestCardMsg cR), (Cmd.map CardMsg c) ]
                 Just cards_ ->
                     case ( model.newCardName, model.currentColumn ) of
                         ( Nothing, _ ) ->
@@ -86,14 +94,21 @@ update msg model =
 
                         ( Just x, Just y ) ->
                             let
+                                cardToPut =
+                                    (BoardTask.CardView 1 "OFFLINE " x "OFFLINE " 1 y.id)
+
                                 updated =
-                                    cards_ ++ [ (BoardTask.CardView "UNIX" True x "DESC" 1 y.id) ]
+                                    cards_ ++ [ cardToPut ]
+
+                                ( mR, cR ) =
+                                    CardRest.update (CardRest.AddCard cardToPut) model.cardRest
 
                                 ( m, c ) =
                                     CardEdit.update (CardEdit.UpdateList (Just updated)) model.cardModel
                             in
-                                ( { model | card = (Just updated), cardModel = m, showDialog = False }, Cmd.map CardMsg c )
+                                ( { model | card = (Just updated), cardModel = m, showDialog = False }, Cmd.batch [ Cmd.map RestCardMsg (CardRest.saveCardView cardToPut), (Cmd.map CardMsg c) ] )
 
+        -- Cmd.batch [ (Cmd.map RestCardMsg (CardRest.saveCardView cardToPut)), (Cmd.map CardMsg c) ]
         CardMsg msg_ ->
             let
                 ( m, c ) =
@@ -103,6 +118,16 @@ update msg model =
                     m.currentList
             in
                 ( { model | cardModel = m, card = list_ }, Cmd.map CardMsg c )
+
+        RestCardMsg msg_ ->
+            let
+                ( m, c ) =
+                    CardRest.update msg_ model.cardRest
+
+                lgs =
+                    Debug.log "Message Details REST" msg_
+            in
+                ( { model | cardRest = m }, Cmd.map RestCardMsg c )
 
 
 

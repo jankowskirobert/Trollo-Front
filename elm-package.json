@@ -9,14 +9,13 @@
     "exposed-modules": [],
     "dependencies": {
         "elm-lang/core": "5.1.1 <= v < 6.0.0",
-        "elm-lang/html": "2.0.0 <= v < 3.0.0",        
-        "evancz/elm-sortable-table": "1.0.1 <= v < 2.0.0",
-        "NoRedInk/elm-decode-pipeline": "3.0.0 <= v < 4.0.0",
-        "elm-lang/http": "1.0.0 <= v < 2.0.0",
-        "debois/elm-mdl" : "8.0.0 <= v <= 8.1.0",
-        "rgrempel/elm-route-url": "2.0.0 <= v <= 4.0.0", 
+        "elm-lang/html": "2.0.0 <= v < 6.0.0",        
+        "NoRedInk/elm-decode-pipeline": "3.0.0 <= v < 6.0.0",
+        "elm-lang/http": "1.0.0 <= v < 6.0.0",
+        "debois/elm-mdl" : "8.0.0 <= v <= 9.1.0",
+
         "elm-lang/navigation": "1.0.0 <= v <= 2.1.0",
-        "evancz/url-parser": "2.0.1 <= v < 3.0.0",     
+
         "krisajenkins/elm-dialog": "1.0.1 <= v < 4.0.3"     
         
     },

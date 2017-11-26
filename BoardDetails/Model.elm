@@ -2,6 +2,7 @@ module BoardDetails.Model exposing (..)
 
 import BoardTask
 import BoardDetails.Card.Edit as CardEdit
+import BoardDetails.Rest as CardRest
 
 
 -- import Column
@@ -22,6 +23,7 @@ model =
     , currentColumnIdx = Maybe.Nothing
     , currentColumn = Maybe.Nothing
     , cardModel = CardEdit.model
+    , cardRest = CardRest.model
     }
 
 
@@ -35,6 +37,7 @@ type Msg
     | SetNewCardName String
     | AddNewCard
     | CardMsg CardEdit.Msg
+    | RestCardMsg CardRest.Msg
 
 
 
@@ -63,6 +66,7 @@ type alias Model =
     , currentColumnIdx : Maybe Int
     , currentColumn : Maybe BoardTask.ColumnView
     , cardModel : CardEdit.Model
+    , cardRest : CardRest.Model
 
     -- , addColumn : BoardTask.AddColumn
     -- , dialogAction : DialogAction
