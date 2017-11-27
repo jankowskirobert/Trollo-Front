@@ -13,6 +13,8 @@ type alias Model =
     , card : Maybe BoardTask.CardView
     , comments : List BoardTask.ComentView
     , comment : Maybe BoardTask.ComentView
+    , columns : List BoardTask.ColumnView
+    , column : Maybe BoardTask.ColumnView
     }
 
 
@@ -22,6 +24,8 @@ model =
     , card = Maybe.Nothing
     , comments = []
     , comment = Maybe.Nothing
+    , columns = []
+    , column = Maybe.Nothing
     }
 
 
@@ -29,12 +33,26 @@ type Msg
     = GetCardsFromApi (Result Http.Error (List BoardTask.CardView))
     | GetCardFromApi (Result Http.Error BoardTask.CardView)
     | SaveCardToApi (Result Http.Error BoardTask.CardView)
+    | GetColumnsFromApi (Result Http.Error (List BoardTask.ColumnView))
+    | GetColumnFromApi (Result Http.Error BoardTask.ColumnView)
     | AddCard BoardTask.CardView
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case Debug.log "Card Rest" msg of
+        GetColumnsFromApi (Err err) ->
+            ( model, Cmd.none )
+
+        GetColumnsFromApi (Ok item) ->
+            ( model, Cmd.none )
+
+        GetColumnFromApi (Err err) ->
+            ( model, Cmd.none )
+
+        GetColumnFromApi (Ok item) ->
+            ( model, Cmd.none )
+
         GetCardsFromApi (Err err) ->
             ( model, Cmd.none )
 
@@ -106,6 +124,30 @@ getCardView identity =
     let
         url =
             "http://localhost:8000/cards/" ++ identity
+
+        req =
+            Http.get url decodeCard
+    in
+        Http.send GetCardFromApi req
+
+
+getColumnView : String -> Cmd Msg
+getColumnView identity =
+    let
+        url =
+            "http://localhost:8000/lists/" ++ identity
+
+        req =
+            Http.get url decodeCard
+    in
+        Http.send GetCardFromApi req
+
+
+getColumnsView : Cmd Msg
+getColumnsView =
+    let
+        url =
+            "http://localhost:8000/lists"
 
         req =
             Http.get url decodeCard

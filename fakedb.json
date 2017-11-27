@@ -29,6 +29,14 @@
       "boardId": 0,
       "columnId": 0,
       "id": 4
+    },
+    {
+      "status": "OFFLINE INIT",
+      "title": "sdfdf",
+      "description": "OFFLINE INIT",
+      "boardId": 0,
+      "columnId": 0,
+      "id": 5
     }
   ],
   "boards": [
@@ -116,7 +124,8 @@
   "columns": [
     {
       "id": 0,
-      "title": "qweqwe"
+      "title": "qweqwe",
+      "boardId": 1
     }
   ]
 }
