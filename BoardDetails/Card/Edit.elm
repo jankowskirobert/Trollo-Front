@@ -28,6 +28,7 @@ type Msg
     = EditCardDetail Int BoardTask.CardView
     | SetNewCardName String
     | SetNewCardDescription String
+      -- | SetCardArchive
     | UpdateCurrentCard
     | None
     | UpdateList (Maybe (List BoardTask.CardView))

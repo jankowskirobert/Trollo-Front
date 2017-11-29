@@ -14,8 +14,8 @@ import BoardDetails.Card.Edit as CardEdit
 -- import Column
 
 
-getBoardColumn : BoardTask.ColumnView -> Model -> Html Msg
-getBoardColumn column model =
+getBoardColumn : Int -> BoardTask.ColumnView -> Model -> Html Msg
+getBoardColumn idx column model =
     let
         cards_ =
             case model.card of
@@ -34,7 +34,7 @@ getBoardColumn column model =
             [ section [ class "list", detailsStyleCol ]
                 [ div [] [ header [] [ text column.title ] ]
                 , rendered_
-                , viewButton 0 model column
+                , viewButton idx model column
                 ]
             ]
 
@@ -88,6 +88,11 @@ viewButton idx model column =
             , onClick (SetDialogAction (BoardDetails.Model.AddCard column))
             ]
             [ text "Add Card" ]
+        , button
+            [ listDetailsButtonStyle
+            , onClick (SetDialogAction (BoardDetails.Model.EditColumn idx column))
+            ]
+            [ text "Edit List Details" ]
         ]
 
 
@@ -101,13 +106,11 @@ viewColumns model =
         --     stored.data
     in
         stored
-            |> List.map
-                (\l ->
+            |> List.indexedMap
+                (\idx l ->
                     -- Html.map ColumnMsg
                     --     (Column.view l)
-                    getBoardColumn
-                        l
-                        model
+                    getBoardColumn idx l model
                 )
             |> div [ class "main_board" ]
 
@@ -280,6 +283,21 @@ dialogConfig model =
 
         None ->
             dialogConfigErrorMsg
+
+        EditColumn _ _ ->
+            { closeMessage = Just (SetDialogAction BoardDetails.Model.None)
+            , containerClass = Nothing
+            , header = Just (h3 [] [ text "Edit list" ])
+            , body = Just (input [ placeholder ("Enter name "), onInput SetNewColumndName ] [])
+            , footer =
+                Just
+                    (button
+                        [ class "btn btn-success"
+                        , onClick EditList
+                        ]
+                        [ text "OK" ]
+                    )
+            }
 
 
 dialogConfigErrorMsg : Dialog.Config Msg

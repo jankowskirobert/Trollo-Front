@@ -38,6 +38,7 @@ type Msg
     | AddNewCard
     | CardMsg CardEdit.Msg
     | RestCardMsg CardRest.Msg
+    | EditList
 
 
 
@@ -50,6 +51,7 @@ type DialogAction
     = AddNewColumn
     | ShowCardDetail BoardTask.CardView
     | AddCard BoardTask.ColumnView
+    | EditColumn Int BoardTask.ColumnView
     | None
 
 
