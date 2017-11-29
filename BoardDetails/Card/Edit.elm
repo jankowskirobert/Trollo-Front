@@ -14,24 +14,26 @@ type alias Model =
     , currentCardIndex : Maybe Int
     , newCardName : Maybe String
     , currentCardDescription : Maybe String
-    , currentList : Maybe (List BoardTask.CardView)
+    , currentList : List BoardTask.CardView
     , showDialog : Bool
+    , comments : List BoardTask.CommentView
     }
 
 
 model : Model
 model =
-    Model Maybe.Nothing Maybe.Nothing Maybe.Nothing Maybe.Nothing Maybe.Nothing False
+    Model Maybe.Nothing Maybe.Nothing Maybe.Nothing Maybe.Nothing [] False []
 
 
 type Msg
-    = EditCardDetail Int BoardTask.CardView
+    = EditCardDetail Int BoardTask.CardView (List BoardTask.CommentView)
     | SetNewCardName String
     | SetNewCardDescription String
       -- | SetCardArchive
     | UpdateCurrentCard
     | None
-    | UpdateList (Maybe (List BoardTask.CardView))
+    | UpdateList (List BoardTask.CardView)
+    | SetNewCardComment String
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -43,16 +45,15 @@ update msg model =
         SetNewCardDescription description ->
             ( { model | currentCardDescription = Just description }, Cmd.none )
 
-        EditCardDetail idxOnList card ->
-            ( { model | currentCardIndex = Just idxOnList, currentCard = Just card, showDialog = True }, Cmd.none )
+        EditCardDetail idxOnList card coms ->
+            ( { model | currentCardIndex = Just idxOnList, currentCard = Just card, showDialog = True, comments = coms }, Cmd.none )
 
         UpdateCurrentCard ->
-            case model.currentList of
-                Nothing ->
-                    ( { model | showDialog = False }, Cmd.none )
-
-                Just list ->
-                    ( { model | currentList = Just (updateCardOnList model list), showDialog = False }, Cmd.none )
+            let
+                list =
+                    model.currentList
+            in
+                ( { model | currentList = (updateCardOnList model list), showDialog = False }, Cmd.none )
 
         None ->
             ( { model | showDialog = False }, Cmd.none )
@@ -67,6 +68,9 @@ update msg model =
               }
             , Cmd.none
             )
+
+        SetNewCardComment commentBody ->
+            ( model, Cmd.none )
 
 
 updateCardOnList : Model -> List BoardTask.CardView -> List BoardTask.CardView
@@ -147,23 +151,21 @@ view model =
 dialogConfig : Model -> Dialog.Config Msg
 dialogConfig model =
     let
+        lst =
+            model.currentList
+
         ele =
-            case model.currentList of
+            case model.currentCardIndex of
                 Nothing ->
-                    "List not found"
+                    div [] []
 
-                Just lst ->
-                    case model.currentCardIndex of
+                Just idx ->
+                    case (Array.get idx (Array.fromList lst)) of
                         Nothing ->
-                            "Index not found"
+                            div [] []
 
-                        Just idx ->
-                            case (Array.get idx (Array.fromList lst)) of
-                                Nothing ->
-                                    "Card not found"
-
-                                Just card ->
-                                    card.title
+                        Just card ->
+                            commentsSectionInDialog model.comments card
     in
         { closeMessage = Just (None)
         , containerClass = Nothing
@@ -171,8 +173,9 @@ dialogConfig model =
         , body =
             Just
                 (div []
-                    [ div [] [ input [ placeholder ("Enter name " ++ ele), onInput SetNewCardName ] [] ]
+                    [ div [] [ input [ placeholder ("Enter name "), onInput SetNewCardName ] [] ]
                     , div [] [ input [ placeholder ("Enter desc "), onInput SetNewCardDescription ] [] ]
+                    , ele
                     ]
                 )
         , footer =
@@ -184,3 +187,33 @@ dialogConfig model =
                     [ text "OK" ]
                 )
         }
+
+
+commentsSectionInDialog : List BoardTask.CommentView -> BoardTask.CardView -> Html Msg
+commentsSectionInDialog coms card =
+    div []
+        [ hr [] []
+        , input [ placeholder ("Enter new comment"), onInput SetNewCardComment ] []
+        , table [] [ thead [] [], (commentListInDialog card coms) ]
+        ]
+
+
+commentListInDialog : BoardTask.CardView -> List BoardTask.CommentView -> Html Msg
+commentListInDialog card list =
+    List.map (\x -> commentViewInDialog x) list |> tbody []
+
+
+commentViewInDialog : BoardTask.CommentView -> Html Msg
+commentViewInDialog com =
+    tr []
+        [ td [] [ text com.body ]
+        , td [] [ text (toString com.added) ]
+        ]
+
+
+
+-- <tr>
+--         <td>John</td>
+--         <td>Doe</td>
+--         <td>john@example.com</td>
+--       </tr>

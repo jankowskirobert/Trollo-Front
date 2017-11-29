@@ -11,7 +11,7 @@ module BoardTask
         , Msg
         , User
         , model
-        , ComentView
+        , CommentView
         )
 
 import Json.Decode
@@ -41,10 +41,11 @@ type alias BoardView =
     { id : Int, boardTitle : String, boardDescription : String }
 
 
-type alias ComentView =
+type alias CommentView =
     { id : Int
     , body : String
     , added : Date.Date
+    , cardId : String
     }
 
 

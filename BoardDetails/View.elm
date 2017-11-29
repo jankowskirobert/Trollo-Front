@@ -18,16 +18,11 @@ getBoardColumn : Int -> BoardTask.ColumnView -> Model -> Html Msg
 getBoardColumn idx column model =
     let
         cards_ =
-            case model.card of
-                Nothing ->
-                    []
-
-                Just list ->
-                    getCardsForColumn column.id list
+            getCardsForColumn column.id model.card
 
         rendered_ =
             cards_
-                |> List.map (\( index, l ) -> getColumnCard index l)
+                |> List.map (\( index, l ) -> getColumnCard index l model.comments)
                 |> div [ detailsStyle ]
     in
         div []
@@ -39,8 +34,8 @@ getBoardColumn idx column model =
             ]
 
 
-getColumnCard : Int -> BoardTask.CardView -> Html Msg
-getColumnCard indexOnList card =
+getColumnCard : Int -> BoardTask.CardView -> List BoardTask.CommentView -> Html Msg
+getColumnCard indexOnList card coms =
     article [ class "card" ]
         [ div
             []
@@ -52,7 +47,7 @@ getColumnCard indexOnList card =
                 [ text "View Details" ]
             , button
                 [ listDetailsButtonStyle
-                , onClick (BoardDetails.Model.CardMsg (CardEdit.EditCardDetail indexOnList card))
+                , onClick (BoardDetails.Model.CardMsg (CardEdit.EditCardDetail indexOnList card coms))
                 ]
                 [ text "Edit Details" ]
             ]
