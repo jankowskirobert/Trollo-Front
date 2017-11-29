@@ -22,7 +22,7 @@ type Operation
 
 
 type alias Model =
-    { boards : List (Maybe BoardTask.BoardView)
+    { boards : List BoardTask.BoardView
     , currentBoard : Maybe BoardTask.BoardView
     , opr : Operation
     , newBoardName : Maybe String
@@ -40,5 +40,5 @@ model =
     , newBoardName = Maybe.Nothing
     , currentBoardIdx = Maybe.Nothing
     , showDialog = False
-    , rest = Rest.Model [] Maybe.Nothing Maybe.Nothing
+    , rest = Rest.Model [] Maybe.Nothing Maybe.Nothing Maybe.Nothing
     }

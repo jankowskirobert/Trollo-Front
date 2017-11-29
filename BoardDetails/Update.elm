@@ -5,6 +5,7 @@ import BoardTask
 import BoardDetails.Card.Edit as CardEdit
 import Debug
 import BoardDetails.Rest as CardRest
+import Array
 
 
 -- import Column
@@ -42,6 +43,9 @@ update msg model =
                 AddNewColumn ->
                     ( { model | dialogAction = action, showDialog = True }, Cmd.none )
 
+                EditColumn idx lst ->
+                    ( { model | dialogAction = action, showDialog = True, currentColumnIdx = Just idx, currentColumn = Just lst }, Cmd.none )
+
                 ShowCardDetail card_ ->
                     ( { model | dialogAction = action, currentCard = Just card_, showDialog = True }, Cmd.none )
 
@@ -58,55 +62,32 @@ update msg model =
             ( { model | newCardName = Just name }, Cmd.none )
 
         AddNewCard ->
-            case model.card of
-                Nothing ->
-                    case ( model.newCardName, model.currentColumn ) of
-                        ( Nothing, _ ) ->
-                            ( model, Cmd.none )
+            let
+                cards_ =
+                    model.card
+            in
+                case ( model.newCardName, model.currentColumn ) of
+                    ( Nothing, _ ) ->
+                        ( model, Cmd.none )
 
-                        ( _, Nothing ) ->
-                            ( model, Cmd.none )
+                    ( _, Nothing ) ->
+                        ( model, Cmd.none )
 
-                        ( Just x, Just y ) ->
-                            let
-                                cardToPut =
-                                    (BoardTask.CardView 0 "OFFLINE INIT" x "OFFLINE INIT" 0 y.id)
+                    ( Just x, Just y ) ->
+                        let
+                            cardToPut =
+                                (BoardTask.CardView 1 "OFFLINE " x "OFFLINE " 1 y.id)
 
-                                updated =
-                                    [ cardToPut ]
+                            updated =
+                                cards_ ++ [ cardToPut ]
 
-                                ( mR, cR ) =
-                                    CardRest.update (CardRest.AddCard cardToPut) model.cardRest
+                            ( mR, cR ) =
+                                CardRest.update (CardRest.AddCard cardToPut) model.cardRest
 
-                                ( m, c ) =
-                                    CardEdit.update (CardEdit.UpdateList (Just updated)) model.cardModel
-                            in
-                                ( { model | card = (Just updated), cardModel = m, showDialog = False }, Cmd.batch [ Cmd.map RestCardMsg (CardRest.saveCardView cardToPut), (Cmd.map CardMsg c) ] )
-
-                --Cmd.batch [ (Cmd.map RestCardMsg cR), (Cmd.map CardMsg c) ]
-                Just cards_ ->
-                    case ( model.newCardName, model.currentColumn ) of
-                        ( Nothing, _ ) ->
-                            ( model, Cmd.none )
-
-                        ( _, Nothing ) ->
-                            ( model, Cmd.none )
-
-                        ( Just x, Just y ) ->
-                            let
-                                cardToPut =
-                                    (BoardTask.CardView 1 "OFFLINE " x "OFFLINE " 1 y.id)
-
-                                updated =
-                                    cards_ ++ [ cardToPut ]
-
-                                ( mR, cR ) =
-                                    CardRest.update (CardRest.AddCard cardToPut) model.cardRest
-
-                                ( m, c ) =
-                                    CardEdit.update (CardEdit.UpdateList (Just updated)) model.cardModel
-                            in
-                                ( { model | card = (Just updated), cardModel = m, showDialog = False }, Cmd.batch [ Cmd.map RestCardMsg (CardRest.saveCardView cardToPut), (Cmd.map CardMsg c) ] )
+                            ( m, c ) =
+                                CardEdit.update (CardEdit.UpdateList (updated)) model.cardModel
+                        in
+                            ( { model | card = (updated), cardModel = m, showDialog = False }, Cmd.batch [ Cmd.map RestCardMsg (CardRest.saveCardView cardToPut), (Cmd.map CardMsg c) ] )
 
         -- Cmd.batch [ (Cmd.map RestCardMsg (CardRest.saveCardView cardToPut)), (Cmd.map CardMsg c) ]
         CardMsg msg_ ->
@@ -129,6 +110,31 @@ update msg model =
             in
                 ( { model | cardRest = m }, Cmd.map RestCardMsg c )
 
+        EditList ->
+            case model.currentColumnIdx of
+                Nothing ->
+                    ( { model | showDialog = False }, Cmd.none )
+
+                Just idx ->
+                    case model.currentColumn of
+                        Nothing ->
+                            ( { model | showDialog = False }, Cmd.none )
+
+                        Just lst ->
+                            case model.newColumnName of
+                                Nothing ->
+                                    ( model, Cmd.none )
+
+                                Just newName ->
+                                    let
+                                        afterUpdate =
+                                            { lst | title = newName }
+
+                                        lsts =
+                                            model.columns
+                                    in
+                                        ( { model | showDialog = False, columns = updateElement lsts idx afterUpdate }, Cmd.none )
+
 
 
 -- ColumnMsg msg ->
@@ -143,3 +149,16 @@ update msg model =
 updateElement2 : List (Maybe a) -> Int -> a -> List (Maybe a)
 updateElement2 list id board =
     List.take id list ++ (Just board) :: List.drop (id + 1) list
+
+
+updateElement : List a -> Int -> a -> List a
+updateElement list indexOnList card =
+    let
+        arry_ =
+            Array.fromList list
+
+        updated =
+            Array.set indexOnList (card) arry_
+    in
+        --List.take id list ++ (Just board) :: List.drop (id + 1) list
+        Array.toList updated

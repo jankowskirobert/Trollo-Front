@@ -11,8 +11,8 @@ import Task
 type alias Model =
     { cards : List BoardTask.CardView
     , card : Maybe BoardTask.CardView
-    , comments : List BoardTask.ComentView
-    , comment : Maybe BoardTask.ComentView
+    , comments : List BoardTask.CommentView
+    , comment : Maybe BoardTask.CommentView
     , columns : List BoardTask.ColumnView
     , column : Maybe BoardTask.ColumnView
     }

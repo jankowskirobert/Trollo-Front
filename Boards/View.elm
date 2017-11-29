@@ -99,13 +99,8 @@ view model =
         s =
             model.boards
                 |> List.indexedMap
-                    (\index i ->
-                        case i of
-                            Nothing ->
-                                div [] []
-
-                            Just x ->
-                                div [] [ boardGridBox model x index ]
+                    (\index x ->
+                        div [] [ boardGridBox model x index ]
                     )
                 |> div [ class "" ]
     in

@@ -8,6 +8,7 @@ import Http
 import Json.Decode
 import Json.Decode.Pipeline
 import Boards.Rest as Rest
+import Array
 
 
 update : Msg -> Model -> ( Model, Cmd Msg, Maybe Page )
@@ -24,7 +25,7 @@ update msg model =
                             model.boards
                     in
                         ( { model
-                            | boards = (Just (BoardTask.BoardView 0 x "")) :: boards_
+                            | boards = (BoardTask.BoardView 0 x "") :: boards_
                             , showDialog = False
                           }
                         , Cmd.batch [ Cmd.map RestMsg (Rest.saveBoardView (BoardTask.BoardView 0 x "")) ]
@@ -111,9 +112,14 @@ update msg model =
 
                                         board_ =
                                             { choosedBoard | boardTitle = x }
+
+                                        -- ( m, c ) =
+                                        --     Rest.update (Rest.EditBoard board_) model.rest
+                                        updatedBoards =
+                                            (updateElement boards_ idx board_)
                                     in
                                         ( { model
-                                            | boards = (updateElement2 boards_ idx board_)
+                                            | boards = updatedBoards
                                             , opr = None
                                             , showDialog = False
                                             , newBoardName = Maybe.Nothing
@@ -128,7 +134,7 @@ update msg model =
                     Rest.update msg_ model.rest
 
                 remaped =
-                    List.map (\x -> Just x) m.boards
+                    m.boards
             in
                 ( { model | rest = m, boards = remaped }, Cmd.map RestMsg c, Maybe.Nothing )
 
@@ -150,3 +156,16 @@ decodeBoards =
 updateElement2 : List (Maybe a) -> Int -> a -> List (Maybe a)
 updateElement2 list id board =
     List.take id list ++ (Just board) :: List.drop (id + 1) list
+
+
+updateElement : List a -> Int -> a -> List a
+updateElement list indexOnList card =
+    let
+        arry_ =
+            Array.fromList list
+
+        updated =
+            Array.set indexOnList (card) arry_
+    in
+        --List.take id list ++ (Just board) :: List.drop (id + 1) list
+        Array.toList updated
