@@ -87,7 +87,16 @@ update msg model =
                             ( m, c ) =
                                 CardEdit.update (CardEdit.UpdateList (updated)) model.cardModel
                         in
-                            ( { model | card = (updated), cardModel = m, showDialog = False }, Cmd.batch [ Cmd.map RestCardMsg (CardRest.saveCardView cardToPut), (Cmd.map CardMsg c) ] )
+                            ( { model
+                                | card = (updated)
+                                , cardModel = m
+                                , showDialog = False
+                              }
+                            , Cmd.batch
+                                [ Cmd.map RestCardMsg (CardRest.saveCardView cardToPut)
+                                , (Cmd.map CardMsg c)
+                                ]
+                            )
 
         -- Cmd.batch [ (Cmd.map RestCardMsg (CardRest.saveCardView cardToPut)), (Cmd.map CardMsg c) ]
         CardMsg msg_ ->
@@ -97,8 +106,11 @@ update msg model =
 
                 list_ =
                     m.currentList
+
+                currComs =
+                    model.comments
             in
-                ( { model | cardModel = m, card = list_ }, Cmd.map CardMsg c )
+                ( { model | cardModel = m, card = list_, comments = m.comments }, Cmd.map CardMsg c )
 
         RestCardMsg msg_ ->
             let

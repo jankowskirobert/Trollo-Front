@@ -7,6 +7,9 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Array
 import Debug
+import Date
+import Task
+import Time
 
 
 type alias Model =
@@ -16,13 +19,24 @@ type alias Model =
     , currentCardDescription : Maybe String
     , currentList : List BoardTask.CardView
     , showDialog : Bool
+    , newCommentBody : Maybe String
     , comments : List BoardTask.CommentView
+    , currentDate : Maybe Date.Date
     }
 
 
 model : Model
 model =
-    Model Maybe.Nothing Maybe.Nothing Maybe.Nothing Maybe.Nothing [] False []
+    Model
+        Maybe.Nothing
+        Maybe.Nothing
+        Maybe.Nothing
+        Maybe.Nothing
+        []
+        False
+        Maybe.Nothing
+        []
+        Maybe.Nothing
 
 
 type Msg
@@ -34,6 +48,9 @@ type Msg
     | None
     | UpdateList (List BoardTask.CardView)
     | SetNewCardComment String
+    | AddNewComment
+    | SaveNewDate Date.Date
+    | UpdateCurrentDate
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -46,7 +63,14 @@ update msg model =
             ( { model | currentCardDescription = Just description }, Cmd.none )
 
         EditCardDetail idxOnList card coms ->
-            ( { model | currentCardIndex = Just idxOnList, currentCard = Just card, showDialog = True, comments = coms }, Cmd.none )
+            ( { model
+                | currentCardIndex = Just idxOnList
+                , currentCard = Just card
+                , showDialog = True
+                , comments = coms
+              }
+            , Cmd.none
+            )
 
         UpdateCurrentCard ->
             let
@@ -70,7 +94,33 @@ update msg model =
             )
 
         SetNewCardComment commentBody ->
-            ( model, Cmd.none )
+            ( { model | newCommentBody = Just commentBody }, Task.perform SaveNewDate Date.now )
+
+        AddNewComment ->
+            case model.newCommentBody of
+                Nothing ->
+                    ( model, Cmd.none )
+
+                Just comm ->
+                    case model.currentDate of
+                        Nothing ->
+                            ( model, Cmd.none )
+
+                        Just date ->
+                            let
+                                newComment =
+                                    BoardTask.CommentView 0 comm date ""
+
+                                currComments =
+                                    model.comments
+                            in
+                                ( { model | comments = currComments ++ [ newComment ] }, Cmd.none )
+
+        UpdateCurrentDate ->
+            ( model, Task.perform SaveNewDate Date.now )
+
+        SaveNewDate date ->
+            ( { model | currentDate = Just date }, Cmd.none )
 
 
 updateCardOnList : Model -> List BoardTask.CardView -> List BoardTask.CardView
@@ -168,7 +218,7 @@ dialogConfig model =
                             commentsSectionInDialog model.comments card
     in
         { closeMessage = Just (None)
-        , containerClass = Nothing
+        , containerClass = Just "modal-dialog modal-lg"
         , header = Just (h3 [] [ text "Edit Card Details" ])
         , body =
             Just
@@ -193,8 +243,25 @@ commentsSectionInDialog : List BoardTask.CommentView -> BoardTask.CardView -> Ht
 commentsSectionInDialog coms card =
     div []
         [ hr [] []
-        , input [ placeholder ("Enter new comment"), onInput SetNewCardComment ] []
-        , table [] [ thead [] [], (commentListInDialog card coms) ]
+        , input
+            [ placeholder ("Enter new comment")
+            , onInput SetNewCardComment
+            ]
+            []
+        , button
+            [ class "btn btn-success"
+            , onClick AddNewComment
+            ]
+            [ text "Add Comment" ]
+        , table [ class "table table-bordered" ]
+            [ thead []
+                [ tr []
+                    [ th [] [ text "Comment" ]
+                    , th [] [ text "Date" ]
+                    ]
+                ]
+            , (commentListInDialog card coms)
+            ]
         ]
 
 
