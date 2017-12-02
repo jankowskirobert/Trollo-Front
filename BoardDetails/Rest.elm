@@ -36,6 +36,8 @@ type Msg
     | GetColumnsFromApi (Result Http.Error (List BoardTask.ColumnView))
     | GetColumnFromApi (Result Http.Error BoardTask.ColumnView)
     | AddCard BoardTask.CardView
+    | FetchAllCards
+    | FetchAllColumns
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -45,7 +47,7 @@ update msg model =
             ( model, Cmd.none )
 
         GetColumnsFromApi (Ok item) ->
-            ( model, Cmd.none )
+            ( { model | columns = item }, Cmd.none )
 
         GetColumnFromApi (Err err) ->
             ( model, Cmd.none )
@@ -57,7 +59,7 @@ update msg model =
             ( model, Cmd.none )
 
         GetCardsFromApi (Ok item) ->
-            ( model, Cmd.none )
+            ( { model | cards = item }, Cmd.none )
 
         GetCardFromApi (Err err) ->
             ( model, Cmd.none )
@@ -82,6 +84,12 @@ update msg model =
             in
                 ( { model | card = Just item, cards = cards_ ++ [ item ] }, Cmd.none )
 
+        FetchAllCards ->
+            ( model, getCardsView )
+
+        FetchAllColumns ->
+            ( model, getColumnsView )
+
         AddCard card_ ->
             ( { model | card = Just card_ }, saveCardView card_ )
 
@@ -101,6 +109,21 @@ decodeCard =
 decodeCards : Json.Decode.Decoder (List BoardTask.CardView)
 decodeCards =
     Json.Decode.list decodeCard
+
+
+decodeColumn : Json.Decode.Decoder BoardTask.ColumnView
+decodeColumn =
+    Json.Decode.map4
+        BoardTask.ColumnView
+        (Json.Decode.field "id" Json.Decode.int)
+        (Json.Decode.field "title" Json.Decode.string)
+        (Json.Decode.field "boardId" Json.Decode.int)
+        (Json.Decode.field "tableDescription" Json.Decode.string)
+
+
+decodeColumns : Json.Decode.Decoder (List BoardTask.ColumnView)
+decodeColumns =
+    Json.Decode.list decodeColumn
 
 
 
@@ -138,9 +161,9 @@ getColumnView identity =
             "http://localhost:8000/lists/" ++ identity
 
         req =
-            Http.get url decodeCard
+            Http.get url decodeColumn
     in
-        Http.send GetCardFromApi req
+        Http.send GetColumnFromApi req
 
 
 getColumnsView : Cmd Msg
@@ -150,9 +173,9 @@ getColumnsView =
             "http://localhost:8000/lists"
 
         req =
-            Http.get url decodeCard
+            Http.get url decodeColumns
     in
-        Http.send GetCardFromApi req
+        Http.send GetColumnsFromApi req
 
 
 saveCardView : BoardTask.CardView -> Cmd Msg
