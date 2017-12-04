@@ -10,6 +10,7 @@ import Boards.View as Boards exposing (view)
 import BoardDetails.View as BoardDetails
 import Material.Options as Options exposing (css, when)
 import Material.Layout as Layout
+import Login.View as Login
 
 
 tabs : List (Model -> Html Msg)
@@ -40,7 +41,7 @@ view_ model =
                     div [] [ text "404" ]
 
                 LoginPage ->
-                    div [] [ text "login" ]
+                    div [] [ Html.map LoginMsg (Login.view model.login) ]
 
                 LogoutPage ->
                     div [] [ text "login" ]

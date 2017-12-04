@@ -10,6 +10,7 @@ import BoardDetails.Update as BoardDetails
 import BoardTask
 import Boards.Rest as Rest
 import Login.Update as Login
+import Login.Model as LoginModel
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -54,7 +55,12 @@ update msg model =
 
         LoginMsg msg_ ->
             let
-                ( m, c ) =
+                ( m, c, p ) =
                     Login.update msg_ model.login
             in
-                ( { model | login = m }, Cmd.map LoginMsg c )
+                case p of
+                    Nothing ->
+                        ( { model | login = m }, Cmd.map LoginMsg c )
+
+                    Just pageNext ->
+                        ( { model | login = m, activePage = pageNext }, Cmd.map LoginMsg c )

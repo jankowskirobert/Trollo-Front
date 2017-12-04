@@ -20,10 +20,10 @@ subscriptions model =
 init : ( Model, Cmd Msg )
 init =
     ( { boards = Boards.model
-      , activePage = Router.BoardsPage
+      , activePage = Router.LoginPage
       , user = BoardTask.model
       , boardDetails = BoardDetails.model
-      , login = Login.Model Maybe.Nothing Maybe.Nothing Maybe.Nothing
+      , login = Login.Model Maybe.Nothing Maybe.Nothing Maybe.Nothing Login.Fail
       }
     , Cmd.batch
         [ (Cmd.map BoardsMsg (Cmd.map RestMsg Rest.getBoardView))
