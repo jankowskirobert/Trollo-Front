@@ -103,31 +103,9 @@ viewColumns model =
         stored
             |> List.indexedMap
                 (\idx l ->
-                    -- Html.map ColumnMsg
-                    --     (Column.view l)
                     getBoardColumn idx l model
                 )
             |> div [ class "main_board" ]
-
-
-
--- viewDialog : Model -> Html Msg
--- viewDialog model =
---     let
---         ( title, content, actions ) =
---             case model.dialogAction of
---                 AddNewCard ->
---                     d0 model
---                 AddNewColumn ->
---                     ( [ div [] [] ], [ div [] [] ], [ div [] [] ] )
---                 None ->
---                     ( [ div [] [] ], [ div [] [] ], [ div [] [] ] )
---     in
---         Dialog.view []
---             [ Dialog.title [] title
---             , Dialog.content [] content
---             , Dialog.actions [] actions
---             ]
 
 
 getCardsForColumn : Int -> List BoardTask.CardView -> List ( Int, BoardTask.CardView )
