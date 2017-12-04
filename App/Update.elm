@@ -9,6 +9,7 @@ import Material.Helpers exposing (pure, lift, map1st, map2nd)
 import BoardDetails.Update as BoardDetails
 import BoardTask
 import Boards.Rest as Rest
+import Login.Update as Login
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -50,3 +51,10 @@ update msg model =
                     BoardDetails.update msg_ model.boardDetails
             in
                 ( { model | boardDetails = m }, Cmd.map BoardDetailsMsg c )
+
+        LoginMsg msg_ ->
+            let
+                ( m, c ) =
+                    Login.update msg_ model.login
+            in
+                ( { model | login = m }, Cmd.map LoginMsg c )
