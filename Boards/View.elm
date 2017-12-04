@@ -6,7 +6,7 @@ import Html exposing (..)
 import Array
 import Boards.Model exposing (Model, Msg(..))
 import BoardTask
-import Dialog
+import MyDialog as Dialog
 
 
 -- Cell variants
@@ -135,6 +135,7 @@ dialogConfig model =
                     in
                         { closeMessage = Just (SetOperation Boards.Model.None)
                         , containerClass = Nothing
+                        , sizeOf = Just Dialog.Medium
                         , header = Just (h3 [] [ text "Edit Board Name" ])
                         , body = Just (input [ placeholder ("Enter name / " ++ currentName_), onInput SetNewBoardName ] [])
                         , footer =
@@ -153,6 +154,7 @@ dialogConfig model =
         Boards.Model.AddNewBoard ->
             { closeMessage = Just (SetOperation Boards.Model.None)
             , containerClass = Nothing
+            , sizeOf = Just Dialog.Medium
             , header = Just (h3 [] [ text "Add Board" ])
             , body = Just (input [ placeholder ("Enter name "), onInput SetNewBoardName ] [])
             , footer =
@@ -190,6 +192,7 @@ dialogConfigErrorMsg message =
         , containerClass = Nothing
         , header = Just (h3 [] [ text "ERROR!" ])
         , body = Just (text errorMsg)
+        , sizeOf = Just Dialog.Medium
         , footer =
             Just
                 (button

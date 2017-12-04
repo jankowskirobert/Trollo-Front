@@ -7,7 +7,7 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import BoardTask
 import Debug
-import Dialog
+import MyDialog as Dialog
 import BoardDetails.Card.Edit as CardEdit
 
 
@@ -229,6 +229,7 @@ dialogConfig model =
         AddNewColumn ->
             { closeMessage = Just (SetDialogAction BoardDetails.Model.None)
             , containerClass = Nothing
+            , sizeOf = Just Dialog.Medium
             , header = Just (h3 [] [ text "List Name" ])
             , body = Just (input [ placeholder ("Enter name "), onInput SetNewColumndName ] [])
             , footer =
@@ -249,6 +250,7 @@ dialogConfig model =
                 Just card_ ->
                     { closeMessage = Just (SetDialogAction BoardDetails.Model.None)
                     , containerClass = Nothing
+                    , sizeOf = Just Dialog.Large
                     , header = Just (h3 [] [ text "Show Card Details" ])
                     , body = Just (div [] [ text card_.title, text card_.description ])
                     , footer =
@@ -264,6 +266,7 @@ dialogConfig model =
         AddCard _ ->
             { closeMessage = Just (SetDialogAction BoardDetails.Model.None)
             , containerClass = Nothing
+            , sizeOf = Just Dialog.Medium
             , header = Just (h3 [] [ text "List Name" ])
             , body = Just (input [ placeholder ("Enter name "), onInput SetNewCardName ] [])
             , footer =
@@ -282,6 +285,7 @@ dialogConfig model =
         EditColumn _ _ ->
             { closeMessage = Just (SetDialogAction BoardDetails.Model.None)
             , containerClass = Nothing
+            , sizeOf = Just Dialog.Medium
             , header = Just (h3 [] [ text "Edit list" ])
             , body = Just (input [ placeholder ("Enter name "), onInput SetNewColumndName ] [])
             , footer =
@@ -301,6 +305,7 @@ dialogConfigErrorMsg =
     , containerClass = Nothing
     , header = Just (h3 [] [ text "ERROR!" ])
     , body = Just (text "Board not found")
+    , sizeOf = Just Dialog.Medium
     , footer =
         Just
             (button

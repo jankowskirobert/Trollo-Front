@@ -1,7 +1,7 @@
 module BoardDetails.Card.Edit exposing (..)
 
 import BoardTask
-import Dialog
+import MyDialog as Dialog
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
@@ -220,6 +220,7 @@ dialogConfig model =
         { closeMessage = Just (None)
         , containerClass = Just "modal-dialog modal-lg"
         , header = Just (h3 [] [ text "Edit Card Details" ])
+        , sizeOf = Just Dialog.Large
         , body =
             Just
                 (div []
