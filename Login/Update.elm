@@ -8,10 +8,10 @@ import Debug
 update : Msg -> Model -> ( Model, Cmd Msg, Maybe Page )
 update msg model =
     case Debug.log "MessageLogin" msg of
-        SingIn ->
+        SignIn ->
             ( { model | status = Successful }, Cmd.none, Just BoardsPage )
 
-        SingOut ->
+        SignOut ->
             ( model, Cmd.none, Maybe.Nothing )
 
         Register ->

@@ -32,8 +32,8 @@ loginForm =
             , input [ placeholder ("Enter password "), onInput SetPassword ] []
             , button
                 [ class "btn btn-success"
-                , onClick (SingIn)
+                , onClick (SignIn)
                 ]
-                [ text "Sing in" ]
+                [ text "Sign in" ]
             ]
         ]

@@ -16,8 +16,8 @@ type Status
 
 
 type Msg
-    = SingIn
-    | SingOut
+    = SignIn
+    | SignOut
     | Register
     | SetUsername String
     | SetPassword String
