@@ -10,6 +10,8 @@ import Boards.Rest as Rest
 import BoardDetails.Rest as CardRest
 import Login.Model as Login
 import Login.View as LoginView
+import Register.Model as Register
+import Register.View as RegisterView
 
 
 subscriptions : Model -> Sub Msg
@@ -20,10 +22,11 @@ subscriptions model =
 init : ( Model, Cmd Msg )
 init =
     ( { boards = Boards.model
-      , activePage = Router.LoginPage
+      , activePage = Router.RegisterPage
       , user = BoardTask.model
       , boardDetails = BoardDetails.model
       , login = Login.Model Maybe.Nothing Maybe.Nothing Maybe.Nothing Login.Fail
+      , register = Register.Model Maybe.Nothing Maybe.Nothing Maybe.Nothing Register.Fail
       }
     , Cmd.batch
         [ (Cmd.map BoardsMsg (Cmd.map RestMsg Rest.getBoardView))
@@ -38,6 +41,7 @@ type Msg
     = BoardsMsg Boards.Msg
     | BoardDetailsMsg BoardDetails.Msg
     | LoginMsg Login.Msg
+    | RegisterMsg Register.Msg
     | SetActivePage Router.Page
     | GoHome Int
 
@@ -48,6 +52,7 @@ type alias Model =
     , boards : Boards.Model
     , boardDetails : BoardDetails.Model
     , login : Login.Model
+    , register : Register.Model
     }
 
 

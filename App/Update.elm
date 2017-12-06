@@ -11,6 +11,8 @@ import BoardTask
 import Boards.Rest as Rest
 import Login.Update as Login
 import Login.Model as LoginModel
+import Register.Update as Register
+import Register.Model as RegisterModel
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -64,3 +66,15 @@ update msg model =
 
                     Just pageNext ->
                         ( { model | login = m, activePage = pageNext }, Cmd.map LoginMsg c )
+
+        RegisterMsg msg_ ->
+            let
+                ( m, c, p ) =
+                    Register.update msg_ model.register
+            in
+                case p of
+                    Nothing ->
+                        ( { model | register = m }, Cmd.map RegisterMsg c )
+
+                    Just pageNext ->
+                        ( { model | register = m, activePage = pageNext }, Cmd.map RegisterMsg c )

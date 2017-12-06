@@ -8,4 +8,5 @@ type Page
     | BoardDetailsPage
     | LoginPage
     | LogoutPage
+    | RegisterPage
     | PageNotFound

@@ -11,6 +11,7 @@ import BoardDetails.View as BoardDetails
 import Material.Options as Options exposing (css, when)
 import Material.Layout as Layout
 import Login.View as Login
+import Register.View as Register
 
 
 tabs : List (Model -> Html Msg)
@@ -45,6 +46,9 @@ view_ model =
 
                 LogoutPage ->
                     div [] [ text "login" ]
+
+                RegisterPage ->
+                    div [] [ Html.map RegisterMsg (Register.view model.register) ]
     in
         div [ headerStyle ]
             [ header model, h_ ]
