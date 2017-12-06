@@ -1,6 +1,6 @@
-module Login.View exposing (view)
+module Register.View exposing (view)
 
-import Login.Model exposing (Model, Msg(..))
+import Register.Model exposing (Model, Msg(..))
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
@@ -11,7 +11,7 @@ import Html.Events exposing (..)
 
 view : Model -> Html Msg
 view model =
-    div [] [ loginForm ]
+    div [] [ registerForm ]
 
 
 heading : Attribute msg
@@ -25,23 +25,25 @@ heading =
         ]
 
 
-loginForm : Html Msg
-loginForm =
-    div [ loginFormStyle ]
+registerForm : Html Msg
+registerForm =
+    div [ registerFormStyle ]
         [ Html.form []
-            [ h3 [ heading ] [ text "Welcome Back! Please Sign In" ]
+            [ h3 [ heading ] [ text "Hello kid! Wanna register?" ]
             , hr [] []
             , input [ inputStyle, placeholder ("Enter username "), onInput SetUsername ] []
             , p [] []
             , input [ inputStyle, placeholder ("Enter password "), onInput SetPassword ] []
             , p [] []
+            , input [ inputStyle, placeholder ("Confirm password "), onInput ConfirmPassword ] []
+            , p [] []
             , button
-                [ loginButtonStyle
-                , onClick (SignIn)
+                [ registerButtonStyle
+                , onClick (Cancel)
                 ]
-                [ text "Sign in" ]
+                [ text "Cancel" ]
             , button
-                [ loginButtonStyle
+                [ registerButtonStyle
                 , onClick (Register) -- ACTION TO BE ADDED
                 ]
                 [ text "Register" ]
@@ -49,13 +51,13 @@ loginForm =
         ]
 
 
-loginFormStyle : Attribute msg
-loginFormStyle = 
+registerFormStyle : Attribute msg
+registerFormStyle = 
     style [   ( "margin", "auto" )
           ,   ( "color", "#646464" )
           ,   ( "backgroundColor", "#3D88BF" )
           ,   ( "width", "230px" )
-          ,   ( "height", "250px" )
+          ,   ( "height", "300px" )
           ,   ( "margin-top", "30px" )
 
           ]
@@ -68,8 +70,8 @@ inputStyle =
         , ( "margin-top", "8px" )
         ]
 
-loginButtonStyle : Attribute msg
-loginButtonStyle =
+registerButtonStyle : Attribute msg
+registerButtonStyle =
     style
         [ ( "color", "#646464" )
         , ( "backgroundColor", "#E3EBEE" )

@@ -1,17 +1,14 @@
-module Login.Update exposing (update)
+module Register.Update exposing (update)
 
 import Page exposing (..)
-import Login.Model exposing (Model, Msg(..), Status(..))
+import Register.Model exposing (Model, Msg(..), Status(..))
 import Debug
 
 
 update : Msg -> Model -> ( Model, Cmd Msg, Maybe Page )
 update msg model =
-    case Debug.log "MessageLogin" msg of
-        SignIn ->
-            ( { model | status = Successful }, Cmd.none, Just BoardsPage )
-
-        SignOut ->
+    case Debug.log "MessageRegister" msg of
+        Cancel ->
             ( model, Cmd.none, Maybe.Nothing )
 
         Register ->
@@ -21,4 +18,7 @@ update msg model =
             ( { model | username = Just usr }, Cmd.none, Maybe.Nothing )
 
         SetPassword pss ->
-            ( { model | password = Just pss }, Cmd.none, Maybe.Nothing )
+            ( { model | passwordConfirm = Just pss }, Cmd.none, Maybe.Nothing )
+
+        ConfirmPassword pssCnf ->
+        ( { model | passwordConfirm = Just pssCnf }, Cmd.none, Maybe.Nothing )

@@ -1,4 +1,4 @@
-module Login.Model exposing (Model, Msg(..), Status(..))
+module Register.Model exposing (Model, Msg(..), Status(..))
 
 
 type alias Model =
@@ -16,8 +16,8 @@ type Status
 
 
 type Msg
-    = SignIn
-    | SignOut
+    = Cancel
     | Register
     | SetUsername String
     | SetPassword String
+    | ConfirmPassword String
