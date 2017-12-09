@@ -3,78 +3,80 @@ module App.Update exposing (..)
 import App.Model exposing (..)
 import Page
 import Boards.Update as Boards
-import Boards.Model as BoardModel
 import Debug
-import Material.Helpers exposing (pure, lift, map1st, map2nd)
 import BoardDetails.Update as BoardDetails
-import BoardTask
-import Boards.Rest as Rest
 import Login.Update as Login
 import Login.Model as LoginModel
 import Register.Update as Register
-import Register.Model as RegisterModel
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    case Debug.log "Message" msg of
-        BoardsMsg msg_ ->
+    case Debug.log "Message" ( msg, model.activePage ) of
+        ( BoardsMsg msg_, Page.BoardsPage ) ->
             let
                 ( m, c, p ) =
-                    Boards.update msg_ model.boards
-
-                bd_ =
-                    model.boardDetails
-
-                updated =
-                    case Debug.log "Message" m.currentBoard of
-                        Nothing ->
-                            bd_
-
-                        Just x ->
-                            { bd_ | columns = (BoardTask.getColumnsForBoard x.id), board = Just x }
+                    Boards.update msg_ model.boardsModel
             in
                 case p of
                     Nothing ->
-                        ( { model | boards = m, boardDetails = updated }, Cmd.map BoardsMsg c )
+                        ( { model | boardsModel = m }, Cmd.map BoardsMsg c )
 
-                    --REVOLUTION!!!! cmd.map command by model
                     Just g ->
-                        ( { model | boards = m, activePage = g, boardDetails = updated }, Cmd.map BoardsMsg c )
+                        ( { model | activePage = g, boardsModel = m }, Cmd.map BoardsMsg c )
 
-        SetActivePage page ->
+        ( SetActivePage page, _ ) ->
             ( { model | activePage = page }, Cmd.none )
 
-        GoHome i ->
-            ( { model | activePage = Page.BoardsPage }, Cmd.map BoardsMsg (Cmd.map BoardModel.RestMsg Rest.getBoardView) )
+        ( GoHome i, _ ) ->
+            ( model, Cmd.none )
 
-        BoardDetailsMsg msg_ ->
+        ( BoardDetailsMsg msg_, Page.BoardDetailsPage view ) ->
+            -- let
+            --     ( m, c ) =
+            --         BoardDetails.update msg_ subM
+            -- in
+            -- case p of
+            --     Nothing ->
+            --         ( model, Cmd.map BoardDetailsMsg c )
+            --     Just g ->
+            -- ( model, Cmd.map BoardDetailsMsg c )
+            ( model, Cmd.none )
+
+        ( LoginMsg msg_, Page.LoginPage ) ->
             let
-                ( m, c ) =
-                    BoardDetails.update msg_ model.boardDetails
+                ( ( m, c ), out ) =
+                    Login.update msg_ model.loginModel
+
+                newModel_ =
+                    case out of
+                        LoginModel.Successful ->
+                            { model | user = { status = True } }
+
+                        LoginModel.Fail ->
+                            { model | user = { status = False } }
+
+                        LoginModel.None ->
+                            { model | user = { status = False } }
             in
-                ( { model | boardDetails = m }, Cmd.map BoardDetailsMsg c )
+                ( { newModel_ | loginModel = m }
+                , Cmd.map LoginMsg c
+                )
 
-        LoginMsg msg_ ->
-            let
-                ( m, c, p ) =
-                    Login.update msg_ model.login
-            in
-                case p of
-                    Nothing ->
-                        ( { model | login = m }, Cmd.map LoginMsg c )
+        ( LoginMsg msg_, _ ) ->
+            ( model, Cmd.none )
 
-                    Just pageNext ->
-                        ( { model | login = m, activePage = pageNext }, Cmd.map LoginMsg c )
+        ( RegisterMsg msg_, Page.RegisterPage ) ->
+            -- let
+            --     ( m, c, p ) =
+            --         Register.update msg_ subM
+            -- in
+            --     case p of
+            --         Nothing ->
+            --             ( model, Cmd.map RegisterMsg c )
+            --         Just g ->
+            --             ( { model | activePage = g }, Cmd.map RegisterMsg c )
+            ( model, Cmd.none )
 
-        RegisterMsg msg_ ->
-            let
-                ( m, c, p ) =
-                    Register.update msg_ model.register
-            in
-                case p of
-                    Nothing ->
-                        ( { model | register = m }, Cmd.map RegisterMsg c )
-
-                    Just pageNext ->
-                        ( { model | register = m, activePage = pageNext }, Cmd.map RegisterMsg c )
+        ( _, _ ) ->
+            ( model, Cmd.none )

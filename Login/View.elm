@@ -1,6 +1,6 @@
 module Login.View exposing (view)
 
-import Login.Model exposing (Model, Msg(..))
+import Login.Model exposing (Model, Msg(..), Status(..))
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
@@ -11,7 +11,7 @@ import Html.Events exposing (..)
 
 view : Model -> Html Msg
 view model =
-    div [] [ loginForm ]
+    div [] [ loginForm model ]
 
 
 heading : Attribute msg
@@ -25,40 +25,46 @@ heading =
         ]
 
 
-loginForm : Html Msg
-loginForm =
-    div [ loginFormStyle ]
-        [ Html.form []
-            [ h3 [ heading ] [ text "Welcome Back! Please Sign In" ]
-            , hr [] []
-            , input [ inputStyle, placeholder ("Enter username "), onInput SetUsername ] []
-            , p [] []
-            , input [ inputStyle, placeholder ("Enter password "), onInput SetPassword ] []
-            , p [] []
-            , button
-                [ loginButtonStyle
-                , onClick (SignIn)
+loginForm : Model -> Html Msg
+loginForm model =
+    let
+        title =
+            case model.status of
+                Fail ->
+                    "Fail - not found"
+
+                Successful ->
+                    "OK"
+
+                None ->
+                    "NONE"
+    in
+        div []
+            [ Html.form [ onSubmit SignIn, loginFormStyle ]
+                [ h3 [] [ text ("Welcome Back! Please Sign In " ++ title) ]
+                , hr [] []
+                , input [ placeholder ("Enter username "), onInput SetUsername ] []
+                , p [] []
+                , input [ placeholder ("Enter password "), onInput SetPassword ] []
+                , p [] []
+                , button
+                    []
+                    [ text "Sign in" ]
                 ]
-                [ text "Sign in" ]
-            , button
-                [ loginButtonStyle
-                , onClick (Register) -- ACTION TO BE ADDED
-                ]
-                [ text "Register" ]
             ]
-        ]
 
 
 loginFormStyle : Attribute msg
-loginFormStyle = 
-    style [   ( "margin", "auto" )
-          ,   ( "color", "#646464" )
-          ,   ( "backgroundColor", "#3D88BF" )
-          ,   ( "width", "230px" )
-          ,   ( "height", "250px" )
-          ,   ( "margin-top", "30px" )
+loginFormStyle =
+    style
+        [ ( "margin", "auto" )
+        , ( "color", "#646464" )
+        , ( "backgroundColor", "#3D88BF" )
+        , ( "width", "230px" )
+        , ( "height", "250px" )
+        , ( "margin-top", "30px" )
+        ]
 
-          ]
 
 inputStyle : Attribute msg
 inputStyle =
@@ -67,6 +73,7 @@ inputStyle =
         , ( "margin-left", "30px" )
         , ( "margin-top", "8px" )
         ]
+
 
 loginButtonStyle : Attribute msg
 loginButtonStyle =

@@ -146,7 +146,7 @@ getCardView : String -> Cmd Msg
 getCardView identity =
     let
         url =
-            "http://localhost:8000/cards/" ++ identity
+            "http://localhost:8000/card/" ++ identity
 
         req =
             Http.get url decodeCard
@@ -158,7 +158,7 @@ getColumnView : String -> Cmd Msg
 getColumnView identity =
     let
         url =
-            "http://localhost:8000/lists/" ++ identity
+            "http://localhost:8000/table/" ++ identity
 
         req =
             Http.get url decodeColumn
@@ -170,7 +170,7 @@ getColumnsView : Cmd Msg
 getColumnsView =
     let
         url =
-            "http://localhost:8000/lists"
+            "http://localhost:8000/tables"
 
         req =
             Http.get url decodeColumns

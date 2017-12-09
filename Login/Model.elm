@@ -1,4 +1,4 @@
-module Login.Model exposing (Model, Msg(..), Status(..))
+module Login.Model exposing (Model, Msg(..), Status(..), model)
 
 
 type alias Model =
@@ -6,6 +6,15 @@ type alias Model =
     , password : Maybe String
     , passwordConfirm : Maybe String
     , status : Status
+    }
+
+
+model : Model
+model =
+    { username = Maybe.Nothing
+    , password = Maybe.Nothing
+    , passwordConfirm = Maybe.Nothing
+    , status = None
     }
 
 
@@ -21,3 +30,5 @@ type Msg
     | Register
     | SetUsername String
     | SetPassword String
+    | CannotLogin
+    | SuccessfulLogin

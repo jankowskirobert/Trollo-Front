@@ -62,13 +62,13 @@ type alias AddBoard =
 
 
 type alias User =
-    { boards : List BoardView
+    { status : Bool
     }
 
 
 model : User
 model =
-    { boards = getExampleSetOfBoards
+    { status = False
     }
 
 
