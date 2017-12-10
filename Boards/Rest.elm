@@ -71,7 +71,7 @@ saveBoardView : BoardTask.BoardView -> Cmd Msg
 saveBoardView board =
     let
         url =
-            "http://0.0.0.0:8000/boards/?boardTitle=" ++ board.boardTitle
+            "http://0.0.0.0:8000/boards/"
 
         req =
             Http.request
@@ -95,7 +95,7 @@ updateBoardView : BoardTask.BoardView -> Cmd Msg
 updateBoardView board =
     let
         url =
-            "http://0.0.0.0:8000/board/" ++ (toString board.id)
+            "http://0.0.0.0:8000/boards/"
 
         req =
             Http.request
@@ -103,7 +103,7 @@ updateBoardView board =
                 , expect = Http.expectJson decodeBoard
                 , headers =
                     [ Http.header "Authorization" "Basic cm9iZXJ0OmFwaXBhc3N3b3Jk" ]
-                , method = "POST"
+                , method = "PUT"
                 , timeout = Nothing
                 , url = url
                 , withCredentials = False

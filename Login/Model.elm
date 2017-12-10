@@ -32,3 +32,4 @@ type Msg
     | SetPassword String
     | CannotLogin
     | SuccessfulLogin
+    | PostLogin (Result Http.Error BoardTask.AuthToken)

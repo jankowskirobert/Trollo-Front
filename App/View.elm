@@ -47,9 +47,30 @@ view model =
     in
         div [ headerStyle ]
             [ testLogin model.user
-            , button [ onClick (SetActivePage Page.LoginPage) ] [ text "Login" ]
-            , button [ onClick (SetActivePage Page.BoardsPage) ] [ text "Boards" ]
-            , h_
+            , article []
+                [ header []
+                    [ u [ headerNavigationUl ]
+                        [ li
+                            [ headerNavigationLi
+                            , headerNavigationLiA
+                            , headerNavigationLiAHover
+                            , onClick (SetActivePage Page.LoginPage)
+                            ]
+                            [ text "Login"
+                            ]
+                        , li
+                            [ headerNavigationLi
+                            , headerNavigationLiA
+                            , headerNavigationLiAHover
+                            , onClick (SetActivePage Page.BoardsPage)
+                            ]
+                            [ text "Boards"
+                            ]
+                        ]
+                    ]
+                , h_
+                , footer [] []
+                ]
             ]
 
 
@@ -111,3 +132,73 @@ headerButtonStyle =
         , ( "overflow", "hidden" )
         , ( "outline", "none" )
         ]
+
+
+headerNavigationUl : Attribute msg
+headerNavigationUl =
+    style
+        [ ( "list-style-type", "none" )
+        , ( "margin", "0" )
+        , ( "padding", "0" )
+        , ( "overflow", "hidden" )
+        , ( "background-color", "#333" )
+        ]
+
+
+headerNavigationLi : Attribute msg
+headerNavigationLi =
+    style
+        [ ( "float", "right" )
+        ]
+
+
+headerNavigationLiA : Attribute msg
+headerNavigationLiA =
+    style
+        [ ( "display", "block" )
+        , ( "color", "white" )
+        , ( "text-align", "center" )
+        , ( "padding", "14px 16px" )
+        , ( "text-decoration", "none" )
+        ]
+
+
+headerNavigationLiAHover : Attribute msg
+headerNavigationLiAHover =
+    style
+        [ ( "background-color", "#111" )
+        ]
+
+
+
+-- <style>
+-- ul {
+--     list-style-type: none;
+--     margin: 0;
+--     padding: 0;
+--     overflow: hidden;
+--     background-color: #333;
+-- }
+-- li {
+--     float: left;
+-- }
+-- li a {
+--     display: block;
+--     color: white;
+--     text-align: center;
+--     padding: 14px 16px;
+--     text-decoration: none;
+-- }
+-- li a:hover {
+--     background-color: #111;
+-- }
+-- </style>
+-- </head>
+-- <body>
+-- <ul>
+--   <li><a class="active" href="#home">Home</a></li>
+--   <li><a href="#news">News</a></li>
+--   <li><a href="#contact">Contact</a></li>
+--   <li><a href="#about">About</a></li>
+-- </ul>
+-- </body>

@@ -12,6 +12,7 @@ module BoardTask
         , User
         , model
         , CommentView
+        , AuthToken
         )
 
 import Json.Decode
@@ -46,6 +47,11 @@ type alias CommentView =
     , body : String
     , added : Date.Date
     , cardId : String
+    }
+
+
+type alias AuthToken =
+    { token : String
     }
 
 

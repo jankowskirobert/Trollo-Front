@@ -4,6 +4,7 @@ import Login.Model exposing (Model, Msg(..), Status(..))
 import Debug
 import Page exposing (Page(..))
 import Boards.Model as Boards
+import Base64
 
 
 update : Msg -> Model -> ( ( Model, Cmd Msg ), Status )
@@ -70,6 +71,19 @@ update msg model =
               )
             , None
             )
+        PostLogin (Err error)->
+             ( ( model
+              , Cmd.none
+                -- , Maybe.Nothing
+              )
+            , None
+
+        PostLogin (Ok token)->
+             ( ( model
+              , Cmd.none
+                -- , Maybe.Nothing
+              )
+            , None
 
 
 checkLogin : Maybe String -> Maybe String -> Bool
@@ -86,3 +100,10 @@ checkLogin usr pass =
 
         ( Nothing, _ ) ->
             False
+
+
+decodeToken : Json.Decode.Decoder BoardTask.AuthToken
+decodeToken =
+    Json.Decode.map
+        BoardTask.AuthToken
+        (Json.Decode.field "token" Json.Decode.string)
