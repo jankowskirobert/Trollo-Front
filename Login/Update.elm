@@ -107,3 +107,26 @@ decodeToken =
     Json.Decode.map
         BoardTask.AuthToken
         (Json.Decode.field "token" Json.Decode.string)
+
+loginToApi :String -> String -> Cmd Msg
+loginToApi user pass =
+    let
+        url =
+            "http://0.0.0.0:8000/boards/"
+
+        req =
+            Http.request
+                { body = (Http.jsonBody (encodBoardView board))
+                , expect = Http.expectJson decodeBoard
+                , headers =
+                    [ Http.header "Authorization" "Basic cm9iZXJ0OmFwaXBhc3N3b3Jk" ]
+                , method = "POST"
+                , timeout = Nothing
+                , url = url
+                , withCredentials = False
+                }
+
+        -- req =
+        --     Http.post url (Http.jsonBody (encodBoardView board)) decodeBoard
+    in
+        Http.send SaveBoardToApi req
