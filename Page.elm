@@ -8,9 +8,9 @@ import Register.Model as Register
 
 
 type Page
-    = BoardsPage
-    | BoardDetailsPage BoardTask.BoardView
-    | LoginPage
+    = BoardsPage Boards.Model
+    | BoardDetailsPage BoardTask.BoardView BoardDetails.Model
+    | LoginPage Login.Model
     | LogoutPage
     | RegisterPage
     | PageNotFound

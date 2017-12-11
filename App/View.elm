@@ -7,8 +7,10 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Page exposing (..)
 import Boards.View as Boards exposing (view)
+import Boards.Model as BoardsModel
 import BoardDetails.View as BoardDetails
 import Login.View as Login
+import Login.Model as LoginModel
 import Register.View as Register
 import BoardTask
 
@@ -23,10 +25,10 @@ view model =
     let
         h_ =
             case model.activePage of
-                BoardsPage ->
-                    div [] [ Html.map BoardsMsg (Boards.view model.boardsModel) ]
+                BoardsPage subModel ->
+                    div [] [ Html.map BoardsMsg (Boards.view subModel) ]
 
-                BoardDetailsPage subModel ->
+                BoardDetailsPage view subModel ->
                     -- Html.map BoardDetailsMsg (BoardDetails.view model.boardDetails)
                     -- div [] [ Html.map BoardDetailsMsg (BoardDetails.view subModel) ]
                     div [] []
@@ -35,8 +37,8 @@ view model =
                 PageNotFound ->
                     div [] [ text "404" ]
 
-                LoginPage ->
-                    div [] [ Html.map LoginMsg (Login.view model.loginModel) ]
+                LoginPage subModel ->
+                    div [] [ Html.map LoginMsg (Login.view subModel) ]
 
                 LogoutPage ->
                     div [] [ text "login" ]
@@ -54,7 +56,7 @@ view model =
                             [ headerNavigationLi
                             , headerNavigationLiA
                             , headerNavigationLiAHover
-                            , onClick (SetActivePage Page.LoginPage)
+                            , onClick (SetActivePage (Page.LoginPage LoginModel.model))
                             ]
                             [ text "Login"
                             ]
@@ -62,7 +64,7 @@ view model =
                             [ headerNavigationLi
                             , headerNavigationLiA
                             , headerNavigationLiAHover
-                            , onClick (SetActivePage Page.BoardsPage)
+                            , onClick (SetActivePage (Page.BoardsPage BoardsModel.model))
                             ]
                             [ text "Boards"
                             ]

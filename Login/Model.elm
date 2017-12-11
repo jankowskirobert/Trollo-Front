@@ -1,5 +1,8 @@
 module Login.Model exposing (Model, Msg(..), Status(..), model)
 
+import Http
+import BoardTask
+
 
 type alias Model =
     { username : Maybe String

@@ -5,6 +5,10 @@ import Debug
 import Page exposing (Page(..))
 import Boards.Model as Boards
 import Base64
+import Json.Decode
+import Json.Encode
+import Http
+import BoardTask
 
 
 update : Msg -> Model -> ( ( Model, Cmd Msg ), Status )
@@ -71,19 +75,22 @@ update msg model =
               )
             , None
             )
-        PostLogin (Err error)->
-             ( ( model
-              , Cmd.none
-                -- , Maybe.Nothing
-              )
-            , None
 
-        PostLogin (Ok token)->
-             ( ( model
+        PostLogin (Err error) ->
+            ( ( model
               , Cmd.none
                 -- , Maybe.Nothing
               )
             , None
+            )
+
+        PostLogin (Ok token) ->
+            ( ( model
+              , Cmd.none
+                -- , Maybe.Nothing
+              )
+            , None
+            )
 
 
 checkLogin : Maybe String -> Maybe String -> Bool
@@ -108,19 +115,31 @@ decodeToken =
         BoardTask.AuthToken
         (Json.Decode.field "token" Json.Decode.string)
 
-loginToApi :String -> String -> Cmd Msg
+
+encodeLogin : String -> String -> Json.Encode.Value
+encodeLogin user pass =
+    let
+        val =
+            [ ( "username", Json.Encode.string user )
+            , ( "password", Json.Encode.string pass )
+            ]
+    in
+        val
+            |> Json.Encode.object
+
+
+loginToApi : String -> String -> Cmd Msg
 loginToApi user pass =
     let
         url =
-            "http://0.0.0.0:8000/boards/"
+            "http://0.0.0.0:8000/login/"
 
         req =
             Http.request
-                { body = (Http.jsonBody (encodBoardView board))
-                , expect = Http.expectJson decodeBoard
-                , headers =
-                    [ Http.header "Authorization" "Basic cm9iZXJ0OmFwaXBhc3N3b3Jk" ]
+                { body = (Http.jsonBody (encodeLogin user pass))
+                , expect = Http.expectJson decodeToken
                 , method = "POST"
+                , headers = []
                 , timeout = Nothing
                 , url = url
                 , withCredentials = False
@@ -129,4 +148,4 @@ loginToApi user pass =
         -- req =
         --     Http.post url (Http.jsonBody (encodBoardView board)) decodeBoard
     in
-        Http.send SaveBoardToApi req
+        Http.send PostLogin req

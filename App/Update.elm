@@ -13,17 +13,17 @@ import Register.Update as Register
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case Debug.log "Message" ( msg, model.activePage ) of
-        ( BoardsMsg msg_, Page.BoardsPage ) ->
+        ( BoardsMsg msg_, Page.BoardsPage subModel ) ->
             let
                 ( m, c, p ) =
-                    Boards.update msg_ model.boardsModel
+                    Boards.update msg_ subModel
             in
                 case p of
                     Nothing ->
-                        ( { model | boardsModel = m }, Cmd.map BoardsMsg c )
+                        ( { model | activePage = Page.BoardsPage m }, Cmd.map BoardsMsg c )
 
                     Just g ->
-                        ( { model | activePage = g, boardsModel = m }, Cmd.map BoardsMsg c )
+                        ( { model | activePage = g }, Cmd.map BoardsMsg c )
 
         ( SetActivePage page, _ ) ->
             ( { model | activePage = page }, Cmd.none )
@@ -31,7 +31,7 @@ update msg model =
         ( GoHome i, _ ) ->
             ( model, Cmd.none )
 
-        ( BoardDetailsMsg msg_, Page.BoardDetailsPage view ) ->
+        ( BoardDetailsMsg msg_, Page.BoardDetailsPage view subModel ) ->
             -- let
             --     ( m, c ) =
             --         BoardDetails.update msg_ subM
@@ -43,10 +43,10 @@ update msg model =
             -- ( model, Cmd.map BoardDetailsMsg c )
             ( model, Cmd.none )
 
-        ( LoginMsg msg_, Page.LoginPage ) ->
+        ( LoginMsg msg_, Page.LoginPage subModel ) ->
             let
                 ( ( m, c ), out ) =
-                    Login.update msg_ model.loginModel
+                    Login.update msg_ subModel
 
                 newModel_ =
                     case out of
@@ -59,7 +59,7 @@ update msg model =
                         LoginModel.None ->
                             { model | user = { status = False } }
             in
-                ( { newModel_ | loginModel = m }
+                ( { newModel_ | activePage = Page.LoginPage m }
                 , Cmd.map LoginMsg c
                 )
 

@@ -28,7 +28,7 @@ heading =
 registerForm : Html Msg
 registerForm =
     div [ registerFormStyle ]
-        [ Html.form []
+        [ Html.form [ onSubmit Register ]
             [ h3 [ heading ] [ text "Hello kid! Wanna register?" ]
             , hr [] []
             , input [ inputStyle, placeholder ("Enter username "), onInput SetUsername ] []
@@ -39,12 +39,6 @@ registerForm =
             , p [] []
             , button
                 [ registerButtonStyle
-                , onClick (Cancel)
-                ]
-                [ text "Cancel" ]
-            , button
-                [ registerButtonStyle
-                , onClick (Register) -- ACTION TO BE ADDED
                 ]
                 [ text "Register" ]
             ]
@@ -52,15 +46,16 @@ registerForm =
 
 
 registerFormStyle : Attribute msg
-registerFormStyle = 
-    style [   ( "margin", "auto" )
-          ,   ( "color", "#646464" )
-          ,   ( "backgroundColor", "#3D88BF" )
-          ,   ( "width", "230px" )
-          ,   ( "height", "300px" )
-          ,   ( "margin-top", "30px" )
+registerFormStyle =
+    style
+        [ ( "margin", "auto" )
+        , ( "color", "#646464" )
+        , ( "backgroundColor", "#3D88BF" )
+        , ( "width", "230px" )
+        , ( "height", "300px" )
+        , ( "margin-top", "30px" )
+        ]
 
-          ]
 
 inputStyle : Attribute msg
 inputStyle =
@@ -69,6 +64,7 @@ inputStyle =
         , ( "margin-left", "30px" )
         , ( "margin-top", "8px" )
         ]
+
 
 registerButtonStyle : Attribute msg
 registerButtonStyle =

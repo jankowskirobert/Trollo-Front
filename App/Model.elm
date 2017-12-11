@@ -21,10 +21,8 @@ subscriptions model =
 
 init : ( Model, Cmd Msg )
 init =
-    ( { activePage = (BoardsPage)
+    ( { activePage = (LoginPage Login.model)
       , user = BoardTask.model
-      , loginModel = Login.model
-      , boardsModel = Boards.model
       }
     , Cmd.batch
         [--(Cmd.map BoardsMsg (Cmd.map RestMsg Rest.getBoardView))
@@ -46,8 +44,6 @@ type Msg
 type alias Model =
     { activePage : Page
     , user : BoardTask.User
-    , loginModel : Login.Model
-    , boardsModel : Boards.Model
     }
 
 
