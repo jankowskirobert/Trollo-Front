@@ -32,16 +32,14 @@ update msg model =
             ( model, Cmd.none )
 
         ( BoardDetailsMsg msg_, Page.BoardDetailsPage view subModel ) ->
-            -- let
-            --     ( m, c ) =
-            --         BoardDetails.update msg_ subM
-            -- in
-            -- case p of
-            --     Nothing ->
-            --         ( model, Cmd.map BoardDetailsMsg c )
-            --     Just g ->
-            -- ( model, Cmd.map BoardDetailsMsg c )
-            ( model, Cmd.none )
+            let
+                ( m, c ) =
+                    BoardDetails.update msg_ subModel
+
+                newModel =
+                    { m | board = Just view }
+            in
+                ( { model | activePage = Page.BoardDetailsPage view m }, Cmd.map BoardDetailsMsg c )
 
         ( LoginMsg msg_, Page.LoginPage subModel ) ->
             let

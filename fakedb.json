@@ -63,6 +63,22 @@
       "boardId": 1,
       "columnId": 0,
       "id": 39
+    },
+    {
+      "status": "OFFLINE ",
+      "title": "fsdf",
+      "description": "OFFLINE ",
+      "boardId": 1,
+      "columnId": 0,
+      "id": 40
+    },
+    {
+      "status": "OFFLINE ",
+      "title": "vsdv",
+      "description": "OFFLINE ",
+      "boardId": 1,
+      "columnId": 0,
+      "id": 41
     }
   ],
   "boards": [
@@ -195,6 +211,16 @@
       "boardTitle": "qazxsw",
       "boardDescription": "",
       "id": 26
+    },
+    {
+      "boardTitle": "sdsdf",
+      "boardDescription": "",
+      "id": 27
+    },
+    {
+      "boardTitle": "dfs",
+      "boardDescription": "",
+      "id": 28
     }
   ],
   "columns": [
