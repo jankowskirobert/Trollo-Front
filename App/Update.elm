@@ -33,11 +33,11 @@ update msg model =
 
         ( BoardDetailsMsg msg_, Page.BoardDetailsPage view subModel ) ->
             let
-                ( m, c ) =
-                    BoardDetails.update msg_ subModel
+                detailed =
+                    { subModel | board = Just view }
 
-                newModel =
-                    { m | board = Just view }
+                ( m, c ) =
+                    BoardDetails.update msg_ detailed
             in
                 ( { model | activePage = Page.BoardDetailsPage view m }, Cmd.map BoardDetailsMsg c )
 
