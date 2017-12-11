@@ -22,6 +22,7 @@ type alias Model =
     , newCommentBody : Maybe String
     , comments : List BoardTask.CommentView
     , currentDate : Maybe Date.Date
+    , newColor : Maybe String
     }
 
 
@@ -37,6 +38,7 @@ model =
         Maybe.Nothing
         []
         Maybe.Nothing
+        Maybe.Nothing
 
 
 type Msg
@@ -51,6 +53,7 @@ type Msg
     | AddNewComment
     | SaveNewDate Date.Date
     | UpdateCurrentDate
+    | UpdateColor String
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -122,6 +125,9 @@ update msg model =
         SaveNewDate date ->
             ( { model | currentDate = Just date }, Cmd.none )
 
+        UpdateColor color ->
+            ( { model | newColor = Just color }, Cmd.none )
+
 
 updateCardOnList : Model -> List BoardTask.CardView -> List BoardTask.CardView
 updateCardOnList updateModel listToUpdateOn =
@@ -170,7 +176,12 @@ updateCardOnList updateModel listToUpdateOn =
                                         ( newTitle_, newDesc_ )
 
                             updated =
-                                { selectedCard | title = newName, description = newDescription }
+                                case updateModel.newColor of
+                                    Nothing ->
+                                        { selectedCard | title = newName, description = newDescription }
+
+                                    Just nCol ->
+                                        { selectedCard | title = newName, description = newDescription, color = nCol }
                         in
                             (updateElement2 listToUpdateOn selectedCardIndex updated)
 
@@ -216,10 +227,18 @@ dialogConfig model =
 
                         Just card ->
                             commentsSectionInDialog model.comments card
+
+        styles =
+            case model.currentCard of
+                Nothing ->
+                    style []
+
+                Just crd ->
+                    style [ ( "background-color", crd.color ) ]
     in
         { closeMessage = Just (None)
         , containerClass = Just "modal-dialog modal-lg"
-        , header = Just (h3 [] [ text "Edit Card Details" ])
+        , header = Just (h3 [ styles ] [ text "Edit Card Details" ])
         , sizeOf = Just Dialog.Large
         , body =
             Just
@@ -227,6 +246,7 @@ dialogConfig model =
                     [ div [] [ input [ placeholder ("Enter name "), onInput SetNewCardName ] [] ]
                     , div [] [ input [ placeholder ("Enter desc "), onInput SetNewCardDescription ] [] ]
                     , ele
+                    , input [ type_ "color", onInput UpdateColor ] [ text "label color" ]
                     ]
                 )
         , footer =

@@ -96,7 +96,7 @@ update msg model =
 
 decodeCard : Json.Decode.Decoder BoardTask.CardView
 decodeCard =
-    Json.Decode.map6
+    Json.Decode.map7
         BoardTask.CardView
         (Json.Decode.field "id" Json.Decode.int)
         (Json.Decode.field "status" Json.Decode.string)
@@ -104,6 +104,7 @@ decodeCard =
         (Json.Decode.field "description" Json.Decode.string)
         (Json.Decode.field "boardId" Json.Decode.int)
         (Json.Decode.field "columnId" Json.Decode.int)
+        (Json.Decode.field "color" Json.Decode.string)
 
 
 decodeCards : Json.Decode.Decoder (List BoardTask.CardView)

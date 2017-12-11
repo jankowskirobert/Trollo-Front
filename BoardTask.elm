@@ -31,7 +31,7 @@ type alias Team =
 
 
 type alias CardView =
-    { id : Int, status : String, title : String, description : String, boardId : Int, columnId : Int }
+    { id : Int, status : String, title : String, description : String, boardId : Int, columnId : Int, color : String }
 
 
 type alias ColumnView =
