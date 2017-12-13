@@ -48,16 +48,13 @@ update msg model =
 
                 newModel_ =
                     case out of
-                        LoginModel.Successful ->
+                        Nothing ->
+                            { model | user = { status = False } }
+
+                        Just token ->
                             { model | user = { status = True } }
-
-                        LoginModel.Fail ->
-                            { model | user = { status = False } }
-
-                        LoginModel.None ->
-                            { model | user = { status = False } }
             in
-                ( { newModel_ | activePage = Page.LoginPage m }
+                ( { newModel_ | activePage = Page.LoginPage { m | token = out } }
                 , Cmd.map LoginMsg c
                 )
 

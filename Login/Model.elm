@@ -9,6 +9,7 @@ type alias Model =
     , password : Maybe String
     , passwordConfirm : Maybe String
     , status : Status
+    , token : Maybe BoardTask.AuthToken
     }
 
 
@@ -18,6 +19,7 @@ model =
     , password = Maybe.Nothing
     , passwordConfirm = Maybe.Nothing
     , status = None
+    , token = Maybe.Nothing
     }
 
 

@@ -42,19 +42,18 @@ getColumnCard indexOnList card coms =
             []
             [ header []
                 [ div
-                    [ width 80
-                    , style [ ( "word-wrap", "break-word" ) ]
+                    [ style [ ( "word-wrap", "break-word" ) ]
                     ]
-                    [ text card.title ]
-                , div
-                    [ style
-                        [ ( "float", "right" )
-                        , ( "background-color", card.color )
+                    [ text card.title
+                    , span
+                        [ property "innerHTML" (Json.Encode.string "&nbsp;&nbsp;&nbsp;&nbsp;")
+                        , style
+                            [ ( "background-color", card.color )
+                            , ( "float", "right" )
+                            ]
                         ]
-                    , width 10
-                    , height 5
+                        []
                     ]
-                    [ span [ property "innerHTML" (Json.Encode.string "&nbsp;&nbsp;&nbsp;") ] [] ]
                 ]
             , button
                 [ listDetailsButtonStyle

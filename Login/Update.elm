@@ -11,29 +11,40 @@ import Http
 import BoardTask
 
 
-update : Msg -> Model -> ( ( Model, Cmd Msg ), Status )
+update : Msg -> Model -> ( ( Model, Cmd Msg ), Maybe BoardTask.AuthToken )
 update msg model =
     case Debug.log "MessageLogin" msg of
         SignIn ->
-            let
-                state_ =
-                    if (checkLogin model.username model.password) then
-                        Successful
-                    else
-                        Fail
-            in
-                ( ( { model | status = state_ }
-                  , Cmd.none
-                  )
-                , state_
-                )
+            case ( model.username, model.password ) of
+                ( Just u, Just p ) ->
+                    ( ( model
+                      , loginToApi u p
+                      )
+                    , Maybe.Nothing
+                    )
+
+                ( _, Nothing ) ->
+                    ( ( model
+                      , Cmd.none
+                        -- , Maybe.Nothing
+                      )
+                    , Maybe.Nothing
+                    )
+
+                ( Nothing, _ ) ->
+                    ( ( model
+                      , Cmd.none
+                        -- , Maybe.Nothing
+                      )
+                    , Maybe.Nothing
+                    )
 
         SignOut ->
             ( ( model
               , Cmd.none
                 -- , Maybe.Nothing
               )
-            , None
+            , Maybe.Nothing
             )
 
         Register ->
@@ -41,7 +52,7 @@ update msg model =
               , Cmd.none
                 -- , Maybe.Nothing
               )
-            , None
+            , Maybe.Nothing
             )
 
         SetUsername usr ->
@@ -49,7 +60,7 @@ update msg model =
               , Cmd.none
                 -- , Maybe.Nothing
               )
-            , None
+            , Maybe.Nothing
             )
 
         SetPassword pss ->
@@ -57,7 +68,7 @@ update msg model =
               , Cmd.none
                 -- , Maybe.Nothing
               )
-            , None
+            , Maybe.Nothing
             )
 
         CannotLogin ->
@@ -65,7 +76,7 @@ update msg model =
               , Cmd.none
                 -- , Maybe.Nothing
               )
-            , Fail
+            , Maybe.Nothing
             )
 
         SuccessfulLogin ->
@@ -73,7 +84,7 @@ update msg model =
               , Cmd.none
                 -- , Maybe.Nothing
               )
-            , None
+            , Maybe.Nothing
             )
 
         PostLogin (Err error) ->
@@ -81,15 +92,15 @@ update msg model =
               , Cmd.none
                 -- , Maybe.Nothing
               )
-            , None
+            , Maybe.Nothing
             )
 
         PostLogin (Ok token) ->
-            ( ( model
+            ( ( { model | token = Just token }
               , Cmd.none
                 -- , Maybe.Nothing
               )
-            , None
+            , Just token
             )
 
 
@@ -132,7 +143,7 @@ loginToApi : String -> String -> Cmd Msg
 loginToApi user pass =
     let
         url =
-            "http://0.0.0.0:8000/login/"
+            "http://0.0.0.0:8000/login"
 
         req =
             Http.request
