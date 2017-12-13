@@ -76,7 +76,7 @@ update msg model =
                     ( Just x, Just y ) ->
                         let
                             cardToPut =
-                                (BoardTask.CardView 1 "OFFLINE " x "OFFLINE " 1 y.id)
+                                (BoardTask.CardView 1 "OFFLINE " x "OFFLINE " 1 y.id "")
 
                             updated =
                                 cards_ ++ [ cardToPut ]

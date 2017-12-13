@@ -9,6 +9,7 @@ import BoardTask
 import Debug
 import MyDialog as Dialog
 import BoardDetails.Card.Edit as CardEdit
+import Json.Encode
 
 
 -- import Column
@@ -39,7 +40,21 @@ getColumnCard indexOnList card coms =
     article [ class "card" ]
         [ div
             []
-            [ header [] [ text card.title ]
+            [ header []
+                [ div
+                    [ style [ ( "word-wrap", "break-word" ) ]
+                    ]
+                    [ text card.title
+                    , span
+                        [ property "innerHTML" (Json.Encode.string "&nbsp;&nbsp;&nbsp;&nbsp;")
+                        , style
+                            [ ( "background-color", card.color )
+                            , ( "float", "right" )
+                            ]
+                        ]
+                        []
+                    ]
+                ]
             , button
                 [ listDetailsButtonStyle
                 , onClick (SetDialogAction (BoardDetails.Model.ShowCardDetail card))

@@ -2,16 +2,17 @@ module Boards.Update exposing (update)
 
 import Boards.Model exposing (Msg(..), Model, Operation(..))
 import BoardTask
-import Page exposing (Page(..))
 import Debug
 import Http
 import Json.Decode
 import Json.Decode.Pipeline
 import Boards.Rest as Rest
 import Array
+import Page
+import BoardDetails.Model as BoardDetails
 
 
-update : Msg -> Model -> ( Model, Cmd Msg, Maybe Page )
+update : Msg -> Model -> ( Model, Cmd Msg, Maybe Page.Page )
 update msg model =
     case Debug.log "[BOARDS]Message" msg of
         AddBoard ->
@@ -36,7 +37,7 @@ update msg model =
             case oper of
                 Edit boardId board ->
                     ( { model
-                        | opr = oper
+                        | opr = Just oper
                         , currentBoardIdx = Just boardId
                         , currentBoard = Just board
                         , showDialog = True
@@ -45,9 +46,9 @@ update msg model =
                     , Maybe.Nothing
                     )
 
-                None ->
+                HideDialog ->
                     ( { model
-                        | opr = oper
+                        | opr = Just oper
                         , currentBoardIdx = Maybe.Nothing
                         , currentBoard = Maybe.Nothing
                         , showDialog = False
@@ -58,7 +59,7 @@ update msg model =
 
                 AddNewBoard ->
                     ( { model
-                        | opr = oper
+                        | opr = Just oper
                         , showDialog = True
                       }
                     , Cmd.none
@@ -66,18 +67,22 @@ update msg model =
                     )
 
                 Choose selectedBoard ->
-                    ( { model
-                        | opr = oper
-                        , currentBoard = (Just selectedBoard)
-                        , showDialog = False
-                      }
-                    , Cmd.none
-                    , Just BoardDetailsPage
-                    )
+                    let
+                        bdModel =
+                            BoardDetails.model
+                    in
+                        ( { model
+                            | opr = Just oper
+                            , currentBoard = (Just selectedBoard)
+                            , showDialog = False
+                          }
+                        , Cmd.none
+                        , Just (Page.BoardDetailsPage selectedBoard { bdModel | board = Just selectedBoard })
+                        )
 
                 ConnectionError message ->
                     ( { model
-                        | opr = oper
+                        | opr = Just oper
                         , showDialog = True
                       }
                     , Cmd.none
@@ -120,7 +125,7 @@ update msg model =
                                     in
                                         ( { model
                                             | boards = updatedBoards
-                                            , opr = None
+                                            , opr = Just HideDialog
                                             , showDialog = False
                                             , newBoardName = Maybe.Nothing
                                           }
@@ -137,6 +142,9 @@ update msg model =
                     m.boards
             in
                 ( { model | rest = m, boards = remaped }, Cmd.map RestMsg c, Maybe.Nothing )
+
+        None ->
+            ( model, Cmd.none, Maybe.Nothing )
 
 
 decodeBoard : Json.Decode.Decoder BoardTask.BoardView

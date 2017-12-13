@@ -1,4 +1,7 @@
-module Login.Model exposing (Model, Msg(..), Status(..))
+module Login.Model exposing (Model, Msg(..), Status(..), model)
+
+import Http
+import BoardTask
 
 
 type alias Model =
@@ -6,6 +9,17 @@ type alias Model =
     , password : Maybe String
     , passwordConfirm : Maybe String
     , status : Status
+    , token : Maybe BoardTask.AuthToken
+    }
+
+
+model : Model
+model =
+    { username = Maybe.Nothing
+    , password = Maybe.Nothing
+    , passwordConfirm = Maybe.Nothing
+    , status = None
+    , token = Maybe.Nothing
     }
 
 
@@ -21,3 +35,6 @@ type Msg
     | Register
     | SetUsername String
     | SetPassword String
+    | CannotLogin
+    | SuccessfulLogin
+    | PostLogin (Result Http.Error BoardTask.AuthToken)

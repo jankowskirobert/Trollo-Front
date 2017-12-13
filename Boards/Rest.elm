@@ -8,6 +8,7 @@ import Debug
 import Http
 import Json.Decode
 import Json.Encode
+import Base64
 
 
 type alias Model =
@@ -45,22 +46,47 @@ getBoardView : Cmd Msg
 getBoardView =
     let
         url =
-            "http://localhost:8000/boards"
+            "http://0.0.0.0:8000/boards"
+
+        -- //Authorization: Basic cm9iZXJ0OmFwaXBhc3N3b3Jk
+        request =
+            Http.request
+                { method = "GET"
+                , headers =
+                    [ Http.header "Authorization" "Basic cm9iZXJ0OmFwaXBhc3N3b3Jk" ]
+                , url = url
+                , body = Http.emptyBody
+                , expect = Http.expectJson decodeBoards
+                , timeout = Nothing
+                , withCredentials = False
+                }
 
         req =
             Http.get url decodeBoards
     in
-        Http.send GetBoardsFromApi req
+        Http.send GetBoardsFromApi request
 
 
 saveBoardView : BoardTask.BoardView -> Cmd Msg
 saveBoardView board =
     let
         url =
-            "http://localhost:8000/boards"
+            "http://0.0.0.0:8000/boards/"
 
         req =
-            Http.post url (Http.jsonBody (encodBoardView board)) decodeBoard
+            Http.request
+                { body = (Http.jsonBody (encodBoardView board))
+                , expect = Http.expectJson decodeBoard
+                , headers =
+                    [ Http.header "Authorization" "Basic cm9iZXJ0OmFwaXBhc3N3b3Jk" ]
+                , method = "POST"
+                , timeout = Nothing
+                , url = url
+                , withCredentials = False
+                }
+
+        -- req =
+        --     Http.post url (Http.jsonBody (encodBoardView board)) decodeBoard
     in
         Http.send SaveBoardToApi req
 
@@ -69,14 +95,14 @@ updateBoardView : BoardTask.BoardView -> Cmd Msg
 updateBoardView board =
     let
         url =
-            "http://localhost:8000/boards/" ++ (toString board.id)
+            "http://0.0.0.0:8000/boards/"
 
         req =
             Http.request
                 { body = (Http.jsonBody (encodFullBoardView board))
                 , expect = Http.expectJson decodeBoard
                 , headers =
-                    []
+                    [ Http.header "Authorization" "Basic cm9iZXJ0OmFwaXBhc3N3b3Jk" ]
                 , method = "PUT"
                 , timeout = Nothing
                 , url = url
@@ -175,3 +201,17 @@ encodFullBoardView board =
 updateElement2 : List (Maybe a) -> Int -> a -> List (Maybe a)
 updateElement2 list id board =
     List.take id list ++ (Just board) :: List.drop (id + 1) list
+
+
+buildAuthorizationToken : String -> String -> String
+buildAuthorizationToken username password =
+    let
+        result =
+            Base64.encode (username ++ ":" ++ password)
+    in
+        case result of
+            Ok value ->
+                value
+
+            Err error ->
+                "error: " ++ error

@@ -12,6 +12,7 @@ module BoardTask
         , User
         , model
         , CommentView
+        , AuthToken
         )
 
 import Json.Decode
@@ -30,7 +31,7 @@ type alias Team =
 
 
 type alias CardView =
-    { id : Int, status : String, title : String, description : String, boardId : Int, columnId : Int }
+    { id : Int, status : String, title : String, description : String, boardId : Int, columnId : Int, color : String }
 
 
 type alias ColumnView =
@@ -49,6 +50,11 @@ type alias CommentView =
     }
 
 
+type alias AuthToken =
+    { token : String
+    }
+
+
 type alias AddCard =
     { title : String, body : String }
 
@@ -62,13 +68,13 @@ type alias AddBoard =
 
 
 type alias User =
-    { boards : List BoardView
+    { status : Bool
     }
 
 
 model : User
 model =
-    { boards = getExampleSetOfBoards
+    { status = False
     }
 
 

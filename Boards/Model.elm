@@ -11,20 +11,21 @@ type Msg
     | SetOperation Operation
     | SetNewBoardName String
     | RestMsg Rest.Msg
+    | None
 
 
 type Operation
     = Choose BoardTask.BoardView
     | Edit Int BoardTask.BoardView
-    | None
     | ConnectionError String
     | AddNewBoard
+    | HideDialog
 
 
 type alias Model =
     { boards : List BoardTask.BoardView
     , currentBoard : Maybe BoardTask.BoardView
-    , opr : Operation
+    , opr : Maybe Operation
     , newBoardName : Maybe String
     , currentBoardIdx : Maybe Int
     , showDialog : Bool
@@ -35,7 +36,7 @@ type alias Model =
 model : Model
 model =
     { boards = []
-    , opr = None
+    , opr = Maybe.Nothing
     , currentBoard = Maybe.Nothing
     , newBoardName = Maybe.Nothing
     , currentBoardIdx = Maybe.Nothing

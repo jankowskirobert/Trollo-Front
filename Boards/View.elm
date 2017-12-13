@@ -126,55 +126,60 @@ view model =
 dialogConfig : Model -> Dialog.Config Msg
 dialogConfig model =
     case model.opr of
-        Boards.Model.Edit _ _ ->
-            case model.currentBoard of
-                Just x ->
-                    let
-                        currentName_ =
-                            x.boardTitle
-                    in
-                        { closeMessage = Just (SetOperation Boards.Model.None)
-                        , containerClass = Nothing
-                        , sizeOf = Just Dialog.Medium
-                        , header = Just (h3 [] [ text "Edit Board Name" ])
-                        , body = Just (input [ placeholder ("Enter name / " ++ currentName_), onInput SetNewBoardName ] [])
-                        , footer =
-                            Just
-                                (button
-                                    [ class "btn btn-success"
-                                    , onClick EditBoardName
-                                    ]
-                                    [ text "OK" ]
-                                )
-                        }
+        Nothing ->
+            dialogConfigErrorMsg (Just "No opr found")
 
-                Nothing ->
+        Just is ->
+            case is of
+                Boards.Model.Edit _ _ ->
+                    case model.currentBoard of
+                        Just x ->
+                            let
+                                currentName_ =
+                                    x.boardTitle
+                            in
+                                { closeMessage = Just (SetOperation Boards.Model.HideDialog)
+                                , containerClass = Nothing
+                                , sizeOf = Just Dialog.Medium
+                                , header = Just (h3 [] [ text "Edit Board Name" ])
+                                , body = Just (input [ placeholder ("Enter name / " ++ currentName_), onInput SetNewBoardName ] [])
+                                , footer =
+                                    Just
+                                        (button
+                                            [ class "btn btn-success"
+                                            , onClick EditBoardName
+                                            ]
+                                            [ text "OK" ]
+                                        )
+                                }
+
+                        Nothing ->
+                            dialogConfigErrorMsg (Just "Board not found")
+
+                Boards.Model.AddNewBoard ->
+                    { closeMessage = Just (SetOperation Boards.Model.HideDialog)
+                    , containerClass = Nothing
+                    , sizeOf = Just Dialog.Medium
+                    , header = Just (h3 [] [ text "Add Board" ])
+                    , body = Just (input [ placeholder ("Enter name "), onInput SetNewBoardName ] [])
+                    , footer =
+                        Just
+                            (button
+                                [ class "btn btn-success"
+                                , onClick AddBoard
+                                ]
+                                [ text "OK" ]
+                            )
+                    }
+
+                Boards.Model.Choose _ ->
                     dialogConfigErrorMsg (Just "Board not found")
 
-        Boards.Model.AddNewBoard ->
-            { closeMessage = Just (SetOperation Boards.Model.None)
-            , containerClass = Nothing
-            , sizeOf = Just Dialog.Medium
-            , header = Just (h3 [] [ text "Add Board" ])
-            , body = Just (input [ placeholder ("Enter name "), onInput SetNewBoardName ] [])
-            , footer =
-                Just
-                    (button
-                        [ class "btn btn-success"
-                        , onClick AddBoard
-                        ]
-                        [ text "OK" ]
-                    )
-            }
+                Boards.Model.HideDialog ->
+                    dialogConfigErrorMsg (Just "Board not found")
 
-        Boards.Model.Choose _ ->
-            dialogConfigErrorMsg (Just "Board not found")
-
-        Boards.Model.None ->
-            dialogConfigErrorMsg (Just "Board not found")
-
-        Boards.Model.ConnectionError msg ->
-            dialogConfigErrorMsg (Just msg)
+                Boards.Model.ConnectionError msg ->
+                    dialogConfigErrorMsg (Just msg)
 
 
 dialogConfigErrorMsg : Maybe String -> Dialog.Config Msg
@@ -188,7 +193,7 @@ dialogConfigErrorMsg message =
                 Just msg_ ->
                     msg_
     in
-        { closeMessage = Just (SetOperation Boards.Model.None)
+        { closeMessage = Just (SetOperation Boards.Model.HideDialog)
         , containerClass = Nothing
         , header = Just (h3 [] [ text "ERROR!" ])
         , body = Just (text errorMsg)
@@ -197,7 +202,7 @@ dialogConfigErrorMsg message =
             Just
                 (button
                     [ class "btn btn-success"
-                    , onClick (SetOperation Boards.Model.None)
+                    , onClick (SetOperation Boards.Model.HideDialog)
                     ]
                     [ text "OK" ]
                 )

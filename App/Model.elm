@@ -1,7 +1,6 @@
 module App.Model exposing (..)
 
 import Boards.Model as Boards exposing (Model, model, Msg(..))
-import Page as Router exposing (Page(..))
 import Navigation exposing (Location)
 import BoardTask
 import BoardDetails.Model as BoardDetails
@@ -12,6 +11,7 @@ import Login.Model as Login
 import Login.View as LoginView
 import Register.Model as Register
 import Register.View as RegisterView
+import Page exposing (Page(..))
 
 
 subscriptions : Model -> Sub Msg
@@ -21,18 +21,13 @@ subscriptions model =
 
 init : ( Model, Cmd Msg )
 init =
-    ( { boards = Boards.model
-      , activePage = Router.RegisterPage
+    ( { activePage = (LoginPage Login.model)
       , user = BoardTask.model
-      , boardDetails = BoardDetails.model
-      , login = Login.Model Maybe.Nothing Maybe.Nothing Maybe.Nothing Login.Fail
-      , register = Register.Model Maybe.Nothing Maybe.Nothing Maybe.Nothing Register.Fail
       }
     , Cmd.batch
-        [ (Cmd.map BoardsMsg (Cmd.map RestMsg Rest.getBoardView))
-        , (Cmd.map BoardDetailsMsg (Cmd.map BoardDetails.RestCardMsg CardRest.getCardsView))
-
-        -- , (Cmd.map LoginMsg (Cmd.map Login.RestCardMsg CardRest.getCardsView))
+        [--(Cmd.map BoardsMsg (Cmd.map RestMsg Rest.getBoardView))
+         -- , (Cmd.map BoardDetailsMsg (Cmd.map BoardDetails.RestCardMsg CardRest.getCardsView))
+         -- , (Cmd.map LoginMsg (Cmd.map Login.RestCardMsg CardRest.getCardsView))
         ]
     )
 
@@ -42,17 +37,13 @@ type Msg
     | BoardDetailsMsg BoardDetails.Msg
     | LoginMsg Login.Msg
     | RegisterMsg Register.Msg
-    | SetActivePage Router.Page
+    | SetActivePage Page
     | GoHome Int
 
 
 type alias Model =
-    { activePage : Router.Page
+    { activePage : Page
     , user : BoardTask.User
-    , boards : Boards.Model
-    , boardDetails : BoardDetails.Model
-    , login : Login.Model
-    , register : Register.Model
     }
 
 

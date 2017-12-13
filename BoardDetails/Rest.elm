@@ -96,7 +96,7 @@ update msg model =
 
 decodeCard : Json.Decode.Decoder BoardTask.CardView
 decodeCard =
-    Json.Decode.map6
+    Json.Decode.map7
         BoardTask.CardView
         (Json.Decode.field "id" Json.Decode.int)
         (Json.Decode.field "status" Json.Decode.string)
@@ -104,6 +104,7 @@ decodeCard =
         (Json.Decode.field "description" Json.Decode.string)
         (Json.Decode.field "boardId" Json.Decode.int)
         (Json.Decode.field "columnId" Json.Decode.int)
+        (Json.Decode.field "color" Json.Decode.string)
 
 
 decodeCards : Json.Decode.Decoder (List BoardTask.CardView)
@@ -146,7 +147,7 @@ getCardView : String -> Cmd Msg
 getCardView identity =
     let
         url =
-            "http://localhost:8000/cards/" ++ identity
+            "http://localhost:8000/card/" ++ identity
 
         req =
             Http.get url decodeCard
@@ -158,7 +159,7 @@ getColumnView : String -> Cmd Msg
 getColumnView identity =
     let
         url =
-            "http://localhost:8000/lists/" ++ identity
+            "http://localhost:8000/table/" ++ identity
 
         req =
             Http.get url decodeColumn
@@ -170,7 +171,7 @@ getColumnsView : Cmd Msg
 getColumnsView =
     let
         url =
-            "http://localhost:8000/lists"
+            "http://localhost:8000/tables"
 
         req =
             Http.get url decodeColumns
