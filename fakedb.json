@@ -8,15 +8,18 @@
       "columnId": 0,
       "id": 32
     }
-    
   ],
   "boards": [
     {
       "boardTitle": "fghfgh",
       "boardDescription": "",
       "id": 1
+    },
+    {
+      "boardTitle": "xcv",
+      "boardDescription": "",
+      "id": 2
     }
-    
   ],
   "columns": [
     {
@@ -28,11 +31,11 @@
   "login": [
     {}
   ],
-  "labels" : [
+  "labels": [
     {
       "id": 0,
-      "title" : "testowy",
-      "color" : "#ff0123"
+      "title": "testowy",
+      "color": "#ff0123"
     }
   ]
 }

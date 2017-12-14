@@ -46,13 +46,16 @@ update msg model =
                 ( ( m, c ), out ) =
                     Login.update msg_ subModel
 
+                usr =
+                    model.user
+
                 newModel_ =
                     case out of
                         Nothing ->
-                            { model | user = { status = False } }
+                            { model | user = { usr | status = False } }
 
                         Just token ->
-                            { model | user = { status = True } }
+                            { model | user = { usr | status = True, auth = Just token } }
             in
                 ( { newModel_ | activePage = Page.LoginPage { m | token = out } }
                 , Cmd.map LoginMsg c

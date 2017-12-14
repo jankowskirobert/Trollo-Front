@@ -69,12 +69,14 @@ type alias AddBoard =
 
 type alias User =
     { status : Bool
+    , auth : Maybe AuthToken
     }
 
 
 model : User
 model =
     { status = False
+    , auth = Maybe.Nothing
     }
 
 
