@@ -84,7 +84,16 @@ testLogin : BoardTask.User -> Html Msg
 testLogin x =
     case x.status of
         True ->
-            div [] [ text "USER FOUND" ]
+            let
+                token =
+                    case x.auth of
+                        Nothing ->
+                            "ERROR"
+
+                        Just auth ->
+                            auth.token
+            in
+                div [] [ text ("USER FOUND:" ++ token) ]
 
         False ->
             div [] [ text "USER NOT FOUND #2" ]
