@@ -11,6 +11,7 @@ type Msg
     | SetOperation Operation
     | SetNewBoardName String
     | RestMsg Rest.Msg
+    | FetchAvaliableBoards
     | None
 
 

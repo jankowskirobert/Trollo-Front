@@ -53,7 +53,8 @@ getBoardView =
             Http.request
                 { method = "GET"
                 , headers =
-                    [ Http.header "Authorization" "Basic cm9iZXJ0OmFwaXBhc3N3b3Jk" ]
+                    [ Http.header "Authorization" "Basic cm9iZXJ0OmFwaXBhc3N3b3Jk"
+                    ]
                 , url = url
                 , body = Http.emptyBody
                 , expect = Http.expectJson decodeBoards

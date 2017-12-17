@@ -133,6 +133,12 @@ update msg model =
                                         , Maybe.Nothing
                                         )
 
+        FetchAvaliableBoards ->
+            ( model
+            , Cmd.batch [ Cmd.map RestMsg (Rest.getBoardView) ]
+            , Maybe.Nothing
+            )
+
         RestMsg msg_ ->
             let
                 ( m, c ) =
