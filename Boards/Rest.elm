@@ -30,11 +30,13 @@ type Msg
 
 decodeBoard : Json.Decode.Decoder BoardTask.BoardView
 decodeBoard =
-    Json.Decode.map3
+    Json.Decode.map5
         BoardTask.BoardView
         (Json.Decode.field "id" Json.Decode.int)
         (Json.Decode.field "boardTitle" Json.Decode.string)
         (Json.Decode.field "boardDescription" Json.Decode.string)
+        (Json.Decode.field "public_access" Json.Decode.bool)
+        (Json.Decode.field "owner" Json.Decode.string)
 
 
 decodeBoards : Json.Decode.Decoder (List BoardTask.BoardView)
@@ -200,6 +202,7 @@ encodBoardView board =
         val =
             [ ( "boardTitle", Json.Encode.string board.boardTitle )
             , ( "boardDescription", Json.Encode.string board.boardDescription )
+            , ( "public_access", Json.Encode.bool board.public_access )
             ]
     in
         val
@@ -212,6 +215,7 @@ encodFullBoardView board =
         val =
             [ ( "boardTitle", Json.Encode.string board.boardTitle )
             , ( "boardDescription", Json.Encode.string board.boardDescription )
+            , ( "public_access", Json.Encode.bool board.public_access )
             , ( "id", Json.Encode.int board.id )
             ]
     in

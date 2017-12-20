@@ -10,8 +10,10 @@ type Msg
     | EditBoardName
     | SetOperation Operation
     | SetNewBoardName String
+    | SetNewBoardDescription String
     | RestMsg Rest.Msg
     | FetchAvaliableBoards
+    | TogglePublic
     | None
 
 
@@ -28,9 +30,11 @@ type alias Model =
     , currentBoard : Maybe BoardTask.BoardView
     , opr : Maybe Operation
     , newBoardName : Maybe String
+    , newBoardDesc : Maybe String
     , currentBoardIdx : Maybe Int
     , showDialog : Bool
     , rest : Rest.Model
+    , publicAccess : Bool
     }
 
 
@@ -40,7 +44,9 @@ model =
     , opr = Maybe.Nothing
     , currentBoard = Maybe.Nothing
     , newBoardName = Maybe.Nothing
+    , newBoardDesc = Maybe.Nothing
     , currentBoardIdx = Maybe.Nothing
     , showDialog = False
     , rest = Rest.Model [] Maybe.Nothing Maybe.Nothing Maybe.Nothing
+    , publicAccess = False
     }

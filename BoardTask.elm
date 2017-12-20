@@ -38,7 +38,7 @@ type alias ColumnView =
 
 
 type alias BoardView =
-    { id : Int, boardTitle : String, boardDescription : String, public_access : Bool }
+    { id : Int, boardTitle : String, boardDescription : String, public_access : Bool, owner : String }
 
 
 type alias CommentView =

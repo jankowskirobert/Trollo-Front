@@ -26,10 +26,10 @@ update session msg model =
                             model.boards
                     in
                         ( { model
-                            | boards = (BoardTask.BoardView 0 x "") :: boards_
+                            | boards = (BoardTask.BoardView 0 x "" model.publicAccess "") :: boards_
                             , showDialog = False
                           }
-                        , Cmd.batch [ Cmd.map RestMsg (Rest.saveBoardView session.auth (BoardTask.BoardView 0 x "")) ]
+                        , Cmd.batch [ Cmd.map RestMsg (Rest.saveBoardView session.auth (BoardTask.BoardView 0 x "" model.publicAccess "")) ]
                         , Maybe.Nothing
                         )
 
@@ -95,6 +95,18 @@ update session msg model =
             , Maybe.Nothing
             )
 
+        SetNewBoardDescription desc_ ->
+            ( { model | newBoardDesc = Just desc_ }
+            , Cmd.none
+            , Maybe.Nothing
+            )
+
+        TogglePublic ->
+            ( { model | publicAccess = not model.publicAccess }
+            , Cmd.none
+            , Maybe.Nothing
+            )
+
         EditBoardName ->
             case model.currentBoard of
                 Nothing ->
@@ -116,7 +128,7 @@ update session msg model =
                                             model.boards
 
                                         board_ =
-                                            { choosedBoard | boardTitle = x }
+                                            { choosedBoard | boardTitle = x, public_access = model.publicAccess }
 
                                         -- ( m, c ) =
                                         --     Rest.update (Rest.EditBoard board_) model.rest
@@ -151,20 +163,6 @@ update session msg model =
 
         None ->
             ( model, Cmd.none, Maybe.Nothing )
-
-
-decodeBoard : Json.Decode.Decoder BoardTask.BoardView
-decodeBoard =
-    Json.Decode.map3
-        BoardTask.BoardView
-        (Json.Decode.field "id" Json.Decode.int)
-        (Json.Decode.field "boardTitle" Json.Decode.string)
-        (Json.Decode.field "boardDescription" Json.Decode.string)
-
-
-decodeBoards : Json.Decode.Decoder (List BoardTask.BoardView)
-decodeBoards =
-    Json.Decode.list decodeBoard
 
 
 updateElement2 : List (Maybe a) -> Int -> a -> List (Maybe a)
