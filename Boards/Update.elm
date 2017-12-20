@@ -12,8 +12,8 @@ import Page
 import BoardDetails.Model as BoardDetails
 
 
-update : Msg -> Model -> ( Model, Cmd Msg, Maybe Page.Page )
-update msg model =
+update : BoardTask.User -> Msg -> Model -> ( Model, Cmd Msg, Maybe Page.Page )
+update session msg model =
     case Debug.log "[BOARDS]Message" msg of
         AddBoard ->
             case model.newBoardName of
@@ -29,7 +29,7 @@ update msg model =
                             | boards = (BoardTask.BoardView 0 x "") :: boards_
                             , showDialog = False
                           }
-                        , Cmd.batch [ Cmd.map RestMsg (Rest.saveBoardView (BoardTask.BoardView 0 x "")) ]
+                        , Cmd.batch [ Cmd.map RestMsg (Rest.saveBoardView session.auth (BoardTask.BoardView 0 x "")) ]
                         , Maybe.Nothing
                         )
 
@@ -129,20 +129,20 @@ update msg model =
                                             , showDialog = False
                                             , newBoardName = Maybe.Nothing
                                           }
-                                        , Cmd.batch [ Cmd.map RestMsg (Rest.updateBoardView board_) ]
+                                        , Cmd.batch [ Cmd.map RestMsg (Rest.updateBoardView session.auth board_) ]
                                         , Maybe.Nothing
                                         )
 
         FetchAvaliableBoards ->
             ( model
-            , Cmd.batch [ Cmd.map RestMsg (Rest.getBoardView) ]
+            , Cmd.batch [ Cmd.map RestMsg (Rest.getBoardView session.auth) ]
             , Maybe.Nothing
             )
 
         RestMsg msg_ ->
             let
                 ( m, c ) =
-                    Rest.update msg_ model.rest
+                    Rest.update session msg_ model.rest
 
                 remaped =
                     m.boards

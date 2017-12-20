@@ -18,7 +18,7 @@ update msg model =
         ( BoardsMsg msg_, Page.BoardsPage subModel ) ->
             let
                 ( m, c, p ) =
-                    Boards.update msg_ subModel
+                    Boards.update model.user msg_ subModel
             in
                 case p of
                     Nothing ->
@@ -36,7 +36,11 @@ update msg model =
                 cmd =
                     case page of
                         Page.BoardsPage _ ->
-                            (Cmd.map BoardsMsg (Cmd.map BoardsModel.RestMsg Rest.getBoardView))
+                            let
+                                token =
+                                    model.user
+                            in
+                                (Cmd.map BoardsMsg (Cmd.map BoardsModel.RestMsg (Rest.getBoardView token.auth)))
 
                         Page.BoardDetailsPage _ _ ->
                             Cmd.none
@@ -95,7 +99,7 @@ update msg model =
                                     { model | user = { usr | status = True, auth = Just token } }
 
                                 ( bm, bc, bp ) =
-                                    Boards.update BoardsModel.FetchAvaliableBoards BoardsModel.model
+                                    Boards.update updated.user BoardsModel.FetchAvaliableBoards BoardsModel.model
                             in
                                 ( { updated | activePage = Page.BoardsPage BoardsModel.model }
                                 , Cmd.batch
