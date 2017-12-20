@@ -17,6 +17,11 @@ type Msg
     | None
 
 
+type Routes
+    = All
+    | Details
+
+
 type Operation
     = Choose BoardTask.BoardView
     | Edit Int BoardTask.BoardView

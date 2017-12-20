@@ -28,7 +28,7 @@ getBoardColumn idx column model =
     in
         div []
             [ section [ class "list", detailsStyleCol ]
-                [ div [] [ header [] [ text column.title ] ]
+                [ div [] [ header [] [ text column.tableTitle ] ]
                 , rendered_
                 , viewButton idx model column
                 ]
@@ -139,38 +139,26 @@ getCardsForColumn columnId list =
         hasAnything
 
 
-view : Model -> Html Msg
-view model =
-    let
-        currBoard =
-            model.board
-
-        boardName =
-            case currBoard of
-                Nothing ->
-                    "Untitled"
-
-                Just x ->
-                    x.boardTitle
-    in
-        div [ boardTextStyle ]
-            [ text boardName
-            , viewColumns model
-            , button
-                [ addColumnStyle
-                , onClick (SetDialogAction BoardDetails.Model.AddNewColumn)
-                ]
-                [ text "Add Column" ]
-            , Dialog.view
-                (if model.showDialog then
-                    Just (dialogConfig model)
-                 else
-                    Nothing
-                )
-            , Html.map CardMsg (CardEdit.view model.cardModel)
-
-            -- , viewDialog model
+view : BoardTask.BoardView -> Model -> Html Msg
+view board model =
+    div [ boardTextStyle ]
+        [ text board.boardTitle
+        , viewColumns model
+        , button
+            [ addColumnStyle
+            , onClick (SetDialogAction BoardDetails.Model.AddNewColumn)
             ]
+            [ text "Add Column" ]
+        , Dialog.view
+            (if model.showDialog then
+                Just (dialogConfig model)
+             else
+                Nothing
+            )
+        , Html.map CardMsg (CardEdit.view model.cardModel)
+
+        -- , viewDialog model
+        ]
 
 
 boardTextStyle : Attribute msg

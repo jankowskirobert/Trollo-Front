@@ -10,8 +10,7 @@ import BoardDetails.Rest as CardRest
 
 model : Model
 model =
-    { board = Maybe.Nothing
-    , columns =
+    { columns =
         []
     , showDialog = False
     , newColumnName = Maybe.Nothing
@@ -40,6 +39,7 @@ type Msg
     | CardMsg CardEdit.Msg
     | RestCardMsg CardRest.Msg
     | EditList
+    | FetchColumns BoardTask.BoardView
 
 
 
@@ -57,8 +57,7 @@ type DialogAction
 
 
 type alias Model =
-    { board : Maybe BoardTask.BoardView
-    , columns : List BoardTask.ColumnView
+    { columns : List BoardTask.ColumnView
     , showDialog : Bool
     , newColumnName : Maybe String
     , dialogAction : DialogAction

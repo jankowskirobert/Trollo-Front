@@ -34,7 +34,7 @@ type alias CardView =
 
 
 type alias ColumnView =
-    { id : Int, title : String, boardID : Int, tableDescription : String }
+    { id : Int, tableTitle : String, boardID : Int, tableDescription : String }
 
 
 type alias BoardView =
@@ -123,7 +123,7 @@ firstIndexOf thing things =
 
 isListExist : List ColumnView -> String -> Bool
 isListExist columns listname =
-    List.member listname (List.map (\x -> x.title) columns)
+    List.member listname (List.map (\x -> x.tableTitle) columns)
 
 
 type Msg

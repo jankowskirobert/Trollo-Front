@@ -11,8 +11,8 @@ import Array
 -- import Column
 
 
-update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
+update : BoardTask.User -> BoardTask.BoardView -> Msg -> Model -> ( Model, Cmd Msg )
+update session board msg model =
     case Debug.log "Message Details" msg of
         NoneMsg ->
             ( model, Cmd.none )
@@ -22,6 +22,9 @@ update msg model =
 
         AddToList ->
             ( model, Cmd.none )
+
+        FetchColumns view ->
+            ( model, Cmd.map RestCardMsg (CardRest.getColumnsView session.auth view) )
 
         AddNewList ->
             case model.newColumnName of
@@ -36,7 +39,9 @@ update msg model =
                         nxtIdx =
                             List.length cols
                     in
-                        ( { model | columns = cols ++ [ (BoardTask.ColumnView nxtIdx x 1 "Example") ], showDialog = False }, Cmd.none )
+                        ( { model | columns = cols ++ [ (BoardTask.ColumnView nxtIdx x 1 "Example") ], showDialog = False }
+                        , Cmd.batch [ Cmd.map RestCardMsg (CardRest.saveColumnView session.auth board (BoardTask.ColumnView nxtIdx x 0 "Example")) ]
+                        )
 
         SetDialogAction action ->
             case action of
@@ -82,7 +87,7 @@ update msg model =
                                 cards_ ++ [ cardToPut ]
 
                             ( mR, cR ) =
-                                CardRest.update (CardRest.AddCard cardToPut) model.cardRest
+                                CardRest.update session (CardRest.AddCard cardToPut) model.cardRest
 
                             ( m, c ) =
                                 CardEdit.update (CardEdit.UpdateList (updated)) model.cardModel
@@ -93,7 +98,7 @@ update msg model =
                                 , showDialog = False
                               }
                             , Cmd.batch
-                                [ Cmd.map RestCardMsg (CardRest.saveCardView cardToPut)
+                                [ Cmd.map RestCardMsg (CardRest.saveCardView session.auth cardToPut)
                                 , (Cmd.map CardMsg c)
                                 ]
                             )
@@ -115,12 +120,15 @@ update msg model =
         RestCardMsg msg_ ->
             let
                 ( m, c ) =
-                    CardRest.update msg_ model.cardRest
+                    CardRest.update session msg_ model.cardRest
+
+                columns_ =
+                    m.columns
 
                 lgs =
                     Debug.log "Message Details REST" msg_
             in
-                ( { model | cardRest = m }, Cmd.map RestCardMsg c )
+                ( { model | cardRest = m, columns = columns_ }, Cmd.map RestCardMsg c )
 
         EditList ->
             case model.currentColumnIdx of
@@ -140,7 +148,7 @@ update msg model =
                                 Just newName ->
                                     let
                                         afterUpdate =
-                                            { lst | title = newName }
+                                            { lst | tableTitle = newName }
 
                                         lsts =
                                             model.columns

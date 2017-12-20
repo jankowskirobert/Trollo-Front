@@ -35,13 +35,15 @@ type Msg
     | SaveCardToApi (Result Http.Error BoardTask.CardView)
     | GetColumnsFromApi (Result Http.Error (List BoardTask.ColumnView))
     | GetColumnFromApi (Result Http.Error BoardTask.ColumnView)
+    | SaveColumnToApi (Result Http.Error BoardTask.ColumnView)
+    | UpdateColumnToApi (Result Http.Error BoardTask.ColumnView)
     | AddCard BoardTask.CardView
     | FetchAllCards
-    | FetchAllColumns
+    | FetchAllColumns BoardTask.BoardView
 
 
-update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
+update : BoardTask.User -> Msg -> Model -> ( Model, Cmd Msg )
+update session msg model =
     case Debug.log "Card Rest" msg of
         GetColumnsFromApi (Err err) ->
             ( model, Cmd.none )
@@ -84,14 +86,48 @@ update msg model =
             in
                 ( { model | card = Just item, cards = cards_ ++ [ item ] }, Cmd.none )
 
-        FetchAllCards ->
-            ( model, getCardsView )
+        SaveColumnToApi (Err err) ->
+            let
+                debugLog =
+                    Debug.log "Card Rest save one Error: " err
+            in
+                ( model, Cmd.none )
 
-        FetchAllColumns ->
-            ( model, getColumnsView )
+        SaveColumnToApi (Ok item) ->
+            let
+                debugLog =
+                    Debug.log "Card Rest save one Ok: " item
+
+                cards_ =
+                    model.columns
+            in
+                ( { model | column = Just item, columns = cards_ ++ [ item ] }, Cmd.none )
+
+        UpdateColumnToApi (Err err) ->
+            let
+                debugLog =
+                    Debug.log "Card Rest save one Error: " err
+            in
+                ( model, Cmd.none )
+
+        UpdateColumnToApi (Ok item) ->
+            let
+                debugLog =
+                    Debug.log "Card Rest save one Ok: " item
+
+                cards_ =
+                    model.columns
+            in
+                ( { model | column = Just item, columns = cards_ ++ [ item ] }, Cmd.none )
+
+        FetchAllCards ->
+            ( model, getCardsView session.auth )
+
+        FetchAllColumns boardView ->
+            ( model, getColumnsView session.auth boardView )
 
         AddCard card_ ->
-            ( { model | card = Just card_ }, saveCardView card_ )
+            ( { model | card = Just card_ }, saveCardView session.auth card_ )
 
 
 decodeCard : Json.Decode.Decoder BoardTask.CardView
@@ -117,8 +153,8 @@ decodeColumn =
     Json.Decode.map4
         BoardTask.ColumnView
         (Json.Decode.field "id" Json.Decode.int)
-        (Json.Decode.field "title" Json.Decode.string)
-        (Json.Decode.field "boardId" Json.Decode.int)
+        (Json.Decode.field "tableTitle" Json.Decode.string)
+        (Json.Decode.field "boardID" Json.Decode.int)
         (Json.Decode.field "tableDescription" Json.Decode.string)
 
 
@@ -127,60 +163,224 @@ decodeColumns =
     Json.Decode.list decodeColumn
 
 
+encodColumn : BoardTask.BoardView -> BoardTask.ColumnView -> Json.Encode.Value
+encodColumn board column =
+    let
+        val =
+            [ ( "tableDescription", Json.Encode.string column.tableDescription )
+            , ( "tableTitle", Json.Encode.string column.tableTitle )
+            , ( "boardID", Json.Encode.int board.id )
+            ]
+    in
+        val
+            |> Json.Encode.object
+
+
+encodColumnFull : BoardTask.ColumnView -> Json.Encode.Value
+encodColumnFull column =
+    let
+        val =
+            [ ( "tableDescription", Json.Encode.string column.tableDescription )
+            , ( "tableTitle", Json.Encode.string column.tableTitle )
+            , ( "id", Json.Encode.int column.id )
+            ]
+    in
+        val
+            |> Json.Encode.object
+
+
 
 --{ uniqueNumber : String, status : Bool, title : String, description : String, boardID : Int, columnID : Int }
 
 
-getCardsView : Cmd Msg
-getCardsView =
+getCardsView : Maybe BoardTask.AuthToken -> Cmd Msg
+getCardsView token =
     let
         url =
             "http://localhost:8000/cards"
 
-        req =
-            Http.get url decodeCards
+        header =
+            case token of
+                Nothing ->
+                    []
+
+                Just token_ ->
+                    [ Http.header "Authorization" ("Token " ++ token_.token) ]
+
+        request =
+            Http.request
+                { method = "GET"
+                , headers = header
+                , url = url
+                , body = Http.emptyBody
+                , expect = Http.expectJson decodeCards
+                , timeout = Nothing
+                , withCredentials = False
+                }
+
+        -- req =
+        --     Http.get url decodeCards
     in
-        Http.send GetCardsFromApi req
+        Http.send GetCardsFromApi request
 
 
-getCardView : String -> Cmd Msg
-getCardView identity =
+getCardView : Maybe BoardTask.AuthToken -> String -> Cmd Msg
+getCardView token identity =
     let
         url =
             "http://localhost:8000/card/" ++ identity
 
-        req =
-            Http.get url decodeCard
+        header =
+            case token of
+                Nothing ->
+                    []
+
+                Just token_ ->
+                    [ Http.header "Authorization" ("Token " ++ token_.token) ]
+
+        request =
+            Http.request
+                { method = "GET"
+                , headers = header
+                , url = url
+                , body = Http.emptyBody
+                , expect = Http.expectJson decodeCard
+                , timeout = Nothing
+                , withCredentials = False
+                }
+
+        -- req =
+        --     Http.get url decodeCard
     in
-        Http.send GetCardFromApi req
+        Http.send GetCardFromApi request
 
 
-getColumnView : String -> Cmd Msg
-getColumnView identity =
+getColumnView : Maybe BoardTask.AuthToken -> String -> Cmd Msg
+getColumnView token identity =
     let
         url =
             "http://localhost:8000/table/" ++ identity
 
-        req =
-            Http.get url decodeColumn
+        header =
+            case token of
+                Nothing ->
+                    []
+
+                Just token_ ->
+                    [ Http.header "Authorization" ("Token " ++ token_.token) ]
+
+        request =
+            Http.request
+                { method = "GET"
+                , headers = header
+                , url = url
+                , body = Http.emptyBody
+                , expect = Http.expectJson decodeColumn
+                , timeout = Nothing
+                , withCredentials = False
+                }
+
+        -- req =
+        --     Http.get url decodeColumn
     in
-        Http.send GetColumnFromApi req
+        Http.send GetColumnFromApi request
 
 
-getColumnsView : Cmd Msg
-getColumnsView =
+getColumnsView : Maybe BoardTask.AuthToken -> BoardTask.BoardView -> Cmd Msg
+getColumnsView token boardView =
     let
         url =
-            "http://localhost:8000/tables"
+            "http://0.0.0.0:8000/board/" ++ (toString boardView.id) ++ "/tables"
+
+        header =
+            case token of
+                Nothing ->
+                    []
+
+                Just token_ ->
+                    [ Http.header "Authorization" ("Token " ++ token_.token) ]
+
+        request =
+            Http.request
+                { method = "GET"
+                , headers = header
+                , url = url
+                , body = Http.emptyBody
+                , expect = Http.expectJson decodeColumns
+                , timeout = Nothing
+                , withCredentials = False
+                }
+
+        -- req =
+        --     Http.get url decodeColumns
+    in
+        Http.send GetColumnsFromApi request
+
+
+saveColumnView : Maybe BoardTask.AuthToken -> BoardTask.BoardView -> BoardTask.ColumnView -> Cmd Msg
+saveColumnView token boardView columnView =
+    let
+        url =
+            "http://0.0.0.0:8000/tables/"
+
+        header =
+            case token of
+                Nothing ->
+                    []
+
+                Just token_ ->
+                    [ Http.header "Authorization" ("Token " ++ token_.token) ]
 
         req =
-            Http.get url decodeColumns
+            Http.request
+                { body = (Http.jsonBody (encodColumn boardView columnView))
+                , expect = Http.expectJson decodeColumn
+                , headers = header
+                , method = "POST"
+                , timeout = Nothing
+                , url = url
+                , withCredentials = False
+                }
+
+        -- req =
+        --     Http.post url (Http.jsonBody (encodBoardView board)) decodeBoard
     in
-        Http.send GetColumnsFromApi req
+        Http.send SaveColumnToApi req
 
 
-saveCardView : BoardTask.CardView -> Cmd Msg
-saveCardView card =
+updateColumnView : Maybe BoardTask.AuthToken -> BoardTask.ColumnView -> Cmd Msg
+updateColumnView token columnView =
+    let
+        url =
+            "http://0.0.0.0:8000/tables/"
+
+        header =
+            case token of
+                Nothing ->
+                    []
+
+                Just token_ ->
+                    [ Http.header "Authorization" ("Token " ++ token_.token) ]
+
+        req =
+            Http.request
+                { body = (Http.jsonBody (encodColumnFull columnView))
+                , expect = Http.expectJson decodeColumn
+                , headers = header
+                , method = "PUT"
+                , timeout = Nothing
+                , url = url
+                , withCredentials = False
+                }
+
+        -- req =
+        --     Http.post url (Http.jsonBody (encodBoardView board)) decodeBoard
+    in
+        Http.send UpdateColumnToApi req
+
+
+saveCardView : Maybe BoardTask.AuthToken -> BoardTask.CardView -> Cmd Msg
+saveCardView token card =
     let
         debugLog =
             Debug.log "Card Rest save one Method" card

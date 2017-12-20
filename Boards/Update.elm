@@ -77,7 +77,7 @@ update session msg model =
                             , showDialog = False
                           }
                         , Cmd.none
-                        , Just (Page.BoardDetailsPage selectedBoard { bdModel | board = Just selectedBoard })
+                        , Just (Page.BoardDetailsPage selectedBoard bdModel)
                         )
 
                 ConnectionError message ->

@@ -5,6 +5,8 @@ import Page
 import Boards.Update as Boards
 import Debug
 import BoardDetails.Update as BoardDetails
+import BoardDetails.Model as BoardDetailsModel
+import BoardDetails.Rest as BoardDetailsRest
 import Login.Update as Login
 import Login.Model as LoginModel
 import Register.Update as Register
@@ -29,9 +31,22 @@ update msg model =
                         )
 
                     Just g ->
-                        ( { model | activePage = g }, Cmd.map BoardsMsg c )
+                        let
+                            cmdAfter =
+                                case g of
+                                    Page.BoardDetailsPage view _ ->
+                                        let
+                                            token =
+                                                model.user
+                                        in
+                                            Cmd.map BoardDetailsMsg (Cmd.map BoardDetailsModel.RestCardMsg (BoardDetailsRest.getColumnsView token.auth view))
 
-        ( SetActivePage page, _ ) ->
+                                    _ ->
+                                        Cmd.none
+                        in
+                            ( { model | activePage = g }, Cmd.batch [ Cmd.map BoardsMsg c, cmdAfter ] )
+
+        ( SetActivePage page, subModel ) ->
             let
                 cmd =
                     case page of
@@ -42,19 +57,14 @@ update msg model =
                             in
                                 (Cmd.map BoardsMsg (Cmd.map BoardsModel.RestMsg (Rest.getBoardView token.auth)))
 
-                        Page.BoardDetailsPage _ _ ->
-                            Cmd.none
+                        Page.BoardDetailsPage view _ ->
+                            let
+                                token =
+                                    model.user
+                            in
+                                Cmd.map BoardDetailsMsg (Cmd.map BoardDetailsModel.RestCardMsg (BoardDetailsRest.getColumnsView token.auth view))
 
-                        Page.LoginPage _ ->
-                            Cmd.none
-
-                        Page.LogoutPage ->
-                            Cmd.none
-
-                        Page.RegisterPage ->
-                            Cmd.none
-
-                        Page.PageNotFound ->
+                        _ ->
                             Cmd.none
             in
                 ( { model | activePage = page }, cmd )
@@ -64,11 +74,8 @@ update msg model =
 
         ( BoardDetailsMsg msg_, Page.BoardDetailsPage view subModel ) ->
             let
-                detailed =
-                    { subModel | board = Just view }
-
                 ( m, c ) =
-                    BoardDetails.update msg_ detailed
+                    BoardDetails.update model.user view msg_ subModel
             in
                 ( { model | activePage = Page.BoardDetailsPage view m }, Cmd.map BoardDetailsMsg c )
 
