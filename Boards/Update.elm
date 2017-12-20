@@ -113,37 +113,52 @@ update session msg model =
                     ( model, Cmd.none, Maybe.Nothing )
 
                 Just choosedBoard ->
-                    case model.newBoardName of
-                        Nothing ->
-                            ( model, Cmd.none, Maybe.Nothing )
+                    let
+                        ( newM, newC ) =
+                            case ( model.newBoardName, model.newBoardDesc ) of
+                                ( Nothing, Nothing ) ->
+                                    ( model, Cmd.none )
 
-                        Just x ->
-                            case model.currentBoardIdx of
-                                Nothing ->
-                                    ( model, Cmd.none, Maybe.Nothing )
-
-                                Just idx ->
+                                ( Just x, Nothing ) ->
                                     let
-                                        boards_ =
-                                            model.boards
-
                                         board_ =
                                             { choosedBoard | boardTitle = x, public_access = model.publicAccess }
-
-                                        -- ( m, c ) =
-                                        --     Rest.update (Rest.EditBoard board_) model.rest
-                                        updatedBoards =
-                                            (updateElement boards_ idx board_)
                                     in
                                         ( { model
-                                            | boards = updatedBoards
-                                            , opr = Just HideDialog
+                                            | opr = Just HideDialog
                                             , showDialog = False
                                             , newBoardName = Maybe.Nothing
                                           }
                                         , Cmd.batch [ Cmd.map RestMsg (Rest.updateBoardView session.auth board_) ]
-                                        , Maybe.Nothing
                                         )
+
+                                ( Nothing, Just y ) ->
+                                    let
+                                        board_ =
+                                            { choosedBoard | boardDescription = y, public_access = model.publicAccess }
+                                    in
+                                        ( { model
+                                            | opr = Just HideDialog
+                                            , showDialog = False
+                                            , newBoardName = Maybe.Nothing
+                                          }
+                                        , Cmd.batch [ Cmd.map RestMsg (Rest.updateBoardView session.auth board_) ]
+                                        )
+
+                                ( Just x, Just y ) ->
+                                    let
+                                        board_ =
+                                            { choosedBoard | boardTitle = x, boardDescription = y, public_access = model.publicAccess }
+                                    in
+                                        ( { model
+                                            | opr = Just HideDialog
+                                            , showDialog = False
+                                            , newBoardName = Maybe.Nothing
+                                          }
+                                        , Cmd.batch [ Cmd.map RestMsg (Rest.updateBoardView session.auth board_) ]
+                                        )
+                    in
+                        ( newM, newC, Maybe.Nothing )
 
         FetchAvaliableBoards ->
             ( model
