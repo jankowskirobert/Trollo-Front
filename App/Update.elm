@@ -39,12 +39,15 @@ update msg model =
                                             token =
                                                 model.user
                                         in
-                                            Cmd.map BoardDetailsMsg (Cmd.map BoardDetailsModel.RestCardMsg (BoardDetailsRest.getColumnsView token.auth view))
+                                            [ Cmd.map BoardsMsg c
+                                            , Cmd.map BoardDetailsMsg (Cmd.map BoardDetailsModel.RestCardMsg (BoardDetailsRest.getColumnsView token.auth view))
+                                            , Cmd.map BoardDetailsMsg (Cmd.map BoardDetailsModel.RestCardMsg (BoardDetailsRest.getCardsView token.auth))
+                                            ]
 
                                     _ ->
-                                        Cmd.none
+                                        [ Cmd.map BoardsMsg c, Cmd.none ]
                         in
-                            ( { model | activePage = g }, Cmd.batch [ Cmd.map BoardsMsg c, cmdAfter ] )
+                            ( { model | activePage = g }, Cmd.batch cmdAfter )
 
         ( SetActivePage page, subModel ) ->
             let

@@ -134,13 +134,13 @@ decodeCard : Json.Decode.Decoder BoardTask.CardView
 decodeCard =
     Json.Decode.map7
         BoardTask.CardView
-        (Json.Decode.field "id" Json.Decode.int)
-        (Json.Decode.field "status" Json.Decode.string)
+        (Json.Decode.field "uniqueNumber" Json.Decode.string)
+        (Json.Decode.field "archiveStatus" Json.Decode.bool)
         (Json.Decode.field "title" Json.Decode.string)
         (Json.Decode.field "description" Json.Decode.string)
-        (Json.Decode.field "boardId" Json.Decode.int)
-        (Json.Decode.field "columnId" Json.Decode.int)
+        (Json.Decode.field "tableID" Json.Decode.int)
         (Json.Decode.field "color" Json.Decode.string)
+        (Json.Decode.field "owner" Json.Decode.string)
 
 
 decodeCards : Json.Decode.Decoder (List BoardTask.CardView)
@@ -198,7 +198,38 @@ getCardsView : Maybe BoardTask.AuthToken -> Cmd Msg
 getCardsView token =
     let
         url =
-            "http://localhost:8000/cards"
+            "http://0.0.0.0:8000/cards"
+
+        header =
+            case token of
+                Nothing ->
+                    []
+
+                Just token_ ->
+                    [ Http.header "Authorization" ("Token " ++ token_.token) ]
+
+        request =
+            Http.request
+                { method = "GET"
+                , headers = header
+                , url = url
+                , body = Http.emptyBody
+                , expect = Http.expectJson decodeCards
+                , timeout = Nothing
+                , withCredentials = False
+                }
+
+        -- req =
+        --     Http.get url decodeCards
+    in
+        Http.send GetCardsFromApi request
+
+
+getCardsVieColumnView : Maybe BoardTask.AuthToken -> BoardTask.ColumnView -> Cmd Msg
+getCardsVieColumnView token column =
+    let
+        url =
+            "http://localhost:8000/table/" ++ (toString column.id) ++ "cards"
 
         header =
             case token of
@@ -403,12 +434,22 @@ encodCardView : BoardTask.CardView -> Json.Encode.Value
 encodCardView card =
     let
         val =
-            [ ( "status", Json.Encode.string card.status )
+            [ ( "archiveStatus", Json.Encode.bool card.archiveStatus )
             , ( "title", Json.Encode.string card.title )
             , ( "description", Json.Encode.string card.description )
-            , ( "boardId", Json.Encode.int card.boardId )
-            , ( "columnId", Json.Encode.int card.columnId )
+            , ( "tableID", Json.Encode.int card.tableID )
+            , ( "color", Json.Encode.string card.color )
             ]
     in
         val
             |> Json.Encode.object
+
+
+
+-- (Json.Decode.field "uniqueNumber" Json.Decode.string)
+-- (Json.Decode.field "archiveStatus" Json.Decode.bool)
+-- (Json.Decode.field "title" Json.Decode.string)
+-- (Json.Decode.field "description" Json.Decode.string)
+-- (Json.Decode.field "tableID" Json.Decode.int)
+-- (Json.Decode.field "color" Json.Decode.string)
+-- (Json.Decode.field "owner" Json.Decode.string)

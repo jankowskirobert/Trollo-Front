@@ -81,7 +81,7 @@ update session board msg model =
                     ( Just x, Just y ) ->
                         let
                             cardToPut =
-                                (BoardTask.CardView 1 "OFFLINE " x "OFFLINE " 1 y.id "")
+                                (BoardTask.CardView "1" False x "OFFLINE " y.id "" "")
 
                             updated =
                                 cards_ ++ [ cardToPut ]
@@ -125,10 +125,13 @@ update session board msg model =
                 columns_ =
                     m.columns
 
+                cards =
+                    m.cards
+
                 lgs =
                     Debug.log "Message Details REST" msg_
             in
-                ( { model | cardRest = m, columns = columns_ }, Cmd.map RestCardMsg c )
+                ( { model | cardRest = m, columns = columns_, card = cards }, Cmd.map RestCardMsg c )
 
         EditList ->
             case model.currentColumnIdx of
