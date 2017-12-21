@@ -39,12 +39,15 @@ update msg model =
                                             token =
                                                 model.user
                                         in
-                                            Cmd.map BoardDetailsMsg (Cmd.map BoardDetailsModel.RestCardMsg (BoardDetailsRest.getColumnsView token.auth view))
+                                            [ Cmd.map BoardsMsg c
+                                            , Cmd.map BoardDetailsMsg (Cmd.map BoardDetailsModel.RestCardMsg (BoardDetailsRest.getColumnsView token.auth view))
+                                            , Cmd.map BoardDetailsMsg (Cmd.map BoardDetailsModel.RestCardMsg (BoardDetailsRest.getCardsView token.auth))
+                                            ]
 
                                     _ ->
-                                        Cmd.none
+                                        [ Cmd.map BoardsMsg c, Cmd.none ]
                         in
-                            ( { model | activePage = g }, Cmd.batch [ Cmd.map BoardsMsg c, cmdAfter ] )
+                            ( { model | activePage = g }, Cmd.batch cmdAfter )
 
         ( SetActivePage page, subModel ) ->
             let
@@ -120,17 +123,17 @@ update msg model =
         ( LoginMsg msg_, _ ) ->
             ( model, Cmd.none )
 
-        ( RegisterMsg msg_, Page.RegisterPage ) ->
-            -- let
-            --     ( m, c, p ) =
-            --         Register.update msg_ subM
-            -- in
-            --     case p of
-            --         Nothing ->
-            --             ( model, Cmd.map RegisterMsg c )
-            --         Just g ->
-            --             ( { model | activePage = g }, Cmd.map RegisterMsg c )
-            ( model, Cmd.none )
+        ( RegisterMsg msg_, Page.RegisterPage subM ) ->
+            let
+                ( m, c, p ) =
+                    Register.update msg_ subM
+            in
+                case p of
+                    Nothing ->
+                        ( model, Cmd.map RegisterMsg c )
+
+                    Just g ->
+                        ( { model | activePage = Page.LoginPage LoginModel.model }, Cmd.batch [ (Cmd.map RegisterMsg c) ] )
 
         ( _, _ ) ->
             ( model, Cmd.none )

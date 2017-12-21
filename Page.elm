@@ -12,5 +12,5 @@ type Page
     | BoardDetailsPage BoardTask.BoardView BoardDetails.Model
     | LoginPage Login.Model
     | LogoutPage
-    | RegisterPage
+    | RegisterPage Register.Model
     | PageNotFound

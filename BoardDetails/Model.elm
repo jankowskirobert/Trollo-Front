@@ -3,6 +3,9 @@ module BoardDetails.Model exposing (..)
 import BoardTask
 import BoardDetails.Card.Edit as CardEdit
 import BoardDetails.Rest as CardRest
+import Date
+import Task
+import Time
 
 
 -- import Column
@@ -24,6 +27,10 @@ model =
     , cardModel = CardEdit.model
     , cardRest = CardRest.model
     , comments = []
+    , currentCardDescription = Maybe.Nothing
+    , newCommentBody = Maybe.Nothing
+    , currentDate = Maybe.Nothing
+    , newColor = Maybe.Nothing
     }
 
 
@@ -40,6 +47,14 @@ type Msg
     | RestCardMsg CardRest.Msg
     | EditList
     | FetchColumns BoardTask.BoardView
+    | SetNewCardDescription String
+      -- | SetCardArchive
+    | UpdateCurrentCard
+    | SetNewCardComment String
+    | AddNewComment
+    | SaveNewDate Date.Date
+    | UpdateCurrentDate
+    | UpdateColor String
 
 
 
@@ -53,6 +68,7 @@ type DialogAction
     | ShowCardDetail BoardTask.CardView
     | AddCard BoardTask.ColumnView
     | EditColumn Int BoardTask.ColumnView
+    | EditCard BoardTask.CardView (List BoardTask.CommentView)
     | None
 
 
@@ -70,6 +86,10 @@ type alias Model =
     , cardModel : CardEdit.Model
     , cardRest : CardRest.Model
     , comments : List BoardTask.CommentView
+    , newCommentBody : Maybe String
+    , currentDate : Maybe Date.Date
+    , newColor : Maybe String
+    , currentCardDescription : Maybe String
 
     -- , addColumn : BoardTask.AddColumn
     -- , dialogAction : DialogAction

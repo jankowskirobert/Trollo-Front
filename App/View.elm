@@ -12,6 +12,7 @@ import BoardDetails.View as BoardDetails
 import Login.View as Login
 import Login.Model as LoginModel
 import Register.View as Register
+import Register.Model as RegisterModel
 import BoardTask
 
 
@@ -43,9 +44,8 @@ view model =
                 LogoutPage ->
                     div [] [ text "login" ]
 
-                RegisterPage ->
-                    -- div [] [ Html.map RegisterMsg (Register.view subModel) ]
-                    div [] []
+                RegisterPage subModel ->
+                    div [] [ Html.map RegisterMsg (Register.view subModel) ]
     in
         div [ headerStyle ]
             [ testLogin model.user
@@ -67,6 +67,14 @@ view model =
                             , onClick (SetActivePage (Page.BoardsPage BoardsModel.model))
                             ]
                             [ text "Boards"
+                            ]
+                        , li
+                            [ headerNavigationLi
+                            , headerNavigationLiA
+                            , headerNavigationLiAHover
+                            , onClick (SetActivePage (Page.RegisterPage RegisterModel.model))
+                            ]
+                            [ text "Register"
                             ]
                         ]
                     ]
