@@ -43,9 +43,18 @@ loginForm model =
             [ Html.form [ onSubmit SignIn, loginFormStyle ]
                 [ h3 [] [ text ("Welcome Back! Please Sign In " ++ title) ]
                 , hr [] []
-                , input [ placeholder ("Enter username "), onInput SetUsername ] []
+                , input
+                    [ placeholder ("Enter username ")
+                    , onInput SetUsername
+                    ]
+                    []
                 , p [] []
-                , input [ placeholder ("Enter password "), onInput SetPassword ] []
+                , input
+                    [ type_ "password"
+                    , placeholder ("Enter password ")
+                    , onInput SetPassword
+                    ]
+                    []
                 , p [] []
                 , button
                     []

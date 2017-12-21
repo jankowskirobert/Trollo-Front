@@ -5,9 +5,13 @@ import Page
 import Boards.Update as Boards
 import Debug
 import BoardDetails.Update as BoardDetails
+import BoardDetails.Model as BoardDetailsModel
+import BoardDetails.Rest as BoardDetailsRest
 import Login.Update as Login
 import Login.Model as LoginModel
 import Register.Update as Register
+import Boards.Model as BoardsModel
+import Boards.Rest as Rest
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -16,28 +20,62 @@ update msg model =
         ( BoardsMsg msg_, Page.BoardsPage subModel ) ->
             let
                 ( m, c, p ) =
-                    Boards.update msg_ subModel
+                    Boards.update model.user msg_ subModel
             in
                 case p of
                     Nothing ->
-                        ( { model | activePage = Page.BoardsPage m }, Cmd.map BoardsMsg c )
+                        ( { model | activePage = Page.BoardsPage m }
+                        , Cmd.batch
+                            [ (Cmd.map BoardsMsg c)
+                            ]
+                        )
 
                     Just g ->
-                        ( { model | activePage = g }, Cmd.map BoardsMsg c )
+                        let
+                            cmdAfter =
+                                case g of
+                                    Page.BoardDetailsPage view _ ->
+                                        let
+                                            token =
+                                                model.user
+                                        in
+                                            Cmd.map BoardDetailsMsg (Cmd.map BoardDetailsModel.RestCardMsg (BoardDetailsRest.getColumnsView token.auth view))
 
-        ( SetActivePage page, _ ) ->
-            ( { model | activePage = page }, Cmd.none )
+                                    _ ->
+                                        Cmd.none
+                        in
+                            ( { model | activePage = g }, Cmd.batch [ Cmd.map BoardsMsg c, cmdAfter ] )
+
+        ( SetActivePage page, subModel ) ->
+            let
+                cmd =
+                    case page of
+                        Page.BoardsPage _ ->
+                            let
+                                token =
+                                    model.user
+                            in
+                                (Cmd.map BoardsMsg (Cmd.map BoardsModel.RestMsg (Rest.getBoardView token.auth)))
+
+                        Page.BoardDetailsPage view _ ->
+                            let
+                                token =
+                                    model.user
+                            in
+                                Cmd.map BoardDetailsMsg (Cmd.map BoardDetailsModel.RestCardMsg (BoardDetailsRest.getColumnsView token.auth view))
+
+                        _ ->
+                            Cmd.none
+            in
+                ( { model | activePage = page }, cmd )
 
         ( GoHome i, _ ) ->
             ( model, Cmd.none )
 
         ( BoardDetailsMsg msg_, Page.BoardDetailsPage view subModel ) ->
             let
-                detailed =
-                    { subModel | board = Just view }
-
                 ( m, c ) =
-                    BoardDetails.update msg_ detailed
+                    BoardDetails.update model.user view msg_ subModel
             in
                 ( { model | activePage = Page.BoardDetailsPage view m }, Cmd.map BoardDetailsMsg c )
 
@@ -49,17 +87,35 @@ update msg model =
                 usr =
                     model.user
 
-                newModel_ =
+                funOut =
                     case out of
                         Nothing ->
-                            { model | user = { usr | status = False } }
+                            let
+                                updated =
+                                    { model | user = { usr | status = False } }
+                            in
+                                ( { updated | activePage = Page.LoginPage { m | token = out } }
+                                , Cmd.batch
+                                    [ (Cmd.map LoginMsg c)
+                                    ]
+                                )
 
                         Just token ->
-                            { model | user = { usr | status = True, auth = Just token } }
+                            let
+                                updated =
+                                    { model | user = { usr | status = True, auth = Just token } }
+
+                                ( bm, bc, bp ) =
+                                    Boards.update updated.user BoardsModel.FetchAvaliableBoards BoardsModel.model
+                            in
+                                ( { updated | activePage = Page.BoardsPage BoardsModel.model }
+                                , Cmd.batch
+                                    [ (Cmd.map LoginMsg c)
+                                    , (Cmd.map BoardsMsg bc)
+                                    ]
+                                )
             in
-                ( { newModel_ | activePage = Page.LoginPage { m | token = out } }
-                , Cmd.map LoginMsg c
-                )
+                funOut
 
         ( LoginMsg msg_, _ ) ->
             ( model, Cmd.none )

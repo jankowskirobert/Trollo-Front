@@ -30,11 +30,13 @@ type Msg
 
 decodeBoard : Json.Decode.Decoder BoardTask.BoardView
 decodeBoard =
-    Json.Decode.map3
+    Json.Decode.map5
         BoardTask.BoardView
         (Json.Decode.field "id" Json.Decode.int)
         (Json.Decode.field "boardTitle" Json.Decode.string)
         (Json.Decode.field "boardDescription" Json.Decode.string)
+        (Json.Decode.field "public_access" Json.Decode.bool)
+        (Json.Decode.field "owner" Json.Decode.string)
 
 
 decodeBoards : Json.Decode.Decoder (List BoardTask.BoardView)
@@ -42,18 +44,25 @@ decodeBoards =
     Json.Decode.list decodeBoard
 
 
-getBoardView : Cmd Msg
-getBoardView =
+getBoardView : Maybe BoardTask.AuthToken -> Cmd Msg
+getBoardView token =
     let
         url =
             "http://0.0.0.0:8000/boards"
+
+        header =
+            case token of
+                Nothing ->
+                    []
+
+                Just token_ ->
+                    [ Http.header "Authorization" ("Token " ++ token_.token) ]
 
         -- //Authorization: Basic cm9iZXJ0OmFwaXBhc3N3b3Jk
         request =
             Http.request
                 { method = "GET"
-                , headers =
-                    [ Http.header "Authorization" "Basic cm9iZXJ0OmFwaXBhc3N3b3Jk" ]
+                , headers = header
                 , url = url
                 , body = Http.emptyBody
                 , expect = Http.expectJson decodeBoards
@@ -67,18 +76,25 @@ getBoardView =
         Http.send GetBoardsFromApi request
 
 
-saveBoardView : BoardTask.BoardView -> Cmd Msg
-saveBoardView board =
+saveBoardView : Maybe BoardTask.AuthToken -> BoardTask.BoardView -> Cmd Msg
+saveBoardView token board =
     let
         url =
             "http://0.0.0.0:8000/boards/"
+
+        header =
+            case token of
+                Nothing ->
+                    []
+
+                Just token_ ->
+                    [ Http.header "Authorization" ("Token " ++ token_.token) ]
 
         req =
             Http.request
                 { body = (Http.jsonBody (encodBoardView board))
                 , expect = Http.expectJson decodeBoard
-                , headers =
-                    [ Http.header "Authorization" "Basic cm9iZXJ0OmFwaXBhc3N3b3Jk" ]
+                , headers = header
                 , method = "POST"
                 , timeout = Nothing
                 , url = url
@@ -91,18 +107,25 @@ saveBoardView board =
         Http.send SaveBoardToApi req
 
 
-updateBoardView : BoardTask.BoardView -> Cmd Msg
-updateBoardView board =
+updateBoardView : Maybe BoardTask.AuthToken -> BoardTask.BoardView -> Cmd Msg
+updateBoardView token board =
     let
         url =
             "http://0.0.0.0:8000/boards/"
+
+        header =
+            case token of
+                Nothing ->
+                    []
+
+                Just token_ ->
+                    [ Http.header "Authorization" ("Token " ++ token_.token) ]
 
         req =
             Http.request
                 { body = (Http.jsonBody (encodFullBoardView board))
                 , expect = Http.expectJson decodeBoard
-                , headers =
-                    [ Http.header "Authorization" "Basic cm9iZXJ0OmFwaXBhc3N3b3Jk" ]
+                , headers = header
                 , method = "PUT"
                 , timeout = Nothing
                 , url = url
@@ -115,8 +138,8 @@ updateBoardView board =
         Http.send UpdateBoardToApi req
 
 
-update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
+update : BoardTask.User -> Msg -> Model -> ( Model, Cmd Msg )
+update session msg model =
     case msg of
         NoOp ->
             ( model, Cmd.none )
@@ -157,7 +180,7 @@ update msg model =
                 log =
                     Debug.log "OK HTTP" (toString item)
             in
-                ( { model | board = Just item }, getBoardView )
+                ( { model | board = Just item }, getBoardView session.auth )
 
         UpdateBoardToApi (Err err) ->
             let
@@ -167,10 +190,10 @@ update msg model =
                 ( { model | board = Maybe.Nothing, errorMessage = Just ((toString err) ++ (". Failed to fetch boards: offline mode")), errorOccured = Just True }, Cmd.none )
 
         FetchAll ->
-            ( model, getBoardView )
+            ( model, getBoardView session.auth )
 
         EditBoard b ->
-            ( model, updateBoardView b )
+            ( model, updateBoardView session.auth b )
 
 
 encodBoardView : BoardTask.BoardView -> Json.Encode.Value
@@ -179,6 +202,7 @@ encodBoardView board =
         val =
             [ ( "boardTitle", Json.Encode.string board.boardTitle )
             , ( "boardDescription", Json.Encode.string board.boardDescription )
+            , ( "public_access", Json.Encode.bool board.public_access )
             ]
     in
         val
@@ -191,6 +215,7 @@ encodFullBoardView board =
         val =
             [ ( "boardTitle", Json.Encode.string board.boardTitle )
             , ( "boardDescription", Json.Encode.string board.boardDescription )
+            , ( "public_access", Json.Encode.bool board.public_access )
             , ( "id", Json.Encode.int board.id )
             ]
     in

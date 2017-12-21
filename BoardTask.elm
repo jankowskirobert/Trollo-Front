@@ -6,7 +6,6 @@ module BoardTask
         , ColumnView
         , BoardView
         , getExampleSetOfData
-        , getExampleSetOfBoards
         , getColumnsForBoard
         , Msg
         , User
@@ -35,11 +34,11 @@ type alias CardView =
 
 
 type alias ColumnView =
-    { id : Int, title : String, boardID : Int, tableDescription : String }
+    { id : Int, tableTitle : String, boardID : Int, tableDescription : String }
 
 
 type alias BoardView =
-    { id : Int, boardTitle : String, boardDescription : String }
+    { id : Int, boardTitle : String, boardDescription : String, public_access : Bool, owner : String }
 
 
 type alias CommentView =
@@ -107,11 +106,6 @@ getColumnsForBoard boardId =
     List.filter (\x -> (x.boardID == boardId)) getExampleSetOfColumns
 
 
-getExampleSetOfBoards : List BoardView
-getExampleSetOfBoards =
-    [ BoardView 1 "Board 1" "", BoardView 2 "Board 2" "" ]
-
-
 indicesOf : a -> List a -> List Int
 indicesOf thing things =
     things
@@ -127,14 +121,9 @@ firstIndexOf thing things =
         |> Maybe.withDefault -1
 
 
-getBoards : User -> List BoardView
-getBoards user =
-    getExampleSetOfBoards
-
-
 isListExist : List ColumnView -> String -> Bool
 isListExist columns listname =
-    List.member listname (List.map (\x -> x.title) columns)
+    List.member listname (List.map (\x -> x.tableTitle) columns)
 
 
 type Msg

@@ -30,7 +30,7 @@ view model =
 
                 BoardDetailsPage view subModel ->
                     -- Html.map BoardDetailsMsg (BoardDetails.view model.boardDetails)
-                    div [] [ Html.map BoardDetailsMsg (BoardDetails.view subModel) ]
+                    div [] [ Html.map BoardDetailsMsg (BoardDetails.view view subModel) ]
 
                 -- div [] []
                 -- (BoardDetails.view { data_ | data = board })

@@ -104,22 +104,6 @@ update msg model =
             )
 
 
-checkLogin : Maybe String -> Maybe String -> Bool
-checkLogin usr pass =
-    case Debug.log "MessageLoginCheck" ( usr, pass ) of
-        ( Just u, Just p ) ->
-            if u == "user" && p == "pass" then
-                True
-            else
-                False
-
-        ( _, Nothing ) ->
-            False
-
-        ( Nothing, _ ) ->
-            False
-
-
 decodeToken : Json.Decode.Decoder BoardTask.AuthToken
 decodeToken =
     Json.Decode.map
@@ -143,7 +127,7 @@ loginToApi : String -> String -> Cmd Msg
 loginToApi user pass =
     let
         url =
-            "http://0.0.0.0:8000/login"
+            "http://0.0.0.0:8000/authorise/"
 
         req =
             Http.request

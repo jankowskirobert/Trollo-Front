@@ -15,22 +15,41 @@ import MyDialog as Dialog
 
 boardGridBox : Model -> BoardTask.BoardView -> Int -> Html Msg
 boardGridBox model board idx =
-    div [ boardStyle ]
-        [ button
-            [ onClick (SetOperation (Boards.Model.Choose board))
-            , boardButtonStyle
-            ]
-            [ div [ class "d-flex w-100 justify-content-between" ]
-                [ text (board.boardTitle ++ " ")
-                , text ((toString board.id) ++ " ")
-                , h5 [ class "mb-1" ] [ text board.boardTitle ]
+    let
+        access_type =
+            case board.public_access of
+                True ->
+                    "Public"
+
+                False ->
+                    "Private"
+    in
+        div [ boardStyle ]
+            [ button
+                [ onClick (SetOperation (Boards.Model.Choose board))
+                , boardButtonStyle
+                ]
+                [ div [ class "d-flex w-100 justify-content-between" ]
+                    [ div
+                        [ style
+                            [ ( "float", "left" )
+                            , ( "width", "70%" )
+                            ]
+                        ]
+                        [ text (board.boardTitle ++ " ") ]
+                    , div
+                        [ style
+                            [ ( "float", "right" )
+                            ]
+                        ]
+                        [ text access_type ]
+                    ]
+                ]
+            , button
+                [ onClick (SetOperation (Boards.Model.Edit idx board)), boardButtonStyle2 ]
+                [ text "Edit"
                 ]
             ]
-        , button
-            [ onClick (SetOperation (Boards.Model.Edit idx board)), boardButtonStyle2 ]
-            [ text "Edit"
-            ]
-        ]
 
 
 boardStyle : Attribute msg
@@ -82,17 +101,6 @@ boardButtonStyle2 =
         ]
 
 
-
---  <a href="#" class="list-group-item list-group-item-action flex-column align-items-start active">
---     <div class="d-flex w-100 justify-content-between">
---       <h5 class="mb-1">List group item heading</h5>
---       <small>3 days ago</small>
---     </div>
---     <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
---     <small>Donec id elit non mi porta.</small>
---   </a>
-
-
 view : Model -> Html Msg
 view model =
     let
@@ -141,15 +149,52 @@ dialogConfig model =
                                 { closeMessage = Just (SetOperation Boards.Model.HideDialog)
                                 , containerClass = Nothing
                                 , sizeOf = Just Dialog.Medium
-                                , header = Just (h3 [] [ text "Edit Board Name" ])
-                                , body = Just (input [ placeholder ("Enter name / " ++ currentName_), onInput SetNewBoardName ] [])
+                                , header = Just (h3 [] [ text "Board Details" ])
+                                , body =
+                                    Just
+                                        (div []
+                                            [ div []
+                                                [ input
+                                                    [ placeholder ("Enter name / " ++ currentName_)
+                                                    , onInput SetNewBoardName
+                                                    , style
+                                                        [ ( "width", "100%" )
+                                                        ]
+                                                    ]
+                                                    []
+                                                ]
+                                            , div []
+                                                [ input
+                                                    [ placeholder ("Enter description / " ++ x.boardDescription)
+                                                    , onInput SetNewBoardDescription
+                                                    , style
+                                                        [ ( "width", "100%" )
+                                                        ]
+                                                    ]
+                                                    []
+                                                ]
+                                            , div []
+                                                [ input
+                                                    [ type_ "checkbox"
+                                                    , onClick TogglePublic
+                                                    , checked x.public_access
+                                                    ]
+                                                    []
+                                                , text "Public Access"
+                                                ]
+                                            , div []
+                                                [ text "Owner: "
+                                                , text x.owner
+                                                ]
+                                            ]
+                                        )
                                 , footer =
                                     Just
                                         (button
                                             [ class "btn btn-success"
                                             , onClick EditBoardName
                                             ]
-                                            [ text "OK" ]
+                                            [ text "Save" ]
                                         )
                                 }
 
@@ -161,7 +206,20 @@ dialogConfig model =
                     , containerClass = Nothing
                     , sizeOf = Just Dialog.Medium
                     , header = Just (h3 [] [ text "Add Board" ])
-                    , body = Just (input [ placeholder ("Enter name "), onInput SetNewBoardName ] [])
+                    , body =
+                        Just
+                            (div []
+                                [ input
+                                    [ placeholder ("Enter name ")
+                                    , onInput SetNewBoardName
+                                    ]
+                                    []
+                                , div []
+                                    [ input [ type_ "checkbox", onClick TogglePublic ] []
+                                    , text "Public Access"
+                                    ]
+                                ]
+                            )
                     , footer =
                         Just
                             (button
