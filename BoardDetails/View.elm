@@ -10,6 +10,7 @@ import Debug
 import MyDialog as Dialog
 import BoardDetails.Card.Edit as CardEdit
 import Json.Encode
+import Array
 
 
 -- import Column
@@ -303,50 +304,58 @@ dialogConfigErrorMsg =
 
 dialogConfigEditCard : Model -> Dialog.Config Msg
 dialogConfigEditCard model =
-    let
-        -- lst =
-        --     model.currentList
-        -- ele =
-        --     case model.currentCardIndex of
-        --         Nothing ->
-        --             div [] []
-        --         Just idx ->
-        --             case (Array.get idx (Array.fromList lst)) of
-        --                 Nothing ->
-        --                     div [] []
-        --                 Just card ->
-        --                     commentsSectionInDialog model.comments card
-        styles =
-            case model.currentCard of
-                Nothing ->
-                    style []
+    -- lst =
+    --     model.comments
+    -- ele =
+    --     case model.currentCardIndex of
+    --         Nothing ->
+    --             div [] []
+    --         Just idx ->
+    --             case (Array.get idx (Array.fromList lst)) of
+    --                 Nothing ->
+    --                     div [] []
+    --                 Just card ->
+    --                     commentsSectionInDialog model.comments card
+    case model.currentCard of
+        Nothing ->
+            dialogConfigErrorMsg
 
-                Just crd ->
+        Just crd ->
+            let
+                styles =
                     style [ ( "background-color", crd.color ) ]
-    in
-        { closeMessage = Just (SetDialogAction BoardDetails.Model.None)
-        , containerClass = Just "modal-dialog modal-lg"
-        , header = Just (h3 [ styles ] [ text "Edit Card Details" ])
-        , sizeOf = Just Dialog.Large
-        , body =
-            Just
-                (div []
-                    [ div [] [ input [ placeholder ("Enter name "), onInput SetNewCardName ] [] ]
-                    , div [] [ input [ placeholder ("Enter desc "), onInput SetNewCardDescription ] [] ]
+            in
+                { closeMessage = Just (SetDialogAction BoardDetails.Model.None)
+                , containerClass = Just "modal-dialog modal-lg"
+                , header = Just (h3 [ styles ] [ text "Edit Card Details" ])
+                , sizeOf = Just Dialog.Large
+                , body =
+                    Just
+                        (div []
+                            [ div [] [ input [ placeholder ("Enter name "), onInput SetNewCardName ] [] ]
+                            , div [] [ input [ placeholder ("Enter desc "), onInput SetNewCardDescription ] [] ]
+                            , div []
+                                [ input
+                                    [ type_ "checkbox"
+                                    , onClick TogglePublic
+                                    , checked crd.archiveStatus
+                                    ]
+                                    []
+                                ]
 
-                    -- , ele
-                    , input [ type_ "color", onInput UpdateColor ] [ text "label color" ]
-                    ]
-                )
-        , footer =
-            Just
-                (button
-                    [ class "btn btn-success"
-                    , onClick UpdateCurrentCard
-                    ]
-                    [ text "OK" ]
-                )
-        }
+                            -- , ele
+                            , input [ type_ "color", onInput UpdateColor ] [ text "label color" ]
+                            ]
+                        )
+                , footer =
+                    Just
+                        (button
+                            [ class "btn btn-success"
+                            , onClick UpdateCurrentCard
+                            ]
+                            [ text "OK" ]
+                        )
+                }
 
 
 commentsSectionInDialog : List BoardTask.CommentView -> BoardTask.CardView -> Html Msg

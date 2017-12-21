@@ -48,7 +48,7 @@ view model =
                     div [] [ Html.map RegisterMsg (Register.view subModel) ]
     in
         div [ headerStyle ]
-            [ testLogin model.user
+            [ logoBuilder
             , article []
                 [ header []
                     [ u [ headerNavigationUl ]
@@ -107,31 +107,21 @@ testLogin x =
             div [] [ text "USER NOT FOUND #2" ]
 
 
-
--- header : Model -> Html Msg
--- header model =
---     div []
---         [ Layout.row
---             [ css "transition" "height 333ms ease-in-out 0s"
---             , css "height" "74px"
---             , css "padding" "0rem"
---             ]
---             [ Layout.title []
---                 [ button
---                     [ headerButtonStyle
---                     ]
---                     [ img
---                         [ src "logo.png"
---                         , width 180
---                         , height 74
---                         ]
---                         []
---                     ]
---                 , testLogin model.user
---                 ]
---             , Layout.spacer
---             ]
---         ]
+logoBuilder : Html Msg
+logoBuilder =
+    header
+        [ style [ ( "transition", "height 333ms ease-in-out 0s" ), ( "height", "74px" ), ( "padding", "0rem" ) ] ]
+        [ button
+            [ headerButtonStyle
+            ]
+            [ img
+                [ src "logo.png"
+                , width 180
+                , height 74
+                ]
+                []
+            ]
+        ]
 
 
 headerStyle : Attribute msg

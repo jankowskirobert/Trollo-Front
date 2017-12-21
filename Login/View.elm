@@ -41,7 +41,7 @@ loginForm model =
     in
         div []
             [ Html.form [ onSubmit SignIn, loginFormStyle ]
-                [ h3 [] [ text ("Welcome Back! Please Sign In " ++ title) ]
+                [ h3 [ heading ] [ text ("Welcome Back! Please Sign In ") ]
                 , hr [] []
                 , input
                     [ placeholder ("Enter username ")
@@ -70,8 +70,10 @@ loginFormStyle =
         , ( "color", "#646464" )
         , ( "backgroundColor", "#3D88BF" )
         , ( "width", "230px" )
-        , ( "height", "250px" )
-        , ( "margin-top", "30px" )
+        , ( "height", "320px" )
+        , ( "padding-left", "15px" )
+        , ( "padding-right", "15px" )
+        , ( "padding-top", "5px" )
         ]
 
 
