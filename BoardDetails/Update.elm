@@ -153,17 +153,7 @@ update session board msg model =
                                         lsts =
                                             model.columns
                                     in
-                                        ( { model | showDialog = False, columns = updateElement lsts idx afterUpdate }, Cmd.none )
-
-
-
--- ColumnMsg msg ->
---     let
---         items = Array.fromList column
---         ( m, c, col ) =
---              lift .column (\m x -> { m | column = x }) ColumnMsg Column.update msg model
---     in
---         ( m, Cmd.none )
+                                        ( { model | showDialog = False, columns = updateElement lsts idx afterUpdate }, Cmd.batch [ Cmd.map RestCardMsg (CardRest.updateColumnView session.auth afterUpdate) ] )
 
 
 updateElement2 : List (Maybe a) -> Int -> a -> List (Maybe a)

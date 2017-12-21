@@ -183,6 +183,7 @@ encodColumnFull column =
             [ ( "tableDescription", Json.Encode.string column.tableDescription )
             , ( "tableTitle", Json.Encode.string column.tableTitle )
             , ( "id", Json.Encode.int column.id )
+            , ( "boardID", Json.Encode.int column.boardID )
             ]
     in
         val
