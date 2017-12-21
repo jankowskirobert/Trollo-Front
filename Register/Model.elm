@@ -1,11 +1,21 @@
-module Register.Model exposing (Model, Msg(..), Status(..))
+module Register.Model exposing (Model, Msg(..), Status(..), model)
+
+import Http
+import Result
 
 
 type alias Model =
-    { username : Maybe String
-    , password : Maybe String
-    , passwordConfirm : Maybe String
-    , status : Status
+    { username : String
+    , password : String
+    , email : String
+    }
+
+
+model : Model
+model =
+    { username = ""
+    , password = ""
+    , email = ""
     }
 
 
@@ -21,3 +31,4 @@ type Msg
     | SetUsername String
     | SetPassword String
     | ConfirmPassword String
+    | PostRegister (Result Http.Error ())

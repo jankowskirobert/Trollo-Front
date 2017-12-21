@@ -6,6 +6,9 @@ import BoardDetails.Card.Edit as CardEdit
 import Debug
 import BoardDetails.Rest as CardRest
 import Array
+import Date
+import Task
+import Time
 
 
 -- import Column
@@ -59,6 +62,19 @@ update session board msg model =
 
                 AddCard x ->
                     ( { model | dialogAction = action, showDialog = True, currentColumn = Just x }, Cmd.none )
+
+                EditCard card coms ->
+                    ( { model
+                        | currentCard = Just card
+                        , showDialog = True
+                        , comments = []
+                        , dialogAction = action
+                        , currentCardDescription = Maybe.Nothing
+                        , newColor = Maybe.Nothing
+                        , newCardName = Maybe.Nothing
+                      }
+                    , Cmd.none
+                    )
 
         SetNewColumndName name ->
             ( { model | newColumnName = Just name }, Cmd.none )
@@ -156,7 +172,86 @@ update session board msg model =
                                         lsts =
                                             model.columns
                                     in
-                                        ( { model | showDialog = False, columns = updateElement lsts idx afterUpdate }, Cmd.batch [ Cmd.map RestCardMsg (CardRest.updateColumnView session.auth afterUpdate) ] )
+                                        ( { model
+                                            | showDialog = False
+                                            , columns = updateElement lsts idx afterUpdate
+                                          }
+                                        , Cmd.batch [ Cmd.map RestCardMsg (CardRest.updateColumnView session.auth afterUpdate) ]
+                                        )
+
+        SetNewCardDescription description ->
+            ( { model | currentCardDescription = Just description }, Cmd.none )
+
+        UpdateCurrentCard ->
+            let
+                newCmd =
+                    case model.currentCard of
+                        Nothing ->
+                            [ Cmd.none ]
+
+                        Just card ->
+                            let
+                                card_ =
+                                    case ( model.newCardName, model.currentCardDescription, model.newColor ) of
+                                        ( Nothing, Nothing, Nothing ) ->
+                                            card
+
+                                        ( Just newName, Nothing, Nothing ) ->
+                                            { card | title = newName }
+
+                                        ( Just newName, Just desc, Nothing ) ->
+                                            { card | title = newName, description = desc }
+
+                                        ( Nothing, Just desc, Nothing ) ->
+                                            { card | description = desc }
+
+                                        ( Just newName, Just desc, Just col ) ->
+                                            { card | title = newName, description = desc, color = col }
+
+                                        ( Nothing, Just desc, Just col ) ->
+                                            { card | description = desc, color = col }
+
+                                        ( Nothing, Nothing, Just col ) ->
+                                            { card | color = col }
+
+                                        ( Just newName, Nothing, Just col ) ->
+                                            { card | title = newName, color = col }
+                            in
+                                [ Cmd.map RestCardMsg (CardRest.updateCardView session.auth card_), Cmd.map RestCardMsg (CardRest.getCardsView session.auth) ]
+            in
+                ( { model | showDialog = False }, Cmd.batch newCmd )
+
+        SetNewCardComment commentBody ->
+            ( { model | newCommentBody = Just commentBody }, Task.perform SaveNewDate Date.now )
+
+        AddNewComment ->
+            case model.newCommentBody of
+                Nothing ->
+                    ( model, Cmd.none )
+
+                Just comm ->
+                    case model.currentDate of
+                        Nothing ->
+                            ( model, Cmd.none )
+
+                        Just date ->
+                            let
+                                newComment =
+                                    BoardTask.CommentView 0 comm date ""
+
+                                currComments =
+                                    model.comments
+                            in
+                                ( { model | comments = currComments ++ [ newComment ] }, Cmd.none )
+
+        UpdateCurrentDate ->
+            ( model, Task.perform SaveNewDate Date.now )
+
+        SaveNewDate date ->
+            ( { model | currentDate = Just date }, Cmd.none )
+
+        UpdateColor color ->
+            ( { model | newColor = Just color }, Cmd.none )
 
 
 updateElement2 : List (Maybe a) -> Int -> a -> List (Maybe a)

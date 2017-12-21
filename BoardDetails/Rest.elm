@@ -84,7 +84,7 @@ update session msg model =
                 cards_ =
                     model.cards
             in
-                ( { model | card = Just item, cards = cards_ ++ [ item ] }, Cmd.none )
+                ( model, Cmd.none )
 
         SaveColumnToApi (Err err) ->
             let
@@ -260,7 +260,7 @@ getCardView : Maybe BoardTask.AuthToken -> String -> Cmd Msg
 getCardView token identity =
     let
         url =
-            "http://localhost:8000/card/" ++ identity
+            "http://0.0.0.0:8000/card/" ++ identity
 
         header =
             case token of
@@ -291,7 +291,7 @@ getColumnView : Maybe BoardTask.AuthToken -> String -> Cmd Msg
 getColumnView token identity =
     let
         url =
-            "http://localhost:8000/table/" ++ identity
+            "http://0.0.0.0:8000/table/" ++ identity
 
         header =
             case token of
@@ -418,14 +418,57 @@ saveCardView token card =
             Debug.log "Card Rest save one Method" card
 
         url =
-            "http://localhost:8000/cards"
+            "http://0.0.0.0:8000/cards/"
 
-        -- req =
+        header =
+            case token of
+                Nothing ->
+                    []
+
+                Just token_ ->
+                    [ Http.header "Authorization" ("Token " ++ token_.token) ]
+
         req =
-            Http.post url (Http.jsonBody (encodCardView card)) decodeCard
+            Http.request
+                { body = (Http.jsonBody (encodCardView card))
+                , expect = Http.expectJson decodeCard
+                , headers = header
+                , method = "POST"
+                , timeout = Nothing
+                , url = url
+                , withCredentials = False
+                }
+    in
+        Http.send SaveCardToApi req
 
-        debugLog2 =
-            Debug.log "Card Rest save one Method2" req
+
+updateCardView : Maybe BoardTask.AuthToken -> BoardTask.CardView -> Cmd Msg
+updateCardView token card =
+    let
+        debugLog =
+            Debug.log "Card Rest save one Method" card
+
+        url =
+            "http://0.0.0.0:8000/cards/"
+
+        header =
+            case token of
+                Nothing ->
+                    []
+
+                Just token_ ->
+                    [ Http.header "Authorization" ("Token " ++ token_.token) ]
+
+        req =
+            Http.request
+                { body = (Http.jsonBody (encodCardViewFull card))
+                , expect = Http.expectJson decodeCard
+                , headers = header
+                , method = "PUT"
+                , timeout = Nothing
+                , url = url
+                , withCredentials = False
+                }
     in
         Http.send SaveCardToApi req
 
@@ -436,6 +479,22 @@ encodCardView card =
         val =
             [ ( "archiveStatus", Json.Encode.bool card.archiveStatus )
             , ( "title", Json.Encode.string card.title )
+            , ( "description", Json.Encode.string card.description )
+            , ( "tableID", Json.Encode.int card.tableID )
+            , ( "color", Json.Encode.string card.color )
+            ]
+    in
+        val
+            |> Json.Encode.object
+
+
+encodCardViewFull : BoardTask.CardView -> Json.Encode.Value
+encodCardViewFull card =
+    let
+        val =
+            [ ( "archiveStatus", Json.Encode.bool card.archiveStatus )
+            , ( "title", Json.Encode.string card.title )
+            , ( "uniqueNumber", Json.Encode.string card.uniqueNumber )
             , ( "description", Json.Encode.string card.description )
             , ( "tableID", Json.Encode.int card.tableID )
             , ( "color", Json.Encode.string card.color )

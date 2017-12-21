@@ -35,8 +35,6 @@ registerForm =
             , p [] []
             , input [ inputStyle, placeholder ("Enter password "), onInput SetPassword ] []
             , p [] []
-            , input [ inputStyle, placeholder ("Confirm password "), onInput ConfirmPassword ] []
-            , p [] []
             , button
                 [ registerButtonStyle
                 ]

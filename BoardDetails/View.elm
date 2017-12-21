@@ -62,7 +62,7 @@ getColumnCard indexOnList card coms =
                 [ text "View Details" ]
             , button
                 [ listDetailsButtonStyle
-                , onClick (BoardDetails.Model.CardMsg (CardEdit.EditCardDetail indexOnList card coms))
+                , onClick (SetDialogAction (BoardDetails.Model.EditCard card coms))
                 ]
                 [ text "Edit Details" ]
             ]
@@ -279,6 +279,9 @@ dialogConfig model =
                     )
             }
 
+        EditCard _ _ ->
+            dialogConfigEditCard model
+
 
 dialogConfigErrorMsg : Dialog.Config Msg
 dialogConfigErrorMsg =
@@ -296,3 +299,90 @@ dialogConfigErrorMsg =
                 [ text "OK" ]
             )
     }
+
+
+dialogConfigEditCard : Model -> Dialog.Config Msg
+dialogConfigEditCard model =
+    let
+        -- lst =
+        --     model.currentList
+        -- ele =
+        --     case model.currentCardIndex of
+        --         Nothing ->
+        --             div [] []
+        --         Just idx ->
+        --             case (Array.get idx (Array.fromList lst)) of
+        --                 Nothing ->
+        --                     div [] []
+        --                 Just card ->
+        --                     commentsSectionInDialog model.comments card
+        styles =
+            case model.currentCard of
+                Nothing ->
+                    style []
+
+                Just crd ->
+                    style [ ( "background-color", crd.color ) ]
+    in
+        { closeMessage = Just (SetDialogAction BoardDetails.Model.None)
+        , containerClass = Just "modal-dialog modal-lg"
+        , header = Just (h3 [ styles ] [ text "Edit Card Details" ])
+        , sizeOf = Just Dialog.Large
+        , body =
+            Just
+                (div []
+                    [ div [] [ input [ placeholder ("Enter name "), onInput SetNewCardName ] [] ]
+                    , div [] [ input [ placeholder ("Enter desc "), onInput SetNewCardDescription ] [] ]
+
+                    -- , ele
+                    , input [ type_ "color", onInput UpdateColor ] [ text "label color" ]
+                    ]
+                )
+        , footer =
+            Just
+                (button
+                    [ class "btn btn-success"
+                    , onClick UpdateCurrentCard
+                    ]
+                    [ text "OK" ]
+                )
+        }
+
+
+commentsSectionInDialog : List BoardTask.CommentView -> BoardTask.CardView -> Html Msg
+commentsSectionInDialog coms card =
+    div []
+        [ hr [] []
+        , input
+            [ placeholder ("Enter new comment")
+            , onInput SetNewCardComment
+            ]
+            []
+        , button
+            [ class "btn btn-success"
+            , onClick AddNewComment
+            ]
+            [ text "Add Comment" ]
+        , table [ class "table table-bordered" ]
+            [ thead []
+                [ tr []
+                    [ th [] [ text "Comment" ]
+                    , th [] [ text "Date" ]
+                    ]
+                ]
+            , (commentListInDialog card coms)
+            ]
+        ]
+
+
+commentListInDialog : BoardTask.CardView -> List BoardTask.CommentView -> Html Msg
+commentListInDialog card list =
+    List.map (\x -> commentViewInDialog x) list |> tbody []
+
+
+commentViewInDialog : BoardTask.CommentView -> Html Msg
+commentViewInDialog com =
+    tr []
+        [ td [] [ text com.body ]
+        , td [] [ text (toString com.added) ]
+        ]
