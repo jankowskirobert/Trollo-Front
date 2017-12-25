@@ -43,7 +43,10 @@ update session board msg model =
                             List.length cols
                     in
                         ( { model | showDialog = False }
-                        , Cmd.batch [ Cmd.map RestCardMsg (CardRest.saveColumnView session.auth board (BoardTask.ColumnView nxtIdx x 0 "Example")) ]
+                        , Cmd.batch
+                            [ Cmd.map RestCardMsg (CardRest.saveColumnView session.auth board (BoardTask.ColumnView nxtIdx x 0 "Example"))
+                            , Cmd.map RestCardMsg (CardRest.getColumnsView session.auth board)
+                            ]
                         )
 
         SetDialogAction action ->
@@ -97,7 +100,7 @@ update session board msg model =
                     ( Just x, Just y ) ->
                         let
                             cardToPut =
-                                (BoardTask.CardView "1" False x "OFFLINE " y.id "" "")
+                                (BoardTask.CardView "1" False x "OFFLINE " y.id "#ffffff" "")
 
                             updated =
                                 cards_ ++ [ cardToPut ]
@@ -115,6 +118,7 @@ update session board msg model =
                               }
                             , Cmd.batch
                                 [ Cmd.map RestCardMsg (CardRest.saveCardView session.auth cardToPut)
+                                , Cmd.map RestCardMsg (CardRest.getCardsView session.auth)
                                 , (Cmd.map CardMsg c)
                                 ]
                             )
