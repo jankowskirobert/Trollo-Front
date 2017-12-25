@@ -42,8 +42,11 @@ update session board msg model =
                         nxtIdx =
                             List.length cols
                     in
-                        ( { model | columns = cols ++ [ (BoardTask.ColumnView nxtIdx x 1 "Example") ], showDialog = False }
-                        , Cmd.batch [ Cmd.map RestCardMsg (CardRest.saveColumnView session.auth board (BoardTask.ColumnView nxtIdx x 0 "Example")) ]
+                        ( { model | showDialog = False }
+                        , Cmd.batch
+                            [ Cmd.map RestCardMsg (CardRest.saveColumnView session.auth board (BoardTask.ColumnView nxtIdx x 0 "Example"))
+                            , Cmd.map RestCardMsg (CardRest.getColumnsView session.auth board)
+                            ]
                         )
 
         SetDialogAction action ->
@@ -97,7 +100,7 @@ update session board msg model =
                     ( Just x, Just y ) ->
                         let
                             cardToPut =
-                                (BoardTask.CardView "1" False x "OFFLINE " y.id "" "")
+                                (BoardTask.CardView "1" False x "OFFLINE " y.id "#ffffff" "")
 
                             updated =
                                 cards_ ++ [ cardToPut ]
@@ -115,6 +118,7 @@ update session board msg model =
                               }
                             , Cmd.batch
                                 [ Cmd.map RestCardMsg (CardRest.saveCardView session.auth cardToPut)
+                                , Cmd.map RestCardMsg (CardRest.getCardsView session.auth)
                                 , (Cmd.map CardMsg c)
                                 ]
                             )
@@ -174,9 +178,11 @@ update session board msg model =
                                     in
                                         ( { model
                                             | showDialog = False
-                                            , columns = updateElement lsts idx afterUpdate
                                           }
-                                        , Cmd.batch [ Cmd.map RestCardMsg (CardRest.updateColumnView session.auth afterUpdate) ]
+                                        , Cmd.batch
+                                            [ (Cmd.map RestCardMsg (CardRest.updateColumnView session.auth afterUpdate))
+                                            , (Cmd.map RestCardMsg (CardRest.getColumnsView session.auth board))
+                                            ]
                                         )
 
         SetNewCardDescription description ->
@@ -197,27 +203,29 @@ update session board msg model =
                                             card
 
                                         ( Just newName, Nothing, Nothing ) ->
-                                            { card | title = newName }
+                                            { card | title = newName, archiveStatus = model.archivedCard }
 
                                         ( Just newName, Just desc, Nothing ) ->
-                                            { card | title = newName, description = desc }
+                                            { card | title = newName, description = desc, archiveStatus = model.archivedCard }
 
                                         ( Nothing, Just desc, Nothing ) ->
-                                            { card | description = desc }
+                                            { card | description = desc, archiveStatus = model.archivedCard }
 
                                         ( Just newName, Just desc, Just col ) ->
-                                            { card | title = newName, description = desc, color = col }
+                                            { card | title = newName, description = desc, color = col, archiveStatus = model.archivedCard }
 
                                         ( Nothing, Just desc, Just col ) ->
-                                            { card | description = desc, color = col }
+                                            { card | description = desc, color = col, archiveStatus = model.archivedCard }
 
                                         ( Nothing, Nothing, Just col ) ->
-                                            { card | color = col }
+                                            { card | color = col, archiveStatus = model.archivedCard }
 
                                         ( Just newName, Nothing, Just col ) ->
-                                            { card | title = newName, color = col }
+                                            { card | title = newName, color = col, archiveStatus = model.archivedCard }
                             in
-                                [ Cmd.map RestCardMsg (CardRest.updateCardView session.auth card_), Cmd.map RestCardMsg (CardRest.getCardsView session.auth) ]
+                                [ Cmd.map RestCardMsg (CardRest.updateCardView session.auth card_)
+                                , Cmd.map RestCardMsg (CardRest.getCardsView session.auth)
+                                ]
             in
                 ( { model | showDialog = False }, Cmd.batch newCmd )
 
@@ -252,6 +260,13 @@ update session board msg model =
 
         UpdateColor color ->
             ( { model | newColor = Just color }, Cmd.none )
+
+        TogglePublic ->
+            let
+                state =
+                    model.archivedCard
+            in
+                ( { model | archivedCard = (not state) }, Cmd.none )
 
 
 updateElement2 : List (Maybe a) -> Int -> a -> List (Maybe a)

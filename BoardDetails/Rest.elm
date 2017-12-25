@@ -101,7 +101,7 @@ update session msg model =
                 cards_ =
                     model.columns
             in
-                ( { model | column = Just item, columns = cards_ ++ [ item ] }, Cmd.none )
+                ( model, Cmd.none )
 
         UpdateColumnToApi (Err err) ->
             let
@@ -118,7 +118,7 @@ update session msg model =
                 cards_ =
                     model.columns
             in
-                ( { model | column = Just item, columns = cards_ ++ [ item ] }, Cmd.none )
+                ( model, Cmd.none )
 
         FetchAllCards ->
             ( model, getCardsView session.auth )
@@ -251,7 +251,7 @@ getCardsVieColumnView token column =
                 }
 
         -- req =
-        --     Http.get url decodeCards
+        --     Http.get url decodeCardsaa
     in
         Http.send GetCardsFromApi request
 

@@ -49,9 +49,11 @@ registerFormStyle =
         [ ( "margin", "auto" )
         , ( "color", "#646464" )
         , ( "backgroundColor", "#3D88BF" )
-        , ( "width", "230px" )
-        , ( "height", "300px" )
-        , ( "margin-top", "30px" )
+        , ( "width", "300px" )
+        , ( "height", "380px" )
+        , ( "padding-left", "15px" )
+        , ( "padding-right", "15px" )
+        , ( "padding-top", "5px" )
         ]
 
 

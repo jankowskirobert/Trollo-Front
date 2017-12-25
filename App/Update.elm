@@ -130,7 +130,7 @@ update msg model =
             in
                 case p of
                     Nothing ->
-                        ( model, Cmd.map RegisterMsg c )
+                        ( { model | activePage = Page.RegisterPage m }, Cmd.map RegisterMsg c )
 
                     Just g ->
                         ( { model | activePage = Page.LoginPage LoginModel.model }, Cmd.batch [ (Cmd.map RegisterMsg c) ] )

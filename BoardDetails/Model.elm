@@ -31,6 +31,7 @@ model =
     , newCommentBody = Maybe.Nothing
     , currentDate = Maybe.Nothing
     , newColor = Maybe.Nothing
+    , archivedCard = False
     }
 
 
@@ -55,6 +56,7 @@ type Msg
     | SaveNewDate Date.Date
     | UpdateCurrentDate
     | UpdateColor String
+    | TogglePublic
 
 
 
@@ -90,6 +92,7 @@ type alias Model =
     , currentDate : Maybe Date.Date
     , newColor : Maybe String
     , currentCardDescription : Maybe String
+    , archivedCard : Bool
 
     -- , addColumn : BoardTask.AddColumn
     -- , dialogAction : DialogAction
